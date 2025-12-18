@@ -44,7 +44,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 }
 
-export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, displayFields, onClick }) => {
+export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, onClick }) => {
   if (isProduct(document)) {
     const description = truncateText(document.product_description, 150);
     const price = typeof document.product_price === 'number' ? document.product_price.toFixed(2) : '0.00';

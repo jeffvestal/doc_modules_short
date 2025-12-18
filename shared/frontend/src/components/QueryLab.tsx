@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+/** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import {
-  EuiPage,
-  EuiPageBody,
-  EuiPageSection,
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
@@ -67,14 +65,15 @@ export const QueryLab: React.FC = () => {
     setChallengeStatus(status);
   };
 
-  const handleNextChallenge = () => {
-    if (challengeNumber === 1) {
-      setChallengeNumber(2);
-      setQuery('{\n  "query": {\n    \n  }\n}');
-      setResponse(null);
-      setChallengeStatus(null);
-    }
-  };
+  // Placeholder for future multi-challenge support
+  // const handleNextChallenge = () => {
+  //   if (challengeNumber === 1) {
+  //     setChallengeNumber(2);
+  //     setQuery('{\n  "query": {\n    \n  }\n}');
+  //     setResponse(null);
+  //     setChallengeStatus(null);
+  //   }
+  // };
 
   // Agent Builder gradient background style
   const backgroundStyle: React.CSSProperties = {

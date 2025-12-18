@@ -1,4 +1,3 @@
-import React from 'react';
 import { EuiProvider } from '@elastic/eui';
 import { QueryLab } from './components/QueryLab';
 

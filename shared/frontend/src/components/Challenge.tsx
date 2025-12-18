@@ -16,10 +16,9 @@ interface ChallengeProps {
   challengeNumber: 1 | 2;
   status: ChallengeStatus | null;
   onValidate: () => void;
-  query: string;
 }
 
-export const Challenge: React.FC<ChallengeProps> = ({ challengeNumber, status, onValidate, query }) => {
+export const Challenge: React.FC<ChallengeProps> = ({ challengeNumber, status, onValidate }) => {
   const isIntro = challengeNumber === 1;
   const challenge = isIntro ? labConfig.introQuery : labConfig.challenge;
 
@@ -33,14 +32,14 @@ export const Challenge: React.FC<ChallengeProps> = ({ challengeNumber, status, o
       {isIntro ? (
         <>
           <EuiText>
-            <p>{challenge.description}</p>
-            {challenge.hints && challenge.hints.length > 0 && (
+            <p>{'description' in challenge ? challenge.description : ''}</p>
+            {'hints' in challenge && challenge.hints && challenge.hints.length > 0 && (
               <>
                 <EuiSpacer size="s" />
                 <EuiText size="s" color="subdued">
                   <strong>Hints:</strong>
                   <ul>
-                    {challenge.hints.map((hint, i) => (
+                    {challenge.hints.map((hint: string, i: number) => (
                       <li key={i}>{hint}</li>
                     ))}
                   </ul>
@@ -52,7 +51,7 @@ export const Challenge: React.FC<ChallengeProps> = ({ challengeNumber, status, o
       ) : (
         <>
           <EuiText>
-            <p><strong>Goal:</strong> {challenge.goal}</p>
+            <p><strong>Goal:</strong> {'goal' in challenge ? challenge.goal : ''}</p>
           </EuiText>
           <EuiSpacer size="m" />
           <EuiFlexGroup justifyContent="flexEnd">

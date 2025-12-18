@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 // Agent Builder gradient background — higher-contrast dark blue, per design
-export const conversationBackgroundStyles = (euiTheme: any) => css`
+export const conversationBackgroundStyles = () => css`
   background: linear-gradient(
     180deg,
     #0B1425 16%,
