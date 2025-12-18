@@ -12,13 +12,54 @@ done
 # explicitly source env vars
 source /etc/profile.d/instruqt-env.sh
 
-####################################################################### WAIT FOR KUBERNETES-VM ELASTIC STACK
+####################################################################### WAIT FOR KUBERNETES-VM SETUP TO COMPLETE
 
+# First, wait for the env server on kubernetes-vm (indicates its setup script has started)
+# This is more reliable than waiting for ES directly since ES takes a while to boot
+echo "[Workshop] Waiting for kubernetes-vm setup to expose environment..."
+MAX_ENV_RETRIES=180  # 15 minutes max wait for kubernetes-vm setup
+ENV_RETRY_COUNT=0
+
+until curl -fsS "http://kubernetes-vm:9000/env" >/dev/null 2>&1; do
+  ENV_RETRY_COUNT=$((ENV_RETRY_COUNT + 1))
+  if [ $ENV_RETRY_COUNT -ge $MAX_ENV_RETRIES ]; then
+    echo "[Workshop] ERROR: kubernetes-vm env server not ready after ${MAX_ENV_RETRIES} attempts"
+    echo "[Workshop] Continuing with setup, but services may fail..."
+    break
+  fi
+  echo "  ... waiting for kubernetes-vm setup (attempt ${ENV_RETRY_COUNT}/${MAX_ENV_RETRIES})"
+  sleep 5
+done
+
+# Get environment variables from kubernetes-vm (includes ELASTICSEARCH_APIKEY)
+echo "[Workshop] Getting environment variables from kubernetes-vm..."
+ENV_VARS=$(curl -s http://kubernetes-vm:9000/env 2>/dev/null)
+if [ -n "$ENV_VARS" ]; then
+  export $(echo "$ENV_VARS" | xargs)
+  echo "[Workshop] ✓ Environment variables loaded"
+else
+  echo "[Workshop] ⚠️  WARNING: Could not load environment variables"
+fi
+
+# Set defaults if not provided
+ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://kubernetes-vm:30920}"
+ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY:-}"
+
+if [ -z "$ELASTICSEARCH_APIKEY" ]; then
+  echo "[Workshop] ⚠️  WARNING: ELASTICSEARCH_APIKEY not set, trying without auth"
+fi
+
+# Now wait for Elasticsearch (with authentication if available)
 echo "[Workshop] Waiting for Elasticsearch on kubernetes-vm..."
 MAX_RETRIES=120
 RETRY_COUNT=0
 
-until curl -fsS "http://kubernetes-vm:30920/_cluster/health" >/dev/null 2>&1; do
+AUTH_HEADER=""
+if [ -n "$ELASTICSEARCH_APIKEY" ]; then
+  AUTH_HEADER="-H \"Authorization: ApiKey ${ELASTICSEARCH_APIKEY}\""
+fi
+
+until curl -fsS ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} "${ELASTICSEARCH_URL}/_cluster/health" >/dev/null 2>&1; do
   RETRY_COUNT=$((RETRY_COUNT + 1))
   if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
     echo "[Workshop] ERROR: Elasticsearch not ready after ${MAX_RETRIES} attempts (10 minutes)"
@@ -29,7 +70,7 @@ until curl -fsS "http://kubernetes-vm:30920/_cluster/health" >/dev/null 2>&1; do
   sleep 5
 done
 
-if curl -fsS "http://kubernetes-vm:30920/_cluster/health" >/dev/null 2>&1; then
+if curl -fsS ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} "${ELASTICSEARCH_URL}/_cluster/health" >/dev/null 2>&1; then
   echo "[Workshop] ✓ Elasticsearch is reachable"
 else
   echo "[Workshop] ⚠️  WARNING: Elasticsearch not reachable, backend may fail"
@@ -45,23 +86,6 @@ for i in $(seq 1 60); do
   echo "  ... waiting for Kibana (attempt ${i}/60)"
   sleep 5
 done
-
-# Get environment variables from kubernetes-vm (includes ELASTICSEARCH_APIKEY)
-echo "[Workshop] Getting environment variables from kubernetes-vm..."
-for i in $(seq 1 30); do
-  ENV_VARS=$(curl -s http://kubernetes-vm:9000/env 2>/dev/null)
-  if [ -n "$ENV_VARS" ]; then
-    export $(echo "$ENV_VARS" | xargs)
-    echo "[Workshop] ✓ Environment variables loaded"
-    break
-  fi
-  echo "  ... waiting for env vars (attempt ${i}/30)"
-  sleep 3
-done
-
-if [ -z "$ELASTICSEARCH_APIKEY" ]; then
-  echo "[Workshop] ⚠️  WARNING: ELASTICSEARCH_APIKEY not set, some features may fail"
-fi
 
 ####################################################################### INSTALL NODE.JS
 
