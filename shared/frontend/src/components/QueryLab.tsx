@@ -6,7 +6,6 @@ import {
   EuiSpacer,
   EuiTitle,
   EuiText,
-  useEuiTheme,
 } from '@elastic/eui';
 import { QueryEditor } from './QueryEditor';
 import { ResultsPanel } from './ResultsPanel';
@@ -21,7 +20,6 @@ const AGENT_BUILDER_DARK = '#0B1425';
 const AGENT_BUILDER_MID = '#162137';
 
 export const QueryLab: React.FC = () => {
-  const { euiTheme } = useEuiTheme();
   const [query, setQuery] = useState(labConfig.introQuery.template);
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);

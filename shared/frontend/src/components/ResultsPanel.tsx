@@ -70,7 +70,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (loading) {
     return (
-      <EuiPanel transparent hasShadow={false}>
+      <EuiPanel color="transparent" hasShadow={false}>
         <EuiText>Loading results...</EuiText>
       </EuiPanel>
     );
@@ -78,7 +78,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (error) {
     return (
-      <EuiPanel transparent hasShadow={false}>
+      <EuiPanel color="transparent" hasShadow={false}>
         <EuiText color="danger">{error}</EuiText>
       </EuiPanel>
     );
@@ -86,7 +86,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (!response) {
     return (
-      <EuiPanel transparent hasShadow={false}>
+      <EuiPanel color="transparent" hasShadow={false}>
         <EuiEmptyPrompt
           title={<h3>No query executed</h3>}
           body={<p>Write a query and click "Run Query" to see results</p>}
@@ -101,7 +101,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
                          (response as any)?.detail || 
                          (response ? JSON.stringify(response) : 'Empty response');
     return (
-      <EuiPanel transparent hasShadow={false}>
+      <EuiPanel color="transparent" hasShadow={false}>
         <EuiText color="danger">
           <p>Unexpected response format:</p>
           <pre style={{ fontSize: '12px', overflow: 'auto', background: '#000', padding: '10px' }}>{errorMessage}</pre>
@@ -115,7 +115,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   return (
     <>
-      <EuiPanel transparent hasShadow={false} paddingSize="none">
+      <EuiPanel color="transparent" hasShadow={false} paddingSize="none">
         <EuiTitle size="s">
           <h3>Results ({total} found)</h3>
         </EuiTitle>
