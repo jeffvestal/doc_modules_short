@@ -27,7 +27,7 @@ export const QueryLab: React.FC = () => {
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [challengeNumber, setChallengeNumber] = useState<1 | 2>(1);
+  const [challengeNumber] = useState<1 | 2>(1);
   const [challengeStatus, setChallengeStatus] = useState<ChallengeStatus | null>(null);
 
   const handleRunQuery = async () => {
@@ -113,7 +113,6 @@ export const QueryLab: React.FC = () => {
             challengeNumber={challengeNumber}
             status={challengeStatus}
             onValidate={handleValidateChallenge}
-            query={query}
           />
         </EuiFlexItem>
 
