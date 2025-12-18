@@ -1,0 +1,23 @@
+version: "3"
+virtualmachines:
+  - name: host-1
+    image: elastic-security-education/pk-instruqt-gcp-worker-9-3-0-main-v1-1-1-14-g725f878
+    shell: /bin/bash
+    memory: 8192
+    cpus: 4
+    allow_external_ingress:
+      - https
+    provision_ssl_certificate: true
+  - name: kubernetes-vm
+    image: elastic-security-education/pk-instruqt-gcp-elastic-9-3-0-main-v1-1-1-14-g725f878
+    shell: /bin/bash
+    environment:
+      INSTRUQT: "true"
+    memory: 16384
+    cpus: 16
+    allow_external_ingress:
+      - https
+    provision_ssl_certificate: true
+secrets:
+  - name: GCSKEY_CE_INFRA_CONTAINERS
+

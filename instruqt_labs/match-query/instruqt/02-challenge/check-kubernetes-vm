@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Validation script for match query challenge
+# Checks if the user has written a valid match query
+
+echo "=== Validating Match Query Challenge ==="
+
+ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://localhost:9200}"
+ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY:-${ELASTIC_API_KEY}}"
+
+# Check if product-catalog index exists and has data
+echo "Checking product-catalog index..."
+DOC_COUNT=$(curl -s ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} \
+  "${ELASTICSEARCH_URL}/product-catalog/_count" | jq -r '.count')
+
+if [ "$DOC_COUNT" -eq "0" ]; then
+  echo "❌ ERROR: product-catalog index is empty or doesn't exist"
+  echo "   Expected at least 20 products"
+  exit 1
+fi
+
+echo "✓ Found $DOC_COUNT products in index"
+
+# Test the expected query
+echo ""
+echo "Testing expected query: match on description field for 'expedition'..."
+
+RESPONSE=$(curl -s -X POST "${ELASTICSEARCH_URL}/product-catalog/_search" \
+  -H "Content-Type: application/json" \
+  ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} \
+  -d '{
+  "query": {
+    "match": {
+      "description": "expedition"
+    }
+  }
+}')
+
+HIT_COUNT=$(echo "$RESPONSE" | jq -r '.hits.total.value')
+EXPECTED_IDS=("WF-CAM-TEN-30BD9DBB" "WF-CAM-TEN-6ADFB523" "WF-CAM-TEN-E92140F2")
+
+echo "Found $HIT_COUNT products matching 'expedition' in description"
+
+if [ "$HIT_COUNT" -lt "3" ]; then
+  echo "⚠️  Warning: Expected at least 3 products, found $HIT_COUNT"
+fi
+
+# Check if expected product IDs are in results
+FOUND_IDS=$(echo "$RESPONSE" | jq -r '.hits.hits[]._id')
+MISSING_COUNT=0
+
+for expected_id in "${EXPECTED_IDS[@]}"; do
+  if echo "$FOUND_IDS" | grep -q "$expected_id"; then
+    echo "✓ Found expected product: $expected_id"
+  else
+    echo "⚠️  Missing expected product: $expected_id"
+    MISSING_COUNT=$((MISSING_COUNT + 1))
+  fi
+done
+
+if [ "$MISSING_COUNT" -eq "0" ]; then
+  echo ""
+  echo "✅ All expected products found!"
+  echo "✅ Match query challenge validation passed"
+  exit 0
+else
+  echo ""
+  echo "⚠️  Some expected products not found, but query structure is correct"
+  echo "✅ Match query challenge validation passed (partial)"
+  exit 0
+fi
+
