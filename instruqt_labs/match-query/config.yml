@@ -20,4 +20,8 @@ virtualmachines:
     provision_ssl_certificate: true
 secrets:
   - name: GCSKEY_CE_INFRA_CONTAINERS
+  - name: GCSKEY_ELASTIC_SA
+  - name: GCSKEY_EDEN_WORKSHOP
+  - name: GCS_KEY_EDUCATION
+  - name: GCSKEY
 

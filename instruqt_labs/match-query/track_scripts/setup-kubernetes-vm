@@ -49,6 +49,17 @@ fi
 echo "[k3s] Waiting for nodes to become Ready..."
 kubectl wait --for=condition=Ready node --all --timeout=300s
 
+####################################################################### FETCH ENV VARS
+
+echo "[Workshop] === ENV BEFORE FETCH ==="
+env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
+
+echo "[Workshop] Fetching env vars from kubernetes-vm:9000/env..."
+export $(curl -s http://kubernetes-vm:9000/env | xargs)
+
+echo "[Workshop] === ENV AFTER FETCH ==="
+env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
+
 ####################################################################### WAIT FOR ELASTICSEARCH AND KIBANA
 
 echo "[Workshop] Waiting for Elasticsearch and Kibana to be ready..."
@@ -84,6 +95,12 @@ until curl -fsS -H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}" "${KIBANA_URL
 done
 
 echo "[Workshop] ✓ Kibana is ready"
+
+####################################################################### FINISH ELASTIC INSTALL (CONFIGURE GCS KEYSTORE)
+
+echo "[Workshop] Finishing Elasticsearch installation and configuring GCS keystore..."
+# finish elastic install (configures GCS keystore with 'sa' client)
+source /opt/workshops/elastic-start.sh
 
 ####################################################################### RESTORE ELASTICSEARCH SNAPSHOT
 

@@ -31,7 +31,7 @@ const modalOverlayStyle: React.CSSProperties = {
 };
 
 const modalContentStyle: React.CSSProperties = {
-  backgroundColor: '#1a2332',
+  backgroundColor: 'rgba(26, 35, 50, 0.95)',
   borderRadius: '16px',
   width: '90%',
   maxWidth: '800px',
@@ -70,7 +70,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (loading) {
     return (
-      <EuiPanel>
+      <EuiPanel transparent hasShadow={false}>
         <EuiText>Loading results...</EuiText>
       </EuiPanel>
     );
@@ -78,7 +78,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (error) {
     return (
-      <EuiPanel>
+      <EuiPanel transparent hasShadow={false}>
         <EuiText color="danger">{error}</EuiText>
       </EuiPanel>
     );
@@ -86,7 +86,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
 
   if (!response) {
     return (
-      <EuiPanel>
+      <EuiPanel transparent hasShadow={false}>
         <EuiEmptyPrompt
           title={<h3>No query executed</h3>}
           body={<p>Write a query and click "Run Query" to see results</p>}
@@ -95,12 +95,27 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ response, loading, e
     );
   }
 
-  const hits = response.hits.hits;
-  const total = response.hits.total.value;
+  // Defensive check for malformed response (e.g., ES error response)
+  if (!response || typeof response !== 'object' || !('hits' in response) || !response.hits) {
+    const errorMessage = (response as any)?.error?.reason || 
+                         (response as any)?.detail || 
+                         (response ? JSON.stringify(response) : 'Empty response');
+    return (
+      <EuiPanel transparent hasShadow={false}>
+        <EuiText color="danger">
+          <p>Unexpected response format:</p>
+          <pre style={{ fontSize: '12px', overflow: 'auto', background: '#000', padding: '10px' }}>{errorMessage}</pre>
+        </EuiText>
+      </EuiPanel>
+    );
+  }
+
+  const hits = response.hits?.hits || [];
+  const total = response.hits?.total?.value ?? hits.length;
 
   return (
     <>
-      <EuiPanel>
+      <EuiPanel transparent hasShadow={false} paddingSize="none">
         <EuiTitle size="s">
           <h3>Results ({total} found)</h3>
         </EuiTitle>

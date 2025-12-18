@@ -11,6 +11,17 @@ tabs:
   hostname: host-1
   path: /
   port: 8000
+- id: i1gdujdrqijw
+  title: Query Lab (Full)
+  type: service
+  hostname: host-1
+  path: /
+  port: 8000
+  new_window: true
+- id: ixoiljzdo7dj
+  title: Terminal
+  type: terminal
+  hostname: host-1
 difficulty: basic
 timelimit: 300
 enhanced_loading: null

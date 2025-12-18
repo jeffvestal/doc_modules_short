@@ -53,6 +53,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, onC
       <EuiCard
         title={document.product_name || 'Untitled Product'}
         onClick={onClick}
+        style={{ background: 'rgba(26, 35, 50, 0.4)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}
         description={
           <>
             <span style={{ color: '#98A2B3', fontSize: '14px', display: 'block' }}>
@@ -89,6 +90,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, onC
       <EuiCard
         title={document.review_title || 'Untitled Review'}
         onClick={onClick}
+        style={{ background: 'rgba(26, 35, 50, 0.4)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}
         description={
           <>
             <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -133,6 +135,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, onC
       <EuiCard
         title={document.username || 'Unknown User'}
         onClick={onClick}
+        style={{ background: 'rgba(26, 35, 50, 0.4)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}
         description={
           <>
             <span style={{ color: '#98A2B3', fontSize: '14px', display: 'block' }}>
@@ -173,6 +176,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({ document, score, onC
       title="Unknown Document Type"
       description="Unable to display this document"
       onClick={onClick}
+      style={{ background: 'rgba(26, 35, 50, 0.4)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}
     />
   );
 };

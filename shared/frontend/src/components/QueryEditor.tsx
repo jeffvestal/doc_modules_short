@@ -44,7 +44,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    backgroundColor: '#1a2332',
+    backgroundColor: 'transparent',
   };
 
   return (

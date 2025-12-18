@@ -23,9 +23,9 @@ export const Challenge: React.FC<ChallengeProps> = ({ challengeNumber, status, o
   const challenge = isIntro ? labConfig.introQuery : labConfig.challenge;
 
   return (
-    <EuiPanel>
+    <EuiPanel transparent hasShadow={false} style={{ border: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(26, 35, 50, 0.4)', borderRadius: '16px' }}>
       <EuiTitle size="s">
-        <h3>{isIntro ? '📖 Learn' : '🎯 Challenge'}</h3>
+        <h3 style={{ color: '#fff' }}>{isIntro ? '📖 Learn' : '🎯 Challenge'}</h3>
       </EuiTitle>
       <EuiSpacer size="m" />
       

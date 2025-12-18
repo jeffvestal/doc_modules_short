@@ -14,7 +14,6 @@ import { Challenge } from './Challenge';
 import { searchProducts, validateQuery } from '../lib/elasticsearch';
 import { validateChallenge } from '../lib/validation';
 import { labConfig } from '../config/labConfig';
-import { roundedCardStyles } from '../styles/agentBuilder';
 import type { SearchResponse, ChallengeStatus } from '../types';
 
 // Agent Builder exact dark blue colors
@@ -122,7 +121,7 @@ export const QueryLab: React.FC = () => {
         <EuiFlexItem>
           <EuiFlexGroup>
             <EuiFlexItem>
-              <div css={roundedCardStyles(euiTheme)}>
+              <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
                 <QueryEditor
                   query={query}
                   onChange={setQuery}
@@ -133,7 +132,7 @@ export const QueryLab: React.FC = () => {
               </div>
             </EuiFlexItem>
             <EuiFlexItem>
-              <div css={roundedCardStyles(euiTheme)}>
+              <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
                 <ResultsPanel response={response} loading={loading} error={error} />
               </div>
             </EuiFlexItem>

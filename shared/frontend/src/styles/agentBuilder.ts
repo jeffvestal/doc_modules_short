@@ -11,11 +11,12 @@ export const conversationBackgroundStyles = () => css`
   min-height: 100vh;
 `;
 
-// 16px border radius (non-standard EUI) with Agent Builder dark background
+// 16px border radius (non-standard EUI) with Agent Builder dark semi-transparent background
 export const roundedCardStyles = (euiTheme: any) => css`
   border-radius: 16px;
-  background: #1a2332;
+  background: rgba(26, 35, 50, 0.4);
   padding: ${euiTheme.size.l ?? '24px'};
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 // Glow effect for query input box (brighter highlighting)

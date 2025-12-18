@@ -31,15 +31,16 @@ until curl -fsS "http://kubernetes-vm:9000/env" >/dev/null 2>&1; do
   sleep 5
 done
 
-# Get environment variables from kubernetes-vm (includes ELASTICSEARCH_APIKEY)
-echo "[Workshop] Getting environment variables from kubernetes-vm..."
-ENV_VARS=$(curl -s http://kubernetes-vm:9000/env 2>/dev/null)
-if [ -n "$ENV_VARS" ]; then
-  export $(echo "$ENV_VARS" | xargs)
-  echo "[Workshop] ✓ Environment variables loaded"
-else
-  echo "[Workshop] ⚠️  WARNING: Could not load environment variables"
-fi
+####################################################################### FETCH ENV VARS
+
+echo "[Workshop] === ENV BEFORE FETCH ==="
+env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
+
+echo "[Workshop] Fetching env vars from kubernetes-vm:9000/env..."
+export $(curl -s http://kubernetes-vm:9000/env | xargs)
+
+echo "[Workshop] === ENV AFTER FETCH ==="
+env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
 
 # Set defaults if not provided
 ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://kubernetes-vm:30920}"
@@ -165,19 +166,23 @@ else
   exit 1
 fi
 
-# Verify build output and copy to backend/static BEFORE backend starts
-if [ -d "dist" ] && [ -f "dist/index.html" ]; then
-  echo "[Workshop] ✓ Build output verified (dist/index.html exists)"
-  
-  # Copy frontend build to backend's static directory
-  echo "[Workshop] Copying frontend to backend/static..."
-  mkdir -p /opt/workshop-assets/backend/static
-  cp -r dist/* /opt/workshop-assets/backend/static/
-  echo "[Workshop] ✓ Frontend files copied to backend/static/"
-else
-  echo "[Workshop] ⚠️  WARNING: dist/index.html not found, frontend may not work"
-  exit 1
-fi
+  # Verify build output and copy to backend/static BEFORE backend starts
+  if [ -d "dist" ] && [ -f "dist/index.html" ]; then
+    echo "[Workshop] ✓ Build output verified (dist/index.html exists)"
+    
+    # Copy frontend build to backend's static directory
+    echo "[Workshop] Copying frontend to backend/static..."
+    mkdir -p /opt/workshop-assets/backend/static
+    cp -r dist/* /opt/workshop-assets/backend/static/
+    echo "[Workshop] ✓ Frontend files copied to backend/static/"
+    
+    echo "[Workshop] Verifying file structure in backend/static:"
+    find /opt/workshop-assets/backend/static -maxdepth 2
+  else
+    echo "[Workshop] ⚠️  WARNING: dist/index.html not found, frontend may not work"
+    ls -la
+    exit 1
+  fi
 
 ####################################################################### SETUP BACKEND
 

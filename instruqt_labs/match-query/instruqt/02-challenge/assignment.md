@@ -5,12 +5,21 @@ type: challenge
 title: Match Query Challenge
 teaser: Write a match query to find reviews matching specific criteria
 tabs:
-  - id: lab-ui
-    title: Query Lab
-    type: service
-    hostname: host-1
-    path: /
-    port: 8000
+- id: lab-ui
+  title: Query Lab
+  type: service
+  hostname: host-1
+  path: /
+  port: 8000
+- title: Query Lab (Full)
+  type: service
+  hostname: host-1
+  path: /
+  port: 8000
+  new_window: true
+- title: Terminal
+  type: terminal
+  hostname: host-1
 difficulty: basic
 timelimit: 300
 enhanced_loading: null
