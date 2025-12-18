@@ -53,7 +53,8 @@ kubectl wait --for=condition=Ready node --all --timeout=300s
 
 echo "[Workshop] Waiting for Elasticsearch and Kibana to be ready..."
 
-ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://localhost:9200}"
+# Use NodePort URLs - ES runs in k3s and is exposed via NodePort, not localhost:9200
+ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://localhost:30920}"
 ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY:-${ELASTIC_API_KEY}}"
 KIBANA_URL_UI="${KIBANA_URL_UI:-${KIBANA_URL:-http://localhost:30001}}"
 
