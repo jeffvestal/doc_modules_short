@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
-import { EuiText, EuiEmptyPrompt, EuiButton } from '@elastic/eui';
+import React, { useState, useEffect } from 'react';
+import { EuiText, EuiEmptyPrompt } from '@elastic/eui';
 import Editor from '@monaco-editor/react';
-import type { SearchResponse, Document } from '../types';
-
-interface CompactResultsListProps {
-  response: SearchResponse | null;
-  loading: boolean;
-  error?: string | null;
-  keyField: string;
-  onDocClick: (doc: Document) => void;
-}
+import type { SearchResponse, Document, QueryExample } from '../types';
+import { analyzeText, explainHit } from '../lib/elasticsearch';
+import type { AnalyzeResponse, ExplainResponse } from '../types';
 
 // Custom modal styles (reused from ResultsPanel)
 const modalOverlayStyle: React.CSSProperties = {
@@ -67,6 +61,27 @@ function getFieldValue(doc: Document, fieldName: string): string {
   return String(value);
 }
 
+// Helper to simplify cryptic Lucene explanation strings into human-readable format
+function simplifyDescription(desc: string): string {
+  // Pattern for weight(field:term in doc) [PerFieldSimilarity]
+  const weightRegex = /weight\((\w+):(.+?) in \d+\)/;
+  const match = desc.match(weightRegex);
+  if (match) {
+    const field = match[1];
+    const term = match[2];
+    return `Matched "${term}" in ${field}`;
+  }
+  
+  // Clean up common Lucene phrases
+  let simplified = desc
+    .replace(/, result of:/g, '')
+    .replace(/sum of:/g, 'Combined score of:')
+    .replace(/product of:/g, 'Combined score of:')
+    .trim();
+  
+  return simplified;
+}
+
 // Row style for clickable result items
 const resultRowStyle: React.CSSProperties = {
   padding: '10px 14px',
@@ -96,16 +111,64 @@ const scoreBadgeStyle: React.CSSProperties = {
   fontFamily: 'monospace',
 };
 
+type ViewMode = 'results' | 'raw' | 'tokens';
+
+interface CompactResultsListProps {
+  response: SearchResponse | null;
+  loading: boolean;
+  error?: string | null;
+  keyField: string;
+  onDocClick: (doc: Document) => void;
+  queryTime?: number | null;
+  example: QueryExample;
+  currentQuery: string;
+}
+
 export const CompactResultsList: React.FC<CompactResultsListProps> = ({
   response,
   loading,
   error,
   keyField,
   onDocClick,
+  queryTime,
+  example,
+  currentQuery,
 }) => {
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [showRawJson, setShowRawJson] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('results');
+  const [tokens, setTokens] = useState<AnalyzeResponse | null>(null);
+  // Per-doc explain data
+  const [explainDataMap, setExplainDataMap] = useState<Record<string, ExplainResponse>>({});
+  const [explainLoadingId, setExplainLoadingId] = useState<string | null>(null);
+  const [showExplainPopup, setShowExplainPopup] = useState<string | null>(null);
+
+  // Extract query text for analysis
+  useEffect(() => {
+    if (viewMode === 'tokens' && response) {
+      try {
+        const queryObj = JSON.parse(currentQuery);
+        let queryText = '';
+        if (queryObj?.query?.match) {
+          const matchQuery = queryObj.query.match;
+          for (const [_field, value] of Object.entries(matchQuery)) {
+            if (typeof value === 'string') {
+              queryText = value;
+              break;
+            } else if (typeof value === 'object' && value !== null && 'query' in value) {
+              queryText = (value as any).query;
+              break;
+            }
+          }
+        }
+        if (queryText) {
+          analyzeText(queryText, example.index).then(setTokens).catch(() => {});
+        }
+      } catch (e) {
+        // Ignore parse errors
+      }
+    }
+  }, [viewMode, response, currentQuery, example]);
 
   if (loading) {
     return <EuiText>Loading results...</EuiText>;
@@ -124,21 +187,39 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
     );
   }
 
-  // Defensive check for malformed response
-  if (!response || typeof response !== 'object' || !('hits' in response) || !response.hits) {
-    const errorMessage = (response as any)?.error?.reason ||
-                         (response as any)?.detail ||
-                         (response ? JSON.stringify(response) : 'Empty response');
-    return (
-      <EuiText color="danger">
-        <p>Unexpected response format:</p>
-        <pre style={{ fontSize: '12px', overflow: 'auto', background: '#000', padding: '10px' }}>{errorMessage}</pre>
-      </EuiText>
-    );
-  }
+  const handleExplainClick = async (e: React.MouseEvent, docId: string) => {
+    e.stopPropagation(); // Don't trigger row click
+    
+    // If already have data, just toggle popup
+    if (explainDataMap[docId]) {
+      setShowExplainPopup(showExplainPopup === docId ? null : docId);
+      return;
+    }
+    
+    setExplainLoadingId(docId);
+    try {
+      const queryObj = JSON.parse(currentQuery);
+      const explainQuery = queryObj.query || queryObj;
+      const explain = await explainHit(example.index, docId, explainQuery);
+      setExplainDataMap(prev => ({ ...prev, [docId]: explain }));
+      setShowExplainPopup(docId);
+    } catch (err) {
+      console.error('Explain error:', err);
+    } finally {
+      setExplainLoadingId(null);
+    }
+  };
 
-  const hits = response.hits?.hits || [];
-  const total = response.hits?.total?.value ?? hits.length;
+  const handleCopyResponse = () => {
+    if (viewMode === 'raw' && response) {
+      navigator.clipboard.writeText(JSON.stringify(response, null, 2));
+    } else if (viewMode === 'tokens' && tokens) {
+      navigator.clipboard.writeText(JSON.stringify(tokens, null, 2));
+    }
+  };
+
+  const hits = response?.hits?.hits || [];
+  const total = response?.hits?.total?.value ?? hits.length;
   const top5Hits = hits.slice(0, 5);
 
   const headerStyle: React.CSSProperties = {
@@ -148,26 +229,109 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
     marginBottom: '10px',
   };
 
+  const tabButtonStyle: React.CSSProperties = {
+    background: 'transparent',
+    border: 'none',
+    color: '#98A2B3',
+    padding: '6px 12px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  };
+
+  const tabButtonActiveStyle: React.CSSProperties = {
+    ...tabButtonStyle,
+    backgroundColor: '#36A2EF',
+    color: '#fff',
+  };
+
   return (
     <>
       <div>
         <div style={headerStyle}>
           <EuiText size="s" color="subdued" style={{ margin: 0 }}>
-            Top {top5Hits.length} of {total} results
+            {viewMode === 'results' && `Top ${top5Hits.length} of ${total} results`}
+            {viewMode === 'raw' && 'Raw JSON Response'}
+            {viewMode === 'tokens' && 'Analyzed Tokens'}
+            {queryTime !== null && queryTime !== undefined && (
+              <span style={{ marginLeft: '12px', color: '#36A2EF' }}>
+                • Took {queryTime}ms
+              </span>
+            )}
           </EuiText>
-          <EuiButton
-            size="s"
-            onClick={() => setShowRawJson(!showRawJson)}
-            style={{
-              backgroundColor: showRawJson ? '#36A2EF' : 'transparent',
-              borderColor: showRawJson ? '#36A2EF' : 'rgba(255, 255, 255, 0.2)',
-              color: showRawJson ? '#fff' : '#98A2B3',
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {(viewMode === 'raw' || viewMode === 'tokens') && (
+              <button
+                style={tabButtonStyle}
+                onClick={handleCopyResponse}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                Copy
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* View Tabs */}
+        <div style={{ display: 'flex', gap: '4px', marginBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <button
+            style={viewMode === 'results' ? tabButtonActiveStyle : tabButtonStyle}
+            onClick={() => setViewMode('results')}
+            onMouseOver={(e) => {
+              if (viewMode !== 'results') {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (viewMode !== 'results') {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }
+            }}
+          >
+            Results
+          </button>
+          <button
+            style={viewMode === 'raw' ? tabButtonActiveStyle : tabButtonStyle}
+            onClick={() => setViewMode('raw')}
+            onMouseOver={(e) => {
+              if (viewMode !== 'raw') {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (viewMode !== 'raw') {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }
             }}
           >
             RAW JSON
-          </EuiButton>
+          </button>
+          <button
+            style={viewMode === 'tokens' ? tabButtonActiveStyle : tabButtonStyle}
+            onClick={() => setViewMode('tokens')}
+            onMouseOver={(e) => {
+              if (viewMode !== 'tokens') {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              }
+            }}
+            onMouseOut={(e) => {
+              if (viewMode !== 'tokens') {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }
+            }}
+          >
+            Tokens
+          </button>
         </div>
-        {showRawJson ? (
+
+        {/* View Content */}
+        {viewMode === 'raw' && response && (
           <div style={{ height: '400px', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
             <Editor
               height="400px"
@@ -185,7 +349,44 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
               }}
             />
           </div>
-        ) : (
+        )}
+
+        {viewMode === 'tokens' && (
+          <div>
+            {tokens ? (
+              <div>
+                <EuiText size="s" color="subdued" style={{ marginBottom: '12px' }}>
+                  Tokens from analyzed query text:
+                </EuiText>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {tokens.tokens.map((token, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        backgroundColor: 'rgba(54, 162, 239, 0.2)',
+                        color: '#36A2EF',
+                        fontSize: '12px',
+                        fontFamily: 'monospace',
+                      }}
+                    >
+                      {token.token}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <EuiEmptyPrompt
+                title={<h3>No tokens available</h3>}
+                body={<p>Run a query first to see analyzed tokens</p>}
+              />
+            )}
+          </div>
+        )}
+
+
+        {viewMode === 'results' && (
           <>
             {top5Hits.length === 0 ? (
               <EuiEmptyPrompt
@@ -194,28 +395,130 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
               />
             ) : (
               <div>
-                {top5Hits.map((hit, index) => {
+                {top5Hits.map((hit: any, index: number) => {
                   const fieldValue = getFieldValue(hit._source, keyField);
                   const displayValue = fieldValue || '(no title)';
                   const isHovered = hoveredIndex === index;
+                  const allHighlights = hit.highlight || {};
+                  const highlightSnippets = Object.values(allHighlights).flat() as string[];
+                  const docExplain = explainDataMap[hit._id];
+                  const isExplainOpen = showExplainPopup === hit._id;
 
                   return (
-                    <div
-                      key={hit._id}
-                      style={isHovered ? resultRowHoverStyle : resultRowStyle}
-                      onClick={() => {
-                        setSelectedDoc(hit._source);
-                        onDocClick(hit._source);
-                      }}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      <span style={{ color: '#fff', fontSize: '13px', flex: 1 }}>
-                        {displayValue}
-                      </span>
-                      <span style={scoreBadgeStyle}>
-                        {hit._score.toFixed(2)}
-                      </span>
+                    <div key={hit._id} style={{ position: 'relative', marginBottom: '4px' }}>
+                      <div
+                        style={isHovered ? resultRowHoverStyle : resultRowStyle}
+                        onClick={() => {
+                          setSelectedDoc(hit._source);
+                          onDocClick(hit._source);
+                        }}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                      >
+                        <div style={{ flex: 1 }}>
+                          <span style={{ color: '#fff', fontSize: '13px' }}>
+                            {displayValue}
+                          </span>
+                          {highlightSnippets.length > 0 && (
+                            <div style={{ marginTop: '4px' }}>
+                              {highlightSnippets.slice(0, 1).map((snippet: string, idx: number) => (
+                                <EuiText
+                                  key={idx}
+                                  size="xs"
+                                  style={{ color: '#98A2B3' }}
+                                  dangerouslySetInnerHTML={{ __html: `...${snippet}...` }}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={(e) => handleExplainClick(e, hit._id)}
+                          style={{
+                            background: isExplainOpen ? '#36A2EF' : 'rgba(54, 162, 239, 0.2)',
+                            border: 'none',
+                            color: isExplainOpen ? '#fff' : '#36A2EF',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            cursor: 'pointer',
+                            marginRight: '8px',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {explainLoadingId === hit._id ? '...' : 'Why?'}
+                        </button>
+                        <span style={scoreBadgeStyle}>
+                          {hit._score.toFixed(2)}
+                        </span>
+                      </div>
+                      
+                      {/* Inline explain popup */}
+                      {isExplainOpen && docExplain && (
+                        <div style={{
+                          marginTop: '4px',
+                          padding: '12px',
+                          borderRadius: '8px',
+                          backgroundColor: 'rgba(54, 162, 239, 0.1)',
+                          border: '1px solid rgba(54, 162, 239, 0.3)',
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                            <EuiText size="xs" style={{ color: '#36A2EF' }}>
+                              Total Score: <strong>{docExplain.explanation.value.toFixed(2)}</strong>
+                            </EuiText>
+                            <button
+                              onClick={() => setShowExplainPopup(null)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#98A2B3',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                              }}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                            <EuiText size="xs" style={{ color: '#98A2B3' }}>
+                              This document matched because:
+                            </EuiText>
+                            <EuiText size="xs" style={{ color: '#98A2B3' }}>
+                              Contribution
+                            </EuiText>
+                          </div>
+                          {docExplain.explanation.details && docExplain.explanation.details.map((detail, idx) => {
+                            const simplified = simplifyDescription(detail.description);
+                            const termMatch = simplified.match(/Matched "(.+?)" in (.+)/);
+                            const scorePercent = ((detail.value / docExplain.explanation.value) * 100).toFixed(0);
+                            return (
+                              <div key={idx} style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                marginBottom: '6px',
+                                padding: '6px 8px',
+                                borderRadius: '4px',
+                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                              }}>
+                                <EuiText size="xs" style={{ color: '#E0E0E0' }}>
+                                  {termMatch ? (
+                                    <>Matched <strong style={{ color: '#36A2EF' }}>"{termMatch[1]}"</strong> in {termMatch[2]}</>
+                                  ) : simplified}
+                                </EuiText>
+                                <span style={{ 
+                                  color: '#36A2EF', 
+                                  fontSize: '11px',
+                                  marginLeft: '12px',
+                                  whiteSpace: 'nowrap',
+                                }}>
+                                  +{detail.value.toFixed(2)} ({scorePercent}%)
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -230,7 +533,9 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
         <div
           style={modalOverlayStyle}
           onClick={(e) => {
-            if (e.target === e.currentTarget) setSelectedDoc(null);
+            if (e.target === e.currentTarget) {
+              setSelectedDoc(null);
+            }
           }}
         >
           <div style={modalContentStyle}>

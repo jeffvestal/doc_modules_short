@@ -31,6 +31,14 @@ export const labConfig: LabConfig = {
   }
 }`,
       index: 'product_reviews',
+      tryThis: [
+        'Try changing the query text to see different results',
+        'Add more terms to the query and observe how the result count changes',
+      ],
+      tooltips: {
+        query: 'The text to search for. This will be analyzed before matching.',
+        review_text: 'The field to search in. This is a text field that supports full-text search.',
+      },
     },
     {
       id: 'short-request',
@@ -60,6 +68,13 @@ export const labConfig: LabConfig = {
   }
 }`,
       index: 'product_reviews',
+      tryThis: [
+        'Change operator from "and" to "or" and compare the result counts',
+        'Try adding more terms to see how operator affects matching',
+      ],
+      tooltips: {
+        operator: 'Controls how multiple terms are combined. "and" requires all terms, "or" requires any term.',
+      },
     },
     {
       id: 'fuzziness',
@@ -76,6 +91,13 @@ export const labConfig: LabConfig = {
   }
 }`,
       index: 'product_reviews',
+      tryThis: [
+        'Try removing fuzziness and see how many fewer results you get',
+        'Change fuzziness to a number like 1 or 2 to see the difference',
+      ],
+      tooltips: {
+        fuzziness: 'Allows approximate matching. "AUTO" automatically determines edit distance based on term length.',
+      },
     },
     {
       id: 'zero-terms',

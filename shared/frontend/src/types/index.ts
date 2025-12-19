@@ -49,6 +49,29 @@ export interface SearchResponse {
       _id: string;
       _source: Document;
       _score: number;
+      highlight?: Record<string, string[]>;
+    }>;
+  };
+  took?: number;
+}
+
+export interface AnalyzeResponse {
+  tokens: Array<{
+    token: string;
+    start_offset: number;
+    end_offset: number;
+    type: string;
+    position: number;
+  }>;
+}
+
+export interface ExplainResponse {
+  explanation: {
+    value: number;
+    description: string;
+    details?: Array<{
+      value: number;
+      description: string;
     }>;
   };
 }
@@ -59,6 +82,8 @@ export interface QueryExample {
   description: string;
   template: string;
   index: 'products' | 'product_reviews' | 'product_users';
+  tryThis?: string[];
+  tooltips?: Record<string, string>;
 }
 
 export interface LabConfig {
