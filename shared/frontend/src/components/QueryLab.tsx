@@ -42,28 +42,49 @@ export const QueryLab: React.FC = () => {
       <EuiFlexGroup direction="column">
         {/* Header */}
         <EuiFlexItem grow={false}>
-          <EuiTitle size="l">
-            <h1 style={{ color: '#fff' }}>{labConfig.displayName}</h1>
-          </EuiTitle>
-          <EuiSpacer size="s" />
-          <EuiText>
-            <p>
+          <EuiFlexGroup justifyContent="spaceBetween" alignItems="flexStart">
+            <EuiFlexItem grow={false}>
+              <EuiTitle size="l">
+                <h1 style={{ color: '#fff' }}>{labConfig.displayName}</h1>
+              </EuiTitle>
+              <EuiSpacer size="s" />
+              <EuiText>
+                <p>
+                  <a 
+                    href={labConfig.docUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ color: '#36A2EF' }}
+                  >
+                    View official documentation ↗
+                  </a>
+                </p>
+              </EuiText>
+              <EuiSpacer size="m" />
+              <EuiText>
+                <p style={{ color: '#98A2B3', maxWidth: '800px' }}>
+                  {labConfig.description}
+                </p>
+              </EuiText>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
               <a 
-                href={labConfig.docUrl} 
+                href="https://www.elastic.co" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                style={{ color: '#36A2EF' }}
+                style={{ textDecoration: 'none', textAlign: 'center' }}
               >
-                View official documentation ↗
+                <img 
+                  src="./elastic-logo.png" 
+                  alt="Elastic" 
+                  style={{ width: '48px', height: '48px', marginBottom: '8px' }}
+                />
+                <p style={{ color: '#98A2B3', fontSize: '12px', margin: 0 }}>
+                  Powered by Elastic
+                </p>
               </a>
-            </p>
-          </EuiText>
-          <EuiSpacer size="m" />
-          <EuiText>
-            <p style={{ color: '#98A2B3', maxWidth: '800px' }}>
-              {labConfig.description}
-            </p>
-          </EuiText>
+            </EuiFlexItem>
+          </EuiFlexGroup>
         </EuiFlexItem>
 
         <hr style={doubleDividerStyle} />
