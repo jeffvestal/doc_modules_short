@@ -83,10 +83,10 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
   return (
     <div>
       <EuiTitle size="m">
-        <h2 style={{ color: '#fff', marginBottom: '8px' }}>{example.title}</h2>
+        <h2 style={{ color: '#fff', marginBottom: '16px' }}>{example.title}</h2>
       </EuiTitle>
       <EuiText>
-        <p style={{ color: '#98A2B3', marginBottom: '56px' }}>{example.description}</p>
+        <p style={{ color: '#98A2B3', marginBottom: '80px' }}>{example.description}</p>
       </EuiText>
 
       <EuiFlexGroup>
