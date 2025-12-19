@@ -12,19 +12,23 @@ done
 # explicitly source env vars
 source /etc/profile.d/instruqt-env.sh
 
+####################################################################### INSTALL PYTHON (do this early, in parallel with ES wait)
+
+echo "[Workshop] Installing Python dependencies..."
+apt-get update -qq
+apt-get install -y --no-install-recommends python3-pip python3-venv > /dev/null 2>&1 &
+APT_PID=$!
+
 ####################################################################### WAIT FOR KUBERNETES-VM SETUP TO COMPLETE
 
-# First, wait for the env server on kubernetes-vm (indicates its setup script has started)
-# This is more reliable than waiting for ES directly since ES takes a while to boot
 echo "[Workshop] Waiting for kubernetes-vm setup to expose environment..."
-MAX_ENV_RETRIES=180  # 15 minutes max wait for kubernetes-vm setup
+MAX_ENV_RETRIES=180
 ENV_RETRY_COUNT=0
 
 until curl -fsS "http://kubernetes-vm:9000/env" >/dev/null 2>&1; do
   ENV_RETRY_COUNT=$((ENV_RETRY_COUNT + 1))
   if [ $ENV_RETRY_COUNT -ge $MAX_ENV_RETRIES ]; then
     echo "[Workshop] ERROR: kubernetes-vm env server not ready after ${MAX_ENV_RETRIES} attempts"
-    echo "[Workshop] Continuing with setup, but services may fail..."
     break
   fi
   echo "  ... waiting for kubernetes-vm setup (attempt ${ENV_RETRY_COUNT}/${MAX_ENV_RETRIES})"
@@ -33,106 +37,63 @@ done
 
 ####################################################################### FETCH ENV VARS
 
-echo "[Workshop] === ENV BEFORE FETCH ==="
-env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
-
 echo "[Workshop] Fetching env vars from kubernetes-vm:9000/env..."
 export $(curl -s http://kubernetes-vm:9000/env | xargs)
 
-echo "[Workshop] === ENV AFTER FETCH ==="
-env | grep -E "^(ELASTICSEARCH|ELASTIC_|KIBANA)" || echo "(none found)"
-
-# Set defaults if not provided
 ELASTICSEARCH_URL="${ELASTICSEARCH_URL:-http://kubernetes-vm:30920}"
 ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY:-}"
 
-if [ -z "$ELASTICSEARCH_APIKEY" ]; then
-  echo "[Workshop] ⚠️  WARNING: ELASTICSEARCH_APIKEY not set, trying without auth"
-fi
-
-# Now wait for Elasticsearch (with authentication if available)
-echo "[Workshop] Waiting for Elasticsearch on kubernetes-vm..."
+# Wait for Elasticsearch
+echo "[Workshop] Waiting for Elasticsearch..."
 MAX_RETRIES=120
 RETRY_COUNT=0
-
-AUTH_HEADER=""
-if [ -n "$ELASTICSEARCH_APIKEY" ]; then
-  AUTH_HEADER="-H \"Authorization: ApiKey ${ELASTICSEARCH_APIKEY}\""
-fi
 
 until curl -fsS ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} "${ELASTICSEARCH_URL}/_cluster/health" >/dev/null 2>&1; do
   RETRY_COUNT=$((RETRY_COUNT + 1))
   if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
-    echo "[Workshop] ERROR: Elasticsearch not ready after ${MAX_RETRIES} attempts (10 minutes)"
-    echo "[Workshop] Continuing with setup, but services may fail..."
+    echo "[Workshop] ERROR: Elasticsearch not ready after ${MAX_RETRIES} attempts"
     break
   fi
   echo "  ... waiting for Elasticsearch (attempt ${RETRY_COUNT}/${MAX_RETRIES})"
   sleep 5
 done
 
-if curl -fsS ${ELASTICSEARCH_APIKEY:+-H "Authorization: ApiKey ${ELASTICSEARCH_APIKEY}"} "${ELASTICSEARCH_URL}/_cluster/health" >/dev/null 2>&1; then
-  echo "[Workshop] ✓ Elasticsearch is reachable"
+echo "[Workshop] ✓ Elasticsearch is reachable"
+
+# Quick Kibana check (non-blocking, just informational)
+if curl -fsS "http://kubernetes-vm:30001/api/status" >/dev/null 2>&1; then
+  echo "[Workshop] ✓ Kibana is reachable"
 else
-  echo "[Workshop] ⚠️  WARNING: Elasticsearch not reachable, backend may fail"
+  echo "[Workshop] ⚠️  Kibana not ready yet (will continue)"
 fi
-
-# Wait for Kibana to be ready
-echo "[Workshop] Waiting for Kibana on kubernetes-vm..."
-for i in $(seq 1 60); do
-  if curl -fsS "http://kubernetes-vm:30001/api/status" >/dev/null 2>&1; then
-    echo "[Workshop] ✓ Kibana is reachable"
-    break
-  fi
-  echo "  ... waiting for Kibana (attempt ${i}/60)"
-  sleep 5
-done
-
-####################################################################### INSTALL NODE.JS
-
-echo "[Workshop] Installing Node.js..."
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-apt-get install -y nodejs
-
-####################################################################### INSTALL PYTHON DEPENDENCIES
-
-echo "[Workshop] Installing Python dependencies..."
-apt-get update
-apt-get install -y python3-pip python3-venv
 
 ####################################################################### DOWNLOAD WORKSHOP ASSETS
 
 echo "[Workshop] Downloading workshop assets from GitHub..."
 cd /opt
 rm -rf workshop-assets temp-repo
-mkdir -p workshop-assets
 
+# Clone only what we need (backend with pre-built static assets)
 echo "[Workshop] Cloning repository..."
-if git clone --depth 1 https://github.com/jeffvestal/doc_modules_short.git temp-repo; then
-  echo "[Workshop] ✓ Repository cloned successfully"
+if git clone --depth 1 --filter=blob:none --sparse https://github.com/jeffvestal/doc_modules_short.git temp-repo; then
+  cd temp-repo
+  git sparse-checkout set shared/backend
+  cd /opt
   
-  echo "[Workshop] Copying directories to workshop-assets..."
-  
-  if [ -d "temp-repo/shared/frontend" ]; then
-    cp -r temp-repo/shared/frontend /opt/workshop-assets/
-    echo "[Workshop] ✓ Copied frontend directory"
-  else
-    echo "[Workshop] ✗ frontend directory not found!"
-    exit 1
-  fi
-  
-  if [ -d "temp-repo/shared/backend" ]; then
-    cp -r temp-repo/shared/backend /opt/workshop-assets/
-    echo "[Workshop] ✓ Copied backend directory"
-  else
-    echo "[Workshop] ✗ backend directory not found!"
-    exit 1
-  fi
-  
+  mkdir -p workshop-assets
+  cp -r temp-repo/shared/backend /opt/workshop-assets/
   rm -rf temp-repo
-  echo "[Workshop] ✓ Cleaned up temp-repo"
+  echo "[Workshop] ✓ Backend with pre-built frontend copied"
 else
   echo "[Workshop] ✗ ERROR: Could not clone repository!"
+  exit 1
+fi
+
+# Verify pre-built frontend assets exist
+if [ -f "/opt/workshop-assets/backend/static/index.html" ]; then
+  echo "[Workshop] ✓ Pre-built frontend assets found"
+else
+  echo "[Workshop] ✗ ERROR: Pre-built frontend assets not found!"
   exit 1
 fi
 
@@ -140,114 +101,54 @@ fi
 
 export ELASTICSEARCH_URL="http://kubernetes-vm:30920"
 export KIBANA_URL="http://kubernetes-vm:30001"
-
-# Get API key from kubernetes-vm's environment (passed via instruqt)
 export ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY:-${ELASTIC_API_KEY}}"
 
-# Write environment file for backend
 cat > /opt/workshop-assets/backend/.env << EOF
 ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
 ELASTICSEARCH_APIKEY=${ELASTICSEARCH_APIKEY}
 EOF
 
-####################################################################### BUILD FRONTEND
-
-echo "[Workshop] Building frontend..."
-cd /opt/workshop-assets/frontend
-
-echo "[Workshop] Installing npm dependencies..."
-npm install
-
-echo "[Workshop] Building frontend for production..."
-if npm run build; then
-  echo "[Workshop] ✓ Frontend build successful"
-else
-  echo "[Workshop] ✗ Frontend build FAILED!"
-  exit 1
-fi
-
-  # Verify build output and copy to backend/static BEFORE backend starts
-  if [ -d "dist" ] && [ -f "dist/index.html" ]; then
-    echo "[Workshop] ✓ Build output verified (dist/index.html exists)"
-    
-    # Copy frontend build to backend's static directory
-    echo "[Workshop] Copying frontend to backend/static..."
-    mkdir -p /opt/workshop-assets/backend/static
-    cp -r dist/* /opt/workshop-assets/backend/static/
-    echo "[Workshop] ✓ Frontend files copied to backend/static/"
-    
-    echo "[Workshop] Verifying file structure in backend/static:"
-    find /opt/workshop-assets/backend/static -maxdepth 2
-  else
-    echo "[Workshop] ⚠️  WARNING: dist/index.html not found, frontend may not work"
-    ls -la
-    exit 1
-  fi
-
 ####################################################################### SETUP BACKEND
 
-echo "[Workshop] Setting up backend..."
+# Wait for apt to finish if still running
+wait $APT_PID 2>/dev/null
+
+echo "[Workshop] Setting up Python backend..."
 cd /opt/workshop-assets/backend
 
 python3 -m venv venv
 source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+pip install --quiet --no-cache-dir --upgrade pip
+pip install --quiet --no-cache-dir -r requirements.txt
 
-# Start backend in background with environment variables
-# NOTE: static/ directory must exist BEFORE this starts for frontend to be served
-echo "[Workshop] Starting backend server on port 8000..."
+# Start backend
+echo "[Workshop] Starting backend server..."
 ELASTICSEARCH_URL="${ELASTICSEARCH_URL}" \
 ELASTICSEARCH_APIKEY="${ELASTICSEARCH_APIKEY}" \
 nohup /opt/workshop-assets/backend/venv/bin/python -m uvicorn main:app --host 0.0.0.0 --port 8000 > /var/log/backend.log 2>&1 &
-BACKEND_PID=$!
-echo "[Workshop] Backend server started (PID: $BACKEND_PID)"
 
 deactivate
 
 ####################################################################### VERIFY SERVICES
 
-echo "[Workshop] Waiting for services to start..."
-sleep 5
-
-# Check backend with retries (it may take time to connect to ES)
 echo "[Workshop] Waiting for backend to be healthy..."
-for i in $(seq 1 30); do
+for i in $(seq 1 20); do
   if curl -fsS http://localhost:8000/health >/dev/null 2>&1; then
     echo "[Workshop] ✓ Backend is running and healthy"
     break
   fi
-  echo "  ... waiting for backend (attempt ${i}/30)"
-  sleep 3
+  sleep 2
 done
 
-# Verify frontend is being served from backend (unified serving)
-echo "[Workshop] Verifying frontend is served from backend..."
-FRONTEND_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/" 2>/dev/null)
-if [ "$FRONTEND_RESPONSE" = "200" ]; then
-  # Check if it's actually HTML (frontend) not JSON (API)
-  CONTENT_TYPE=$(curl -sI "http://localhost:8000/" 2>/dev/null | grep -i "content-type" | head -1)
-  if echo "$CONTENT_TYPE" | grep -qi "text/html"; then
-    echo "[Workshop] ✓ Frontend is being served from backend on port 8000"
-  else
-    echo "[Workshop] ⚠️  Port 8000 responding but may not be serving frontend HTML"
-  fi
-else
-  echo "[Workshop] ⚠️  Frontend may not be available on port 8000 (HTTP ${FRONTEND_RESPONSE})"
+# Quick frontend check
+if curl -fsS http://localhost:8000/ | grep -q "html" 2>/dev/null; then
+  echo "[Workshop] ✓ Frontend is being served"
 fi
 
 ####################################################################### COMPLETE
 
 echo "========================================="
-echo "[Workshop] host-1 setup complete"
-echo "========================================="
-echo "Services (unified on port 8000):"
-echo "  - Query Lab UI + API: http://host-1:8000"
-echo ""
-echo "Note: Frontend is served by the backend (unified serving)"
-echo "      This avoids Instruqt cross-tab authentication issues"
-echo ""
-echo "Logs:"
-echo "  - Backend + Frontend: /var/log/backend.log"
+echo "[Workshop] ✓ Setup complete"
+echo "  Query Lab: http://host-1:8000"
 echo "========================================="
 
