@@ -7,6 +7,7 @@ import type { LabConfig } from '../types';
 export const labConfig: LabConfig = {
   queryType: 'match',
   displayName: 'Match Query',
+  description: 'Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching. The match query is the standard query for performing a full-text search, including options for fuzzy matching.',
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query',
   
   keyDisplayFields: {

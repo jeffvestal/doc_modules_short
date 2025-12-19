@@ -64,6 +64,7 @@ export interface QueryExample {
 export interface LabConfig {
   queryType: string;
   displayName: string;
+  description: string;
   docUrl: string;
   examples: QueryExample[];
   keyDisplayFields: {

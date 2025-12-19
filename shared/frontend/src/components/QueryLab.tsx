@@ -49,6 +49,12 @@ export const QueryLab: React.FC = () => {
               </a>
             </p>
           </EuiText>
+          <EuiSpacer size="m" />
+          <EuiText>
+            <p style={{ color: '#98A2B3', maxWidth: '800px' }}>
+              {labConfig.description}
+            </p>
+          </EuiText>
         </EuiFlexItem>
 
         <EuiSpacer size="xl" />
