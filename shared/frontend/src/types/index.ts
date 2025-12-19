@@ -53,35 +53,23 @@ export interface SearchResponse {
   };
 }
 
+export interface QueryExample {
+  id: string;
+  title: string;
+  description: string;
+  template: string;
+  index: 'products' | 'product_reviews' | 'product_users';
+}
+
 export interface LabConfig {
   queryType: string;
   displayName: string;
   docUrl: string;
-  
-  // NEW: Specify which index and fields this lab queries
-  elasticsearch: {
-    index: 'products' | 'product_reviews' | 'product_users';
-    displayFields: string[]; // Which fields to show in results
-    searchFields: string[];  // Which fields are typically searched
+  examples: QueryExample[];
+  keyDisplayFields: {
+    products: string;
+    product_reviews: string;
+    product_users: string;
   };
-  
-  introQuery: {
-    description: string;
-    template: string;
-    hints?: string[];
-  };
-  challenge: {
-    goal: string;
-    validation: {
-      mustInclude: string[];
-      expectedResultIds?: string[];
-    };
-  };
-}
-
-export interface ChallengeStatus {
-  isValid: boolean;
-  message: string;
-  details?: string[];
 }
 

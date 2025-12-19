@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { useState } from 'react';
+import React from 'react';
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -7,76 +6,30 @@ import {
   EuiTitle,
   EuiText,
 } from '@elastic/eui';
-import { QueryEditor } from './QueryEditor';
-import { ResultsPanel } from './ResultsPanel';
-import { Challenge } from './Challenge';
-import { searchProducts, validateQuery } from '../lib/elasticsearch';
-import { validateChallenge } from '../lib/validation';
+import { ExampleSection } from './ExampleSection';
 import { labConfig } from '../config/labConfig';
-import type { SearchResponse, ChallengeStatus } from '../types';
+
+// Agent Builder exact dark blue colors
+const AGENT_BUILDER_DARK = '#0B1425';
+const AGENT_BUILDER_MID = '#162137';
 
 // Agent Builder exact dark blue colors
 const AGENT_BUILDER_DARK = '#0B1425';
 const AGENT_BUILDER_MID = '#162137';
 
 export const QueryLab: React.FC = () => {
-  const [query, setQuery] = useState(labConfig.introQuery.template);
-  const [response, setResponse] = useState<SearchResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [challengeNumber] = useState<1 | 2>(1);
-  const [challengeStatus, setChallengeStatus] = useState<ChallengeStatus | null>(null);
-
-  const handleRunQuery = async () => {
-    setError(null);
-    setChallengeStatus(null);
-    
-    let queryObj;
-    try {
-      queryObj = JSON.parse(query);
-    } catch (err) {
-      setError('Invalid JSON. Please check your query syntax.');
-      return;
-    }
-    
-    const validation = validateQuery(queryObj);
-    if (!validation.isValid) {
-      setError(validation.error || 'Invalid query');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await searchProducts(queryObj, labConfig.elasticsearch.index);
-      setResponse(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to execute query');
-      setResponse(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleValidateChallenge = () => {
-    const status = validateChallenge(query, response, challengeNumber, labConfig);
-    setChallengeStatus(status);
-  };
-
-  // Placeholder for future multi-challenge support
-  // const handleNextChallenge = () => {
-  //   if (challengeNumber === 1) {
-  //     setChallengeNumber(2);
-  //     setQuery('{\n  "query": {\n    \n  }\n}');
-  //     setResponse(null);
-  //     setChallengeStatus(null);
-  //   }
-  // };
-
   // Agent Builder gradient background style
   const backgroundStyle: React.CSSProperties = {
     background: `linear-gradient(180deg, ${AGENT_BUILDER_DARK} 0%, ${AGENT_BUILDER_MID} 50%, ${AGENT_BUILDER_DARK} 100%)`,
     minHeight: '100vh',
     padding: '24px',
+  };
+
+  // Divider style between sections
+  const dividerStyle: React.CSSProperties = {
+    border: 'none',
+    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+    margin: '48px 0',
   };
 
   return (
@@ -102,40 +55,30 @@ export const QueryLab: React.FC = () => {
           </EuiText>
         </EuiFlexItem>
 
-        <EuiSpacer size="l" />
+        <EuiSpacer size="xl" />
 
-        {/* Challenge */}
-        <EuiFlexItem grow={false}>
-          <Challenge
-            challengeNumber={challengeNumber}
-            status={challengeStatus}
-            onValidate={handleValidateChallenge}
-          />
-        </EuiFlexItem>
-
-        <EuiSpacer size="l" />
-
-        {/* Query Editor and Results */}
-        <EuiFlexItem>
-          <EuiFlexGroup>
-            <EuiFlexItem>
-              <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
-                <QueryEditor
-                  query={query}
-                  onChange={setQuery}
-                  onRun={handleRunQuery}
-                  loading={loading}
-                  error={error}
+        {/* Example Sections */}
+        {labConfig.examples.map((example, index) => {
+          const keyDisplayField = labConfig.keyDisplayFields[example.index];
+          
+          return (
+            <React.Fragment key={example.id}>
+              <EuiFlexItem grow={false}>
+                <ExampleSection
+                  example={example}
+                  keyDisplayField={keyDisplayField}
                 />
-              </div>
-            </EuiFlexItem>
-            <EuiFlexItem>
-              <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
-                <ResultsPanel response={response} loading={loading} error={error} />
-              </div>
-            </EuiFlexItem>
-          </EuiFlexGroup>
-        </EuiFlexItem>
+              </EuiFlexItem>
+              {index < labConfig.examples.length - 1 && (
+                <>
+                  <EuiSpacer size="l" />
+                  <hr style={dividerStyle} />
+                  <EuiSpacer size="l" />
+                </>
+              )}
+            </React.Fragment>
+          );
+        })}
       </EuiFlexGroup>
     </div>
   );

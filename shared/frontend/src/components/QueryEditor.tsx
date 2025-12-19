@@ -22,9 +22,10 @@ interface QueryEditorProps {
   onRun: () => void;
   loading: boolean;
   error: string | null;
+  height?: string;
 }
 
-export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun, loading, error }) => {
+export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun, loading, error, height = '300px' }) => {
   const editorRef = useRef<any>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -61,7 +62,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun
           </span>
         </div>
         <Editor
-          height="300px"
+          height={height}
           defaultLanguage="json"
           value={query}
           onChange={(val) => onChange(val || '')}
