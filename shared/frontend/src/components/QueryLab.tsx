@@ -95,7 +95,7 @@ export const QueryLab: React.FC = () => {
 
         {/* Example Sections */}
         {labConfig.examples.map((example, index) => {
-          const keyDisplayField = labConfig.keyDisplayFields[example.index];
+          const keyDisplayField = labConfig.keyDisplayFields[selectedIndex];
           
           return (
             <React.Fragment key={example.id}>

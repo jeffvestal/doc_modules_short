@@ -15,6 +15,11 @@ export const labConfig: LabConfig = {
     product_reviews: 'review_title',
     product_users: 'username',
   },
+  searchFields: {
+    products: 'product_description',
+    product_reviews: 'review_text',
+    product_users: 'interests',
+  },
   
   examples: [
     {

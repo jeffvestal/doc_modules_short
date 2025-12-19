@@ -10,6 +10,7 @@ import {
 import { QueryEditor } from './QueryEditor';
 import { CompactResultsList } from './CompactResultsList';
 import { searchProducts, validateQuery } from '../lib/elasticsearch';
+import { labConfig } from '../config/labConfig';
 import type { QueryExample, SearchResponse, Document } from '../types';
 
 interface ExampleSectionProps {
@@ -61,6 +62,50 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       localStorage.setItem(storageKey, query);
     }
   }, [query, storageKey, example.template]);
+
+  // Swap query field when selectedIndex changes
+  useEffect(() => {
+    if (!selectedIndex || selectedIndex === example.index) {
+      return; // No change needed if using example's default index
+    }
+
+    try {
+      const queryObj = JSON.parse(query);
+      if (queryObj?.query?.match) {
+        const matchQuery = queryObj.query.match;
+        const currentField = detectFieldFromQuery(queryObj);
+        
+        if (currentField) {
+          // Get the target field for the new index
+          const targetField = labConfig.searchFields[selectedIndex as keyof typeof labConfig.searchFields];
+          
+          // Only swap if the current field is different from target and is a known search field
+          const knownSearchFields = Object.values(labConfig.searchFields);
+          const shouldSwap = targetField && 
+                            currentField !== targetField && 
+                            knownSearchFields.includes(currentField);
+          
+          if (shouldSwap) {
+            // Create new match query with swapped field
+            const fieldValue = matchQuery[currentField];
+            const newMatchQuery: any = {};
+            newMatchQuery[targetField] = fieldValue;
+            
+            // Update the query object
+            queryObj.query.match = newMatchQuery;
+            
+            // Update the query string with proper formatting
+            const updatedQuery = JSON.stringify(queryObj, null, 2);
+            setQuery(updatedQuery);
+          }
+        }
+      }
+    } catch (err) {
+      // If JSON parsing fails, don't update (user might be editing)
+      // Silently ignore the error
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIndex, example.index]); // Only depend on selectedIndex, not query to avoid loops
 
   // Keyboard shortcut handler
   useEffect(() => {

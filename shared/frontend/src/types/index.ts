@@ -97,5 +97,10 @@ export interface LabConfig {
     product_reviews: string;
     product_users: string;
   };
+  searchFields: {
+    products: string;
+    product_reviews: string;
+    product_users: string;
+  };
 }
 
