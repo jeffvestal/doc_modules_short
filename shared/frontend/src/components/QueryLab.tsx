@@ -25,7 +25,7 @@ export const QueryLab: React.FC = () => {
   const dividerStyle: React.CSSProperties = {
     border: 'none',
     borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-    margin: '48px 0',
+    margin: '24px 0',
   };
 
   return (
@@ -66,11 +66,7 @@ export const QueryLab: React.FC = () => {
                 />
               </EuiFlexItem>
               {index < labConfig.examples.length - 1 && (
-                <>
-                  <EuiSpacer size="l" />
-                  <hr style={dividerStyle} />
-                  <EuiSpacer size="l" />
-                </>
+                <hr style={dividerStyle} />
               )}
             </React.Fragment>
           );
