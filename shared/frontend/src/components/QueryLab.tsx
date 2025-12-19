@@ -28,6 +28,15 @@ export const QueryLab: React.FC = () => {
     margin: '24px 0',
   };
 
+  // Double divider style for header separation
+  const doubleDividerStyle: React.CSSProperties = {
+    border: 'none',
+    borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+    height: '4px',
+    margin: '24px 0',
+  };
+
   return (
     <div style={backgroundStyle}>
       <EuiFlexGroup direction="column">
@@ -57,7 +66,7 @@ export const QueryLab: React.FC = () => {
           </EuiText>
         </EuiFlexItem>
 
-        <EuiSpacer size="xl" />
+        <hr style={doubleDividerStyle} />
 
         {/* Example Sections */}
         {labConfig.examples.map((example, index) => {
