@@ -22,7 +22,7 @@ tabs:
   title: Terminal
   type: terminal
   hostname: host-1
-- id: dataset-tab-001
+- id: 8e47jgx1wd0e
   title: Dataset
   type: service
   hostname: host-1
@@ -48,7 +48,7 @@ Read the official Elastic documentation to understand how the match query works:
 
 # Test It Out
 
-Open the [button label="Query Lab"](tab-0) tab to explore the interactive query lab. The [button label="Query Lab (Full)"](tab-1) tab opens in a new window for a larger view.
+Open the [button label="Query Lab"](tab-0) tab to explore the interactive query lab. The [button label="Query Lab (Full)"](tab-1) tab opens in a new window for a larger view. The [button label="Dataset"](tab-3) tab shows information about available indices, fields, and mappings.
 
 ## Query Editor
 
@@ -56,6 +56,7 @@ Each example includes a pre-loaded query that you can:
 - **Run as-is** by clicking "Run Query" (or press **Cmd/Ctrl+Enter**)
 - **Edit** the JSON to modify the query parameters
 - **Reset** to restore the original query template
+- **Dataset** dropdown (left of Highlighting) to switch which index all examples query against
 - **Add Highlighting** toggle to highlight matched terms in results (yellow highlights)
 - **Copy Query** button to copy the query JSON to your clipboard
 
