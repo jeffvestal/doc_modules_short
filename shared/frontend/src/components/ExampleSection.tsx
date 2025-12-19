@@ -77,7 +77,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
   const boxGlowStyle: React.CSSProperties = {
     ...boxBaseStyle,
     border: '2px solid #36A2EF',
-    boxShadow: '0 0 30px rgba(54, 162, 239, 0.4)',
+    boxShadow: '0 0 15px rgba(54, 162, 239, 0.4)',
   };
 
   return (
@@ -86,7 +86,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
         <h2 style={{ color: '#fff', marginBottom: '8px' }}>{example.title}</h2>
       </EuiTitle>
       <EuiText>
-        <p style={{ color: '#98A2B3', marginBottom: '24px' }}>{example.description}</p>
+        <p style={{ color: '#98A2B3', marginBottom: '40px' }}>{example.description}</p>
       </EuiText>
 
       <EuiFlexGroup>
