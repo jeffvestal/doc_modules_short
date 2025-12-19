@@ -42,12 +42,45 @@ Read the official Elastic documentation to understand how the match query works:
 
 # Test It Out
 
-In the [button label="Query Lab"](tab-0) tab, you'll see a pre-loaded query. **Click "Run Query"** to see how it works.
+Open the [button label="Query Lab"](tab-0) tab to explore the interactive query lab. The [button label="Query Lab (Full)"](tab-1) tab opens in a new window for a larger view.
 
-Try modifying the query:
-- Change the search term to see different results
-- Change the field name to search in different document fields
-- Add multiple words and notice how it finds documents with **any** of those words
+## Query Editor
 
-Once you understand how it works, proceed to the next challenge to test your knowledge!
+Each example includes a pre-loaded query that you can:
+- **Run as-is** by clicking "Run Query" (or press **Cmd/Ctrl+Enter**)
+- **Edit** the JSON to modify the query parameters
+- **Reset** to restore the original query template
+- **Add Highlighting** toggle to highlight matched terms in results (yellow highlights)
+- **Copy Query** button to copy the query JSON to your clipboard
 
+## Results Panel
+
+After running a query, you'll see:
+
+**Results Tab** (default):
+- Top 5 matching documents with relevance scores
+- Click any result row to view the full document JSON in a popup
+- **"Why?" button** on each result shows a simplified explanation of why it matched (score breakdown by term)
+- Yellow highlighted terms show where matches occurred (when highlighting is enabled)
+
+**RAW JSON Tab**:
+- Full Elasticsearch response with all metadata
+- Copy button to copy the raw response
+
+**Tokens Tab**:
+- Shows how your search text was analyzed into tokens
+- Useful for understanding how Elasticsearch processes your query
+
+## Try This
+
+Below each example, you'll find **"Try This"** suggestions with ideas for experimenting:
+- Modify query parameters
+- Add or remove search terms
+- Try different field names
+- Observe how changes affect results
+
+---
+
+# Explore the Examples
+
+The lab includes multiple examples demonstrating different match query features. Each example is interactive—modify the queries and see how results change in real-time.
