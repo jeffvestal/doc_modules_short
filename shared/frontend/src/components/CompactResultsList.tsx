@@ -248,6 +248,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
 
   return (
     <>
+      <style>{`.highlight-snippet em { color: #DCDCAA; font-style: normal; font-weight: 500; }`}</style>
       <div>
         <div style={headerStyle}>
           <EuiText size="s" color="subdued" style={{ margin: 0 }}>
@@ -426,8 +427,13 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
                                   key={idx}
                                   size="xs"
                                   style={{ color: '#98A2B3' }}
-                                  dangerouslySetInnerHTML={{ __html: `...${snippet}...` }}
-                                />
+                                >
+                                  <span 
+                                    dangerouslySetInnerHTML={{ __html: `...${snippet}...` }}
+                                    style={{ }}
+                                    className="highlight-snippet"
+                                  />
+                                </EuiText>
                               ))}
                             </div>
                           )}
