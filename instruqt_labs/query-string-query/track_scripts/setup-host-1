@@ -89,6 +89,14 @@ else
   exit 1
 fi
 
+# Use query-string specific static folder
+echo "[Workshop] Setting up query-string lab frontend..."
+if [ -d "/opt/workshop-assets/backend/static-query-string" ]; then
+  rm -rf /opt/workshop-assets/backend/static
+  mv /opt/workshop-assets/backend/static-query-string /opt/workshop-assets/backend/static
+  echo "[Workshop] ✓ Query-string frontend configured"
+fi
+
 # Verify pre-built frontend assets exist
 if [ -f "/opt/workshop-assets/backend/static/index.html" ]; then
   echo "[Workshop] ✓ Pre-built frontend assets found"

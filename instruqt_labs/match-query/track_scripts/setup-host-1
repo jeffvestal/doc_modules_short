@@ -89,6 +89,14 @@ else
   exit 1
 fi
 
+# Use match-query specific static folder
+echo "[Workshop] Setting up match-query lab frontend..."
+if [ -d "/opt/workshop-assets/backend/static-match" ]; then
+  rm -rf /opt/workshop-assets/backend/static
+  mv /opt/workshop-assets/backend/static-match /opt/workshop-assets/backend/static
+  echo "[Workshop] ✓ Match-query frontend configured"
+fi
+
 # Verify pre-built frontend assets exist
 if [ -f "/opt/workshop-assets/backend/static/index.html" ]; then
   echo "[Workshop] ✓ Pre-built frontend assets found"

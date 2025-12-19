@@ -89,6 +89,14 @@ else
   exit 1
 fi
 
+# Use bool-query specific static folder
+echo "[Workshop] Setting up bool-query lab frontend..."
+if [ -d "/opt/workshop-assets/backend/static-bool" ]; then
+  rm -rf /opt/workshop-assets/backend/static
+  mv /opt/workshop-assets/backend/static-bool /opt/workshop-assets/backend/static
+  echo "[Workshop] ✓ Bool-query frontend configured"
+fi
+
 # Verify pre-built frontend assets exist
 if [ -f "/opt/workshop-assets/backend/static/index.html" ]; then
   echo "[Workshop] ✓ Pre-built frontend assets found"
