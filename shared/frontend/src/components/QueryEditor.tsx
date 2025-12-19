@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { EuiButton, EuiSpacer, EuiCallOut } from '@elastic/eui';
+import { EuiSpacer, EuiCallOut } from '@elastic/eui';
 
 // Agent Builder-style brighter blue border
 const editorContainerStyle: React.CSSProperties = {
@@ -19,13 +19,11 @@ const editorContainerFocusedStyle: React.CSSProperties = {
 interface QueryEditorProps {
   query: string;
   onChange: (value: string) => void;
-  onRun: () => void;
-  loading: boolean;
   error: string | null;
   height?: string;
 }
 
-export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun, loading, error, height = '300px' }) => {
+export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, error, height = '300px' }) => {
   const editorRef = useRef<any>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -78,10 +76,6 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, onRun
           }}
         />
       </div>
-      <EuiSpacer size="m" />
-      <EuiButton onClick={onRun} isLoading={loading} fill>
-        Run Query
-      </EuiButton>
       {error && (
         <>
           <EuiSpacer size="m" />

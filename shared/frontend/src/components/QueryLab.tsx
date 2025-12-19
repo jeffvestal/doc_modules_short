@@ -13,10 +13,6 @@ import { labConfig } from '../config/labConfig';
 const AGENT_BUILDER_DARK = '#0B1425';
 const AGENT_BUILDER_MID = '#162137';
 
-// Agent Builder exact dark blue colors
-const AGENT_BUILDER_DARK = '#0B1425';
-const AGENT_BUILDER_MID = '#162137';
-
 export const QueryLab: React.FC = () => {
   // Agent Builder gradient background style
   const backgroundStyle: React.CSSProperties = {

@@ -11,7 +11,6 @@ import { QueryEditor } from './QueryEditor';
 import { CompactResultsList } from './CompactResultsList';
 import { searchProducts, validateQuery } from '../lib/elasticsearch';
 import type { QueryExample, SearchResponse, Document } from '../types';
-import { labConfig } from '../config/labConfig';
 
 interface ExampleSectionProps {
   example: QueryExample;
@@ -59,7 +58,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
     setError(null);
   };
 
-  const handleDocClick = (doc: Document) => {
+  const handleDocClick = (_doc: Document) => {
     // Handled by CompactResultsList modal
   };
 
@@ -75,16 +74,14 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
       <EuiFlexGroup>
         <EuiFlexItem>
           <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
-            <QueryEditor
-              query={query}
-              onChange={setQuery}
-              onRun={handleRunQuery}
-              loading={loading}
-              error={error}
-              height="200px"
-            />
+          <QueryEditor
+            query={query}
+            onChange={setQuery}
+            error={error}
+            height="200px"
+          />
             <EuiSpacer size="m" />
-            <EuiFlexGroup>
+            <EuiFlexGroup gutterSize="s">
               <EuiFlexItem grow={false}>
                 <EuiButton onClick={handleRunQuery} isLoading={loading} fill>
                   Run Query

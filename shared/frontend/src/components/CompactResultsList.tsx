@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EuiText, EuiSpacer, EuiEmptyPrompt } from '@elastic/eui';
+import { EuiText, EuiEmptyPrompt } from '@elastic/eui';
 import type { SearchResponse, Document } from '../types';
 
 interface CompactResultsListProps {
