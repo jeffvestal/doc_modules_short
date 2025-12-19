@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   EuiFlexGroup,
   EuiFlexItem,
@@ -13,7 +13,11 @@ import { labConfig } from '../config/labConfig';
 const AGENT_BUILDER_DARK = '#0B1425';
 const AGENT_BUILDER_MID = '#162137';
 
+export const AVAILABLE_INDICES = ['products', 'product_reviews', 'product_users'] as const;
+export type IndexName = typeof AVAILABLE_INDICES[number];
+
 export const QueryLab: React.FC = () => {
+  const [selectedIndex, setSelectedIndex] = useState<IndexName>('product_reviews');
   // Agent Builder gradient background style
   const backgroundStyle: React.CSSProperties = {
     background: `linear-gradient(180deg, ${AGENT_BUILDER_DARK} 0%, ${AGENT_BUILDER_MID} 50%, ${AGENT_BUILDER_DARK} 100%)`,
@@ -99,6 +103,13 @@ export const QueryLab: React.FC = () => {
                 <ExampleSection
                   example={example}
                   keyDisplayField={keyDisplayField}
+                  selectedIndex={selectedIndex}
+                  onIndexChange={(index: string) => {
+                    if (AVAILABLE_INDICES.includes(index as IndexName)) {
+                      setSelectedIndex(index as IndexName);
+                    }
+                  }}
+                  availableIndices={AVAILABLE_INDICES}
                 />
               </EuiFlexItem>
               {index < labConfig.examples.length - 1 && (

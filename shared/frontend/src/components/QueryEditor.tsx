@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { EuiSpacer, EuiCallOut } from '@elastic/eui';
 
@@ -15,6 +15,9 @@ interface QueryEditorProps {
   onHighlightingChange?: (enabled: boolean) => void;
   onCopyQuery?: () => void;
   tooltips?: Record<string, string>;
+  selectedIndex?: string;
+  onIndexChange?: (index: string) => void;
+  availableIndices?: readonly string[];
 }
 
 export const QueryEditor: React.FC<QueryEditorProps> = ({ 
@@ -27,8 +30,13 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
   onHighlightingChange,
   onCopyQuery,
   tooltips,
+  selectedIndex,
+  onIndexChange,
+  availableIndices = [],
 }) => {
   const editorRef = useRef<any>(null);
+  const [showDatasetDropdown, setShowDatasetDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Field names for autocomplete
   const fieldNames = ['review_text', 'review_title', 'product_name', 'product_description', 'username', 'email'];
@@ -146,6 +154,48 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
     overflow: 'hidden',
   };
 
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDatasetDropdown(false);
+      }
+    };
+    if (showDatasetDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showDatasetDropdown]);
+
+  const dropdownStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '100%',
+    right: 0,
+    marginTop: '4px',
+    backgroundColor: 'rgba(26, 35, 50, 0.95)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '6px',
+    padding: '4px',
+    minWidth: '180px',
+    zIndex: 1000,
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+  };
+
+  const dropdownItemStyle: React.CSSProperties = {
+    padding: '8px 12px',
+    color: '#E0E0E0',
+    fontSize: '12px',
+    cursor: 'pointer',
+    borderRadius: '4px',
+    transition: 'background-color 0.2s',
+  };
+
+  const dropdownItemActiveStyle: React.CSSProperties = {
+    ...dropdownItemStyle,
+    backgroundColor: 'rgba(54, 162, 239, 0.2)',
+    color: '#36A2EF',
+  };
+
   return (
     <div>
       <div style={editorWrapperStyle} onFocus={onFocus}>
@@ -156,7 +206,49 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
               Query Editor — modify your query below
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', position: 'relative' }}>
+            {onIndexChange && availableIndices.length > 0 && (
+              <div ref={dropdownRef} style={{ position: 'relative' }}>
+                <button
+                  style={buttonStyle}
+                  onClick={() => setShowDatasetDropdown(!showDatasetDropdown)}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                  }}
+                >
+                  Dataset: {selectedIndex || 'product_reviews'} ▼
+                </button>
+                {showDatasetDropdown && (
+                  <div style={dropdownStyle}>
+                    {availableIndices.map((index) => (
+                      <div
+                        key={index}
+                        style={selectedIndex === index ? dropdownItemActiveStyle : dropdownItemStyle}
+                        onClick={() => {
+                          onIndexChange(index);
+                          setShowDatasetDropdown(false);
+                        }}
+                        onMouseOver={(e) => {
+                          if (selectedIndex !== index) {
+                            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                          }
+                        }}
+                        onMouseOut={(e) => {
+                          if (selectedIndex !== index) {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }
+                        }}
+                      >
+                        {index}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {onHighlightingChange && (
               <button
                 style={buttonActiveStyle}

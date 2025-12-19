@@ -15,9 +15,18 @@ import type { QueryExample, SearchResponse, Document } from '../types';
 interface ExampleSectionProps {
   example: QueryExample;
   keyDisplayField: string;
+  selectedIndex?: string;
+  onIndexChange?: (index: string) => void;
+  availableIndices?: readonly string[];
 }
 
-export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisplayField }) => {
+export const ExampleSection: React.FC<ExampleSectionProps> = ({ 
+  example, 
+  keyDisplayField,
+  selectedIndex,
+  onIndexChange,
+  availableIndices,
+}) => {
   const storageKey = `query-lab-${example.id}`;
   const savedQuery = localStorage.getItem(storageKey);
   const [query, setQuery] = useState(savedQuery || example.template);
@@ -148,7 +157,8 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
 
     setLoading(true);
     try {
-      const result = await searchProducts(queryObj, example.index);
+      const indexToUse = selectedIndex || example.index;
+      const result = await searchProducts(queryObj, indexToUse);
       setResponse(result.data);
       setQueryTime(result.took);
       setGlowSide('results');
@@ -212,6 +222,9 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
               onHighlightingChange={setEnableHighlighting}
               onCopyQuery={() => navigator.clipboard.writeText(query)}
               tooltips={example.tooltips}
+              selectedIndex={selectedIndex || example.index}
+              onIndexChange={onIndexChange}
+              availableIndices={availableIndices}
             />
             <EuiSpacer size="m" />
             <EuiFlexGroup gutterSize="s">
@@ -239,6 +252,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
               queryTime={queryTime}
               example={example}
               currentQuery={query}
+              effectiveIndex={selectedIndex || example.index}
             />
           </div>
         </EuiFlexItem>

@@ -122,6 +122,7 @@ interface CompactResultsListProps {
   queryTime?: number | null;
   example: QueryExample;
   currentQuery: string;
+  effectiveIndex?: string;
 }
 
 export const CompactResultsList: React.FC<CompactResultsListProps> = ({
@@ -133,7 +134,9 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
   queryTime,
   example,
   currentQuery,
+  effectiveIndex,
 }) => {
+  const indexToUse = effectiveIndex || example.index;
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>('results');
@@ -162,7 +165,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
           }
         }
         if (queryText) {
-          analyzeText(queryText, example.index).then(setTokens).catch(() => {});
+          analyzeText(queryText, indexToUse).then(setTokens).catch(() => {});
         }
       } catch (e) {
         // Ignore parse errors
@@ -200,7 +203,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
     try {
       const queryObj = JSON.parse(currentQuery);
       const explainQuery = queryObj.query || queryObj;
-      const explain = await explainHit(example.index, docId, explainQuery);
+      const explain = await explainHit(indexToUse, docId, explainQuery);
       setExplainDataMap(prev => ({ ...prev, [docId]: explain }));
       setShowExplainPopup(docId);
     } catch (err) {

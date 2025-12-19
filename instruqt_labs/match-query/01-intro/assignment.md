@@ -22,6 +22,12 @@ tabs:
   title: Terminal
   type: terminal
   hostname: host-1
+- id: dataset-tab-001
+  title: Dataset
+  type: service
+  hostname: host-1
+  path: /dataset.html
+  port: 8000
 difficulty: basic
 timelimit: 180
 enhanced_loading: null
