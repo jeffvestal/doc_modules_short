@@ -1,6 +1,6 @@
-slug: bool-query-lab
+slug: docs_lab-bool-query
 id: bool-query-lab-001
-title: Bool Query Lab
+title: Docs Lab - Bool Query
 teaser: Learn how to use the bool query to combine multiple queries in Elasticsearch
 description: |
   This lab teaches you how to use the bool query, which allows you to combine multiple queries using boolean logic.

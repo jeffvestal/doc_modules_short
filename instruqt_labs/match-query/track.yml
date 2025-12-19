@@ -1,6 +1,6 @@
-slug: match-query-lab
+slug: docs_lab-match-query
 id: fr9y5rroreln
-title: Match Query Lab
+title: Docs Lab - Match Query
 teaser: Learn how to use the match query for full-text search in Elasticsearch
 description: |
   This lab teaches you how to use the match query, the most fundamental full-text query in Elasticsearch.

@@ -1,6 +1,6 @@
-slug: query-string-query-lab
+slug: docs_lab-query-string
 id: query-string-query-lab-001
-title: Query String Query Lab
+title: Docs Lab - Query String
 teaser: Learn how to use the query_string query for advanced search in Elasticsearch
 description: |
   This lab teaches you how to use the query_string query, which provides a strict syntax parser for complex searches.
