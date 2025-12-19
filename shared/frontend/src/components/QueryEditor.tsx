@@ -26,7 +26,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
     editorRef.current = editor;
     editor.updateOptions({
       minimap: { enabled: false },
-      fontSize: 13,
+      fontSize: 12,
       lineNumbers: 'on',
       scrollBeyondLastLine: false,
     });
@@ -51,8 +51,8 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
     <div>
       <div style={editorWrapperStyle} onFocus={onFocus}>
         <div style={headerStyle}>
-          <span style={{ fontSize: '14px' }}>✏️</span>
-          <span style={{ color: '#98A2B3', fontSize: '14px', fontWeight: 500 }}>
+          <span style={{ fontSize: '13px' }}>✏️</span>
+          <span style={{ color: '#98A2B3', fontSize: '13px', fontWeight: 500 }}>
             Query Editor — modify your query below
           </span>
         </div>
@@ -65,7 +65,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
           theme="vs-dark"
           options={{
             minimap: { enabled: false },
-            fontSize: 13,
+            fontSize: 12,
             lineNumbers: 'on',
             scrollBeyondLastLine: false,
             wordWrap: 'on',

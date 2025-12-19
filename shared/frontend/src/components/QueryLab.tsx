@@ -18,14 +18,14 @@ export const QueryLab: React.FC = () => {
   const backgroundStyle: React.CSSProperties = {
     background: `linear-gradient(180deg, ${AGENT_BUILDER_DARK} 0%, ${AGENT_BUILDER_MID} 50%, ${AGENT_BUILDER_DARK} 100%)`,
     minHeight: '100vh',
-    padding: '24px',
+    padding: '20px',
   };
 
   // Divider style between sections
   const dividerStyle: React.CSSProperties = {
     border: 'none',
     borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-    margin: '24px 0',
+    margin: '20px 0',
   };
 
   // Double divider style for header separation

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { EuiText, EuiEmptyPrompt } from '@elastic/eui';
+import { EuiText, EuiEmptyPrompt, EuiButton } from '@elastic/eui';
+import Editor from '@monaco-editor/react';
 import type { SearchResponse, Document } from '../types';
 
 interface CompactResultsListProps {
@@ -68,8 +69,8 @@ function getFieldValue(doc: Document, fieldName: string): string {
 
 // Row style for clickable result items
 const resultRowStyle: React.CSSProperties = {
-  padding: '12px 16px',
-  marginBottom: '8px',
+  padding: '10px 14px',
+  marginBottom: '6px',
   borderRadius: '8px',
   backgroundColor: 'rgba(255, 255, 255, 0.05)',
   border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -104,6 +105,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
 }) => {
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [showRawJson, setShowRawJson] = useState(false);
 
   if (loading) {
     return <EuiText>Loading results...</EuiText>;
@@ -139,45 +141,87 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
   const total = response.hits?.total?.value ?? hits.length;
   const top5Hits = hits.slice(0, 5);
 
+  const headerStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+  };
+
   return (
     <>
       <div>
-        <EuiText size="s" color="subdued" style={{ marginBottom: '12px' }}>
-          Top {top5Hits.length} of {total} results
-        </EuiText>
-        {top5Hits.length === 0 ? (
-          <EuiEmptyPrompt
-            title={<h3>No results found</h3>}
-            body={<p>Try adjusting your query</p>}
-          />
-        ) : (
-          <div>
-            {top5Hits.map((hit, index) => {
-              const fieldValue = getFieldValue(hit._source, keyField);
-              const displayValue = fieldValue || '(no title)';
-              const isHovered = hoveredIndex === index;
-
-              return (
-                <div
-                  key={hit._id}
-                  style={isHovered ? resultRowHoverStyle : resultRowStyle}
-                  onClick={() => {
-                    setSelectedDoc(hit._source);
-                    onDocClick(hit._source);
-                  }}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <span style={{ color: '#fff', fontSize: '14px', flex: 1 }}>
-                    {displayValue}
-                  </span>
-                  <span style={scoreBadgeStyle}>
-                    {hit._score.toFixed(2)}
-                  </span>
-                </div>
-              );
-            })}
+        <div style={headerStyle}>
+          <EuiText size="s" color="subdued" style={{ margin: 0 }}>
+            Top {top5Hits.length} of {total} results
+          </EuiText>
+          <EuiButton
+            size="s"
+            onClick={() => setShowRawJson(!showRawJson)}
+            style={{
+              backgroundColor: showRawJson ? '#36A2EF' : 'transparent',
+              borderColor: showRawJson ? '#36A2EF' : 'rgba(255, 255, 255, 0.2)',
+              color: showRawJson ? '#fff' : '#98A2B3',
+            }}
+          >
+            RAW JSON
+          </EuiButton>
+        </div>
+        {showRawJson ? (
+          <div style={{ height: '400px', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
+            <Editor
+              height="400px"
+              defaultLanguage="json"
+              value={JSON.stringify(response, null, 2)}
+              theme="vs-dark"
+              options={{
+                readOnly: true,
+                minimap: { enabled: false },
+                fontSize: 12,
+                lineNumbers: 'on',
+                scrollBeyondLastLine: false,
+                wordWrap: 'on',
+                padding: { top: 12 },
+              }}
+            />
           </div>
+        ) : (
+          <>
+            {top5Hits.length === 0 ? (
+              <EuiEmptyPrompt
+                title={<h3>No results found</h3>}
+                body={<p>Try adjusting your query</p>}
+              />
+            ) : (
+              <div>
+                {top5Hits.map((hit, index) => {
+                  const fieldValue = getFieldValue(hit._source, keyField);
+                  const displayValue = fieldValue || '(no title)';
+                  const isHovered = hoveredIndex === index;
+
+                  return (
+                    <div
+                      key={hit._id}
+                      style={isHovered ? resultRowHoverStyle : resultRowStyle}
+                      onClick={() => {
+                        setSelectedDoc(hit._source);
+                        onDocClick(hit._source);
+                      }}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <span style={{ color: '#fff', fontSize: '13px', flex: 1 }}>
+                        {displayValue}
+                      </span>
+                      <span style={scoreBadgeStyle}>
+                        {hit._score.toFixed(2)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
       </div>
 

@@ -68,7 +68,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
   const boxBaseStyle: React.CSSProperties = {
     borderRadius: '16px',
     border: '1px solid rgba(255, 255, 255, 0.1)',
-    padding: '24px',
+    padding: '20px',
     background: 'rgba(26, 35, 50, 0.4)',
     transition: 'all 0.3s ease-in-out',
     height: '100%',
@@ -86,17 +86,17 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
         <h2 style={{ color: '#fff', marginBottom: '4px' }}>{example.title}</h2>
       </EuiTitle>
       <EuiText>
-        <p style={{ color: '#98A2B3', marginBottom: '48px' }}>{example.description}</p>
+        <p style={{ color: '#98A2B3', marginBottom: '40px', fontSize: '14px' }}>{example.description}</p>
       </EuiText>
 
       <EuiFlexGroup>
-        <EuiFlexItem>
+        <EuiFlexItem style={{ flexBasis: '50%' }}>
           <div style={glowSide === 'editor' ? boxGlowStyle : boxBaseStyle}>
             <QueryEditor
               query={query}
               onChange={setQuery}
               error={error}
-              height="200px"
+              height="180px"
               onFocus={() => setGlowSide('editor')}
             />
             <EuiSpacer size="m" />
@@ -114,7 +114,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
             </EuiFlexGroup>
           </div>
         </EuiFlexItem>
-        <EuiFlexItem>
+        <EuiFlexItem style={{ flexBasis: '50%' }}>
           <div style={glowSide === 'results' ? boxGlowStyle : boxBaseStyle}>
             <CompactResultsList
               response={response}
