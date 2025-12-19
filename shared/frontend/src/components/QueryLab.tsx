@@ -34,7 +34,7 @@ export const QueryLab: React.FC = () => {
     borderTop: '1px solid rgba(255, 255, 255, 0.2)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
     height: '4px',
-    margin: '24px 0',
+    margin: '8px 0',
   };
 
   return (
