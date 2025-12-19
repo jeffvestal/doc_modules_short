@@ -1,28 +1,28 @@
 ---
 slug: intro
-id: o7wtzu5g4opi
+id: 4pgspiyvaj3b
 type: challenge
 title: Understanding the Match Query
 teaser: Learn how the match query analyzes and searches text
 tabs:
-- id: 23pj26vwp3qk
+- id: dtvfh7tbywx1
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: bqxfgs10fdz6
+- id: qjyaexrbzrgw
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: 5fx0zjow7txm
+- id: iquv13bmj2sp
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 8e47jgx1wd0e
+- id: o1kf17qqiwn7
   title: Dataset
   type: service
   hostname: host-1

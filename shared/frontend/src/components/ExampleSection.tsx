@@ -66,9 +66,10 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 
   // Swap query field when selectedIndex changes
   useEffect(() => {
-    if (!selectedIndex || selectedIndex === example.index) {
-      return; // No change needed if using example's default index
-    }
+    if (!selectedIndex) return;
+
+    // Determine the effective index to use
+    const effectiveIndex = selectedIndex;
 
     try {
       const queryObj = JSON.parse(query);
@@ -79,8 +80,8 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       const currentField = detectFieldFromQuery(queryObj, queryType);
       
       if (currentField) {
-        // Get the target field for the new index
-        const targetField = labConfig.searchFields[selectedIndex as keyof typeof labConfig.searchFields];
+        // Get the target field for the selected index
+        const targetField = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
         
         // Only swap if the current field is different from target and is a known search field
         const knownSearchFields = Object.values(labConfig.searchFields);
@@ -89,8 +90,8 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
                           knownSearchFields.includes(currentField);
         
         if (shouldSwap) {
-          // Get the sample query text for the new index
-          const sampleQueryText = labConfig.sampleQueries[selectedIndex as keyof typeof labConfig.sampleQueries];
+          // Get the sample query text for the selected index
+          const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
           
           // Use generic swap function
           const swappedQueryObj = swapQueryField(
@@ -111,7 +112,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       // Silently ignore the error
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex, example.index]); // Only depend on selectedIndex, not query to avoid loops
+  }, [selectedIndex]); // Trigger on any selectedIndex change
 
   // Keyboard shortcut handler
   useEffect(() => {

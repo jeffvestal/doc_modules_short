@@ -1,5 +1,5 @@
 slug: docs-lab-query-string
-id: query-string-query-lab-001
+id: djhhemn4y9ox
 title: Docs Lab - Query String
 teaser: Learn how to use the query_string query for advanced search in Elasticsearch
 description: |
@@ -7,10 +7,10 @@ description: |
   You'll learn how to use operators, wildcards, and field-specific syntax.
 icon: ""
 tags:
+- query-string-query
 - elasticsearch
 - full-text-queries
 - query-dsl
-- query-string-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -27,6 +27,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "11011367315467332051"
+checksum: "15661409177987405146"
 enhanced_loading: false
-

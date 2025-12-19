@@ -1,5 +1,5 @@
 slug: docs-lab-match-query
-id: fr9y5rroreln
+id: sx5a9m2qencc
 title: Docs Lab - Match Query
 teaser: Learn how to use the match query for full-text search in Elasticsearch
 description: |
@@ -27,5 +27,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "11011367315467332051"
+checksum: "5699948186974565548"
 enhanced_loading: false

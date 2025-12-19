@@ -1,28 +1,28 @@
 ---
 slug: intro
-id: query-string-intro-001
+id: atoi3n7frg3r
 type: challenge
 title: Understanding the Query String Query
 teaser: Learn how the query_string query parses and searches text
 tabs:
-- id: 23pj26vwp3qk
+- id: 8rn8hpxwd2ow
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: bqxfgs10fdz6
+- id: 8cah3rdzkcay
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: 5fx0zjow7txm
+- id: vvwosmrx60yr
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 8e47jgx1wd0e
+- id: huedjksnnury
   title: Dataset
   type: service
   hostname: host-1

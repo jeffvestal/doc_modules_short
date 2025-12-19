@@ -1,28 +1,28 @@
 ---
 slug: intro
-id: bool-intro-001
+id: ke9qcf8mngwj
 type: challenge
 title: Understanding the Bool Query
 teaser: Learn how the bool query combines multiple queries
 tabs:
-- id: 23pj26vwp3qk
+- id: dchzc590irrm
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: bqxfgs10fdz6
+- id: uan6cz25oac4
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: 5fx0zjow7txm
+- id: ngmvmyrpsetv
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 8e47jgx1wd0e
+- id: bc4vdop4yuyw
   title: Dataset
   type: service
   hostname: host-1
