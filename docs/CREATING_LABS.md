@@ -50,30 +50,58 @@ Create a lab-specific config file that will be injected into the frontend:
 
 ```typescript
 // shared/frontend/src/config/labs/your-query-type.ts
+import type { LabConfig } from '../types';
+
 export const labConfig: LabConfig = {
   queryType: 'your-query-type',
   displayName: 'Your Query Type',
+  description: 'Description from the doc page',
   docUrl: 'https://www.elastic.co/docs/reference/...',
-  introQuery: {
-    description: "Example description",
-    template: `{
+  
+  keyDisplayFields: {
+    products: 'product_name',
+    product_reviews: 'review_title',
+    product_users: 'username',
+  },
+  
+  searchFields: {
+    products: 'product_description',
+    product_reviews: 'review_text',
+    product_users: 'interests',
+  },
+  
+  sampleQueries: {
+    products: 'wireless bluetooth',
+    product_reviews: 'comfortable durable',
+    product_users: 'technology gaming',
+  },
+  
+  examples: [
+    {
+      id: 'example-1',
+      title: 'Example Title',
+      description: 'What this example demonstrates',
+      template: `{
   "query": {
     "your-query-type": {
       // template here
     }
   }
 }`,
-    hints: ['Hint 1', 'Hint 2'],
-  },
-  challenge: {
-    goal: "Challenge goal description",
-    validation: {
-      mustInclude: ['your-query-type', 'field-name'],
-      expectedResultIds: ['WF-CAM-TEN-30BD9DBB'],
+      index: 'product_reviews',
+      tryThis: [
+        'Suggestion 1',
+        'Suggestion 2',
+      ],
+      tooltips: {
+        'parameter-name': 'Tooltip explaining the parameter',
+      },
     },
-  },
+  ],
 };
 ```
+
+**Note**: Parse examples from the doc page first, then supplement with additional examples if needed.
 
 ## Step 4: Create Assignment Files
 
@@ -164,6 +192,25 @@ Copy `match-query/track_scripts/setup-kubernetes-vm` and adjust:
 
 ## Step 7: Build and Deploy
 
+### Option 1: Use Deploy Script (Recommended)
+
+The deploy script automatically builds, copies assets, commits, and pushes:
+
+```bash
+./scripts/deploy-to-instruqt.sh
+```
+
+This script:
+1. Builds the frontend (`npm run build`)
+2. Copies build to `shared/backend/static/`
+3. Commits changes
+4. Pushes to GitHub
+5. Pushes to Instruqt
+
+**Important**: Always use this script when deploying - it ensures the pre-built assets are committed so Instruqt sandboxes don't need to build at startup.
+
+### Option 2: Manual Build
+
 1. Build the frontend with your lab config:
    ```bash
    cd shared/frontend
@@ -171,10 +218,22 @@ Copy `match-query/track_scripts/setup-kubernetes-vm` and adjust:
    npm run build
    ```
 
-2. Deploy to Instruqt:
+2. Copy to backend static:
    ```bash
-   # Use Instruqt CLI or web UI to deploy
-   instruqt track deploy instruqt_labs/your-query-type
+   cp -r shared/frontend/dist/* shared/backend/static/
+   ```
+
+3. Commit and push:
+   ```bash
+   git add shared/backend/static
+   git commit -m "Build frontend for your-query-type"
+   git push origin main
+   ```
+
+4. Deploy to Instruqt:
+   ```bash
+   cd instruqt_labs/your-query-type
+   instruqt track push --force
    ```
 
 ## Tips

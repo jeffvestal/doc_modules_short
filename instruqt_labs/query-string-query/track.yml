@@ -1,0 +1,32 @@
+slug: query-string-query-lab
+id: query-string-query-lab-001
+title: Query String Query Lab
+teaser: Learn how to use the query_string query for advanced search in Elasticsearch
+description: |
+  This lab teaches you how to use the query_string query, which provides a strict syntax parser for complex searches.
+  You'll learn how to use operators, wildcards, and field-specific syntax.
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- query-string-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "11011367315467332051"
+enhanced_loading: false
+

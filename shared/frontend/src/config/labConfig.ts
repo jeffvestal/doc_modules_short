@@ -21,9 +21,9 @@ export const labConfig: LabConfig = {
     product_users: 'interests',
   },
   sampleQueries: {
-    products: 'wireless bluetooth',
+    products: 'premium wireless',
     product_reviews: 'comfortable durable',
-    product_users: 'technology gaming',
+    product_users: 'Electronics Books',
   },
   
   examples: [

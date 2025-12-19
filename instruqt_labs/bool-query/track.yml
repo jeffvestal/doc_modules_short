@@ -1,0 +1,32 @@
+slug: bool-query-lab
+id: bool-query-lab-001
+title: Bool Query Lab
+teaser: Learn how to use the bool query to combine multiple queries in Elasticsearch
+description: |
+  This lab teaches you how to use the bool query, which allows you to combine multiple queries using boolean logic.
+  You'll learn about must, should, must_not, and filter clauses.
+icon: ""
+tags:
+- elasticsearch
+- compound-queries
+- query-dsl
+- bool-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "11011367315467332051"
+enhanced_loading: false
+

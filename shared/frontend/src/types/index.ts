@@ -86,6 +86,13 @@ export interface QueryExample {
   tooltips?: Record<string, string>;
 }
 
+export type QueryFieldPath = 'inline' | 'default_field' | 'fields' | 'nested';
+
+export interface QueryStructure {
+  type: string; // e.g., 'match', 'query_string', 'bool'
+  fieldPath: QueryFieldPath; // How fields are specified in this query type
+}
+
 export interface LabConfig {
   queryType: string;
   displayName: string;
@@ -107,5 +114,6 @@ export interface LabConfig {
     product_reviews: string;
     product_users: string;
   };
+  queryStructure?: QueryStructure; // Optional: defaults to 'inline' for match queries
 }
 

@@ -10,6 +10,7 @@ import {
 import { QueryEditor } from './QueryEditor';
 import { CompactResultsList } from './CompactResultsList';
 import { searchProducts, validateQuery } from '../lib/elasticsearch';
+import { detectFieldFromQuery, swapQueryField, detectQueryType } from '../lib/queryFieldUtils';
 import { labConfig } from '../config/labConfig';
 import type { QueryExample, SearchResponse, Document } from '../types';
 
@@ -71,51 +72,38 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 
     try {
       const queryObj = JSON.parse(query);
-      if (queryObj?.query?.match) {
-        const matchQuery = queryObj.query.match;
-        const currentField = detectFieldFromQuery(queryObj);
+      const queryType = detectQueryType(queryObj);
+      
+      if (!queryType) return; // Can't detect query type
+      
+      const currentField = detectFieldFromQuery(queryObj, queryType);
+      
+      if (currentField) {
+        // Get the target field for the new index
+        const targetField = labConfig.searchFields[selectedIndex as keyof typeof labConfig.searchFields];
         
-        if (currentField) {
-          // Get the target field for the new index
-          const targetField = labConfig.searchFields[selectedIndex as keyof typeof labConfig.searchFields];
+        // Only swap if the current field is different from target and is a known search field
+        const knownSearchFields = Object.values(labConfig.searchFields);
+        const shouldSwap = targetField && 
+                          currentField !== targetField && 
+                          knownSearchFields.includes(currentField);
+        
+        if (shouldSwap) {
+          // Get the sample query text for the new index
+          const sampleQueryText = labConfig.sampleQueries[selectedIndex as keyof typeof labConfig.sampleQueries];
           
-          // Only swap if the current field is different from target and is a known search field
-          const knownSearchFields = Object.values(labConfig.searchFields);
-          const shouldSwap = targetField && 
-                            currentField !== targetField && 
-                            knownSearchFields.includes(currentField);
+          // Use generic swap function
+          const swappedQueryObj = swapQueryField(
+            queryObj,
+            currentField,
+            targetField,
+            sampleQueryText,
+            queryType
+          );
           
-          if (shouldSwap) {
-            // Get the sample query text for the new index
-            const sampleQueryText = labConfig.sampleQueries[selectedIndex as keyof typeof labConfig.sampleQueries];
-            
-            // Get the current field value (could be string or object)
-            const fieldValue = matchQuery[currentField];
-            
-            // Create new match query with swapped field and query text
-            const newMatchQuery: any = {};
-            
-            if (typeof fieldValue === 'string') {
-              // Short form: { "field": "text" }
-              newMatchQuery[targetField] = sampleQueryText;
-            } else if (typeof fieldValue === 'object' && fieldValue !== null) {
-              // Full form: { "field": { "query": "text", ...other params } }
-              newMatchQuery[targetField] = {
-                ...fieldValue,
-                query: sampleQueryText,
-              };
-            } else {
-              // Fallback: just swap the field
-              newMatchQuery[targetField] = fieldValue;
-            }
-            
-            // Update the query object
-            queryObj.query.match = newMatchQuery;
-            
-            // Update the query string with proper formatting
-            const updatedQuery = JSON.stringify(queryObj, null, 2);
-            setQuery(updatedQuery);
-          }
+          // Update the query string with proper formatting
+          const updatedQuery = JSON.stringify(swappedQueryObj, null, 2);
+          setQuery(updatedQuery);
         }
       }
     } catch (err) {
@@ -146,7 +134,8 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
             return;
           }
           if (enableHighlighting) {
-            const field = detectFieldFromQuery(queryObj);
+            const queryType = detectQueryType(queryObj);
+            const field = detectFieldFromQuery(queryObj, queryType);
             if (field) {
               queryObj.highlight = { fields: { [field]: {} } };
             }
@@ -175,19 +164,6 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     };
   }, [query, enableHighlighting, example.index]);
 
-  // Helper to detect field from query
-  const detectFieldFromQuery = (queryObj: any): string | null => {
-    if (queryObj?.query?.match) {
-      const matchQuery = queryObj.query.match;
-      // Handle both { "field": "value" } and { "field": { "query": "value" } }
-      for (const [field, value] of Object.entries(matchQuery)) {
-        if (typeof value === 'string' || (typeof value === 'object' && value !== null && 'query' in value)) {
-          return field;
-        }
-      }
-    }
-    return null;
-  };
 
   const handleRunQuery = async () => {
     setError(null);
@@ -208,7 +184,8 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 
     // Add highlighting if enabled
     if (enableHighlighting) {
-      const field = detectFieldFromQuery(queryObj);
+      const queryType = detectQueryType(queryObj);
+      const field = detectFieldFromQuery(queryObj, queryType);
       if (field) {
         queryObj.highlight = {
           fields: {

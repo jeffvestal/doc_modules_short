@@ -50,8 +50,12 @@ Each query type is a **standalone Instruqt track** - users can access any lab in
 ### 2. Shared Frontend
 Frontend code is shared, with **lab-specific config injected** at build/deploy time. Each lab configures:
 - Which Elasticsearch index to query (`products`, `product_reviews`, or `product_users`)
-- Which fields to display in results
-- Which fields are typically searched
+- Which fields to display in results (`keyDisplayFields`)
+- Which fields are typically searched (`searchFields`)
+- Sample query text per dataset (`sampleQueries`)
+- Query examples with descriptions, templates, and tooltips
+
+**Performance Optimization**: Frontend is pre-built locally and committed to `shared/backend/static/`. Instruqt setup scripts clone only the backend folder (with pre-built assets), skipping the build step entirely for faster sandbox startup (~60-90 seconds saved).
 
 This reduces duplication while allowing customization per query type.
 
@@ -104,10 +108,11 @@ doc_modules_short/
 
 ## Known Limitations / TODOs
 
-1. **Frontend serving**: Setup script serves frontend via Python HTTP server
-2. **Lab config injection**: Currently manual - could be automated via build script
+1. **Frontend serving**: Backend serves pre-built frontend from `static/` directory
+2. **Lab config injection**: Use `./scripts/deploy-to-instruqt.sh` to build and deploy
 3. **Snapshot configuration**: Snapshot repository and name need to be configured in setup script
 4. **Error handling**: Could be more robust in some places
+5. **Query type support**: Currently optimized for `match` queries; generic field detection needed for other types
 
 ## Success Criteria
 
