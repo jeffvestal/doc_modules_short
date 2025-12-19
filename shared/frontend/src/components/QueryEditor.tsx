@@ -1,37 +1,32 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { EuiSpacer, EuiCallOut } from '@elastic/eui';
 
-// Agent Builder-style brighter blue border
-const editorContainerStyle: React.CSSProperties = {
-  borderRadius: '16px',
-  border: '2px solid #36A2EF',
-  boxShadow: '0 0 20px rgba(54, 162, 239, 0.4)',
-  overflow: 'hidden',
-  transition: 'box-shadow 0.2s ease-in-out',
-};
-
-const editorContainerFocusedStyle: React.CSSProperties = {
-  ...editorContainerStyle,
-  boxShadow: '0 0 30px rgba(54, 162, 239, 0.6)',
-};
+// Removed Agent Builder-style brighter blue border styles from here as they moved to parent container
+// ... existing code ...
 
 interface QueryEditorProps {
   query: string;
   onChange: (value: string) => void;
   error: string | null;
   height?: string;
+  onFocus?: () => void;
 }
 
-export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, error, height = '300px' }) => {
+export const QueryEditor: React.FC<QueryEditorProps> = ({ 
+  query, 
+  onChange, 
+  error, 
+  height = '300px',
+  onFocus
+}) => {
   const editorRef = useRef<any>(null);
-  const [isFocused, setIsFocused] = useState(false);
 
   const handleEditorDidMount = (editor: any) => {
     editorRef.current = editor;
     editor.updateOptions({
       minimap: { enabled: false },
-      fontSize: 14,
+      fontSize: 13,
       lineNumbers: 'on',
       scrollBeyondLastLine: false,
     });
@@ -46,13 +41,15 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, error
     backgroundColor: 'transparent',
   };
 
+  const editorWrapperStyle: React.CSSProperties = {
+    borderRadius: '16px',
+    border: '1px solid #343741',
+    overflow: 'hidden',
+  };
+
   return (
     <div>
-      <div 
-        style={isFocused ? editorContainerFocusedStyle : editorContainerStyle}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      >
+      <div style={editorWrapperStyle} onFocus={onFocus}>
         <div style={headerStyle}>
           <span style={{ fontSize: '14px' }}>✏️</span>
           <span style={{ color: '#98A2B3', fontSize: '14px', fontWeight: 500 }}>
@@ -68,7 +65,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({ query, onChange, error
           theme="vs-dark"
           options={{
             minimap: { enabled: false },
-            fontSize: 14,
+            fontSize: 13,
             lineNumbers: 'on',
             scrollBeyondLastLine: false,
             wordWrap: 'on',

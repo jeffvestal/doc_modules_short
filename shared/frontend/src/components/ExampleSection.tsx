@@ -22,6 +22,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [glowSide, setGlowSide] = useState<'editor' | 'results'>('editor');
 
   const handleRunQuery = async () => {
     setError(null);
@@ -44,6 +45,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
     try {
       const result = await searchProducts(queryObj, example.index);
       setResponse(result);
+      setGlowSide('results');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to execute query');
       setResponse(null);
@@ -56,10 +58,26 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
     setQuery(example.template);
     setResponse(null);
     setError(null);
+    setGlowSide('editor');
   };
 
   const handleDocClick = (_doc: Document) => {
     // Handled by CompactResultsList modal
+  };
+
+  const boxBaseStyle: React.CSSProperties = {
+    borderRadius: '16px',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    padding: '24px',
+    background: 'rgba(26, 35, 50, 0.4)',
+    transition: 'all 0.3s ease-in-out',
+    height: '100%',
+  };
+
+  const boxGlowStyle: React.CSSProperties = {
+    ...boxBaseStyle,
+    border: '2px solid #36A2EF',
+    boxShadow: '0 0 30px rgba(54, 162, 239, 0.4)',
   };
 
   return (
@@ -73,13 +91,14 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
 
       <EuiFlexGroup>
         <EuiFlexItem>
-          <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
-          <QueryEditor
-            query={query}
-            onChange={setQuery}
-            error={error}
-            height="200px"
-          />
+          <div style={glowSide === 'editor' ? boxGlowStyle : boxBaseStyle}>
+            <QueryEditor
+              query={query}
+              onChange={setQuery}
+              error={error}
+              height="200px"
+              onFocus={() => setGlowSide('editor')}
+            />
             <EuiSpacer size="m" />
             <EuiFlexGroup gutterSize="s">
               <EuiFlexItem grow={false}>
@@ -96,7 +115,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({ example, keyDisp
           </div>
         </EuiFlexItem>
         <EuiFlexItem>
-          <div style={{ borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px', background: 'rgba(26, 35, 50, 0.4)' }}>
+          <div style={glowSide === 'results' ? boxGlowStyle : boxBaseStyle}>
             <CompactResultsList
               response={response}
               loading={loading}
