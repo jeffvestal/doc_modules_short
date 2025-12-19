@@ -86,10 +86,28 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
                             knownSearchFields.includes(currentField);
           
           if (shouldSwap) {
-            // Create new match query with swapped field
+            // Get the sample query text for the new index
+            const sampleQueryText = labConfig.sampleQueries[selectedIndex as keyof typeof labConfig.sampleQueries];
+            
+            // Get the current field value (could be string or object)
             const fieldValue = matchQuery[currentField];
+            
+            // Create new match query with swapped field and query text
             const newMatchQuery: any = {};
-            newMatchQuery[targetField] = fieldValue;
+            
+            if (typeof fieldValue === 'string') {
+              // Short form: { "field": "text" }
+              newMatchQuery[targetField] = sampleQueryText;
+            } else if (typeof fieldValue === 'object' && fieldValue !== null) {
+              // Full form: { "field": { "query": "text", ...other params } }
+              newMatchQuery[targetField] = {
+                ...fieldValue,
+                query: sampleQueryText,
+              };
+            } else {
+              // Fallback: just swap the field
+              newMatchQuery[targetField] = fieldValue;
+            }
             
             // Update the query object
             queryObj.query.match = newMatchQuery;

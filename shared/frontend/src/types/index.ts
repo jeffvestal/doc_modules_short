@@ -102,5 +102,10 @@ export interface LabConfig {
     product_reviews: string;
     product_users: string;
   };
+  sampleQueries: {
+    products: string;
+    product_reviews: string;
+    product_users: string;
+  };
 }
 

@@ -20,6 +20,11 @@ export const labConfig: LabConfig = {
     product_reviews: 'review_text',
     product_users: 'interests',
   },
+  sampleQueries: {
+    products: 'wireless bluetooth',
+    product_reviews: 'comfortable durable',
+    product_users: 'technology gaming',
+  },
   
   examples: [
     {
