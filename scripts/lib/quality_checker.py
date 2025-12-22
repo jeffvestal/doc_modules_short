@@ -137,6 +137,13 @@ class QualityChecker:
         
         # Check examples have required fields
         examples = lab_config.get('examples', [])
+        
+        # Check minimum example count
+        if len(examples) == 0:
+            warnings.append({
+                'type': 'no_examples',
+                'message': "No examples generated - lab config has empty examples array"
+            })
         example_required = ['id', 'title', 'description', 'template', 'index']
         
         for i, example in enumerate(examples):

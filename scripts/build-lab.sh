@@ -88,7 +88,9 @@ if npm run build; then
 else
   echo "✗ Build failed, restoring original config"
   cd "$PROJECT_ROOT/shared/frontend/src/config"
-  mv labConfig.ts.backup labConfig.ts
+  if [ -f labConfig.ts.backup ]; then
+    mv labConfig.ts.backup labConfig.ts
+  fi
   exit 1
 fi
 
@@ -106,9 +108,11 @@ fi
 
 echo "✓ Files copied to shared/backend/$STATIC_FOLDER/"
 
-# Restore original labConfig.ts
+# Restore original labConfig.ts (if backup exists)
 cd "$PROJECT_ROOT/shared/frontend/src/config"
-mv labConfig.ts.backup labConfig.ts
+if [ -f labConfig.ts.backup ]; then
+  mv labConfig.ts.backup labConfig.ts
+fi
 
 echo ""
 echo "========================================"

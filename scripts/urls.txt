@@ -2,3 +2,4 @@ https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
 https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query
 https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query
 https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query
+https://www.elastic.co/docs/reference/query-languages/esql/esql-rest

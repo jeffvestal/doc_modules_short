@@ -304,6 +304,10 @@ Return ONLY the JSON object, no markdown formatting."""
                     'fieldPath': ''
                 }
             
+            # Ensure examples field exists (even if empty)
+            if 'examples' not in lab_config:
+                lab_config['examples'] = []
+            
             # Post-process: ensure tryThis is always an array of strings
             for example in lab_config.get('examples', []):
                 if 'tryThis' in example:
@@ -318,8 +322,52 @@ Return ONLY the JSON object, no markdown formatting."""
                             if isinstance(s, str) and len(s) > 5
                         ]
             
-            # Cache the result
-            if self.cache_manager:
+            # RETRY IF NO EXAMPLES GENERATED
+            examples = lab_config.get('examples', [])
+            if len(examples) == 0:
+                # Don't cache empty results - retry up to 3 times
+                for retry in range(3):
+                    print(f"[LLM] No examples generated, retrying ({retry + 1}/3)...")
+                    retry_response = self.client.chat.completions.create(
+                        model=self.model,
+                        messages=[
+                            {"role": "system", "content": system_prompt + "\n\nIMPORTANT: You MUST generate at least 4 examples. Do not return an empty examples array."},
+                            {"role": "user", "content": user_prompt}
+                        ],
+                        temperature=0.8,  # Slightly higher temperature for variety
+                        max_tokens=4000
+                    )
+                    retry_content = retry_response.choices[0].message.content.strip()
+                    
+                    # Remove markdown if present
+                    if retry_content.startswith('```'):
+                        lines = retry_content.split('\n')
+                        json_lines = []
+                        in_block = False
+                        for line in lines:
+                            if line.strip().startswith('```'):
+                                in_block = not in_block
+                                continue
+                            if in_block:
+                                json_lines.append(line)
+                        retry_content = '\n'.join(json_lines)
+                    
+                    try:
+                        retry_config = json.loads(retry_content)
+                        if len(retry_config.get('examples', [])) > 0:
+                            # Merge retry examples into lab_config
+                            lab_config['examples'] = retry_config.get('examples', [])
+                            print(f"[LLM] Retry successful - got {len(lab_config['examples'])} examples")
+                            break
+                    except json.JSONDecodeError:
+                        continue
+                
+                # Final check - if still no examples, raise error
+                if len(lab_config.get('examples', [])) == 0:
+                    raise ValueError("LLM failed to generate examples after 3 retries")
+            
+            # Only cache if we have examples
+            if self.cache_manager and len(lab_config.get('examples', [])) > 0:
                 self.cache_manager.set_llm_response(content_hash, lab_config)
             
             return lab_config

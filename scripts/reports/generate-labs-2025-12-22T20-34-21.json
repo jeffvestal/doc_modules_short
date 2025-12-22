@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-12-22T20:34:21.555125Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 39.03578209877014
+  },
+  "created_labs": [
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "example_count": 6,
+      "validation_passed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": []
+}

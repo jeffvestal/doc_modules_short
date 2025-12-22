@@ -34,7 +34,73 @@ Returns documents that contain an **exact** term in a provided field. You can us
 
 ## Examples
 
-This lab includes 0 examples demonstrating different aspects of the term_query query:
+This lab includes 6 examples demonstrating different aspects of the term_query query:
+
+
+### Find a product by exact ID
+This query retrieves a product document with the exact product_id of '12345'.
+
+
+**Try This:**
+
+- Change the value of 'product_id' to another exact ID in your dataset and observe the results.
+
+
+
+
+### Search for an exact product brand
+This query retrieves all products that have the exact brand name 'Acme'.
+
+
+**Try This:**
+
+- Replace 'Acme' with another brand name to see if products from that brand exist in your data.
+
+
+
+
+### Find reviews with a specific rating
+This query retrieves all reviews that have a rating of exactly 5.
+
+
+**Try This:**
+
+- Modify the 'value' field to another rating (e.g., 4 or 3) to see reviews with that rating.
+
+
+
+
+### Search for a verified purchase
+This query retrieves reviews where the purchase is marked as verified.
+
+
+**Try This:**
+
+- Toggle the 'value' between true and false to see reviews for verified and non-verified purchases.
+
+
+
+
+### Find a user by exact username
+This query retrieves a user document with the exact username 'johndoe'.
+
+
+**Try This:**
+
+- Replace 'johndoe' with another username to find a different user.
+
+
+
+
+### Find users based on trust score
+This query retrieves all users with a trust score of exactly 90.
+
+
+**Try This:**
+
+- Change the 'value' to a different trust score (e.g., 80 or 95) to find users with that score.
+
+
 
 
 
