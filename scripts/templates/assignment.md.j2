@@ -1,3 +1,43 @@
+---
+slug: intro
+id: placeholder-{{ slug | replace('-', '') }}
+type: challenge
+title: {{ display_name }} Lab
+teaser: Learn how to use the {{ query_type }} query in Elasticsearch
+tabs:
+- id: tab-querylab-{{ slug | replace('-', '') }}
+  title: Query Lab
+  type: service
+  hostname: host-1
+  path: /
+  port: 8000
+- id: tab-querylabfull-{{ slug | replace('-', '') }}
+  title: Query Lab (Full)
+  type: service
+  hostname: host-1
+  path: /
+  port: 8000
+  new_window: true
+- id: tab-terminal-{{ slug | replace('-', '') }}
+  title: Terminal
+  type: terminal
+  hostname: host-1
+- id: tab-dataset-{{ slug | replace('-', '') }}
+  title: Dataset
+  type: service
+  hostname: host-1
+  path: /dataset.html
+  port: 8000
+notes:
+- type: text
+  contents: |
+    # {{ display_name }} Lab
+    
+    Welcome to the interactive lab for the {{ query_type }} query!
+    
+    {{ description }}
+---
+
 # {{ display_name }} Lab
 
 Welcome to the interactive {{ display_name }} lab! This lab teaches you how to use the {{ query_type }} query in Elasticsearch.
