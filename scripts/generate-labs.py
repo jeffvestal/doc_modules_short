@@ -370,7 +370,7 @@ def main():
     # Save JSON report
     if not args.dry_run:
         report_path = report.save_json()
-        print(f"\nFull report saved to: {report_path}")
+        print(f"\nFull report saved to: {report_path}", flush=True)
     
     # Batch operations (if not dry-run)
     if not args.dry_run and results:
@@ -378,41 +378,41 @@ def main():
         
         if created_slugs and not args.skip_review and not args.yolo:
             # Pause for review
-            print(f"\n[Review] {len(created_slugs)} labs created. Review before deploying?")
+            print(f"\n[Review] {len(created_slugs)} labs created. Review before deploying?", flush=True)
             response = input("Deploy to GitHub and Instruqt? (Y/n): ").strip().lower()
             if response and response != 'y':
-                print("[Review] Deployment cancelled.")
+                print("[Review] Deployment cancelled.", flush=True)
                 sys.exit(0)
         
         if created_slugs:
             # Git commit and push
-            print("\n[Deploy] Committing changes...")
+            print("\n[Deploy] Committing changes...", flush=True)
             commit_message = f"Auto-generated labs: {', '.join(created_slugs)}"
             
             subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
             subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
             subprocess.run(['git', 'push', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
             
-            print("[Deploy] ✓ Changes pushed to GitHub")
+            print("[Deploy] ✓ Changes pushed to GitHub", flush=True)
             
             # Push to Instruqt
-            print("[Deploy] Pushing tracks to Instruqt...")
+            print("[Deploy] Pushing tracks to Instruqt...", flush=True)
             for slug in created_slugs:
                 track_dir = PROJECT_ROOT / "instruqt_labs" / f"docs-lab-{slug}"
                 if track_dir.exists():
-                    # Validate first
+                    # Validate first (run FROM the track directory)
                     subprocess.run(
-                        ['instruqt', 'track', 'validate', str(track_dir)],
-                        cwd=PROJECT_ROOT,
+                        ['instruqt', 'track', 'validate'],
+                        cwd=track_dir,
                         check=True
                     )
-                    # Push
+                    # Push (run FROM the track directory)
                     subprocess.run(
-                        ['instruqt', 'track', 'push', str(track_dir)],
-                        cwd=PROJECT_ROOT,
+                        ['instruqt', 'track', 'push', '--force'],
+                        cwd=track_dir,
                         check=True
                     )
-                    print(f"[Deploy] ✓ Pushed docs-lab-{slug}")
+                    print(f"[Deploy] ✓ Pushed docs-lab-{slug}", flush=True)
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):
