@@ -234,6 +234,12 @@ class TrackBuilder:
         self.build_track_yml(lab_config, slug, str(track_yml_path))
         files_created['track_yml'] = str(track_yml_path)
         
+        # Config.yml (VM infrastructure)
+        config_yml_path = track_dir / "config.yml"
+        template = self.env.get_template('config.yml.j2')
+        config_yml_path.write_text(template.render(), encoding='utf-8')
+        files_created['config_yml'] = str(config_yml_path)
+        
         # Assignment.md
         assignment_path = track_dir / "01-intro" / "assignment.md"
         self.build_assignment_md(lab_config, slug, str(assignment_path))
