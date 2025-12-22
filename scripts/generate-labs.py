@@ -15,6 +15,9 @@ from typing import List, Dict, Any, Optional
 lib_path = os.path.join(os.path.dirname(__file__), 'lib')
 sys.path.insert(0, lib_path)
 
+# Project root (parent of scripts directory)
+PROJECT_ROOT = Path(__file__).parent.parent
+
 from cache_manager import CacheManager
 from doc_parser import parse_documentation, normalize_url, extract_slug_from_url
 from es_validator import ESValidator
@@ -47,7 +50,7 @@ def check_existing_lab(slug: str, base_dir: str = "instruqt_labs") -> bool:
     Returns:
         True if lab exists
     """
-    track_dir = Path(base_dir) / f"docs-lab-{slug}"
+    track_dir = PROJECT_ROOT / base_dir / f"docs-lab-{slug}"
     config_path = Path("shared") / "frontend" / "src" / "config" / "labs" / f"{slug}Config.ts"
     return track_dir.exists() or config_path.exists()
 
@@ -386,25 +389,27 @@ def main():
             print("\n[Deploy] Committing changes...")
             commit_message = f"Auto-generated labs: {', '.join(created_slugs)}"
             
-            subprocess.run(['git', 'add', '-A'], check=True)
-            subprocess.run(['git', 'commit', '-m', commit_message], check=True)
-            subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+            subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
+            subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
+            subprocess.run(['git', 'push', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
             
             print("[Deploy] ✓ Changes pushed to GitHub")
             
             # Push to Instruqt
             print("[Deploy] Pushing tracks to Instruqt...")
             for slug in created_slugs:
-                track_dir = Path("instruqt_labs") / f"docs-lab-{slug}"
+                track_dir = PROJECT_ROOT / "instruqt_labs" / f"docs-lab-{slug}"
                 if track_dir.exists():
                     # Validate first
                     subprocess.run(
                         ['instruqt', 'track', 'validate', str(track_dir)],
+                        cwd=PROJECT_ROOT,
                         check=True
                     )
                     # Push
                     subprocess.run(
                         ['instruqt', 'track', 'push', str(track_dir)],
+                        cwd=PROJECT_ROOT,
                         check=True
                     )
                     print(f"[Deploy] ✓ Pushed docs-lab-{slug}")
