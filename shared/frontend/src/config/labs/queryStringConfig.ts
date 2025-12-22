@@ -1,6 +1,7 @@
 import type { LabConfig } from '../../types';
 
 export const queryStringConfig: LabConfig = {
+  queryLanguage: 'query_dsl',
   queryType: 'query_string',
   displayName: 'Query String Query',
   description: 'Returns documents based on a provided query string, using a parser with a strict syntax. This query uses a syntax to parse and split the provided query string based on operators, such as AND or NOT.',

@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-12-22T20:07:37.137334Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 4,
+    "total_time_seconds": 92.25138020515442
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "error": "Build failed: "
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: keyDisplayFields"
+    },
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: searchFields"
+    },
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: sampleQueries"
+    },
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    },
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: keyDisplayFields"
+    },
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: searchFields"
+    },
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: sampleQueries"
+    },
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    }
+  ]
+}

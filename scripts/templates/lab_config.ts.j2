@@ -1,0 +1,55 @@
+import type { LabConfig } from '../../types';
+
+export const {{ slug }}Config: LabConfig = {
+  queryLanguage: '{{ query_language | default("query_dsl") }}',
+  queryType: '{{ query_type | default("") }}',
+  displayName: '{{ display_name | default("") }}',
+  description: {{ (description | default("")) | tojson }},
+  docUrl: '{{ doc_url | default("") }}',
+
+  keyDisplayFields: {
+    products: '{{ (key_display_fields.products if key_display_fields else "") | default("product_name") }}',
+    product_reviews: '{{ (key_display_fields.product_reviews if key_display_fields else "") | default("review_title") }}',
+    product_users: '{{ (key_display_fields.product_users if key_display_fields else "") | default("username") }}',
+  },
+  searchFields: {
+    products: {{ ((search_fields.products if search_fields else "product_name") | default("product_name")) | tojson }},
+    product_reviews: {{ ((search_fields.product_reviews if search_fields else "review_text") | default("review_text")) | tojson }},
+    product_users: {{ ((search_fields.product_users if search_fields else "interests") | default("interests")) | tojson }},
+  },
+  sampleQueries: {
+    products: {{ ((sample_queries.products if sample_queries else "wireless") | default("wireless")) | tojson }},
+    product_reviews: {{ ((sample_queries.product_reviews if sample_queries else "comfortable") | default("comfortable")) | tojson }},
+    product_users: {{ ((sample_queries.product_users if sample_queries else "Electronics") | default("Electronics")) | tojson }},
+  },
+  queryStructure: {
+    type: '{{ query_structure.type if query_structure and query_structure.type else "inline" }}',
+    fieldPath: '{{ query_structure.field_path if query_structure and query_structure.field_path else "" }}',
+  },
+  examples: [
+{% for example in examples %}
+    {
+      id: '{{ example.id }}',
+      title: {{ example.title | tojson }},
+      description: {{ example.description | tojson }},
+      template: `{{ example.template | replace('`', '\\`') }}`,
+      index: '{{ example.index }}',
+{% if example.tryThis %}
+      tryThis: [
+{% for suggestion in example.tryThis %}
+        {{ suggestion | tojson }},
+{% endfor %}
+      ],
+{% endif %}
+{% if example.tooltips %}
+      tooltips: {
+{% for key, value in example.tooltips.items() %}
+        {{ key | tojson }}: {{ value | tojson }},
+{% endfor %}
+      },
+{% endif %}
+    },
+{% endfor %}
+  ],
+};
+

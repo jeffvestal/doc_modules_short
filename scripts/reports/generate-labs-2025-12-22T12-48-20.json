@@ -1,0 +1,48 @@
+{
+  "timestamp": "2025-12-22T12:48:20.333023Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 4,
+    "total_time_seconds": 2.050678014755249
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-22 00:00:00+00:00 and current time 2025-12-22 12:48:22.427915+00:00', 'type': 'expired_key', 'param': '97a31ed3b7e8c9dc8a78ff2b33548d79732ad29637f31f626cbf37e5196b4cea', 'code': '400'}}"
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-22 00:00:00+00:00 and current time 2025-12-22 12:48:23.085357+00:00', 'type': 'expired_key', 'param': 'sk-CrM8c4LZClR26V7VWk992g', 'code': '400'}}"
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "error": "Build failed: mv: labConfig.ts.backup: No such file or directory\n"
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    },
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    }
+  ]
+}

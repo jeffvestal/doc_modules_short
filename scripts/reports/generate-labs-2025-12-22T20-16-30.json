@@ -1,0 +1,39 @@
+{
+  "timestamp": "2025-12-22T20:16:30.878733Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 3,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 108.92091679573059
+  },
+  "created_labs": [
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "example_count": 6,
+      "validation_passed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "example_count": 6,
+      "validation_passed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "example_count": 5,
+      "validation_passed": true
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "error": "Build failed: "
+    }
+  ],
+  "validation_warnings": []
+}

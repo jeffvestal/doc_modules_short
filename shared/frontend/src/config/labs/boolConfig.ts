@@ -1,6 +1,7 @@
 import type { LabConfig } from '../../types';
 
 export const boolConfig: LabConfig = {
+  queryLanguage: 'query_dsl',
   queryType: 'bool',
   displayName: 'Bool Query',
   description: 'A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene BooleanQuery. It is built using one or more boolean clauses, each clause with a typed occurrence.',

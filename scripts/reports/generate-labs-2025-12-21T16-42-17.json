@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-12-21T16:42:17.883602Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 4,
+    "total_time_seconds": 1.8584790229797363
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "error": "LLM generation failed: Error code: 404 - {'detail': 'Not Found'}"
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "error": "LLM generation failed: Error code: 404 - {'detail': 'Not Found'}"
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "error": "LLM generation failed: Error code: 404 - {'detail': 'Not Found'}"
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "error": "LLM generation failed: Error code: 404 - {'detail': 'Not Found'}"
+    }
+  ],
+  "validation_warnings": []
+}

@@ -1,0 +1,30 @@
+slug: docs-lab-term-query
+id: placeholder
+title: Docs Lab - Term Query
+teaser: Learn how to use the term_query query in Elasticsearch
+description: |
+  Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- term-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "7981728951ed5b928d9b2d688b02bab8"
+enhanced_loading: false

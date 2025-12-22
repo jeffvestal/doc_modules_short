@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { EuiText, EuiEmptyPrompt } from '@elastic/eui';
 import Editor from '@monaco-editor/react';
-import type { SearchResponse, Document, QueryExample } from '../types';
+import type { SearchResponse, Document, QueryExample, EsqlResponse, QueryLanguage } from '../types';
 import { analyzeText, explainHit } from '../lib/elasticsearch';
 import type { AnalyzeResponse, ExplainResponse } from '../types';
+import { labConfig } from '../config/labConfig';
 
 // Custom modal styles (reused from ResultsPanel)
 const modalOverlayStyle: React.CSSProperties = {
@@ -111,10 +112,10 @@ const scoreBadgeStyle: React.CSSProperties = {
   fontFamily: 'monospace',
 };
 
-type ViewMode = 'results' | 'raw' | 'tokens';
+type ViewMode = 'results' | 'raw' | 'tokens' | 'breakdown';
 
 interface CompactResultsListProps {
-  response: SearchResponse | null;
+  response: SearchResponse | EsqlResponse | null;
   loading: boolean;
   error?: string | null;
   keyField: string;
@@ -218,11 +219,44 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
       navigator.clipboard.writeText(JSON.stringify(response, null, 2));
     } else if (viewMode === 'tokens' && tokens) {
       navigator.clipboard.writeText(JSON.stringify(tokens, null, 2));
+    } else if (viewMode === 'breakdown' && currentQuery) {
+      navigator.clipboard.writeText(currentQuery);
     }
   };
 
-  const hits = response?.hits?.hits || [];
-  const total = response?.hits?.total?.value ?? hits.length;
+  const queryLanguage: QueryLanguage = labConfig.queryLanguage || 'query_dsl';
+  const isEsql = queryLanguage === 'esql';
+  
+  // Handle different response formats
+  let hits: any[] = [];
+  let total = 0;
+  let esqlColumns: Array<{ name: string; type: string }> = [];
+  let esqlRows: any[][] = [];
+  
+  if (isEsql && response && 'columns' in response) {
+    // ES|QL columnar format
+    const esqlResponse = response as EsqlResponse;
+    esqlColumns = esqlResponse.columns || [];
+    esqlRows = esqlResponse.values || [];
+    // Convert columnar to row format for display
+    if (esqlColumns.length > 0 && esqlRows.length > 0) {
+      const rowCount = esqlRows[0]?.length || 0;
+      for (let i = 0; i < rowCount; i++) {
+        const row: any = {};
+        esqlColumns.forEach((col, colIdx) => {
+          row[col.name] = esqlRows[colIdx]?.[i];
+        });
+        hits.push({ _source: row, _id: `row-${i}` });
+      }
+    }
+    total = hits.length;
+  } else if (response && 'hits' in response) {
+    // Query DSL format
+    const searchResponse = response as SearchResponse;
+    hits = searchResponse.hits?.hits || [];
+    total = searchResponse.hits?.total?.value ?? hits.length;
+  }
+  
   const top5Hits = hits.slice(0, 5);
 
   const headerStyle: React.CSSProperties = {
@@ -258,6 +292,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
             {viewMode === 'results' && `Top ${top5Hits.length} of ${total} results`}
             {viewMode === 'raw' && 'Raw JSON Response'}
             {viewMode === 'tokens' && 'Analyzed Tokens'}
+            {viewMode === 'breakdown' && 'Query Breakdown'}
             {queryTime !== null && queryTime !== undefined && (
               <span style={{ marginLeft: '12px', color: '#36A2EF' }}>
                 • Took {queryTime}ms
@@ -265,7 +300,7 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
             )}
           </EuiText>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            {(viewMode === 'raw' || viewMode === 'tokens') && (
+            {(viewMode === 'raw' || viewMode === 'tokens' || viewMode === 'breakdown') && (
               <button
                 style={tabButtonStyle}
                 onClick={handleCopyResponse}
@@ -316,22 +351,41 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
           >
             RAW JSON
           </button>
-          <button
-            style={viewMode === 'tokens' ? tabButtonActiveStyle : tabButtonStyle}
-            onClick={() => setViewMode('tokens')}
-            onMouseOver={(e) => {
-              if (viewMode !== 'tokens') {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-              }
-            }}
-            onMouseOut={(e) => {
-              if (viewMode !== 'tokens') {
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }
-            }}
-          >
-            Tokens
-          </button>
+          {isEsql ? (
+            <button
+              style={viewMode === 'breakdown' ? tabButtonActiveStyle : tabButtonStyle}
+              onClick={() => setViewMode('breakdown')}
+              onMouseOver={(e) => {
+                if (viewMode !== 'breakdown') {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (viewMode !== 'breakdown') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
+              }}
+            >
+              Query Breakdown
+            </button>
+          ) : (
+            <button
+              style={viewMode === 'tokens' ? tabButtonActiveStyle : tabButtonStyle}
+              onClick={() => setViewMode('tokens')}
+              onMouseOver={(e) => {
+                if (viewMode !== 'tokens') {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (viewMode !== 'tokens') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
+              }}
+            >
+              Tokens
+            </button>
+          )}
         </div>
 
         {/* View Content */}
@@ -389,6 +443,43 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
           </div>
         )}
 
+        {viewMode === 'breakdown' && isEsql && (
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255, 255, 255, 0.02)', borderRadius: '8px' }}>
+            <EuiText size="s" style={{ color: '#98A2B3', lineHeight: '1.6' }}>
+              <div style={{ marginBottom: '12px' }}>
+                <strong style={{ color: '#fff' }}>ES|QL Query Breakdown:</strong>
+              </div>
+              <div style={{ fontFamily: 'monospace', fontSize: '13px', whiteSpace: 'pre-wrap' }}>
+                {currentQuery.split('|').map((part, idx) => (
+                  <div key={idx} style={{ marginBottom: '8px', paddingLeft: idx > 0 ? '16px' : '0' }}>
+                    <span style={{ color: '#36A2EF' }}>{idx === 0 ? 'FROM' : part.trim().split(' ')[0].toUpperCase()}</span>
+                    <span style={{ color: '#98A2B3' }}> {part.trim().substring(part.trim().indexOf(' ') + 1)}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <strong style={{ color: '#fff' }}>Explanation:</strong>
+                <div style={{ marginTop: '8px' }}>
+                  {currentQuery.includes('FROM') && (
+                    <div>• <strong>FROM</strong> selects the index to query</div>
+                  )}
+                  {currentQuery.includes('WHERE') && (
+                    <div>• <strong>WHERE</strong> filters documents matching conditions</div>
+                  )}
+                  {currentQuery.includes('KEEP') && (
+                    <div>• <strong>KEEP</strong> selects which columns to return</div>
+                  )}
+                  {currentQuery.includes('SORT') && (
+                    <div>• <strong>SORT</strong> orders results by specified field</div>
+                  )}
+                  {currentQuery.includes('LIMIT') && (
+                    <div>• <strong>LIMIT</strong> restricts the number of results returned</div>
+                  )}
+                </div>
+              </div>
+            </EuiText>
+          </div>
+        )}
 
         {viewMode === 'results' && (
           <>
@@ -441,25 +532,31 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
                             </div>
                           )}
                         </div>
-                        <button
-                          onClick={(e) => handleExplainClick(e, hit._id)}
-                          style={{
-                            background: isExplainOpen ? '#36A2EF' : 'rgba(54, 162, 239, 0.2)',
-                            border: 'none',
-                            color: isExplainOpen ? '#fff' : '#36A2EF',
-                            padding: '4px 8px',
-                            borderRadius: '4px',
-                            fontSize: '11px',
-                            cursor: 'pointer',
-                            marginRight: '8px',
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          {explainLoadingId === hit._id ? '...' : 'Why?'}
-                        </button>
-                        <span style={scoreBadgeStyle}>
-                          {hit._score.toFixed(2)}
-                        </span>
+                        {!isEsql && (
+                          <>
+                            <button
+                              onClick={(e) => handleExplainClick(e, hit._id)}
+                              style={{
+                                background: isExplainOpen ? '#36A2EF' : 'rgba(54, 162, 239, 0.2)',
+                                border: 'none',
+                                color: isExplainOpen ? '#fff' : '#36A2EF',
+                                padding: '4px 8px',
+                                borderRadius: '4px',
+                                fontSize: '11px',
+                                cursor: 'pointer',
+                                marginRight: '8px',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              {explainLoadingId === hit._id ? '...' : 'Why?'}
+                            </button>
+                            {hit._score !== undefined && (
+                              <span style={scoreBadgeStyle}>
+                                {hit._score.toFixed(2)}
+                              </span>
+                            )}
+                          </>
+                        )}
                       </div>
                       
                       {/* Inline explain popup */}

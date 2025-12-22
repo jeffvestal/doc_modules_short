@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-12-21T16:36:29.501527Z",
+  "summary": {
+    "total_urls": 3,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 3,
+    "total_time_seconds": 1.6978271007537842
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "error": "No state to update"
+    },
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "error": "No state to update"
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "error": "No state to update"
+    }
+  ],
+  "validation_warnings": []
+}

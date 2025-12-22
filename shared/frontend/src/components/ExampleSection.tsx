@@ -9,7 +9,7 @@ import {
 } from '@elastic/eui';
 import { QueryEditor } from './QueryEditor';
 import { CompactResultsList } from './CompactResultsList';
-import { searchProducts, validateQuery } from '../lib/elasticsearch';
+import { searchProducts, validateQuery, executeEsqlQuery, validateEsqlQuery } from '../lib/elasticsearch';
 import { detectFieldFromQuery, swapQueryField, detectQueryType } from '../lib/queryFieldUtils';
 import { labConfig } from '../config/labConfig';
 import type { QueryExample, SearchResponse, Document } from '../types';
@@ -64,9 +64,9 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     }
   }, [query, storageKey, example.template]);
 
-  // Swap query field when selectedIndex changes
+  // Swap query field when selectedIndex changes (only for Query DSL)
   useEffect(() => {
-    if (!selectedIndex) return;
+    if (!selectedIndex || labConfig.queryLanguage !== 'query_dsl') return;
 
     // Determine the effective index to use
     const effectiveIndex = selectedIndex;
@@ -80,11 +80,13 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       const currentField = detectFieldFromQuery(queryObj, queryType);
       
       if (currentField) {
-        // Get the target field for the selected index
-        const targetField = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
+        // Get the target field for the selected index (can be string or string[])
+        const targetFieldRaw = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
+        // If it's an array, use the first field; otherwise use as-is
+        const targetField = Array.isArray(targetFieldRaw) ? targetFieldRaw[0] : targetFieldRaw;
         
         // Only swap if the current field is different from target and is a known search field
-        const knownSearchFields = Object.values(labConfig.searchFields);
+        const knownSearchFields = Object.values(labConfig.searchFields).flat();
         const shouldSwap = targetField && 
                           currentField !== targetField && 
                           knownSearchFields.includes(currentField);
@@ -119,43 +121,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
         e.preventDefault();
-        // Call handleRunQuery directly
-        const runQuery = async () => {
-          setError(null);
-          let queryObj;
-          try {
-            queryObj = JSON.parse(query);
-          } catch (err) {
-            setError('Invalid JSON. Please check your query syntax.');
-            return;
-          }
-          const validation = validateQuery(queryObj);
-          if (!validation.isValid) {
-            setError(validation.error || 'Invalid query');
-            return;
-          }
-          if (enableHighlighting) {
-            const queryType = detectQueryType(queryObj);
-            const field = detectFieldFromQuery(queryObj, queryType);
-            if (field) {
-              queryObj.highlight = { fields: { [field]: {} } };
-            }
-          }
-          setLoading(true);
-          try {
-            const result = await searchProducts(queryObj, example.index);
-            setResponse(result.data);
-            setQueryTime(result.took);
-            setGlowSide('results');
-          } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to execute query');
-            setResponse(null);
-            setQueryTime(null);
-          } finally {
-            setLoading(false);
-          }
-        };
-        runQuery();
+        handleRunQuery();
       }
     };
 
@@ -163,46 +129,64 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [query, enableHighlighting, example.index]);
+  }, [query, enableHighlighting, example.index, selectedIndex]);
 
 
   const handleRunQuery = async () => {
     setError(null);
-
-    let queryObj;
-    try {
-      queryObj = JSON.parse(query);
-    } catch (err) {
-      setError('Invalid JSON. Please check your query syntax.');
-      return;
-    }
-
-    const validation = validateQuery(queryObj);
-    if (!validation.isValid) {
-      setError(validation.error || 'Invalid query');
-      return;
-    }
-
-    // Add highlighting if enabled
-    if (enableHighlighting) {
-      const queryType = detectQueryType(queryObj);
-      const field = detectFieldFromQuery(queryObj, queryType);
-      if (field) {
-        queryObj.highlight = {
-          fields: {
-            [field]: {},
-          },
-        };
-      }
-    }
-
     setLoading(true);
+
     try {
-      const indexToUse = selectedIndex || example.index;
-      const result = await searchProducts(queryObj, indexToUse);
-      setResponse(result.data);
-      setQueryTime(result.took);
-      setGlowSide('results');
+      if (labConfig.queryLanguage === 'esql') {
+        // ES|QL: query is a string, not JSON
+        const validation = validateEsqlQuery(query);
+        if (!validation.isValid) {
+          setError(validation.error || 'Invalid ES|QL query');
+          setLoading(false);
+          return;
+        }
+
+        const result = await executeEsqlQuery(query);
+        setResponse(result.data);
+        setQueryTime(result.took);
+        setGlowSide('results');
+      } else {
+        // Query DSL: query is JSON
+        let queryObj;
+        try {
+          queryObj = JSON.parse(query);
+        } catch (err) {
+          setError('Invalid JSON. Please check your query syntax.');
+          setLoading(false);
+          return;
+        }
+
+        const validation = validateQuery(queryObj);
+        if (!validation.isValid) {
+          setError(validation.error || 'Invalid query');
+          setLoading(false);
+          return;
+        }
+
+        // Add highlighting if enabled (Query DSL only)
+        if (enableHighlighting) {
+          const queryType = detectQueryType(queryObj);
+          const field = detectFieldFromQuery(queryObj, queryType);
+          if (field) {
+            queryObj.highlight = {
+              fields: {
+                [field]: {},
+              },
+            };
+          }
+        }
+
+        const indexToUse = selectedIndex || example.index;
+        const result = await searchProducts(queryObj, indexToUse);
+        setResponse(result.data);
+        setQueryTime(result.took);
+        setGlowSide('results');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to execute query');
       setResponse(null);

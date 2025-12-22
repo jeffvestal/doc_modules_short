@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-12-21T19:14:28.423257Z",
+  "summary": {
+    "total_urls": 2,
+    "successfully_created": 2,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 31.153720140457153
+  },
+  "created_labs": [
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "example_count": 6,
+      "validation_passed": false
+    },
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "example_count": 6,
+      "validation_passed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    }
+  ]
+}

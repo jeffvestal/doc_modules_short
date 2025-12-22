@@ -1,0 +1,30 @@
+{
+  "products": {
+    "fields": ["product_id", "product_name", "product_description", "product_category", "product_brand", "product_price"],
+    "searchable_text_fields": ["product_name", "product_description"],
+    "key_display_field": "product_name",
+    "esql_examples": [
+      "FROM products | WHERE product_description LIKE '*wireless*' | LIMIT 10",
+      "FROM products | WHERE product_name LIKE '*premium*' | KEEP product_name, product_price | SORT product_price DESC"
+    ]
+  },
+  "product_reviews": {
+    "fields": ["review_id", "product_id", "review_title", "review_text", "review_rating", "review_date", "review_user_id", "reviewer_name", "verified_purchase", "helpful_votes"],
+    "searchable_text_fields": ["review_title", "review_text"],
+    "key_display_field": "review_title",
+    "esql_examples": [
+      "FROM product_reviews | WHERE review_text LIKE '*comfortable*' | LIMIT 10",
+      "FROM product_reviews | WHERE review_text LIKE '*durable*' OR review_text LIKE '*comfortable*' | KEEP review_title, review_rating | SORT review_rating DESC"
+    ]
+  },
+  "product_users": {
+    "fields": ["user_id", "username", "email", "member_since", "account_type", "location_city", "location_state", "location_country", "location", "age_group", "occupation", "interests", "total_reviews_count", "avg_rating_given", "verified_purchaser", "trust_score"],
+    "searchable_text_fields": ["interests"],
+    "key_display_field": "username",
+    "esql_examples": [
+      "FROM product_users | WHERE interests LIKE '*Electronics*' | LIMIT 10",
+      "FROM product_users | WHERE interests LIKE '*Books*' OR interests LIKE '*Electronics*' | KEEP username, interests | LIMIT 10"
+    ]
+  }
+}
+

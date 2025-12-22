@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { EuiSpacer, EuiCallOut } from '@elastic/eui';
+import { labConfig } from '../config/labConfig';
 
 // Removed Agent Builder-style brighter blue border styles from here as they moved to parent container
 // ... existing code ...
@@ -38,9 +39,15 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
   const [showDatasetDropdown, setShowDatasetDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Field names for autocomplete
+  const queryLanguage = labConfig.queryLanguage || 'query_dsl';
+  const isEsql = queryLanguage === 'esql';
+  
+  // Field names for autocomplete (Query DSL only)
   const fieldNames = ['review_text', 'review_title', 'product_name', 'product_description', 'username', 'email'];
   const commonParams = ['query', 'operator', 'fuzziness', 'analyzer', 'zero_terms_query', 'auto_generate_synonyms_phrase_query'];
+  
+  // ES|QL keywords for autocomplete
+  const esqlKeywords = ['FROM', 'WHERE', 'KEEP', 'DROP', 'RENAME', 'DISSECT', 'GROK', 'EVAL', 'STATS', 'SORT', 'LIMIT', 'LIKE', 'IN', 'AND', 'OR', 'NOT'];
 
   const handleEditorDidMount = (editorInstance: any, monacoInstance: any) => {
     editorRef.current = editorInstance;
@@ -53,8 +60,9 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
 
     if (!monacoInstance) return;
 
-    // Register autocomplete provider
-    monacoInstance.languages.registerCompletionItemProvider('json', {
+    // Register autocomplete provider for Query DSL (JSON)
+    if (!isEsql) {
+      monacoInstance.languages.registerCompletionItemProvider('json', {
       provideCompletionItems: (model: any, position: any) => {
         const word = model.getWordUntilPosition(position);
         const range = {
@@ -91,10 +99,52 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
 
         return { suggestions };
       },
-    });
+      });
+    }
+    
+    // Register autocomplete provider for ES|QL (SQL)
+    if (isEsql) {
+      monacoInstance.languages.registerCompletionItemProvider('sql', {
+        provideCompletionItems: (model: any, position: any) => {
+          const word = model.getWordUntilPosition(position);
+          const range = {
+            startLineNumber: position.lineNumber,
+            endLineNumber: position.lineNumber,
+            startColumn: word.startColumn,
+            endColumn: word.endColumn,
+          };
 
-    // Add hover tooltips
-    if (tooltips) {
+          const suggestions: any[] = [];
+
+          // Add ES|QL keyword suggestions
+          esqlKeywords.forEach((keyword) => {
+            suggestions.push({
+              label: keyword,
+              kind: monacoInstance.languages.CompletionItemKind.Keyword,
+              insertText: keyword,
+              range,
+              detail: 'ES|QL keyword',
+            });
+          });
+
+          // Add index suggestions
+          ['product_reviews', 'products', 'product_users'].forEach((index) => {
+            suggestions.push({
+              label: index,
+              kind: monacoInstance.languages.CompletionItemKind.Value,
+              insertText: index,
+              range,
+              detail: 'Index name',
+            });
+          });
+
+          return { suggestions };
+        },
+      });
+    }
+
+    // Add hover tooltips (Query DSL only)
+    if (tooltips && !isEsql) {
       monacoInstance.languages.registerHoverProvider('json', {
         provideHover: (model: any, position: any) => {
           const word = model.getWordAtPosition(position);
@@ -249,7 +299,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
                 )}
               </div>
             )}
-            {onHighlightingChange && (
+            {onHighlightingChange && !isEsql && (
               <button
                 style={buttonActiveStyle}
                 onClick={() => onHighlightingChange(!enableHighlighting)}
@@ -285,7 +335,7 @@ export const QueryEditor: React.FC<QueryEditorProps> = ({
         </div>
         <Editor
           height={height}
-          defaultLanguage="json"
+          defaultLanguage={isEsql ? "sql" : "json"}
           value={query}
           onChange={(val) => onChange(val || '')}
           onMount={handleEditorDidMount}

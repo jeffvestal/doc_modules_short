@@ -1,0 +1,4 @@
+#!/bin/bash
+# Check script - placeholder
+echo "Check passed"
+exit 0

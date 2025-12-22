@@ -75,6 +75,33 @@ export async function explainHit(index: string, docId: string, query: any): Prom
   return response.json();
 }
 
+export async function executeEsqlQuery(queryString: string): Promise<{ data: any; took: number }> {
+  const url = '/api/esql/query';
+  
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  
+  const startTime = performance.now();
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ query: queryString }),
+  });
+  
+  const endTime = performance.now();
+  const took = Math.round(endTime - startTime);
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`ES|QL error: ${response.status} - ${errorText}`);
+  }
+  
+  const data = await response.json();
+  return { data, took };
+}
+
 export function validateQuery(query: any): { isValid: boolean; error?: string } {
   try {
     if (!query || typeof query !== 'object') {
@@ -83,6 +110,22 @@ export function validateQuery(query: any): { isValid: boolean; error?: string } 
     
     if (!query.query) {
       return { isValid: false, error: 'Query must have a "query" field' };
+    }
+    
+    return { isValid: true };
+  } catch (error) {
+    return { isValid: false, error: String(error) };
+  }
+}
+
+export function validateEsqlQuery(queryString: string): { isValid: boolean; error?: string } {
+  try {
+    if (!queryString || typeof queryString !== 'string') {
+      return { isValid: false, error: 'ES|QL query must be a string' };
+    }
+    
+    if (!queryString.trim().toUpperCase().startsWith('FROM')) {
+      return { isValid: false, error: 'ES|QL query must start with FROM' };
     }
     
     return { isValid: true };

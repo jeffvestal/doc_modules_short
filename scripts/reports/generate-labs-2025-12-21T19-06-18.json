@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-21T19:06:18.462464Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 2,
+    "skipped": 2,
+    "failed": 0,
+    "total_time_seconds": 16.804839849472046
+  },
+  "created_labs": [
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "example_count": 5,
+      "validation_passed": true
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "example_count": 6,
+      "validation_passed": true
+    }
+  ],
+  "skipped_labs": [
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "reason": "Already exists (use --regenerate)"
+    },
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "reason": "Already exists (use --regenerate)"
+    }
+  ],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "fuzzy-query",
+      "example_id": "prefix-length",
+      "warning_type": "min_hits",
+      "message": "Only returned 1 hits (min: 3)"
+    },
+    {
+      "lab_slug": "multi-match-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    }
+  ]
+}

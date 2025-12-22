@@ -27,3 +27,11 @@ Thumbs.db
 *.checksum
 
 .env
+
+# Lab generation pipeline
+.generate-labs-cache/
+.generate-labs-state.json
+reports/*.json
+scripts/__pycache__/
+scripts/lib/__pycache__/
+*.pyc

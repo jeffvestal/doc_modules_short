@@ -68,6 +68,40 @@ async def proxy_elasticsearch(path: str, request: Request):
             print(f"[Backend] Proxy error: {str(e)}")
             raise HTTPException(status_code=502, detail=f"Elasticsearch proxy error: {str(e)}")
 
+@app.post("/api/esql/query")
+async def proxy_esql_query(request: Request):
+    """Proxy ES|QL _query API requests"""
+    if not ELASTICSEARCH_APIKEY:
+        raise HTTPException(status_code=500, detail="ELASTICSEARCH_APIKEY not configured")
+    
+    body = await request.body()
+    target_url = f"{ELASTICSEARCH_URL}/_query"
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            response = await client.request(
+                method="POST",
+                url=target_url,
+                headers={
+                    "Authorization": f"ApiKey {ELASTICSEARCH_APIKEY}",
+                    "Content-Type": "application/json",
+                },
+                params=dict(request.query_params),
+                content=body,
+            )
+            # ES|QL can return various formats (json, csv, tsv, txt, etc.)
+            try:
+                return response.json()
+            except json.JSONDecodeError:
+                return Response(
+                    content=response.text,
+                    status_code=response.status_code,
+                    media_type=response.headers.get("content-type", "text/plain")
+                )
+        except Exception as e:
+            print(f"[Backend] ES|QL proxy error: {str(e)}")
+            raise HTTPException(status_code=502, detail=f"ES|QL proxy error: {str(e)}")
+
 @app.get("/health")
 async def health():
     """Health check for Instruqt setup verification"""

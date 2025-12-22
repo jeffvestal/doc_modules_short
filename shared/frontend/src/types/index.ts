@@ -55,6 +55,16 @@ export interface SearchResponse {
   took?: number;
 }
 
+export interface EsqlResponse {
+  columns: Array<{
+    name: string;
+    type: string;
+  }>;
+  values: any[][]; // Columnar format: each inner array is a column
+  took?: number;
+  is_partial?: boolean;
+}
+
 export interface AnalyzeResponse {
   tokens: Array<{
     token: string;
@@ -86,14 +96,17 @@ export interface QueryExample {
   tooltips?: Record<string, string>;
 }
 
-export type QueryFieldPath = 'inline' | 'default_field' | 'fields' | 'nested';
+export type QueryFieldPath = 'inline' | 'default_field' | 'fields' | 'nested' | '';
 
 export interface QueryStructure {
-  type: string; // e.g., 'match', 'query_string', 'bool'
-  fieldPath: QueryFieldPath; // How fields are specified in this query type
+  type: string; // e.g., 'match', 'query_string', 'bool', or 'inline' for simple query structures
+  fieldPath: QueryFieldPath; // How fields are specified in this query type (empty string for auto-detect)
 }
 
+export type QueryLanguage = 'query_dsl' | 'esql' | 'eql';
+
 export interface LabConfig {
+  queryLanguage: QueryLanguage; // Query language type (query_dsl, esql, eql)
   queryType: string;
   displayName: string;
   description: string;
@@ -105,9 +118,9 @@ export interface LabConfig {
     product_users: string;
   };
   searchFields: {
-    products: string;
-    product_reviews: string;
-    product_users: string;
+    products: string | string[];
+    product_reviews: string | string[];
+    product_users: string | string[];
   };
   sampleQueries: {
     products: string;

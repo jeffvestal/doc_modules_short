@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-12-22T16:13:09.948051Z",
+  "summary": {
+    "total_urls": 4,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 4,
+    "total_time_seconds": 25.92346215248108
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "error": "Object of type Undefined is not JSON serializable"
+    },
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "error": "Build failed: "
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "error": "Object of type Undefined is not JSON serializable"
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "range-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    },
+    {
+      "lab_slug": "fuzzy-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    },
+    {
+      "lab_slug": "term-query",
+      "example_id": "unknown",
+      "warning_type": "missing_field",
+      "message": "Missing required field: queryStructure"
+    }
+  ]
+}
