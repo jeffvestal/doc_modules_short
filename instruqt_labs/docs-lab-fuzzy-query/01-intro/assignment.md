@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-fuzzyquery
+id: 60xrpppgyadu
 type: challenge
 title: Fuzzy Query Lab
 teaser: Learn how to use the fuzzy_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Fuzzy Query Lab
+
+    Welcome to the interactive lab for the fuzzy_query query!
+
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance.
 tabs:
-- id: tab-querylab-fuzzyquery
+- id: u9gmrnnorjhi
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-fuzzyquery
+- id: diu7motov6g8
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-fuzzyquery
+- id: rd1vtescvcro
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-fuzzyquery
+- id: 5buy06hldi3k
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Fuzzy Query Lab
-    
-    Welcome to the interactive lab for the fuzzy_query query!
-    
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Fuzzy Query Lab
