@@ -29,15 +29,26 @@ class QualityChecker:
         warnings = []
         
         for result in validation_results:
-            if result.get('valid', False):
-                hit_count = result.get('hit_count', 0)
-                if hit_count < self.min_hits:
-                    warnings.append({
-                        'example_id': result.get('example_id', 'unknown'),
-                        'type': 'min_hits',
-                        'message': f"Only returned {hit_count} hits (min: {self.min_hits})",
-                        'hit_count': hit_count
-                    })
+            hit_count = result.get('hit_count', 0)
+            is_valid = result.get('valid', False)
+            
+            # Warn for invalid examples (0 hits)
+            if not is_valid:
+                error_msg = result.get('error', 'Query returned 0 hits')
+                warnings.append({
+                    'example_id': str(result.get('example_id', 'unknown')),
+                    'type': 'validation_failed',
+                    'message': f"Validation failed: {error_msg[:50]}..." if len(str(error_msg)) > 50 else f"Validation failed: {error_msg}",
+                    'hit_count': hit_count
+                })
+            # Also warn for valid examples with low hits
+            elif hit_count < self.min_hits:
+                warnings.append({
+                    'example_id': str(result.get('example_id', 'unknown')),
+                    'type': 'min_hits',
+                    'message': f"Only returned {hit_count} hits (min: {self.min_hits})",
+                    'hit_count': hit_count
+                })
         
         return warnings
     

@@ -34,71 +34,60 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search product by name and description
-Find products that match the query 'wireless' in both the name and description fields.
-
-
-**Try This:**
-
-- Try searching for 'premium' or 'Bluetooth' to explore the results for different keywords.
-
-
-
-
-### Search reviews with boosted fields
-Prioritize matches in the review title field over the review text field using field boosting.
+### Basic multi-match query
+Search for products with 'wireless headphones' in the name or description.
 
 
 **Try This:**
 
-- Experiment with boosting other fields, such as 'review_text^3'.
+- Try changing the query to 'premium speakers' or adding another field like 'product_category' to the fields list.
 
 
 
 
-### Search users based on interests
-Find users with interests containing the keyword 'Electronics'.
-
-
-**Try This:**
-
-- Try searching for interests like 'Books' or 'Gaming'.
-
-
-
-
-### Cross-fields search with AND operator
-Perform a cross-fields search requiring all terms in the query 'durable comfortable' to match.
+### Best fields type
+Search product reviews where 'durable' matches the best fields.
 
 
 **Try This:**
 
-- Use 'or' as the operator to allow partial matches.
+- Try changing the type to 'most_fields' or modifying the query to 'comfortable'.
 
 
 
 
-### Phrase prefix search for products
-Search for products where the name or description starts with 'wire'.
-
-
-**Try This:**
-
-- Try searching for prefixes like 'blue' or 'smart'.
-
-
-
-
-### Most fields query for products
-Find products where the query 'premium wireless' matches the most fields.
+### Phrase prefix type
+Search for reviews with text phrases starting with 'quick brown'.
 
 
 **Try This:**
 
-- Test multi-field queries such as 'Bluetooth headphones' or 'durable stylish'.
+- Experiment with other prefixes like 'comfortable chair' or 'high quality'.
+
+
+
+
+### Cross fields type
+Search for users interested in 'Electronics' across multiple fields.
+
+
+**Try This:**
+
+- Add another query term like 'Books' or use 'Electronics' with a different type, such as 'best_fields'.
+
+
+
+
+### Tie breaker parameter
+Use a tie breaker to balance scores across fields when searching for 'wireless'.
+
+
+**Try This:**
+
+- Try adjusting the tie breaker value or changing the query term to 'Bluetooth'.
 
 
 

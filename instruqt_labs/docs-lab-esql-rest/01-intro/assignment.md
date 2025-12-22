@@ -4,7 +4,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 
 ## What You'll Learn
 
@@ -37,67 +37,57 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 This lab includes 5 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by keyword
-Find products that contain the word 'wireless' in their descriptions.
+### Filter products by category and sort by price
+Retrieve all products from the 'Electronics' category, keep only the product name and price, and sort by price in descending order.
 
 
 **Try This:**
 
-- Change 'wireless' to another keyword, such as 'portable'.
-
-- Add a SORT clause to order the results by product price.
+- Change the category to 'Home Appliances' or another category and see the results.
 
 
 
 
-### Sort products by price
-List premium products sorted by price in descending order.
+### Find top-rated reviews for durable products
+Search product reviews containing the word 'durable', keep the review title and rating, and sort by rating in descending order.
 
 
 **Try This:**
 
-- Change the number of results by modifying the LIMIT value.
-
-- Try sorting in ascending order by replacing DESC with ASC.
+- Change the keyword to 'lightweight' or another product feature to explore different reviews.
 
 
 
 
-### Search for comfortable reviews
-Find reviews that mention the word 'comfortable'.
+### Identify active users interested in Electronics
+List users interested in Electronics, showing their username and total reviews count.
 
 
 **Try This:**
 
-- Search for a different keyword, such as 'durable'.
-
-- Add a SORT clause to order results by review rating.
+- Modify the interest keyword to 'Books' or 'Sports' to see users with different interests.
 
 
 
 
-### Identify top reviewers
-Find users who are interested in electronics and limit the results to verified purchasers.
+### Explore helpful product reviews
+Retrieve reviews with more than 50 helpful votes, sorted by the highest number of votes.
 
 
 **Try This:**
 
-- Change the interest to 'Books' to find users interested in books.
-
-- Remove the verified_purchaser condition to include all users.
+- Adjust the threshold for helpful votes to 30 or 100 to see different sets of reviews.
 
 
 
 
-### Top helpful reviews
-Find reviews with the highest number of helpful votes.
+### Analyze product pricing trends
+Retrieve products from a specific brand, showing their name, category, and price, sorted by price in ascending order.
 
 
 **Try This:**
 
-- Increase the LIMIT to display more results.
-
-- Add a WHERE clause to filter reviews with a minimum number of helpful votes.
+- Replace 'BrandX' with another brand to analyze pricing trends for different brands.
 
 
 

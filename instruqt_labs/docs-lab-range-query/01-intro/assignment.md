@@ -37,57 +37,57 @@ Returns documents that contain terms within a provided range.
 This lab includes 5 examples demonstrating different aspects of the range_query query:
 
 
-### Filter products within a price range
-Retrieve products priced between $50 and $200.
+### Find products within a price range
+This query retrieves products priced between $50 and $150.
 
 
 **Try This:**
 
-- Modify the price range to search for luxury products above $500.
+- Try changing the price range to see how the results vary.
 
 
 
 
-### Filter reviews with high ratings
-Retrieve reviews with ratings greater than 3 and up to 5.
-
-
-**Try This:**
-
-- Change the range to find reviews with low or average ratings (e.g., 1 to 3).
-
-
-
-
-### Find users who joined within a specific time frame
-Retrieve users who became members between 2015 and 2022.
+### Filter reviews by rating
+Retrieve reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Adjust the date range to find users who joined more recently (e.g., after 2020).
+- Adjust the rating threshold to find reviews with lower or higher ratings.
 
 
 
 
-### Filter products by price and boost results
-Retrieve products priced under $100 and boost their relevance by a factor of 2.
-
-
-**Try This:**
-
-- Experiment with different boost values to alter the relevance of results.
-
-
-
-
-### Filter reviews by date range
-Retrieve reviews posted within the last 7 days.
+### Search for recent reviews
+Find reviews created in the last 30 days.
 
 
 **Try This:**
 
-- Extend the date range to retrieve reviews from the last 30 days.
+- Change the date range to explore reviews from different periods.
+
+
+
+
+### Find users by trust score range
+Retrieve users with a trust score between 60 and 90.
+
+
+**Try This:**
+
+- Modify the trust score range to include more or fewer users.
+
+
+
+
+### Find users by membership duration
+Retrieve users who joined after January 1, 2020.
+
+
+**Try This:**
+
+- Try changing the date to find users who joined during different time periods.
 
 
 

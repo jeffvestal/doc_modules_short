@@ -13,9 +13,9 @@ export const multiMatchConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: "product_name",
-    product_reviews: "review_text",
-    product_users: "interests",
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
   sampleQueries: {
     products: "wireless",
@@ -30,30 +30,23 @@ export const multiMatchConfig: LabConfig = {
 
     {
       id: 'example_1',
-      title: "Search product by name and description",
-      description: "Find products that match the query \u0027wireless\u0027 in both the name and description fields.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "wireless",
-      "fields": ["product_name", "product_description"]
-    }
-  }
-}`,
+      title: "Basic multi-match query",
+      description: "Search for products with \u0027wireless headphones\u0027 in the name or description.",
+      template: `{"query": {"multi_match": {"query": "wireless headphones", "fields": ["product_name", "product_description"]}}}`,
       index: 'products',
 
       tryThis: [
 
-        "Try searching for \u0027premium\u0027 or \u0027Bluetooth\u0027 to explore the results for different keywords.",
+        "Try changing the query to \u0027premium speakers\u0027 or adding another field like \u0027product_category\u0027 to the fields list.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The text you want to search for.",
+        "query": "The search term you want to find matches for.",
 
-        "fields": "The fields to search against. Specify multiple fields for multi-field search.",
+        "fields": "The list of fields to search in. Use relevant fields to narrow down your query.",
 
       },
 
@@ -61,28 +54,23 @@ export const multiMatchConfig: LabConfig = {
 
     {
       id: 'example_2',
-      title: "Search reviews with boosted fields",
-      description: "Prioritize matches in the review title field over the review text field using field boosting.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "comfortable",
-      "fields": ["review_title^2", "review_text"]
-    }
-  }
-}`,
+      title: "Best fields type",
+      description: "Search product reviews where \u0027durable\u0027 matches the best fields.",
+      template: `{"query": {"multi_match": {"query": "durable", "fields": ["review_title", "review_text"], "type": "best_fields"}}}`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Experiment with boosting other fields, such as \u0027review_text^3\u0027.",
+        "Try changing the type to \u0027most_fields\u0027 or modifying the query to \u0027comfortable\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "fields": "Boosting a field increases its importance in the scoring. Use \u0027^\u0027 followed by a number.",
+        "type": "The scoring behavior for matching documents. \u0027best_fields\u0027 chooses the best matching field.",
+
+        "fields": "The fields where Elasticsearch will search for the query term.",
 
       },
 
@@ -90,30 +78,23 @@ export const multiMatchConfig: LabConfig = {
 
     {
       id: 'example_3',
-      title: "Search users based on interests",
-      description: "Find users with interests containing the keyword \u0027Electronics\u0027.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "Electronics",
-      "fields": ["interests"]
-    }
-  }
-}`,
-      index: 'product_users',
+      title: "Phrase prefix type",
+      description: "Search for reviews with text phrases starting with \u0027quick brown\u0027.",
+      template: `{"query": {"multi_match": {"query": "quick brown", "fields": ["review_text"], "type": "phrase_prefix"}}}`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try searching for interests like \u0027Books\u0027 or \u0027Gaming\u0027.",
+        "Experiment with other prefixes like \u0027comfortable chair\u0027 or \u0027high quality\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The keyword or phrase to search for.",
+        "type": "The type for matching phrases. \u0027phrase_prefix\u0027 searches for phrases that start with the query term.",
 
-        "fields": "Specify the field or fields to search in.",
+        "query": "The phrase prefix you want to search.",
 
       },
 
@@ -121,32 +102,23 @@ export const multiMatchConfig: LabConfig = {
 
     {
       id: 'example_4',
-      title: "Cross-fields search with AND operator",
-      description: "Perform a cross-fields search requiring all terms in the query \u0027durable comfortable\u0027 to match.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "durable comfortable",
-      "type": "cross_fields",
-      "fields": ["review_title", "review_text"],
-      "operator": "and"
-    }
-  }
-}`,
-      index: 'product_reviews',
+      title: "Cross fields type",
+      description: "Search for users interested in \u0027Electronics\u0027 across multiple fields.",
+      template: `{"query": {"multi_match": {"query": "Electronics", "fields": ["interests"], "type": "cross_fields"}}}`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Use \u0027or\u0027 as the operator to allow partial matches.",
+        "Add another query term like \u0027Books\u0027 or use \u0027Electronics\u0027 with a different type, such as \u0027best_fields\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "type": "The type of multi-match query. \u0027cross_fields\u0027 combines multiple fields as if they were one.",
+        "type": "The scoring behavior for cross-field matching. \u0027cross_fields\u0027 looks for matches across multiple fields.",
 
-        "operator": "The logical operator to combine matches. Use \u0027and\u0027 for strict matching and \u0027or\u0027 for flexible matching.",
+        "fields": "The fields where Elasticsearch will search for the query term.",
 
       },
 
@@ -154,59 +126,23 @@ export const multiMatchConfig: LabConfig = {
 
     {
       id: 'example_5',
-      title: "Phrase prefix search for products",
-      description: "Search for products where the name or description starts with \u0027wire\u0027.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "wire",
-      "type": "phrase_prefix",
-      "fields": ["product_name", "product_description"]
-    }
-  }
-}`,
+      title: "Tie breaker parameter",
+      description: "Use a tie breaker to balance scores across fields when searching for \u0027wireless\u0027.",
+      template: `{"query": {"multi_match": {"query": "wireless", "fields": ["product_name", "product_description"], "tie_breaker": 0.3}}}`,
       index: 'products',
 
       tryThis: [
 
-        "Try searching for prefixes like \u0027blue\u0027 or \u0027smart\u0027.",
+        "Try adjusting the tie breaker value or changing the query term to \u0027Bluetooth\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "type": "The type of multi-match query. \u0027phrase_prefix\u0027 matches documents that start with the given prefix.",
+        "tie_breaker": "A value used to combine scores from multiple fields. Higher values will prioritize matches across fields.",
 
-      },
-
-    },
-
-    {
-      id: 'example_6',
-      title: "Most fields query for products",
-      description: "Find products where the query \u0027premium wireless\u0027 matches the most fields.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "premium wireless",
-      "type": "most_fields",
-      "fields": ["product_name", "product_description"]
-    }
-  }
-}`,
-      index: 'products',
-
-      tryThis: [
-
-        "Test multi-field queries such as \u0027Bluetooth headphones\u0027 or \u0027durable stylish\u0027.",
-
-      ],
-
-
-      tooltips: {
-
-        "type": "The type of multi-match query. \u0027most_fields\u0027 scores documents higher if the query matches more fields.",
+        "fields": "The fields where Elasticsearch will search for the query term.",
 
       },
 

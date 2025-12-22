@@ -13,9 +13,9 @@ export const rangeConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: ["product_name", "product_description"],
-    product_reviews: ["review_title", "review_text"],
-    product_users: ["interests"],
+    products: "product_name",
+    product_reviews: "review_text",
+    product_users: "interests",
   },
   sampleQueries: {
     products: "wireless",
@@ -30,14 +30,14 @@ export const rangeConfig: LabConfig = {
 
     {
       id: 'example_1',
-      title: "Filter products within a price range",
-      description: "Retrieve products priced between $50 and $200.",
+      title: "Find products within a price range",
+      description: "This query retrieves products priced between $50 and $150.",
       template: `{
   "query": {
     "range": {
       "product_price": {
         "gte": 50,
-        "lte": 200
+        "lte": 150
       }
     }
   }
@@ -46,16 +46,18 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Modify the price range to search for luxury products above $500.",
+        "Try changing the price range to see how the results vary.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "The minimum value (inclusive) for the range.",
+        "product_price": "Field representing the price of the product.",
 
-        "lte": "The maximum value (inclusive) for the range.",
+        "gte": "Greater than or equal to this value.",
+
+        "lte": "Less than or equal to this value.",
 
       },
 
@@ -63,14 +65,13 @@ export const rangeConfig: LabConfig = {
 
     {
       id: 'example_2',
-      title: "Filter reviews with high ratings",
-      description: "Retrieve reviews with ratings greater than 3 and up to 5.",
+      title: "Filter reviews by rating",
+      description: "Retrieve reviews with a rating of 4 or higher.",
       template: `{
   "query": {
     "range": {
       "review_rating": {
-        "gt": 3,
-        "lte": 5
+        "gte": 4
       }
     }
   }
@@ -79,16 +80,16 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the range to find reviews with low or average ratings (e.g., 1 to 3).",
+        "Adjust the rating threshold to find reviews with lower or higher ratings.",
 
       ],
 
 
       tooltips: {
 
-        "gt": "The minimum value (exclusive) for the range.",
+        "review_rating": "Field representing the rating given in the review.",
 
-        "lte": "The maximum value (inclusive) for the range.",
+        "gte": "Greater than or equal to this value.",
 
       },
 
@@ -96,79 +97,13 @@ export const rangeConfig: LabConfig = {
 
     {
       id: 'example_3',
-      title: "Find users who joined within a specific time frame",
-      description: "Retrieve users who became members between 2015 and 2022.",
-      template: `{
-  "query": {
-    "range": {
-      "member_since": {
-        "gte": "2015-01-01",
-        "lte": "2022-12-31"
-      }
-    }
-  }
-}`,
-      index: 'product_users',
-
-      tryThis: [
-
-        "Adjust the date range to find users who joined more recently (e.g., after 2020).",
-
-      ],
-
-
-      tooltips: {
-
-        "gte": "The earliest date (inclusive) for the range.",
-
-        "lte": "The latest date (inclusive) for the range.",
-
-      },
-
-    },
-
-    {
-      id: 'example_4',
-      title: "Filter products by price and boost results",
-      description: "Retrieve products priced under $100 and boost their relevance by a factor of 2.",
-      template: `{
-  "query": {
-    "range": {
-      "product_price": {
-        "lte": 100,
-        "boost": 2.0
-      }
-    }
-  }
-}`,
-      index: 'products',
-
-      tryThis: [
-
-        "Experiment with different boost values to alter the relevance of results.",
-
-      ],
-
-
-      tooltips: {
-
-        "lte": "The maximum value (inclusive) for the range.",
-
-        "boost": "A multiplier for the relevance score of matching documents.",
-
-      },
-
-    },
-
-    {
-      id: 'example_5',
-      title: "Filter reviews by date range",
-      description: "Retrieve reviews posted within the last 7 days.",
+      title: "Search for recent reviews",
+      description: "Find reviews created in the last 30 days.",
       template: `{
   "query": {
     "range": {
       "review_date": {
-        "gte": "now-7d/d",
+        "gte": "now-30d/d",
         "lte": "now/d"
       }
     }
@@ -178,16 +113,87 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Extend the date range to retrieve reviews from the last 30 days.",
+        "Change the date range to explore reviews from different periods.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "The start of the range, relative to now.",
+        "review_date": "Field representing the date of the review.",
 
-        "lte": "The end of the range, relative to now.",
+        "gte": "Start date of the range.",
+
+        "lte": "End date of the range.",
+
+        "now-30d/d": "Relative date, representing 30 days ago from today.",
+
+      },
+
+    },
+
+    {
+      id: 'example_4',
+      title: "Find users by trust score range",
+      description: "Retrieve users with a trust score between 60 and 90.",
+      template: `{
+  "query": {
+    "range": {
+      "trust_score": {
+        "gte": 60,
+        "lte": 90
+      }
+    }
+  }
+}`,
+      index: 'product_users',
+
+      tryThis: [
+
+        "Modify the trust score range to include more or fewer users.",
+
+      ],
+
+
+      tooltips: {
+
+        "trust_score": "Field representing the trust score of a user.",
+
+        "gte": "Greater than or equal to this value.",
+
+        "lte": "Less than or equal to this value.",
+
+      },
+
+    },
+
+    {
+      id: 'example_5',
+      title: "Find users by membership duration",
+      description: "Retrieve users who joined after January 1, 2020.",
+      template: `{
+  "query": {
+    "range": {
+      "member_since": {
+        "gte": "2020-01-01T00:00:00"
+      }
+    }
+  }
+}`,
+      index: 'product_users',
+
+      tryThis: [
+
+        "Try changing the date to find users who joined during different time periods.",
+
+      ],
+
+
+      tooltips: {
+
+        "member_since": "Field representing the date the user became a member.",
+
+        "gte": "Start date of the range.",
 
       },
 
