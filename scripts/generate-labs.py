@@ -539,7 +539,7 @@ def main():
                 
                 if summary_parts:
                     summary_text = "Summary: " + ", ".join(summary_parts)
-                    console.print(f"[bold]{summary_text}[/bold]", flush=True)
+                    console.print(f"[bold]{summary_text}[/bold]")
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):
