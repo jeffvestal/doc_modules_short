@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-12-23T14:47:59.557682Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 16.124426126480103
+  },
+  "created_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 6,
+      "validation_passed": true
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": []
+}

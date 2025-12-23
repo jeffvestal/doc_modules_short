@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-12-23T14:47:48.227331Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 0,
+    "skipped": 1,
+    "failed": 0,
+    "total_time_seconds": 0.12815117835998535
+  },
+  "created_labs": [],
+  "skipped_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "reason": "Already exists (use --regenerate)"
+    }
+  ],
+  "failed_labs": [],
+  "validation_warnings": []
+}

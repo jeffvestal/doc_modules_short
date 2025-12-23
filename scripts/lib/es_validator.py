@@ -125,42 +125,93 @@ class ESValidator:
     
     def validate_esql_query(
         self,
-        query: str
-    ) -> Tuple[bool, int, Optional[str]]:
-        """Validate an ES|QL query.
+        query: str,
+        index: str = 'products',
+        max_retries: int = 3
+    ) -> Tuple[bool, int, Optional[str], Optional[str]]:
+        """Validate an ES|QL query with auto-fix retries.
         
         Args:
             query: ES|QL query string
+            index: Target index name (for fixing)
+            max_retries: Maximum retry attempts
             
         Returns:
-            Tuple of (success, row_count, error_message)
+            Tuple of (success, row_count, error_message, fixed_query)
         """
         # #region agent log
         import json as _json
         _log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
         with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:entry", "message": "ESQL query received", "data": {"query": query, "has_single_quotes": "'" in query, "has_double_quotes": '"' in query}, "hypothesisId": "A,B", "timestamp": __import__("time").time()}) + "\n")
         # #endregion
-        try:
-            # Use the esql.query API
-            response = self.es.esql.query(query=query)
-            
-            # #region agent log
-            with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:success", "message": "ESQL query succeeded", "data": {"row_count": len(response.get('values', []))}, "hypothesisId": "C", "timestamp": __import__("time").time()}) + "\n")
-            # #endregion
-            
-            # ES|QL returns columns and values
-            row_count = len(response.get('values', []))
-            
-            if row_count > 0:
-                return True, row_count, None
-            else:
-                return False, 0, "Query returned 0 rows"
+        
+        current_query = query
+        last_error = None
+        
+        for attempt in range(max_retries + 1):
+            try:
+                # Use the esql.query API
+                response = self.es.esql.query(query=current_query)
                 
-        except Exception as e:
-            # #region agent log
-            with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:error", "message": "ESQL query failed", "data": {"error": str(e), "error_type": type(e).__name__}, "hypothesisId": "A,C,E", "timestamp": __import__("time").time()}) + "\n")
-            # #endregion
-            return False, 0, str(e)
+                # ES|QL returns columns and values
+                row_count = len(response.get('values', []))
+                
+                # #region agent log
+                with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:success", "message": "ESQL query succeeded", "data": {"row_count": row_count, "attempt": attempt + 1}, "hypothesisId": "C,F", "timestamp": __import__("time").time()}) + "\n")
+                # #endregion
+                
+                if row_count > 0:
+                    return True, row_count, None, current_query if attempt > 0 else None
+                
+                # If 0 rows and we have retries left, try to fix
+                if attempt < max_retries and self.example_generator:
+                    error_msg = f"Query returned 0 rows (attempt {attempt + 1}/{max_retries + 1})"
+                    # #region agent log
+                    with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:fixing", "message": "Attempting to fix ESQL query", "data": {"attempt": attempt + 1, "reason": "0 rows"}, "hypothesisId": "F,G", "timestamp": __import__("time").time()}) + "\n")
+                    # #endregion
+                    try:
+                        fixed = self.example_generator.fix_esql_query(
+                            current_query,
+                            error_msg,
+                            self.dataset_schemas,
+                            index
+                        )
+                        current_query = fixed
+                        last_error = error_msg
+                        continue
+                    except Exception as fix_error:
+                        last_error = f"{error_msg}; Fix failed: {str(fix_error)}"
+                        break
+                else:
+                    last_error = f"Query returned 0 rows after {attempt + 1} attempts"
+                    break
+                    
+            except Exception as e:
+                error_msg = str(e)
+                # #region agent log
+                with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:error", "message": "ESQL query failed", "data": {"error": error_msg, "error_type": type(e).__name__, "attempt": attempt + 1}, "hypothesisId": "A,C,E", "timestamp": __import__("time").time()}) + "\n")
+                # #endregion
+                
+                # Try to fix if we have retries left
+                if attempt < max_retries and self.example_generator:
+                    try:
+                        fixed = self.example_generator.fix_esql_query(
+                            current_query,
+                            error_msg,
+                            self.dataset_schemas,
+                            index
+                        )
+                        current_query = fixed
+                        last_error = error_msg
+                        continue
+                    except Exception as fix_error:
+                        last_error = f"{error_msg}; Fix failed: {str(fix_error)}"
+                        break
+                else:
+                    last_error = error_msg
+                    break
+        
+        return False, 0, last_error, current_query if attempt > 0 else None
     
     def validate_example(
         self,
@@ -184,15 +235,20 @@ class ESValidator:
         """
         try:
             template = example.get('template', '')
+            index = example.get('index', 'product_reviews')
             
             # Handle ES|QL queries (plain text, not JSON)
             if query_language == 'esql':
-                success, row_count, error = self.validate_esql_query(template)
+                success, row_count, error, fixed_query = self.validate_esql_query(
+                    template, 
+                    index=index, 
+                    max_retries=max_retries
+                )
                 return {
                     'valid': success,
                     'hit_count': row_count,
                     'error': error,
-                    'fixed_template': None
+                    'fixed_template': fixed_query
                 }
             
             # Handle Query DSL (JSON format)

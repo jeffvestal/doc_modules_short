@@ -464,4 +464,92 @@ Return ONLY the fixed query as a JSON object. Do not include explanations or mar
             
         except Exception as e:
             raise RuntimeError(f"Query fix failed: {e}")
+    
+    def fix_esql_query(
+        self,
+        query: str,
+        error_message: str,
+        dataset_schemas: Dict[str, Any],
+        target_index: str
+    ) -> str:
+        """Ask LLM to fix an ES|QL query that returned 0 rows or had errors.
+        
+        Args:
+            query: The ES|QL query string that failed
+            error_message: Error message or description
+            dataset_schemas: Dataset schema information
+            target_index: Target index name
+            
+        Returns:
+            Fixed ES|QL query string
+        """
+        import re
+        
+        schema_info = dataset_schemas.get(target_index, {})
+        
+        system_prompt = """You are an expert at fixing ES|QL queries.
+Your task is to fix queries that return 0 results or have errors.
+
+CRITICAL ES|QL RULES:
+1. ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes
+2. Use LIKE with wildcards for text search: LIKE "*term*"
+3. For exact matches on keyword fields, use == with double quotes
+4. Check field names match the schema exactly
+
+Return ONLY the fixed ES|QL query string. No explanations, no markdown, no code blocks."""
+
+        user_prompt = f"""Fix this ES|QL query:
+
+Query: {query}
+
+Error/Issue: {error_message}
+
+Target Index: {target_index}
+
+Schema for {target_index}:
+- Fields: {schema_info.get('fields', [])}
+- Searchable text fields: {schema_info.get('searchable_text_fields', [])}
+- Keyword field values: {json.dumps(schema_info.get('keyword_field_values', {}), indent=2)}
+- Working ES|QL examples: {schema_info.get('esql_examples', [])}
+
+Return ONLY the fixed ES|QL query string (no quotes around it, no explanations)."""
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                temperature=0.3,
+                max_tokens=500
+            )
+            
+            content = response.choices[0].message.content.strip()
+            
+            # Remove any markdown code blocks
+            if content.startswith('```'):
+                lines = content.split('\n')
+                content_lines = []
+                in_block = False
+                for line in lines:
+                    if line.strip().startswith('```'):
+                        in_block = not in_block
+                        continue
+                    if in_block:
+                        content_lines.append(line)
+                content = '\n'.join(content_lines).strip()
+            
+            # Remove surrounding quotes if LLM added them
+            if (content.startswith('"') and content.endswith('"')) or \
+               (content.startswith("'") and content.endswith("'")):
+                content = content[1:-1]
+            
+            # Ensure double quotes for string literals (fix any single quotes)
+            content = re.sub(r"'([^']*)'", r'"\1"', content)
+            
+            return content
+            
+        except Exception as e:
+            raise RuntimeError(f"ES|QL query fix failed: {e}")
 

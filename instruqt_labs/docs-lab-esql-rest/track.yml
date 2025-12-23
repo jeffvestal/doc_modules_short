@@ -3,7 +3,7 @@ id: placeholder
 title: Docs Lab - ES|QL Query
 teaser: Learn how to use the esql_rest query in Elasticsearch
 description: |
-  <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+  The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 icon: ""
 tags:
 - elasticsearch
@@ -26,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "7e4a7d15e1d8d8b0d328e19c0900c222"
+checksum: "28740cf8d392b5f35dc39a3a313aac72"
 enhanced_loading: false

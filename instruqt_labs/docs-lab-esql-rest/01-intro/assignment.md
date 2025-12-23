@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 
 ## What You'll Learn
 
@@ -77,68 +77,68 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by category and sort by price
-Find products in the 'Electronics' category and sort them by price in descending order.
+### Filter Products by Category
+Retrieve all products in the 'Electronics' category.
 
 
 **Try This:**
 
-- Change 'Electronics' to another category like 'Books' or 'Clothing' and observe the results.
+- Try changing the category to 'Books' or 'Toys' to explore other product categories.
 
 
 
 
-### Retrieve top-rated product reviews
-List reviews with a rating of 5, showing only the review title and rating.
-
-
-**Try This:**
-
-- Change the rating to 4 or 3 to see reviews with different ratings.
-
-
-
-
-### Find users interested in specific topics
-Find users whose interests include 'Books', displaying their username and interests.
+### Find Highly Rated Reviews
+Show reviews with a rating of 5 and include helpful votes.
 
 
 **Try This:**
 
-- Replace 'Books' with 'Electronics' or 'Sports' to find users with different interests.
+- Try changing the rating to 4 or 3 to see reviews with lower ratings.
 
 
 
 
-### Search for products with a specific feature
-Find products with 'wireless' in their description.
-
-
-**Try This:**
-
-- Change 'wireless' to another keyword like 'portable' or 'durable' to find different products.
-
-
-
-
-### Filter verified reviews with helpful votes
-Find reviews that are verified purchases and have at least 20 helpful votes, sorted by helpful votes descending.
+### Search for Users by Interests
+Retrieve users who are interested in 'Books' or 'Electronics'.
 
 
 **Try This:**
 
-- Change the helpful votes threshold to 15 or 10 to include more reviews.
+- Try replacing 'Books' with 'Sports' or 'Beauty' to find users with other interests.
 
 
 
 
-### List premium users by trust score
-Find premium account users, sorted by trust score in descending order.
+### Top Verified Purchases
+Find users who are verified purchasers and sort them by trust score.
 
 
 **Try This:**
 
-- Change the account type to 'Free' or 'Enterprise' to explore other user types.
+- Try changing the sort order to ascending by replacing 'DESC' with 'ASC'.
+
+
+
+
+### Search for Affordable Products
+Retrieve products that are priced below $50.
+
+
+**Try This:**
+
+- Try changing the price filter to 'product_price < 30' to narrow the search further.
+
+
+
+
+### Reviews Mentioning Durability
+Find reviews that mention the word 'durable' in their text.
+
+
+**Try This:**
+
+- Try adding another keyword using 'OR', such as 'comfortable', to expand the results.
 
 
 
