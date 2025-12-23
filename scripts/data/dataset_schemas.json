@@ -3,31 +3,47 @@
     "fields": ["product_id", "product_name", "product_description", "product_category", "product_brand", "product_price"],
     "searchable_text_fields": ["product_name", "product_description"],
     "key_display_field": "product_name",
+    "keyword_field_values": {
+      "product_category": ["Electronics", "Home and Kitchen", "Books", "Clothing", "Beauty", "Sports and Outdoors", "Automotive", "Pet Supplies", "Office Products", "Toys"],
+      "product_brand": ["AudioMax", "BrewMaster", "PawComfort", "WorkEase", "GlowNaturals", "PlayPals", "PlaySmart", "WorkWell", "AutoGuard", "GlowEssence"],
+      "product_price": [89.99, 49.99, 129.99, 39.99, 14.99, 59.99, 24.99, 29.99, 64.99, 79.99]
+    },
     "esql_examples": [
       "FROM products | WHERE product_description LIKE \"*wireless*\" | LIMIT 10",
       "FROM products | WHERE product_name LIKE \"*premium*\" | KEEP product_name, product_price | SORT product_price DESC"
     ],
-    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes"
+    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes",
+    "term_query_note": "Term queries require EXACT matches. Use values from keyword_field_values."
   },
   "product_reviews": {
     "fields": ["review_id", "product_id", "review_title", "review_text", "review_rating", "review_date", "review_user_id", "reviewer_name", "verified_purchase", "helpful_votes"],
     "searchable_text_fields": ["review_title", "review_text"],
     "key_display_field": "review_title",
+    "keyword_field_values": {
+      "verified_purchase": ["True", "False"],
+      "review_rating": [1, 2, 3, 4, 5],
+      "helpful_votes": [10, 15, 18, 19, 22, 27, 34]
+    },
     "esql_examples": [
       "FROM product_reviews | WHERE review_text LIKE \"*comfortable*\" | LIMIT 10",
       "FROM product_reviews | WHERE review_text LIKE \"*durable*\" OR review_text LIKE \"*comfortable*\" | KEEP review_title, review_rating | SORT review_rating DESC"
     ],
-    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes"
+    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes",
+    "term_query_note": "Term queries require EXACT matches. Use values from keyword_field_values. Note: verified_purchase uses string 'True'/'False', not boolean."
   },
   "product_users": {
     "fields": ["user_id", "username", "email", "member_since", "account_type", "location_city", "location_state", "location_country", "location", "age_group", "occupation", "interests", "total_reviews_count", "avg_rating_given", "verified_purchaser", "trust_score"],
     "searchable_text_fields": ["interests"],
     "key_display_field": "username",
+    "keyword_field_values": {
+      "account_type": ["Free", "Premium", "Enterprise"],
+      "username": ["AveryWilliams55", "CameronLopez20", "CaseyRodriguez81", "DakotaHernandez39", "JordanMartinez33"]
+    },
     "esql_examples": [
       "FROM product_users | WHERE interests LIKE \"*Electronics*\" | LIMIT 10",
       "FROM product_users | WHERE interests LIKE \"*Books*\" OR interests LIKE \"*Electronics*\" | KEEP username, interests | LIMIT 10"
     ],
-    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes"
+    "esql_note": "ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes",
+    "term_query_note": "Term queries require EXACT matches. account_type values are capitalized (e.g., 'Premium' not 'premium')."
   }
 }
-

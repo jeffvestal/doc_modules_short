@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: vxp2udhcy4yi
+id: placeholder-esqlrest
 type: challenge
 title: ES|QL Query Lab
 teaser: Learn how to use the esql_rest query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # ES|QL Query Lab
-
-    Welcome to the interactive lab for the esql_rest query!
-
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 tabs:
-- id: bsrq8oyzrw5h
+- id: tab-querylab-esqlrest
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: rnr7a4oa2ziv
+- id: tab-querylabfull-esqlrest
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: jzyoc6xijfhv
+- id: tab-terminal-esqlrest
   title: Terminal
   type: terminal
   hostname: host-1
-- id: g0gphoox5j18
+- id: tab-dataset-esqlrest
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # ES|QL Query Lab
+    
+    Welcome to the interactive lab for the esql_rest query!
+    
+    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 ---
 
 # ES|QL Query Lab
@@ -46,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 
 ## What You'll Learn
 
@@ -76,60 +74,71 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the esql_rest query:
+This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by category and sort by price
-Retrieve all products from the 'Electronics' category, keep only the product name and price, and sort by price in descending order.
-
-
-**Try This:**
-
-- Change the category to 'Home Appliances' or another category and see the results.
-
-
-
-
-### Find top-rated reviews for durable products
-Search product reviews containing the word 'durable', keep the review title and rating, and sort by rating in descending order.
+### Find wireless products
+Search for products with 'wireless' in their description and show the first 10 results.
 
 
 **Try This:**
 
-- Change the keyword to 'lightweight' or another product feature to explore different reviews.
+- Modify the query to search for a different keyword, such as 'Bluetooth'.
 
 
 
 
-### Identify active users interested in Electronics
-List users interested in Electronics, showing their username and total reviews count.
-
-
-**Try This:**
-
-- Modify the interest keyword to 'Books' or 'Sports' to see users with different interests.
-
-
-
-
-### Explore helpful product reviews
-Retrieve reviews with more than 50 helpful votes, sorted by the highest number of votes.
+### Sort premium products by price
+Find products with 'premium' in their name, keep the name and price fields, and sort by price in descending order.
 
 
 **Try This:**
 
-- Adjust the threshold for helpful votes to 30 or 100 to see different sets of reviews.
+- Change the sorting to ascending order or filter by another keyword like 'luxury'.
 
 
 
 
-### Analyze product pricing trends
-Retrieve products from a specific brand, showing their name, category, and price, sorted by price in ascending order.
+### Top-rated comfortable reviews
+Search for reviews mentioning 'comfortable' and return the first 10 results.
 
 
 **Try This:**
 
-- Replace 'BrandX' with another brand to analyze pricing trends for different brands.
+- Update the query to search for reviews mentioning 'durable' instead.
+
+
+
+
+### Find users interested in Electronics
+Search for users with interests related to 'Electronics' and return the first 10 results.
+
+
+**Try This:**
+
+- Experiment with different interest keywords, like 'Books' or 'Sports'.
+
+
+
+
+### Top-rated reviews for durable and comfortable products
+Find reviews mentioning 'durable' or 'comfortable', show the title and rating, and sort by rating in descending order.
+
+
+**Try This:**
+
+- Add another keyword to the filter, such as 'reliable'.
+
+
+
+
+### Users with multiple interests
+Find users interested in both 'Books' and 'Electronics', showing their username and interests.
+
+
+**Try This:**
+
+- Try changing the interests to 'Gaming' or 'Travel'.
 
 
 

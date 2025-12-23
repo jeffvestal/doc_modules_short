@@ -74,60 +74,71 @@ Returns documents that contain terms within a provided range.
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the range_query query:
+This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
 ### Find products within a price range
-This query retrieves products priced between $50 and $150.
+Search for products that have a price between $50 and $100.
 
 
 **Try This:**
 
-- Try changing the price range to see how the results vary.
+- Change the price range to find products that are cheaper or more expensive.
 
 
 
 
-### Filter reviews by rating
-Retrieve reviews with a rating of 4 or higher.
-
-
-**Try This:**
-
-- Adjust the rating threshold to find reviews with lower or higher ratings.
-
-
-
-
-### Search for recent reviews
-Find reviews created in the last 30 days.
+### Find highly-rated product reviews
+Search for product reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Change the date range to explore reviews from different periods.
+- Adjust the 'gte' value to filter for reviews with a specific minimum rating.
 
 
 
 
-### Find users by trust score range
-Retrieve users with a trust score between 60 and 90.
-
-
-**Try This:**
-
-- Modify the trust score range to include more or fewer users.
-
-
-
-
-### Find users by membership duration
-Retrieve users who joined after January 1, 2020.
+### Find recent users who joined in a date range
+Search for users who joined between January 1, 2020, and January 1, 2023.
 
 
 **Try This:**
 
-- Try changing the date to find users who joined during different time periods.
+- Modify the date range to filter for users who joined earlier or later.
+
+
+
+
+### Find products priced above $200
+Search for products that have a price greater than $200.
+
+
+**Try This:**
+
+- Change the 'gte' value to filter for products priced above a different threshold.
+
+
+
+
+### Find reviews submitted within the last 30 days
+Search for reviews submitted in the last 30 days using a relative date range.
+
+
+**Try This:**
+
+- Change the range to 'now-7d/d' to filter for reviews from the last 7 days.
+
+
+
+
+### Find users with a high trust score
+Search for users with a trust score of 80 or higher.
+
+
+**Try This:**
+
+- Adjust the 'gte' value to filter for users with a different minimum trust score.
 
 
 

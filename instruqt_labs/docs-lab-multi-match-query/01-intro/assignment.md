@@ -74,60 +74,71 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Basic multi-match query
-Search for products with 'wireless headphones' in the name or description.
-
-
-**Try This:**
-
-- Try changing the query to 'premium speakers' or adding another field like 'product_category' to the fields list.
-
-
-
-
-### Best fields type
-Search product reviews where 'durable' matches the best fields.
+### Search products by name and description
+This query searches for products with the term 'wireless headphones' in either the name or the description.
 
 
 **Try This:**
 
-- Try changing the type to 'most_fields' or modifying the query to 'comfortable'.
+- Try searching for 'premium sound' or 'Bluetooth speakers'.
 
 
 
 
-### Phrase prefix type
-Search for reviews with text phrases starting with 'quick brown'.
-
-
-**Try This:**
-
-- Experiment with other prefixes like 'comfortable chair' or 'high quality'.
-
-
-
-
-### Cross fields type
-Search for users interested in 'Electronics' across multiple fields.
+### Find reviews mentioning comfort
+This query searches for reviews that mention 'comfortable chair' in the title or text.
 
 
 **Try This:**
 
-- Add another query term like 'Books' or use 'Electronics' with a different type, such as 'best_fields'.
+- Try searching for 'ergonomic design' or 'durable build'.
 
 
 
 
-### Tie breaker parameter
-Use a tie breaker to balance scores across fields when searching for 'wireless'.
+### Search user interests
+This query searches for users interested in 'Electronics'.
 
 
 **Try This:**
 
-- Try adjusting the tie breaker value or changing the query term to 'Bluetooth'.
+- Try searching for 'Books' or 'Outdoor activities'.
+
+
+
+
+### Boost scoring for product name matches
+This query searches for products with the term 'wireless headphones' and boosts matches in the product name field.
+
+
+**Try This:**
+
+- Try boosting 'product_description' by using '^2' after the field name.
+
+
+
+
+### Use 'best_fields' type for review searches
+This query uses the 'best_fields' type to find reviews mentioning 'durable and comfortable'.
+
+
+**Try This:**
+
+- Change the type to 'most_fields' and observe the difference in results.
+
+
+
+
+### Search user interests using 'phrase_prefix'
+This query uses the 'phrase_prefix' type to find users interested in topics starting with 'Electro'.
+
+
+**Try This:**
+
+- Try searching for 'Books' or 'Outdoor'.
 
 
 

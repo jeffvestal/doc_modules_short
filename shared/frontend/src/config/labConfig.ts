@@ -1,6 +1,6 @@
-// Auto-generated for fuzzy lab build
+// Auto-generated for range lab build
 // This file re-exports the lab-specific config as labConfig
 
 import type { LabConfig } from '../types';
-import { fuzzyConfig as config } from './labs/fuzzyConfig';
+import { rangeConfig as config } from './labs/rangeConfig';
 export const labConfig: LabConfig = config;

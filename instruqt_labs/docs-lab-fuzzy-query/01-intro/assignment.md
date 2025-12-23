@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance.
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: Changing a character (box → fox), Removing a character (black → lack), Inserting a character (sic → sick), Transposing two adjacent characters (act → cat).
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance.
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: Changing a character (box → fox), Removing a character (black → lack), Inserting a character (sic → sick), Transposing two adjacent characters (act → cat).
 
 ## What You'll Learn
 
@@ -74,71 +74,60 @@ Returns documents that contain terms similar to the search term, as measured by 
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the fuzzy_query query:
+This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find similar product names
-Search for products with names similar to 'wireles' to catch spelling variations.
-
-
-**Try This:**
-
-- Try searching for similar terms like 'premum' or 'luxry'.
-
-
-
-
-### Match review titles with typos
-Find reviews with titles similar to 'comforable', accounting for spelling errors.
+### Basic fuzzy search on product names
+Search for products with names similar to 'wireles'. This demonstrates the most basic usage of the fuzzy query.
 
 
 **Try This:**
 
-- Try searching for 'qulity' or 'durable'.
+- Try searching with variations like 'wirless', 'wreless', or 'wirele'.
 
 
 
 
-### Fuzzy match user interests
-Find users with interests similar to 'Electonics', allowing for minor spelling errors.
-
-
-**Try This:**
-
-- Search for terms like 'Books' or 'Musics'.
-
-
-
-
-### Find products with prefix matching
-Search for products with names starting with 'lux' and allow minor misspellings.
+### Fuzzy query with custom fuzziness
+Search for reviews with text similar to 'comfartable' using a manually set fuzziness level.
 
 
 **Try This:**
 
-- Search for terms like 'pre' or 'qual'.
+- Try increasing or decreasing the fuzziness parameter to see how it affects results.
 
 
 
 
-### Review text with transpositions
-Find reviews with text similar to 'durbale', correcting swapped characters.
-
-
-**Try This:**
-
-- Search for terms like 'comfrotable' or 'practical'.
-
-
-
-
-### Limit fuzzy search expansions
-Search for users with interests similar to 'Books', limiting the number of matched terms.
+### Fuzzy query with prefix length
+Search for users with interests similar to 'Electroncs', ensuring the first two characters must match exactly.
 
 
 **Try This:**
 
-- Try increasing max_expansions to see more matches.
+- Try setting prefix_length to 0 or 3 and observe the change in results.
+
+
+
+
+### Fuzzy query with max expansions
+Search for reviews with titles similar to 'durability', limiting the number of term expansions.
+
+
+**Try This:**
+
+- Experiment with max_expansions set to 10, 50, or higher to control the breadth of search.
+
+
+
+
+### Fuzzy query with transpositions enabled
+Search for products with descriptions similar to 'wirless', allowing transpositions.
+
+
+**Try This:**
+
+- Try disabling transpositions by setting 'transpositions' to false and see the difference.
 
 
 

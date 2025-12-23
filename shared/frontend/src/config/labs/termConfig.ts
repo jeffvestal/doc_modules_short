@@ -30,34 +30,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find a product by exact ID",
-      description: "This query retrieves a product document with the exact product_id of \u002712345\u0027.",
-      template: `{
-  "query": {
-    "term": {
-      "product_id": {
-        "value": "12345",
-        "boost": 1.0
-      }
-    }
-  }
-}`,
+      title: "Find product by exact category",
+      description: "This query searches for products in the \u0027Electronics\u0027 category.",
+      template: `{ "query": { "term": { "product_category": { "value": "Electronics" } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Change the value of \u0027product_id\u0027 to another exact ID in your dataset and observe the results.",
+        "Change the value to \u0027Appliances\u0027 to see if there are products in that category.",
+
+        "Try using a different field like \u0027product_brand\u0027 with a brand name as the value.",
 
       ],
 
 
       tooltips: {
 
-        "product_id": "The ID of the product, which must be matched exactly.",
+        "product_category": "The field containing the product category.",
 
-        "value": "The exact term value to match in the specified field.",
-
-        "boost": "Optional parameter to influence the document\u0027s relevance score.",
+        "value": "The exact value to match in the specified field.",
 
       },
 
@@ -65,34 +56,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Search for an exact product brand",
-      description: "This query retrieves all products that have the exact brand name \u0027Acme\u0027.",
-      template: `{
-  "query": {
-    "term": {
-      "product_brand": {
-        "value": "Acme",
-        "boost": 1.0
-      }
-    }
-  }
-}`,
-      index: 'products',
+      title: "Find verified purchase reviews",
+      description: "This query retrieves product reviews that are verified purchases.",
+      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Replace \u0027Acme\u0027 with another brand name to see if products from that brand exist in your data.",
+        "Change the value to 'False' to find non-verified reviews.",
+
+        "Try the 'review_rating' field with a value of 5 to find 5-star reviews.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "The field containing the product\u0027s brand name.",
+        "verified_purchase": "Boolean field indicating if the reviewer purchased the product.",
 
-        "value": "The exact brand name to search for.",
-
-        "boost": "Optional parameter to prioritize results with this term.",
+        "value": "The exact value to match ('True' or 'False').",
 
       },
 
@@ -100,34 +82,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Find reviews with a specific rating",
-      description: "This query retrieves all reviews that have a rating of exactly 5.",
-      template: `{
-  "query": {
-    "term": {
-      "review_rating": {
-        "value": 5,
-        "boost": 1.0
-      }
-    }
-  }
-}`,
-      index: 'product_reviews',
+      title: "Find user by username",
+      description: "This query retrieves information about a user with an exact username.",
+      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Modify the \u0027value\u0027 field to another rating (e.g., 4 or 3) to see reviews with that rating.",
+        "Try other usernames like 'CameronLopez20' or 'JordanMartinez33'.",
+
+        "Try searching the 'account_type' field with 'Premium' or 'Enterprise'.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "The rating given in the review, typically a number.",
+        "username": "The field containing the user's unique username.",
 
-        "value": "The exact rating to match in the specified field.",
-
-        "boost": "Optional parameter to adjust the relevance of the results.",
+        "value": "The exact username to match.",
 
       },
 
@@ -135,34 +108,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Search for a verified purchase",
-      description: "This query retrieves reviews where the purchase is marked as verified.",
-      template: `{
-  "query": {
-    "term": {
-      "verified_purchase": {
-        "value": true,
-        "boost": 1.0
-      }
-    }
-  }
-}`,
-      index: 'product_reviews',
+      title: "Find products by exact price",
+      description: "This query retrieves products that have a price of exactly 89.99.",
+      template: `{ "query": { "term": { "product_price": { "value": 89.99 } } } }`,
+      index: 'products',
 
       tryThis: [
 
-        "Toggle the \u0027value\u0027 between true and false to see reviews for verified and non-verified purchases.",
+        "Change the price value to 49.99 or 129.99 to find other products.",
+
+        "Try the 'product_brand' field with 'AudioMax' or 'BrewMaster'.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "A boolean field indicating whether the purchase was verified.",
+        "product_price": "The field containing the price of the product.",
 
-        "value": "Set this to true or false to match the desired state.",
-
-        "boost": "Optional parameter to influence result ranking.",
+        "value": "The exact price to match.",
 
       },
 
@@ -170,34 +134,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Find a user by exact username",
-      description: "This query retrieves a user document with the exact username \u0027johndoe\u0027.",
-      template: `{
-  "query": {
-    "term": {
-      "username": {
-        "value": "johndoe",
-        "boost": 1.0
-      }
-    }
-  }
-}`,
-      index: 'product_users',
+      title: "Find reviews with helpful votes",
+      description: "This query retrieves reviews that have exactly 10 helpful votes.",
+      template: `{ "query": { "term": { "helpful_votes": { "value": 10 } } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Replace \u0027johndoe\u0027 with another username to find a different user.",
+        "Modify the value to 5 or 20 to see reviews with different numbers of helpful votes.",
+
+        "Use the \u0027review_rating\u0027 field to filter reviews based on their rating instead.",
 
       ],
 
 
       tooltips: {
 
-        "username": "The username of the user, which must match exactly.",
+        "helpful_votes": "The field containing the number of helpful votes a review received.",
 
-        "value": "The exact username to search for.",
-
-        "boost": "Optional parameter to adjust relevance ranking.",
+        "value": "The exact number of votes to match.",
 
       },
 
@@ -205,34 +160,25 @@ export const termConfig: LabConfig = {
 
     {
       id: '6',
-      title: "Find users based on trust score",
-      description: "This query retrieves all users with a trust score of exactly 90.",
-      template: `{
-  "query": {
-    "term": {
-      "trust_score": {
-        "value": 90,
-        "boost": 1.0
-      }
-    }
-  }
-}`,
+      title: "Find users by account type",
+      description: "This query retrieves users with a Premium account type.",
+      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Change the \u0027value\u0027 to a different trust score (e.g., 80 or 95) to find users with that score.",
+        "Change 'Premium' to 'Free' or 'Enterprise' to find other account types.",
+
+        "Note: Term queries are case-sensitive - 'premium' won't match 'Premium'.",
 
       ],
 
 
       tooltips: {
 
-        "trust_score": "The trust level of the user, usually a numerical value.",
+        "account_type": "The field containing the account type of the user.",
 
-        "value": "The exact trust score to match in the user data.",
-
-        "boost": "Optional parameter to influence the scoring of results.",
+        "value": "The exact account type to match (case-sensitive).",
 
       },
 
