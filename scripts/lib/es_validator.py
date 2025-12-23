@@ -135,9 +135,18 @@ class ESValidator:
         Returns:
             Tuple of (success, row_count, error_message)
         """
+        # #region agent log
+        import json as _json
+        _log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+        with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:entry", "message": "ESQL query received", "data": {"query": query, "has_single_quotes": "'" in query, "has_double_quotes": '"' in query}, "hypothesisId": "A,B", "timestamp": __import__("time").time()}) + "\n")
+        # #endregion
         try:
             # Use the esql.query API
             response = self.es.esql.query(query=query)
+            
+            # #region agent log
+            with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:success", "message": "ESQL query succeeded", "data": {"row_count": len(response.get('values', []))}, "hypothesisId": "C", "timestamp": __import__("time").time()}) + "\n")
+            # #endregion
             
             # ES|QL returns columns and values
             row_count = len(response.get('values', []))
@@ -148,6 +157,9 @@ class ESValidator:
                 return False, 0, "Query returned 0 rows"
                 
         except Exception as e:
+            # #region agent log
+            with open(_log_path, "a") as _f: _f.write(_json.dumps({"location": "es_validator.py:validate_esql_query:error", "message": "ESQL query failed", "data": {"error": str(e), "error_type": type(e).__name__}, "hypothesisId": "A,C,E", "timestamp": __import__("time").time()}) + "\n")
+            # #endregion
             return False, 0, str(e)
     
     def validate_example(

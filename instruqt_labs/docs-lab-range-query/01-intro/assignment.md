@@ -78,67 +78,79 @@ This lab includes 6 examples demonstrating different aspects of the range_query 
 
 
 ### Find products within a price range
-Search for products that have a price between $50 and $100.
+Retrieve all products that have a price between $20 and $50.
 
 
 **Try This:**
 
-- Change the price range to find products that are cheaper or more expensive.
+- Change the range to find products between $30 and $70.
+
+- Add a 'boost' parameter to prioritize these results.
 
 
 
 
-### Find highly-rated product reviews
-Search for product reviews with a rating of 4 or higher.
-
-
-**Try This:**
-
-- Adjust the 'gte' value to filter for reviews with a specific minimum rating.
-
-
-
-
-### Find recent users who joined in a date range
-Search for users who joined between January 1, 2020, and January 1, 2023.
+### Retrieve highly rated reviews
+Find all reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Modify the date range to filter for users who joined earlier or later.
+- Change the range to find reviews with a rating of 3 or lower.
+
+- Add a sort clause to order results by the review date.
 
 
 
 
-### Find products priced above $200
-Search for products that have a price greater than $200.
-
-
-**Try This:**
-
-- Change the 'gte' value to filter for products priced above a different threshold.
-
-
-
-
-### Find reviews submitted within the last 30 days
-Search for reviews submitted in the last 30 days using a relative date range.
+### Filter users by trust score
+Retrieve users with a trust score between 70 and 90.
 
 
 **Try This:**
 
-- Change the range to 'now-7d/d' to filter for reviews from the last 7 days.
+- Expand the range to include users with trust scores of 60 to 95.
+
+- Add a condition to filter users by account type (e.g., Premium).
 
 
 
 
-### Find users with a high trust score
-Search for users with a trust score of 80 or higher.
+### Find recent reviews
+Retrieve reviews posted within the last 30 days.
 
 
 **Try This:**
 
-- Adjust the 'gte' value to filter for users with a different minimum trust score.
+- Change the range to find reviews from the last 7 days.
+
+- Use a specific date range instead (e.g., '2023-01-01' to '2023-01-31').
+
+
+
+
+### Filter products by price with boost
+Find products priced between $50 and $100, giving them a higher relevance boost.
+
+
+**Try This:**
+
+- Adjust the boost value to prioritize these results differently.
+
+- Narrow the price range to between $60 and $80.
+
+
+
+
+### Find users by age group
+Retrieve users between the ages of 25 and 35.
+
+
+**Try This:**
+
+- Change the range to target users aged 18 to 29.
+
+- Combine this query with a term query on the 'account_type' field.
 
 
 

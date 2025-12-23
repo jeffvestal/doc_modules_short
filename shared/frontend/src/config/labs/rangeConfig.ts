@@ -29,150 +29,216 @@ export const rangeConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
+      id: '1',
       title: "Find products within a price range",
-      description: "Search for products that have a price between $50 and $100.",
-      template: `{ "query": { "range": { "product_price": { "gte": 50, "lte": 100 } } } }`,
+      description: "Retrieve all products that have a price between $20 and $50.",
+      template: `{
+  "query": {
+    "range": {
+      "product_price": {
+        "gte": 20,
+        "lte": 50
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the price range to find products that are cheaper or more expensive.",
+        "Change the range to find products between $30 and $70.",
+
+        "Add a \u0027boost\u0027 parameter to prioritize these results.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The field representing the price of the product.",
+        "gte": "Specifies the lower bound of the range (greater than or equal).",
 
-        "gte": "Greater than or equal to the specified value.",
-
-        "lte": "Less than or equal to the specified value.",
+        "lte": "Specifies the upper bound of the range (less than or equal).",
 
       },
 
     },
 
     {
-      id: 'example_2',
-      title: "Find highly-rated product reviews",
-      description: "Search for product reviews with a rating of 4 or higher.",
-      template: `{ "query": { "range": { "review_rating": { "gte": 4 } } } }`,
+      id: '2',
+      title: "Retrieve highly rated reviews",
+      description: "Find all reviews with a rating of 4 or higher.",
+      template: `{
+  "query": {
+    "range": {
+      "review_rating": {
+        "gte": 4
+      }
+    }
+  }
+}`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Adjust the \u0027gte\u0027 value to filter for reviews with a specific minimum rating.",
+        "Change the range to find reviews with a rating of 3 or lower.",
+
+        "Add a sort clause to order results by the review date.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "The field representing the rating given in the review.",
+        "gte": "Defines the minimum rating to consider.",
 
-        "gte": "Greater than or equal to the specified value.",
+        "review_rating": "Field representing the numeric rating of the review.",
 
       },
 
     },
 
     {
-      id: 'example_3',
-      title: "Find recent users who joined in a date range",
-      description: "Search for users who joined between January 1, 2020, and January 1, 2023.",
-      template: `{ "query": { "range": { "member_since": { "gte": "2020-01-01", "lte": "2023-01-01" } } } }`,
+      id: '3',
+      title: "Filter users by trust score",
+      description: "Retrieve users with a trust score between 70 and 90.",
+      template: `{
+  "query": {
+    "range": {
+      "trust_score": {
+        "gte": 70,
+        "lte": 90
+      }
+    }
+  }
+}`,
       index: 'product_users',
 
       tryThis: [
 
-        "Modify the date range to filter for users who joined earlier or later.",
+        "Expand the range to include users with trust scores of 60 to 95.",
+
+        "Add a condition to filter users by account type (e.g., Premium).",
 
       ],
 
 
       tooltips: {
 
-        "member_since": "The field representing the date the user joined.",
+        "gte": "Defines the minimum trust score to include.",
 
-        "gte": "Greater than or equal to the specified date.",
-
-        "lte": "Less than or equal to the specified date.",
+        "lte": "Defines the maximum trust score to include.",
 
       },
 
     },
 
     {
-      id: 'example_4',
-      title: "Find products priced above $200",
-      description: "Search for products that have a price greater than $200.",
-      template: `{ "query": { "range": { "product_price": { "gte": 200 } } } }`,
+      id: '4',
+      title: "Find recent reviews",
+      description: "Retrieve reviews posted within the last 30 days.",
+      template: `{
+  "query": {
+    "range": {
+      "review_date": {
+        "gte": "now-30d/d",
+        "lte": "now/d"
+      }
+    }
+  }
+}`,
+      index: 'product_reviews',
+
+      tryThis: [
+
+        "Change the range to find reviews from the last 7 days.",
+
+        "Use a specific date range instead (e.g., \u00272023-01-01\u0027 to \u00272023-01-31\u0027).",
+
+      ],
+
+
+      tooltips: {
+
+        "gte": "Defines the starting date of the range (inclusive).",
+
+        "lte": "Defines the ending date of the range (inclusive).",
+
+        "now": "Represents the current date and time.",
+
+      },
+
+    },
+
+    {
+      id: '5',
+      title: "Filter products by price with boost",
+      description: "Find products priced between $50 and $100, giving them a higher relevance boost.",
+      template: `{
+  "query": {
+    "range": {
+      "product_price": {
+        "gte": 50,
+        "lte": 100,
+        "boost": 2.0
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the \u0027gte\u0027 value to filter for products priced above a different threshold.",
+        "Adjust the boost value to prioritize these results differently.",
+
+        "Narrow the price range to between $60 and $80.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The field representing the price of the product.",
+        "boost": "Specifies the relevance boost for matching documents.",
 
-        "gte": "Greater than or equal to the specified value.",
+        "gte": "Defines the minimum price to include.",
 
-      },
-
-    },
-
-    {
-      id: 'example_5',
-      title: "Find reviews submitted within the last 30 days",
-      description: "Search for reviews submitted in the last 30 days using a relative date range.",
-      template: `{ "query": { "range": { "review_date": { "gte": "now-30d/d", "lte": "now/d" } } } }`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Change the range to \u0027now-7d/d\u0027 to filter for reviews from the last 7 days.",
-
-      ],
-
-
-      tooltips: {
-
-        "review_date": "The field representing the date the review was created.",
-
-        "gte": "Greater than or equal to the specified date, relative to now.",
-
-        "lte": "Less than or equal to the specified date, relative to now.",
+        "lte": "Defines the maximum price to include.",
 
       },
 
     },
 
     {
-      id: 'example_6',
-      title: "Find users with a high trust score",
-      description: "Search for users with a trust score of 80 or higher.",
-      template: `{ "query": { "range": { "trust_score": { "gte": 80 } } } }`,
+      id: '6',
+      title: "Find users by age group",
+      description: "Retrieve users between the ages of 25 and 35.",
+      template: `{
+  "query": {
+    "range": {
+      "age_group": {
+        "gte": 25,
+        "lte": 35
+      }
+    }
+  }
+}`,
       index: 'product_users',
 
       tryThis: [
 
-        "Adjust the \u0027gte\u0027 value to filter for users with a different minimum trust score.",
+        "Change the range to target users aged 18 to 29.",
+
+        "Combine this query with a term query on the \u0027account_type\u0027 field.",
 
       ],
 
 
       tooltips: {
 
-        "trust_score": "The field representing the user\u0027s trust score.",
+        "age_group": "Field representing the age range of the user.",
 
-        "gte": "Greater than or equal to the specified value.",
+        "gte": "Specifies the minimum age to include.",
+
+        "lte": "Specifies the maximum age to include.",
 
       },
 

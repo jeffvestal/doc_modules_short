@@ -276,6 +276,13 @@ Return ONLY the JSON object, no markdown formatting."""
             # Parse JSON
             lab_config = json.loads(content)
             
+            # #region agent log
+            _log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+            if query_language == 'esql':
+                _examples = lab_config.get('examples', [])
+                with open(_log_path, "a") as _f: _f.write(json.dumps({"location": "example_generator.py:generate_lab_config:parsed", "message": "ESQL examples from LLM", "data": {"example_count": len(_examples), "first_template": _examples[0].get('template', '')[:150] if _examples else None, "has_single_quotes": any("'" in ex.get('template', '') for ex in _examples)}, "hypothesisId": "A,B", "timestamp": __import__("time").time()}) + "\n")
+            # #endregion
+            
             # Post-process: ensure required fields exist with defaults
             if 'keyDisplayFields' not in lab_config or not lab_config['keyDisplayFields']:
                 lab_config['keyDisplayFields'] = {

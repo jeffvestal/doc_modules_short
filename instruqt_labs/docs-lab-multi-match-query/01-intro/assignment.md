@@ -74,71 +74,60 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search products by name and description
-This query searches for products with the term 'wireless headphones' in either the name or the description.
-
-
-**Try This:**
-
-- Try searching for 'premium sound' or 'Bluetooth speakers'.
-
-
-
-
-### Find reviews mentioning comfort
-This query searches for reviews that mention 'comfortable chair' in the title or text.
+### Search across product name and description
+Find products related to 'wireless headphones' by searching both name and description fields.
 
 
 **Try This:**
 
-- Try searching for 'ergonomic design' or 'durable build'.
+- Try replacing 'wireless headphones' with 'premium speakers' to see different results.
 
 
 
 
-### Search user interests
-This query searches for users interested in 'Electronics'.
-
-
-**Try This:**
-
-- Try searching for 'Books' or 'Outdoor activities'.
-
-
-
-
-### Boost scoring for product name matches
-This query searches for products with the term 'wireless headphones' and boosts matches in the product name field.
+### Search product reviews
+Find reviews mentioning 'comfortable' and 'durable', searching across title and text fields.
 
 
 **Try This:**
 
-- Try boosting 'product_description' by using '^2' after the field name.
+- Try modifying the query to 'stylish durable' to find reviews emphasizing style.
 
 
 
 
-### Use 'best_fields' type for review searches
-This query uses the 'best_fields' type to find reviews mentioning 'durable and comfortable'.
-
-
-**Try This:**
-
-- Change the type to 'most_fields' and observe the difference in results.
-
-
-
-
-### Search user interests using 'phrase_prefix'
-This query uses the 'phrase_prefix' type to find users interested in topics starting with 'Electro'.
+### Cross-field search for user interests
+Search for users interested in both 'Electronics' and 'Books' across the interests field.
 
 
 **Try This:**
 
-- Try searching for 'Books' or 'Outdoor'.
+- Replace 'Electronics Books' with 'Sports Outdoors' to find users with different interests.
+
+
+
+
+### Weighted search across fields
+Boost results from the product name field while searching 'wireless headphones'.
+
+
+**Try This:**
+
+- Adjust the boost factor on 'product_name^2' to prioritize this field more strongly.
+
+
+
+
+### Search using phrase prefix type
+Find reviews starting with 'durable' or 'comfortable' in the title and text fields.
+
+
+**Try This:**
+
+- Try replacing 'durable comfortable' with 'easy assembly' to find reviews with similar prefixes.
 
 
 

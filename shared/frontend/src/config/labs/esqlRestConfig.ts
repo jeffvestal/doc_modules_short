@@ -4,7 +4,7 @@ export const esqlRestConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_rest',
   displayName: 'ES|QL Query',
-  description: "\u003ctip\u003e The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. \u003c/tip\u003e",
+  description: "The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-rest',
 
   keyDisplayFields: {
@@ -30,27 +30,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_1',
-      title: "Find wireless products",
-      description: "Search for products with \u0027wireless\u0027 in their description and show the first 10 results.",
-      template: `FROM products | WHERE product_description LIKE "*wireless*" | LIMIT 10`,
+      title: "Filter products by category and sort by price",
+      description: "This query retrieves products in the \u0027Electronics\u0027 category, showing only the name and price, sorted by price in descending order.",
+      template: `FROM products | WHERE product_category == 'Electronics' | KEEP product_name, product_price | SORT product_price DESC | LIMIT 5`,
       index: 'products',
 
       tryThis: [
 
-        "Modify the query to search for a different keyword, such as \u0027Bluetooth\u0027.",
+        "Change \u0027Electronics\u0027 to \u0027Books\u0027 to filter for a different category.",
+
+        "Increase the LIMIT to 10 to see more results.",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Defines the data source to query.",
+        "FROM": "Specifies which dataset to query.",
 
-        "WHERE": "Filters the results based on a condition.",
+        "WHERE": "Filters results based on a condition.",
 
-        "LIKE": "Searches for records matching the specified pattern.",
+        "KEEP": "Keeps only the specified fields in the output.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "SORT": "Orders the results by a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -58,25 +62,33 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_2',
-      title: "Sort premium products by price",
-      description: "Find products with \u0027premium\u0027 in their name, keep the name and price fields, and sort by price in descending order.",
-      template: `FROM products | WHERE product_name LIKE "*premium*" | KEEP product_name, product_price | SORT product_price DESC`,
-      index: 'products',
+      title: "Find reviews mentioning specific keywords",
+      description: "This query fetches reviews containing \u0027durable\u0027 or \u0027comfortable\u0027, showing their title and rating, sorted by rating in descending order.",
+      template: `FROM product_reviews | WHERE review_text LIKE '*durable*' OR review_text LIKE '*comfortable*' | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 10`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the sorting to ascending order or filter by another keyword like \u0027luxury\u0027.",
+        "Change \u0027durable\u0027 to \u0027lightweight\u0027 to find reviews mentioning a different keyword.",
+
+        "Add a condition to filter by review rating (e.g., \u0027review_rating \u003e= 4\u0027).",
 
       ],
 
 
       tooltips: {
 
-        "KEEP": "Selects specific fields to include in the results.",
+        "FROM": "Specifies which dataset to query.",
 
-        "SORT": "Orders the results based on the specified field and direction.",
+        "WHERE": "Filters results based on a condition.",
 
-        "DESC": "Sorts the results in descending order.",
+        "LIKE": "Performs a wildcard search on text fields.",
+
+        "KEEP": "Keeps only the specified fields in the output.",
+
+        "SORT": "Orders the results by a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -84,27 +96,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_3',
-      title: "Top-rated comfortable reviews",
-      description: "Search for reviews mentioning \u0027comfortable\u0027 and return the first 10 results.",
-      template: `FROM product_reviews | WHERE review_text LIKE "*comfortable*" | LIMIT 10`,
-      index: 'product_reviews',
+      title: "Search users by interests",
+      description: "This query retrieves user profiles with interests related to \u0027Books\u0027 or \u0027Electronics\u0027, showing their username and interests.",
+      template: `FROM product_users | WHERE interests LIKE '*Books*' OR interests LIKE '*Electronics*' | KEEP username, interests | LIMIT 10`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Update the query to search for reviews mentioning \u0027durable\u0027 instead.",
+        "Change \u0027Books\u0027 to \u0027Sports\u0027 to find users with a different interest.",
+
+        "Add a condition to filter by account type (e.g., \u0027account_type == \"Premium\"\u0027).",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Defines the data source to query.",
+        "FROM": "Specifies which dataset to query.",
 
-        "WHERE": "Filters the results based on a condition.",
+        "WHERE": "Filters results based on a condition.",
 
-        "LIKE": "Searches for records matching the specified pattern.",
+        "LIKE": "Performs a wildcard search on text fields.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "KEEP": "Keeps only the specified fields in the output.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -112,27 +128,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_4',
-      title: "Find users interested in Electronics",
-      description: "Search for users with interests related to \u0027Electronics\u0027 and return the first 10 results.",
-      template: `FROM product_users | WHERE interests LIKE "*Electronics*" | LIMIT 10`,
-      index: 'product_users',
+      title: "List verified reviews with helpful votes",
+      description: "This query retrieves verified purchase reviews with at least 15 helpful votes, showing their title, rating, and helpful vote count.",
+      template: `FROM product_reviews | WHERE verified_purchase == 'True' AND helpful_votes >= 15 | KEEP review_title, review_rating, helpful_votes | SORT helpful_votes DESC | LIMIT 10`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Experiment with different interest keywords, like \u0027Books\u0027 or \u0027Sports\u0027.",
+        "Change \u002715\u0027 to \u002710\u0027 to include reviews with fewer helpful votes.",
+
+        "Remove the \u0027verified_purchase\u0027 condition to include all reviews.",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Defines the data source to query.",
+        "FROM": "Specifies which dataset to query.",
 
-        "WHERE": "Filters the results based on a condition.",
+        "WHERE": "Filters results based on a condition.",
 
-        "LIKE": "Searches for records matching the specified pattern.",
+        "KEEP": "Keeps only the specified fields in the output.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "SORT": "Orders the results by a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -140,57 +160,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_5',
-      title: "Top-rated reviews for durable and comfortable products",
-      description: "Find reviews mentioning \u0027durable\u0027 or \u0027comfortable\u0027, show the title and rating, and sort by rating in descending order.",
-      template: `FROM product_reviews | WHERE review_text LIKE "*durable*" OR review_text LIKE "*comfortable*" | KEEP review_title, review_rating | SORT review_rating DESC`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Add another keyword to the filter, such as \u0027reliable\u0027.",
-
-      ],
-
-
-      tooltips: {
-
-        "WHERE": "Filters the results based on a condition.",
-
-        "OR": "Allows combining multiple conditions.",
-
-        "KEEP": "Selects specific fields to include in the results.",
-
-        "SORT": "Orders the results based on the specified field and direction.",
-
-        "DESC": "Sorts the results in descending order.",
-
-      },
-
-    },
-
-    {
-      id: 'example_6',
-      title: "Users with multiple interests",
-      description: "Find users interested in both \u0027Books\u0027 and \u0027Electronics\u0027, showing their username and interests.",
-      template: `FROM product_users | WHERE interests LIKE "*Books*" OR interests LIKE "*Electronics*" | KEEP username, interests | LIMIT 10`,
+      title: "Find premium users with high trust scores",
+      description: "This query retrieves premium users with a trust score above 80, showing their username and trust score.",
+      template: `FROM product_users | WHERE account_type == 'Premium' AND trust_score > 80 | KEEP username, trust_score | SORT trust_score DESC | LIMIT 5`,
       index: 'product_users',
 
       tryThis: [
 
-        "Try changing the interests to \u0027Gaming\u0027 or \u0027Travel\u0027.",
+        "Change \u0027Premium\u0027 to \u0027Free\u0027 to find free users.",
+
+        "Adjust the trust score threshold to include more users.",
 
       ],
 
 
       tooltips: {
 
-        "WHERE": "Filters the results based on a condition.",
+        "FROM": "Specifies which dataset to query.",
 
-        "OR": "Allows combining multiple conditions.",
+        "WHERE": "Filters results based on a condition.",
 
-        "KEEP": "Selects specific fields to include in the results.",
+        "KEEP": "Keeps only the specified fields in the output.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "SORT": "Orders the results by a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 

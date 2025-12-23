@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: Changing a character (box → fox), Removing a character (black → lack), Inserting a character (sic → sick), Transposing two adjacent characters (act → cat).
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: Changing a character (box → fox), Removing a character (black → lack), Inserting a character (sic → sick), Transposing two adjacent characters (act → cat).
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 
 ## What You'll Learn
 
@@ -77,57 +77,67 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Basic fuzzy search on product names
-Search for products with names similar to 'wireles'. This demonstrates the most basic usage of the fuzzy query.
+### Find products with similar names
+Search for products with names closely resembling 'wirless'.
 
 
 **Try This:**
 
-- Try searching with variations like 'wirless', 'wreless', or 'wirele'.
+- Change the value to 'wirless' or 'wirless headphones'.
+
+- Adjust the fuzziness to '1' or '2' to see different results.
 
 
 
 
-### Fuzzy query with custom fuzziness
-Search for reviews with text similar to 'comfartable' using a manually set fuzziness level.
-
-
-**Try This:**
-
-- Try increasing or decreasing the fuzziness parameter to see how it affects results.
-
-
-
-
-### Fuzzy query with prefix length
-Search for users with interests similar to 'Electroncs', ensuring the first two characters must match exactly.
+### Find reviews with slightly misspelled titles
+Search for reviews with titles that are similar to 'comfotable'.
 
 
 **Try This:**
 
-- Try setting prefix_length to 0 or 3 and observe the change in results.
+- Modify the value to 'comfotable seating' or 'comfotrable couch'.
+
+- Change the prefix_length to '2' to require the first two characters to match.
 
 
 
 
-### Fuzzy query with max expansions
-Search for reviews with titles similar to 'durability', limiting the number of term expansions.
-
-
-**Try This:**
-
-- Experiment with max_expansions set to 10, 50, or higher to control the breadth of search.
-
-
-
-
-### Fuzzy query with transpositions enabled
-Search for products with descriptions similar to 'wirless', allowing transpositions.
+### Find users with interests close to 'Electronics'
+Search for users whose interests are similar to 'Elctronics'.
 
 
 **Try This:**
 
-- Try disabling transpositions by setting 'transpositions' to false and see the difference.
+- Try searching for 'Books' or 'Elctronic gadgets'.
+
+- Set transpositions to 'false' and observe the difference in results.
+
+
+
+
+### Find products with misspelled descriptions
+Search for products with descriptions similar to 'wirless connectivity'.
+
+
+**Try This:**
+
+- Change the value to 'wirless network' or 'wreless signal'.
+
+- Use fuzziness 'AUTO' instead of '1' for dynamic edit distances.
+
+
+
+
+### Find users with similar usernames
+Search for users with usernames close to 'AveryWilams55'.
+
+
+**Try This:**
+
+- Change the value to 'CameronLopez20' or 'DakotaHernadez39'.
+
+- Reduce max_expansions to '10' and observe fewer results.
 
 
 

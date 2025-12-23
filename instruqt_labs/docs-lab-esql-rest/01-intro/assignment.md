@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 
 ## What You'll Learn
 
@@ -74,71 +74,70 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the esql_rest query:
+This lab includes 5 examples demonstrating different aspects of the esql_rest query:
 
 
-### Find wireless products
-Search for products with 'wireless' in their description and show the first 10 results.
-
-
-**Try This:**
-
-- Modify the query to search for a different keyword, such as 'Bluetooth'.
-
-
-
-
-### Sort premium products by price
-Find products with 'premium' in their name, keep the name and price fields, and sort by price in descending order.
+### Filter products by category and sort by price
+This query retrieves products in the 'Electronics' category, showing only the name and price, sorted by price in descending order.
 
 
 **Try This:**
 
-- Change the sorting to ascending order or filter by another keyword like 'luxury'.
+- Change 'Electronics' to 'Books' to filter for a different category.
+
+- Increase the LIMIT to 10 to see more results.
 
 
 
 
-### Top-rated comfortable reviews
-Search for reviews mentioning 'comfortable' and return the first 10 results.
-
-
-**Try This:**
-
-- Update the query to search for reviews mentioning 'durable' instead.
-
-
-
-
-### Find users interested in Electronics
-Search for users with interests related to 'Electronics' and return the first 10 results.
+### Find reviews mentioning specific keywords
+This query fetches reviews containing 'durable' or 'comfortable', showing their title and rating, sorted by rating in descending order.
 
 
 **Try This:**
 
-- Experiment with different interest keywords, like 'Books' or 'Sports'.
+- Change 'durable' to 'lightweight' to find reviews mentioning a different keyword.
+
+- Add a condition to filter by review rating (e.g., 'review_rating >= 4').
 
 
 
 
-### Top-rated reviews for durable and comfortable products
-Find reviews mentioning 'durable' or 'comfortable', show the title and rating, and sort by rating in descending order.
-
-
-**Try This:**
-
-- Add another keyword to the filter, such as 'reliable'.
-
-
-
-
-### Users with multiple interests
-Find users interested in both 'Books' and 'Electronics', showing their username and interests.
+### Search users by interests
+This query retrieves user profiles with interests related to 'Books' or 'Electronics', showing their username and interests.
 
 
 **Try This:**
 
-- Try changing the interests to 'Gaming' or 'Travel'.
+- Change 'Books' to 'Sports' to find users with a different interest.
+
+- Add a condition to filter by account type (e.g., 'account_type == "Premium"').
+
+
+
+
+### List verified reviews with helpful votes
+This query retrieves verified purchase reviews with at least 15 helpful votes, showing their title, rating, and helpful vote count.
+
+
+**Try This:**
+
+- Change '15' to '10' to include reviews with fewer helpful votes.
+
+- Remove the 'verified_purchase' condition to include all reviews.
+
+
+
+
+### Find premium users with high trust scores
+This query retrieves premium users with a trust score above 80, showing their username and trust score.
+
+
+**Try This:**
+
+- Change 'Premium' to 'Free' to find free users.
+
+- Adjust the trust score threshold to include more users.
 
 
 
