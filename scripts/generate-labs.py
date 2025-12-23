@@ -118,9 +118,11 @@ def process_single_url(
         
         # Validate examples
         es_validator = ESValidator(example_generator, dataset_schemas)
+        query_language = lab_config.get('queryLanguage', 'query_dsl')
         validation_results = es_validator.validate_all_examples(
             lab_config.get('examples', []),
-            max_retries=5
+            max_retries=5,
+            query_language=query_language
         )
         
         # Quality checks

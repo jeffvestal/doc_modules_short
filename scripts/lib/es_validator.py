@@ -123,16 +123,45 @@ class ESValidator:
         
         return False, 0, last_error, current_query if attempt > 0 else None
     
+    def validate_esql_query(
+        self,
+        query: str
+    ) -> Tuple[bool, int, Optional[str]]:
+        """Validate an ES|QL query.
+        
+        Args:
+            query: ES|QL query string
+            
+        Returns:
+            Tuple of (success, row_count, error_message)
+        """
+        try:
+            # Use the esql.query API
+            response = self.es.esql.query(query=query)
+            
+            # ES|QL returns columns and values
+            row_count = len(response.get('values', []))
+            
+            if row_count > 0:
+                return True, row_count, None
+            else:
+                return False, 0, "Query returned 0 rows"
+                
+        except Exception as e:
+            return False, 0, str(e)
+    
     def validate_example(
         self,
         example: Dict[str, Any],
-        max_retries: int = 5
+        max_retries: int = 5,
+        query_language: str = 'query_dsl'
     ) -> Dict[str, Any]:
         """Validate a single example.
         
         Args:
             example: Example dict with 'template' and 'index' keys
             max_retries: Maximum retry attempts
+            query_language: 'query_dsl', 'esql', or 'eql'
             
         Returns:
             Validation result dict with:
@@ -142,8 +171,19 @@ class ESValidator:
             - fixed_template: Optional[str]
         """
         try:
-            # Parse template JSON
-            template = example.get('template', '{}')
+            template = example.get('template', '')
+            
+            # Handle ES|QL queries (plain text, not JSON)
+            if query_language == 'esql':
+                success, row_count, error = self.validate_esql_query(template)
+                return {
+                    'valid': success,
+                    'hit_count': row_count,
+                    'error': error,
+                    'fixed_template': None
+                }
+            
+            # Handle Query DSL (JSON format)
             if isinstance(template, str):
                 query_obj = json.loads(template)
             else:
@@ -184,13 +224,15 @@ class ESValidator:
     def validate_all_examples(
         self,
         examples: list,
-        max_retries: int = 5
+        max_retries: int = 5,
+        query_language: str = 'query_dsl'
     ) -> Dict[str, Any]:
         """Validate all examples in a lab config.
         
         Args:
             examples: List of example dicts
             max_retries: Maximum retry attempts per example
+            query_language: 'query_dsl', 'esql', or 'eql'
             
         Returns:
             Validation summary with:
@@ -204,7 +246,7 @@ class ESValidator:
         invalid_count = 0
         
         for example in examples:
-            result = self.validate_example(example, max_retries)
+            result = self.validate_example(example, max_retries, query_language)
             results.append({
                 'example_id': example.get('id', 'unknown'),
                 **result

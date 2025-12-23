@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-12-23T00:28:27.743047Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 4.64258599281311
+  },
+  "created_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 5,
+      "validation_passed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_1",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: BadRequestError(400, 'parsing_exception', \"line 1:..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_2",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: BadRequestError(400, 'parsing_exception', \"line 1:..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_3",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: BadRequestError(400, 'parsing_exception', \"line 1:..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_4",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: Query returned 0 rows"
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_5",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: BadRequestError(400, 'parsing_exception', \"line 1:..."
+    }
+  ]
+}
