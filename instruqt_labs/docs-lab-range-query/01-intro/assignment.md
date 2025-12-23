@@ -77,80 +77,68 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products within a price range
-Retrieve all products that have a price between $20 and $50.
+### Find products within a specific price range
+This query retrieves products with prices between $30 and $60.
 
 
 **Try This:**
 
-- Change the range to find products between $30 and $70.
-
-- Add a 'boost' parameter to prioritize these results.
+- Adjust the price range to explore products in different budget categories.
 
 
 
 
-### Retrieve highly rated reviews
-Find all reviews with a rating of 4 or higher.
+### Find reviews with high ratings
+This query retrieves reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Change the range to find reviews with a rating of 3 or lower.
-
-- Add a sort clause to order results by the review date.
+- Change the rating range to find reviews with lower ratings.
 
 
 
 
-### Filter users by trust score
-Retrieve users with a trust score between 70 and 90.
+### Find reviews from the last month
+This query retrieves reviews submitted within the last month.
 
 
 **Try This:**
 
-- Expand the range to include users with trust scores of 60 to 95.
-
-- Add a condition to filter users by account type (e.g., Premium).
+- Modify the date range to explore reviews from different time periods.
 
 
 
 
-### Find recent reviews
-Retrieve reviews posted within the last 30 days.
+### Find users with high trust scores
+This query retrieves users with a trust score greater than 4.5.
 
 
 **Try This:**
 
-- Change the range to find reviews from the last 7 days.
-
-- Use a specific date range instead (e.g., '2023-01-01' to '2023-01-31').
+- Experiment with different trust score thresholds to find users with varying levels of trust.
 
 
 
 
-### Filter products by price with boost
-Find products priced between $50 and $100, giving them a higher relevance boost.
+### Find reviews with a high number of helpful votes
+This query retrieves reviews with more than 20 helpful votes.
 
 
 **Try This:**
 
-- Adjust the boost value to prioritize these results differently.
-
-- Narrow the price range to between $60 and $80.
+- Adjust the number of helpful votes to find reviews with varying levels of engagement.
 
 
 
 
-### Find users by age group
-Retrieve users between the ages of 25 and 35.
+### Find active users based on review count
+This query retrieves users who have written at least 15 reviews.
 
 
 **Try This:**
 
-- Change the range to target users aged 18 to 29.
-
-- Combine this query with a term query on the 'account_type' field.
+- Lower the minimum review count to find less active users.
 
 
 

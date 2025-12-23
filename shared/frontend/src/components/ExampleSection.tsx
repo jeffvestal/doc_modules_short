@@ -64,54 +64,101 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     }
   }, [query, storageKey, example.template]);
 
-  // Swap query field when selectedIndex changes (only for Query DSL)
+  // Swap query field when selectedIndex changes (for Query DSL and ES|QL)
   useEffect(() => {
-    if (!selectedIndex || labConfig.queryLanguage !== 'query_dsl') return;
+    if (!selectedIndex) return;
 
     // Determine the effective index to use
     const effectiveIndex = selectedIndex;
 
-    try {
-      const queryObj = JSON.parse(query);
-      const queryType = detectQueryType(queryObj);
-      
-      if (!queryType) return; // Can't detect query type
-      
-      const currentField = detectFieldFromQuery(queryObj, queryType);
-      
-      if (currentField) {
-        // Get the target field for the selected index (can be string or string[])
-        const targetFieldRaw = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
-        // If it's an array, use the first field; otherwise use as-is
-        const targetField = Array.isArray(targetFieldRaw) ? targetFieldRaw[0] : targetFieldRaw;
+    if (labConfig.queryLanguage === 'esql') {
+      // Handle ES|QL queries
+      try {
+        // Find FROM clause
+        const fromMatch = query.match(/FROM\s+(\w+)/i);
+        if (!fromMatch) return; // Can't find FROM clause
         
-        // Only swap if the current field is different from target and is a known search field
-        const knownSearchFields = Object.values(labConfig.searchFields).flat();
-        const shouldSwap = targetField && 
-                          currentField !== targetField && 
-                          knownSearchFields.includes(currentField);
+        const currentIndex = fromMatch[1];
+        if (currentIndex === effectiveIndex) return; // Already using the correct index
         
-        if (shouldSwap) {
-          // Get the sample query text for the selected index
-          const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
-          
-          // Use generic swap function
-          const swappedQueryObj = swapQueryField(
-            queryObj,
-            currentField,
-            targetField,
-            sampleQueryText,
-            queryType
-          );
-          
-          // Update the query string with proper formatting
-          const updatedQuery = JSON.stringify(swappedQueryObj, null, 2);
-          setQuery(updatedQuery);
+        // Replace FROM clause with new index
+        let updatedQuery = query.replace(/FROM\s+\w+/i, `FROM ${effectiveIndex}`);
+        
+        // Try to update search terms in WHERE clauses
+        // Look for LIKE patterns with wildcards: LIKE "*term*"
+        const likePattern = /LIKE\s+["']\*([^*]+)\*["']/gi;
+        const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
+        
+        if (sampleQueryText && likePattern.test(query)) {
+          // Replace LIKE patterns with new search term
+          updatedQuery = updatedQuery.replace(likePattern, () => {
+            return `LIKE "*${sampleQueryText}*"`;
+          });
         }
+        
+        // Also handle == comparisons with string literals
+        const eqPattern = /==\s+["']([^"']+)["']/gi;
+        if (sampleQueryText && eqPattern.test(query)) {
+          // Replace first string literal in == comparisons (be conservative)
+          let replaced = false;
+          updatedQuery = updatedQuery.replace(eqPattern, (match, value) => {
+            if (!replaced && value.length > 0) {
+              replaced = true;
+              return `== "${sampleQueryText}"`;
+            }
+            return match;
+          });
+        }
+        
+        setQuery(updatedQuery);
+      } catch (err) {
+        // If parsing fails, don't update (user might be editing)
+        // Silently ignore the error
       }
-    } catch (err) {
-      // If JSON parsing fails, don't update (user might be editing)
-      // Silently ignore the error
+    } else {
+      // Handle Query DSL (existing logic)
+      try {
+        const queryObj = JSON.parse(query);
+        const queryType = detectQueryType(queryObj);
+        
+        if (!queryType) return; // Can't detect query type
+        
+        const currentField = detectFieldFromQuery(queryObj, queryType);
+        
+        if (currentField) {
+          // Get the target field for the selected index (can be string or string[])
+          const targetFieldRaw = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
+          // If it's an array, use the first field; otherwise use as-is
+          const targetField = Array.isArray(targetFieldRaw) ? targetFieldRaw[0] : targetFieldRaw;
+          
+          // Only swap if the current field is different from target and is a known search field
+          const knownSearchFields = Object.values(labConfig.searchFields).flat();
+          const shouldSwap = targetField && 
+                            currentField !== targetField && 
+                            knownSearchFields.includes(currentField);
+          
+          if (shouldSwap) {
+            // Get the sample query text for the selected index
+            const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
+            
+            // Use generic swap function
+            const swappedQueryObj = swapQueryField(
+              queryObj,
+              currentField,
+              targetField,
+              sampleQueryText,
+              queryType
+            );
+            
+            // Update the query string with proper formatting
+            const updatedQuery = JSON.stringify(swappedQueryObj, null, 2);
+            setQuery(updatedQuery);
+          }
+        }
+      } catch (err) {
+        // If JSON parsing fails, don't update (user might be editing)
+        // Silently ignore the error
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex]); // Trigger on any selectedIndex change

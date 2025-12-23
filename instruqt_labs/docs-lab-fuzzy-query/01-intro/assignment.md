@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (b**ox → f**ox) - Removing a character (b**lack → lack) - Inserting a character (sic → sic**k**) - Transposing two adjacent characters (ac**t → ca**t)
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (b**ox → f**ox) - Removing a character (b**lack → lack) - Inserting a character (sic → sic**k**) - Transposing two adjacent characters (ac**t → ca**t)
 
 ## What You'll Learn
 
@@ -77,67 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find products with similar names
-Search for products with names closely resembling 'wirless'.
+### Search for products with fuzzy match on name
+This example demonstrates fuzzy matching on the product_name field to find products with names similar to 'wireless'.
 
 
 **Try This:**
 
-- Change the value to 'wirless' or 'wirless headphones'.
-
-- Adjust the fuzziness to '1' or '2' to see different results.
+- Experiment with different values for fuzziness, such as 1 or 2, to control the edit distance.
 
 
 
 
-### Find reviews with slightly misspelled titles
-Search for reviews with titles that are similar to 'comfotable'.
+### Find reviews with fuzzy match on title
+This example finds reviews with titles similar to 'durable', allowing for fuzzy matches.
 
 
 **Try This:**
 
-- Modify the value to 'comfotable seating' or 'comfotrable couch'.
-
-- Change the prefix_length to '2' to require the first two characters to match.
+- Try increasing max_expansions to include more variations of the term.
 
 
 
 
-### Find users with interests close to 'Electronics'
-Search for users whose interests are similar to 'Elctronics'.
+### Search for users with fuzzy match on interests
+This query searches for users whose interests are similar to 'Books', allowing fuzzy matches.
 
 
 **Try This:**
 
-- Try searching for 'Books' or 'Elctronic gadgets'.
-
-- Set transpositions to 'false' and observe the difference in results.
+- Adjust prefix_length to require a fixed number of matching characters at the start.
 
 
 
 
-### Find products with misspelled descriptions
-Search for products with descriptions similar to 'wirless connectivity'.
+### Find products with fuzzy match and custom transpositions
+Use this query to find products where the name is similar to 'premium' and allows transpositions.
 
 
 **Try This:**
 
-- Change the value to 'wirless network' or 'wreless signal'.
-
-- Use fuzziness 'AUTO' instead of '1' for dynamic edit distances.
+- Experiment with transpositions set to false to see how results differ.
 
 
 
 
-### Find users with similar usernames
-Search for users with usernames close to 'AveryWilams55'.
+### Search reviews with fuzzy match and constant_score rewrite
+This query demonstrates fuzzy matching on review text, using a custom rewrite method.
 
 
 **Try This:**
 
-- Change the value to 'CameronLopez20' or 'DakotaHernadez39'.
-
-- Reduce max_expansions to '10' and observe fewer results.
+- Test other rewrite options like 'scoring_boolean' or 'constant_score_blended' to observe scoring behavior.
 
 
 

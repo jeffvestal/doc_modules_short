@@ -29,9 +29,9 @@ export const termConfig: LabConfig = {
   examples: [
 
     {
-      id: '1',
-      title: "Find a product by exact category",
-      description: "Search for products in the \u0027Electronics\u0027 category using an exact match.",
+      id: 'example_1',
+      title: "Find product by exact category",
+      description: "Search for all products in the \u0027Electronics\u0027 category.",
       template: `{
   "query": {
     "term": {
@@ -45,30 +45,32 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the `product_category` value to \u0027Books\u0027 or \u0027Clothing\u0027 and observe the results.",
+        "Change \u0027Electronics\u0027 to another category such as \u0027Books\u0027 or \u0027Clothing\u0027.",
 
-        "Try searching for a category not in the dataset, such as \u0027Furniture\u0027, and see what happens.",
+        "Use the \u0027product_brand\u0027 field to search by brand instead.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "The category of the product. Use exact values like \u0027Electronics\u0027 or \u0027Books\u0027.",
+        "product_category": "Field containing predefined categories like Electronics, Books, etc.",
+
+        "value": "The exact value you want to match in the field.",
 
       },
 
     },
 
     {
-      id: '2',
-      title: "Find reviews with specific helpful votes",
-      description: "Retrieve reviews that have exactly 27 helpful votes.",
+      id: 'example_2',
+      title: "Retrieve reviews with a specific rating",
+      description: "Find all product reviews with a rating of 5.",
       template: `{
   "query": {
     "term": {
-      "helpful_votes": {
-        "value": 27
+      "review_rating": {
+        "value": 5
       }
     }
   }
@@ -77,25 +79,27 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `helpful_votes` to another value like 15 or 34 to see different results.",
+        "Change the rating to 4 or 3 to retrieve reviews with those ratings.",
 
-        "Try using a value not in the dataset, such as 50, to test the query behavior.",
+        "Combine this query with a range query to find reviews within a rating range.",
 
       ],
 
 
       tooltips: {
 
-        "helpful_votes": "The number of helpful votes a review received. Use exact numeric values like 10, 15, or 27.",
+        "review_rating": "Field representing the numeric rating of a review (1-5).",
+
+        "value": "The exact rating you want to match.",
 
       },
 
     },
 
     {
-      id: '3',
-      title: "Find a specific username",
-      description: "Search for a user with the username \u0027AveryWilliams55\u0027.",
+      id: 'example_3',
+      title: "Search for a specific user by username",
+      description: "Find a user by their exact username.",
       template: `{
   "query": {
     "term": {
@@ -109,30 +113,32 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the `username` value to other options like \u0027CameronLopez20\u0027 or \u0027CaseyRodriguez81\u0027.",
+        "Replace \u0027AveryWilliams55\u0027 with another username from the dataset such as \u0027CameronLopez20\u0027.",
 
-        "Try searching for a username not in the dataset, such as \u0027UnknownUser\u0027, and check the results.",
+        "Use the \u0027account_type\u0027 field to search for users with a specific account type.",
 
       ],
 
 
       tooltips: {
 
-        "username": "The unique username of a user. Use exact values like \u0027AveryWilliams55\u0027 or \u0027JordanMartinez33\u0027.",
+        "username": "Field containing the exact username for a user.",
+
+        "value": "The specific username to match in the query.",
 
       },
 
     },
 
     {
-      id: '4',
-      title: "Search for a specific product brand",
-      description: "Find all products from the brand \u0027AudioMax\u0027.",
+      id: 'example_4',
+      title: "Find products by exact price",
+      description: "Retrieve products priced at $49.99.",
       template: `{
   "query": {
     "term": {
-      "product_brand": {
-        "value": "AudioMax"
+      "product_price": {
+        "value": 49.99
       }
     }
   }
@@ -141,24 +147,26 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `product_brand` to other values like \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027.",
+        "Change the price to another value, such as 89.99 or 29.99.",
 
-        "Test the query with a non-existent brand like \u0027TechGenius\u0027 to observe the output.",
+        "Use the \u0027product_category\u0027 field to filter products by category instead.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "The brand of the product. Use exact values like \u0027AudioMax\u0027 or \u0027GlowNaturals\u0027.",
+        "product_price": "Field representing the exact price of a product.",
+
+        "value": "The specific price to match in the query.",
 
       },
 
     },
 
     {
-      id: '5',
-      title: "Filter verified purchases",
+      id: 'example_5',
+      title: "Search for verified purchases in reviews",
       description: "Find all reviews marked as verified purchases.",
       template: `{
   "query": {
@@ -173,48 +181,18 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `verified_purchase` to \u0027False\u0027 to filter only non-verified purchases.",
+        "Change \u0027True\u0027 to \u0027False\u0027 to find reviews that are not verified purchases.",
 
-        "Combine this query with other filters like `review_rating` for more specific results.",
-
-      ],
-
-
-      tooltips: {
-
-        "verified_purchase": "Indicates if the review is from a verified purchase. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
-
-      },
-
-    },
-
-    {
-      id: '6',
-      title: "Search for a specific product price",
-      description: "Retrieve all products priced at exactly $49.99.",
-      template: `{
-  "query": {
-    "term": {
-      "product_price": {
-        "value": 49.99
-      }
-    }
-  }
-}`,
-      index: 'products',
-
-      tryThis: [
-
-        "Change `product_price` to 89.99 or 24.99 and observe the responses.",
-
-        "Try using a price not in the dataset, such as 99.99, to test the query\u0027s behavior.",
+        "Combine this query with a term query on \u0027review_rating\u0027 for more specific results.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The exact price of the product. Use numeric values like 49.99 or 89.99.",
+        "verified_purchase": "Field indicating whether a review is from a verified purchase (\u0027True\u0027 or \u0027False\u0027).",
+
+        "value": "The exact value to match (either \u0027True\u0027 or \u0027False\u0027).",
 
       },
 

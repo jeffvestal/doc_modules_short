@@ -4,7 +4,7 @@ export const fuzzyConfig: LabConfig = {
   queryLanguage: 'query_dsl',
   queryType: 'fuzzy_query',
   displayName: 'Fuzzy Query',
-  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box \u2192 fox) - Removing a character (black \u2192 lack) - Inserting a character (sic \u2192 sick) - Transposing two adjacent characters (act \u2192 cat)",
+  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (b**ox \u2192 f**ox) - Removing a character (b**lack \u2192 lack) - Inserting a character (sic \u2192 sic**k**) - Transposing two adjacent characters (ac**t \u2192 ca**t)",
   docUrl: 'https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query',
 
   keyDisplayFields: {
@@ -13,9 +13,9 @@ export const fuzzyConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: "product_name",
-    product_reviews: "review_text",
-    product_users: "interests",
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
   sampleQueries: {
     products: "wireless",
@@ -30,15 +30,14 @@ export const fuzzyConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find products with similar names",
-      description: "Search for products with names closely resembling \u0027wirless\u0027.",
+      title: "Search for products with fuzzy match on name",
+      description: "This example demonstrates fuzzy matching on the product_name field to find products with names similar to \u0027wireless\u0027.",
       template: `{
   "query": {
     "fuzzy": {
       "product_name": {
-        "value": "wirless",
-        "fuzziness": "AUTO",
-        "max_expansions": 50
+        "value": "wireless",
+        "fuzziness": "AUTO"
       }
     }
   }
@@ -47,20 +46,16 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the value to \u0027wirless\u0027 or \u0027wirless headphones\u0027.",
-
-        "Adjust the fuzziness to \u00271\u0027 or \u00272\u0027 to see different results.",
+        "Experiment with different values for fuzziness, such as 1 or 2, to control the edit distance.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The search term to find similar matches for.",
+        "value": "The term to match against, allowing for fuzzy variations.",
 
-        "fuzziness": "Defines the allowed edit distance for matches. \u0027AUTO\u0027 calculates based on term length.",
-
-        "max_expansions": "Limits the number of terms generated for the fuzzy query.",
+        "fuzziness": "The maximum edit distance allowed. AUTO calculates the distance based on the term length.",
 
       },
 
@@ -68,15 +63,14 @@ export const fuzzyConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Find reviews with slightly misspelled titles",
-      description: "Search for reviews with titles that are similar to \u0027comfotable\u0027.",
+      title: "Find reviews with fuzzy match on title",
+      description: "This example finds reviews with titles similar to \u0027durable\u0027, allowing for fuzzy matches.",
       template: `{
   "query": {
     "fuzzy": {
       "review_title": {
-        "value": "comfotable",
-        "fuzziness": 2,
-        "prefix_length": 1
+        "value": "durable",
+        "max_expansions": 20
       }
     }
   }
@@ -85,20 +79,16 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Modify the value to \u0027comfotable seating\u0027 or \u0027comfotrable couch\u0027.",
-
-        "Change the prefix_length to \u00272\u0027 to require the first two characters to match.",
+        "Try increasing max_expansions to include more variations of the term.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to search for similar matches.",
+        "value": "The term to match against.",
 
-        "fuzziness": "Allows up to 2 edits for matching terms.",
-
-        "prefix_length": "Ensures the first character(s) of the term must match exactly.",
+        "max_expansions": "The maximum number of variations to consider for the fuzzy match.",
 
       },
 
@@ -106,15 +96,14 @@ export const fuzzyConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Find users with interests close to \u0027Electronics\u0027",
-      description: "Search for users whose interests are similar to \u0027Elctronics\u0027.",
+      title: "Search for users with fuzzy match on interests",
+      description: "This query searches for users whose interests are similar to \u0027Books\u0027, allowing fuzzy matches.",
       template: `{
   "query": {
     "fuzzy": {
       "interests": {
-        "value": "Elctronics",
-        "fuzziness": "AUTO",
-        "transpositions": true
+        "value": "Books",
+        "prefix_length": 2
       }
     }
   }
@@ -123,20 +112,16 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Try searching for \u0027Books\u0027 or \u0027Elctronic gadgets\u0027.",
-
-        "Set transpositions to \u0027false\u0027 and observe the difference in results.",
+        "Adjust prefix_length to require a fixed number of matching characters at the start.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to find similar matches for.",
+        "value": "The term to match against.",
 
-        "fuzziness": "Automatically adjusts edit distance based on term length.",
-
-        "transpositions": "Allows adjacent character swaps (e.g., \u0027ca\u0027 \u2192 \u0027ac\u0027).",
+        "prefix_length": "The number of initial characters that must match exactly.",
 
       },
 
@@ -144,15 +129,14 @@ export const fuzzyConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Find products with misspelled descriptions",
-      description: "Search for products with descriptions similar to \u0027wirless connectivity\u0027.",
+      title: "Find products with fuzzy match and custom transpositions",
+      description: "Use this query to find products where the name is similar to \u0027premium\u0027 and allows transpositions.",
       template: `{
   "query": {
     "fuzzy": {
-      "product_description": {
-        "value": "wirless connectivity",
-        "fuzziness": 1,
-        "rewrite": "constant_score"
+      "product_name": {
+        "value": "premium",
+        "transpositions": true
       }
     }
   }
@@ -161,20 +145,16 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the value to \u0027wirless network\u0027 or \u0027wreless signal\u0027.",
-
-        "Use fuzziness \u0027AUTO\u0027 instead of \u00271\u0027 for dynamic edit distances.",
+        "Experiment with transpositions set to false to see how results differ.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to search for similar matches.",
+        "value": "The term to match against.",
 
-        "fuzziness": "Defines the allowed Levenshtein edit distance for matches.",
-
-        "rewrite": "Specifies how the query is rewritten. \u0027constant_score\u0027 ignores term scores.",
+        "transpositions": "Allows swapping of adjacent characters during fuzzy matching.",
 
       },
 
@@ -182,37 +162,32 @@ export const fuzzyConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Find users with similar usernames",
-      description: "Search for users with usernames close to \u0027AveryWilams55\u0027.",
+      title: "Search reviews with fuzzy match and constant_score rewrite",
+      description: "This query demonstrates fuzzy matching on review text, using a custom rewrite method.",
       template: `{
   "query": {
     "fuzzy": {
-      "username": {
-        "value": "AveryWilams55",
-        "fuzziness": 2,
-        "max_expansions": 30
+      "review_text": {
+        "value": "comfortable",
+        "rewrite": "constant_score"
       }
     }
   }
 }`,
-      index: 'product_users',
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the value to \u0027CameronLopez20\u0027 or \u0027DakotaHernadez39\u0027.",
-
-        "Reduce max_expansions to \u002710\u0027 and observe fewer results.",
+        "Test other rewrite options like \u0027scoring_boolean\u0027 or \u0027constant_score_blended\u0027 to observe scoring behavior.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The username to find similar matches for.",
+        "value": "The term to match against.",
 
-        "fuzziness": "Allows up to 2 edits for matching terms.",
-
-        "max_expansions": "Limits the number of expanded terms for the query.",
+        "rewrite": "Specifies how the query is rewritten internally; affects scoring and performance.",
 
       },
 

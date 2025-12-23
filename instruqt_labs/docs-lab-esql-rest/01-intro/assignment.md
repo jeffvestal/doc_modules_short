@@ -74,70 +74,71 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the esql_rest query:
+This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by category and sort by price
-This query retrieves products in the 'Electronics' category, showing only the name and price, sorted by price in descending order.
-
-
-**Try This:**
-
-- Change 'Electronics' to 'Books' to filter for a different category.
-
-- Increase the LIMIT to 10 to see more results.
-
-
-
-
-### Find reviews mentioning specific keywords
-This query fetches reviews containing 'durable' or 'comfortable', showing their title and rating, sorted by rating in descending order.
+### Filter Products by Category
+Retrieve a list of products in the 'Electronics' category and display their names and prices.
 
 
 **Try This:**
 
-- Change 'durable' to 'lightweight' to find reviews mentioning a different keyword.
-
-- Add a condition to filter by review rating (e.g., 'review_rating >= 4').
+- Change the product_category to 'Books' or 'Clothing' to see different results.
 
 
 
 
-### Search users by interests
-This query retrieves user profiles with interests related to 'Books' or 'Electronics', showing their username and interests.
+### Sort Product Reviews by Rating
+Find reviews mentioning 'durable' or 'comfortable' and display them sorted by rating in descending order.
 
 
 **Try This:**
 
-- Change 'Books' to 'Sports' to find users with a different interest.
-
-- Add a condition to filter by account type (e.g., 'account_type == "Premium"').
+- Try removing the SORT clause to see the default order of results.
 
 
 
 
-### List verified reviews with helpful votes
-This query retrieves verified purchase reviews with at least 15 helpful votes, showing their title, rating, and helpful vote count.
+### Find Verified Purchasers with High Trust Scores
+List usernames of verified purchasers with a trust score greater than 80.
 
 
 **Try This:**
 
-- Change '15' to '10' to include reviews with fewer helpful votes.
-
-- Remove the 'verified_purchase' condition to include all reviews.
+- Change the trust_score threshold to 90 to narrow the results.
 
 
 
 
-### Find premium users with high trust scores
-This query retrieves premium users with a trust score above 80, showing their username and trust score.
+### Search Products with Specific Keywords
+Find products with descriptions containing the keyword 'wireless' and display their names and categories.
 
 
 **Try This:**
 
-- Change 'Premium' to 'Free' to find free users.
+- Replace 'wireless' with another keyword like 'premium' or 'durable' to explore different products.
 
-- Adjust the trust score threshold to include more users.
+
+
+
+### Top Users by Review Count
+Retrieve usernames and their total review counts, sorted by the number of reviews in descending order.
+
+
+**Try This:**
+
+- Try adding a WHERE clause to filter users by account_type, e.g., 'WHERE account_type == "Premium"'.
+
+
+
+
+### Most Helpful Reviews
+Find the most helpful reviews (based on helpful_votes) and display their titles and vote counts.
+
+
+**Try This:**
+
+- Add a WHERE clause to filter reviews with a minimum number of helpful votes, e.g., 'WHERE helpful_votes > 20'.
 
 
 
