@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 
 ## What You'll Learn
 
@@ -78,66 +78,56 @@ This lab includes 5 examples demonstrating different aspects of the esql_rest qu
 
 
 ### Filter products by category and sort by price
-This query retrieves products in the 'Electronics' category, showing only the name and price, sorted by price in descending order.
+Retrieve products in the 'Electronics' category, showing their name and price, sorted by price in ascending order.
 
 
 **Try This:**
 
-- Change 'Electronics' to 'Books' to filter for a different category.
-
-- Increase the LIMIT to 10 to see more results.
+- Try changing the category to 'Books' or 'Clothing' to see different results.
 
 
 
 
 ### Find reviews mentioning specific keywords
-This query fetches reviews containing 'durable' or 'comfortable', showing their title and rating, sorted by rating in descending order.
+Search for reviews that mention either 'durable' or 'comfortable', and display the review title and rating sorted by rating in descending order.
 
 
 **Try This:**
 
-- Change 'durable' to 'lightweight' to find reviews mentioning a different keyword.
-
-- Add a condition to filter by review rating (e.g., 'review_rating >= 4').
+- Try replacing 'durable' with 'easy to use' to explore other keywords.
 
 
 
 
-### Search users by interests
-This query retrieves user profiles with interests related to 'Books' or 'Electronics', showing their username and interests.
+### List verified purchasers with specific interests
+Find usernames of verified purchasers who are interested in 'Books', limiting the results to 10 users.
 
 
 **Try This:**
 
-- Change 'Books' to 'Sports' to find users with a different interest.
-
-- Add a condition to filter by account type (e.g., 'account_type == "Premium"').
+- Try changing the interest to 'Electronics' or 'Sports' to find users with other interests.
 
 
 
 
-### List verified reviews with helpful votes
-This query retrieves verified purchase reviews with at least 15 helpful votes, showing their title, rating, and helpful vote count.
+### Top-rated reviews with helpful votes
+Retrieve the top 5 highest-rated reviews that have more than 20 helpful votes, showing the review title and rating.
 
 
 **Try This:**
 
-- Change '15' to '10' to include reviews with fewer helpful votes.
-
-- Remove the 'verified_purchase' condition to include all reviews.
+- Try reducing the helpful votes threshold to 10 to see more results.
 
 
 
 
-### Find premium users with high trust scores
-This query retrieves premium users with a trust score above 80, showing their username and trust score.
+### Search products by brand and price range
+Find products from the 'AudioMax' brand that cost less than $50, sorted by price in ascending order.
 
 
 **Try This:**
 
-- Change 'Premium' to 'Free' to find free users.
-
-- Adjust the trust score threshold to include more users.
+- Try changing the brand to 'GlowEssence' and modifying the price range to explore other results.
 
 
 

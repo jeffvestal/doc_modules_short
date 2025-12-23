@@ -329,6 +329,20 @@ Return ONLY the JSON object, no markdown formatting."""
                             if isinstance(s, str) and len(s) > 5
                         ]
             
+            # Post-process: Fix ES|QL queries - convert single quotes to double quotes
+            # ES|QL requires double quotes for string literals, but LLMs often generate single quotes
+            if query_language == 'esql':
+                import re
+                for example in lab_config.get('examples', []):
+                    if 'template' in example and isinstance(example['template'], str):
+                        # Replace single-quoted strings with double-quoted strings
+                        # Match 'value' and replace with "value"
+                        example['template'] = re.sub(r"'([^']*)'", r'"\1"', example['template'])
+                # #region agent log
+                _examples_after = lab_config.get('examples', [])
+                with open(_log_path, "a") as _f: _f.write(json.dumps({"location": "example_generator.py:generate_lab_config:post_fix", "message": "ESQL templates after quote fix", "data": {"first_template": _examples_after[0].get('template', '')[:150] if _examples_after else None, "has_single_quotes": any("'" in ex.get('template', '') for ex in _examples_after), "has_double_quotes": any('"' in ex.get('template', '') for ex in _examples_after)}, "hypothesisId": "A", "timestamp": __import__("time").time()}) + "\n")
+                # #endregion
+            
             # RETRY IF NO EXAMPLES GENERATED
             examples = lab_config.get('examples', [])
             if len(examples) == 0:
