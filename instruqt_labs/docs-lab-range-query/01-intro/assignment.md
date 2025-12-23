@@ -77,68 +77,80 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products in a specific price range
-Retrieve products with prices between $20 and $50.
+### Find products within a price range
+Retrieve all products that have a price between $20 and $50.
 
 
 **Try This:**
 
-- Change the price range to 30 and 70 to get products in a higher price range.
+- Change the range to find products between $30 and $70.
+
+- Add a 'boost' parameter to prioritize these results.
 
 
 
 
-### Filter reviews with high ratings
-Get reviews with a rating of 4 or higher.
-
-
-**Try This:**
-
-- Change the minimum rating to 5 to find only the highest-rated reviews.
-
-
-
-
-### Find users with a high trust score
-Retrieve users with a trust score between 70 and 100.
+### Retrieve highly rated reviews
+Find all reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Adjust the range to 50 and 90 to include users with medium trust scores.
+- Change the range to find reviews with a rating of 3 or lower.
+
+- Add a sort clause to order results by the review date.
+
+
+
+
+### Filter users by trust score
+Retrieve users with a trust score between 70 and 90.
+
+
+**Try This:**
+
+- Expand the range to include users with trust scores of 60 to 95.
+
+- Add a condition to filter users by account type (e.g., Premium).
 
 
 
 
 ### Find recent reviews
-Retrieve reviews submitted in the last week.
+Retrieve reviews posted within the last 30 days.
 
 
 **Try This:**
 
-- Change the range to the last month by using 'now-1M/M' instead of 'now-1w/w'.
+- Change the range to find reviews from the last 7 days.
+
+- Use a specific date range instead (e.g., '2023-01-01' to '2023-01-31').
 
 
 
 
-### Find products in a specific category with a price range
-Retrieve 'Electronics' products priced between $50 and $100.
-
-
-**Try This:**
-
-- Change the category to 'Home and Kitchen' and the price range to $20-$70.
-
-
-
-
-### Find verified reviews with high helpful votes
-Retrieve verified reviews with at least 20 helpful votes.
+### Filter products by price with boost
+Find products priced between $50 and $100, giving them a higher relevance boost.
 
 
 **Try This:**
 
-- Increase the minimum helpful votes to 30 for stricter filtering.
+- Adjust the boost value to prioritize these results differently.
+
+- Narrow the price range to between $60 and $80.
+
+
+
+
+### Find users by age group
+Retrieve users between the ages of 25 and 35.
+
+
+**Try This:**
+
+- Change the range to target users aged 18 to 29.
+
+- Combine this query with a term query on the 'account_type' field.
 
 
 

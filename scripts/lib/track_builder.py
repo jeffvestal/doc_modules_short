@@ -161,7 +161,8 @@ class TrackBuilder:
         
         # Prepare template context
         context = {
-            'display_name': lab_config.get('displayName', '')
+            'display_name': lab_config.get('displayName', ''),
+            'slug': slug
         }
         
         content = template.render(**context)

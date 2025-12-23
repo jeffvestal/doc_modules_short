@@ -77,80 +77,80 @@ Returns documents that contain an **exact** term in a provided field. You can us
 This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find products in a specific category
-Search for all products in the 'Electronics' category.
+### Find a product by exact category
+Search for products in the 'Electronics' category using an exact match.
 
 
 **Try This:**
 
-- Change 'Electronics' to 'Books' to find products in the Books category.
+- Change the `product_category` value to 'Books' or 'Clothing' and observe the results.
 
-- Try using another category such as 'Clothing' or 'Beauty'.
-
-
+- Try searching for a category not in the dataset, such as 'Furniture', and see what happens.
 
 
-### Find highly-rated reviews
-Search for reviews with a rating of 5.
+
+
+### Find reviews with specific helpful votes
+Retrieve reviews that have exactly 27 helpful votes.
 
 
 **Try This:**
 
-- Change the rating to 4 to see reviews with a slightly lower rating.
+- Change `helpful_votes` to another value like 15 or 34 to see different results.
 
-- Try searching for reviews with a rating of 1 to find negative reviews.
-
-
+- Try using a value not in the dataset, such as 50, to test the query behavior.
 
 
-### Find a specific user by username
+
+
+### Find a specific username
 Search for a user with the username 'AveryWilliams55'.
 
 
 **Try This:**
 
-- Change the username to 'CameronLopez20' to find a different user.
+- Change the `username` value to other options like 'CameronLopez20' or 'CaseyRodriguez81'.
 
-- Try using 'CaseyRodriguez81' or 'JordanMartinez33' as the username.
-
-
-
-
-### Find products by brand
-Search for all products from the brand 'AudioMax'.
-
-
-**Try This:**
-
-- Change the brand to 'GlowNaturals' or 'PlaySmart' to find products from other brands.
-
-- Try using 'AutoGuard' to find automotive products.
+- Try searching for a username not in the dataset, such as 'UnknownUser', and check the results.
 
 
 
 
-### Find verified purchases
-Search for reviews where the purchase is verified.
+### Search for a specific product brand
+Find all products from the brand 'AudioMax'.
 
 
 **Try This:**
 
-- Change 'True' to 'False' to find reviews where the purchase is not verified.
+- Change `product_brand` to other values like 'GlowNaturals' or 'PlaySmart'.
 
-- Combine this with a rating filter to find verified purchases with high ratings.
-
-
+- Test the query with a non-existent brand like 'TechGenius' to observe the output.
 
 
-### Find products by price
-Search for products with a price of 59.99.
+
+
+### Filter verified purchases
+Find all reviews marked as verified purchases.
 
 
 **Try This:**
 
-- Change the price to 89.99 to find more expensive products.
+- Change `verified_purchase` to 'False' to filter only non-verified purchases.
 
-- Try using a lower price, such as 14.99, to find cheaper products.
+- Combine this query with other filters like `review_rating` for more specific results.
+
+
+
+
+### Search for a specific product price
+Retrieve all products priced at exactly $49.99.
+
+
+**Try This:**
+
+- Change `product_price` to 89.99 or 24.99 and observe the responses.
+
+- Try using a price not in the dataset, such as 99.99, to test the query's behavior.
 
 
 

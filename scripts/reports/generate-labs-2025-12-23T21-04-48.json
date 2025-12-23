@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-12-23T21:04:48.761320Z",
+  "summary": {
+    "total_urls": 5,
+    "successfully_created": 5,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 28.88842010498047
+  },
+  "created_labs": [
+    {
+      "slug": "term-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "term-query",
+      "example_id": "3",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    },
+    {
+      "lab_slug": "fuzzy-query",
+      "example_id": "5",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    }
+  ]
+}

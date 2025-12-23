@@ -74,83 +74,70 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the esql_rest query:
+This lab includes 5 examples demonstrating different aspects of the esql_rest query:
 
 
-### Find wireless products
-Search for products with 'wireless' in their description.
-
-
-**Try This:**
-
-- Change 'wireless' to 'premium' to find products with 'premium' in their description.
-
-- Add a condition to filter by product_category, e.g., `AND product_category == "Electronics"`.
-
-
-
-
-### Top-rated reviews mentioning durability
-Find product reviews mentioning 'durable' and sort them by rating in descending order.
+### Filter products by category and sort by price
+This query retrieves products in the 'Electronics' category, showing only the name and price, sorted by price in descending order.
 
 
 **Try This:**
 
-- Change 'durable' to 'comfortable' to find reviews mentioning 'comfortable'.
+- Change 'Electronics' to 'Books' to filter for a different category.
 
-- Add a condition to include verified purchases only, e.g., `AND verified_purchase == "True"`.
-
-
-
-
-### Users interested in Books and Electronics
-Search for users with interests in both 'Books' and 'Electronics'.
-
-
-**Try This:**
-
-- Add another interest, e.g., `OR interests LIKE "*Sports*"`.
-
-- Change the LIMIT value to display more or fewer results.
+- Increase the LIMIT to 10 to see more results.
 
 
 
 
-### Affordable products in Electronics
-Find products in the 'Electronics' category with prices under $50.
+### Find reviews mentioning specific keywords
+This query fetches reviews containing 'durable' or 'comfortable', showing their title and rating, sorted by rating in descending order.
 
 
 **Try This:**
 
-- Change the price filter to `product_price < 100` to include more products.
+- Change 'durable' to 'lightweight' to find reviews mentioning a different keyword.
 
-- Remove the category filter to see affordable products from all categories.
-
-
-
-
-### Frequently reviewed users
-Find users who have written the most reviews.
-
-
-**Try This:**
-
-- Add a condition to filter by account type, e.g., `WHERE account_type == "Premium"`.
-
-- Change the sorting order to `ASC` to find users with the fewest reviews.
+- Add a condition to filter by review rating (e.g., 'review_rating >= 4').
 
 
 
 
-### Highly rated verified reviews
-Find verified reviews with the highest ratings.
+### Search users by interests
+This query retrieves user profiles with interests related to 'Books' or 'Electronics', showing their username and interests.
 
 
 **Try This:**
 
-- Change the rating filter to `review_rating >= 5` to see only perfect reviews.
+- Change 'Books' to 'Sports' to find users with a different interest.
 
-- Remove the verified purchase filter to include all reviews.
+- Add a condition to filter by account type (e.g., 'account_type == "Premium"').
+
+
+
+
+### List verified reviews with helpful votes
+This query retrieves verified purchase reviews with at least 15 helpful votes, showing their title, rating, and helpful vote count.
+
+
+**Try This:**
+
+- Change '15' to '10' to include reviews with fewer helpful votes.
+
+- Remove the 'verified_purchase' condition to include all reviews.
+
+
+
+
+### Find premium users with high trust scores
+This query retrieves premium users with a trust score above 80, showing their username and trust score.
+
+
+**Try This:**
+
+- Change 'Premium' to 'Free' to find free users.
+
+- Adjust the trust score threshold to include more users.
 
 
 
