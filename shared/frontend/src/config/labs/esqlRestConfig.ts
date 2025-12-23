@@ -120,12 +120,12 @@ export const esqlRestConfig: LabConfig = {
       id: 'example_4',
       title: "Explore helpful product reviews",
       description: "Retrieve reviews with more than 50 helpful votes, sorted by the highest number of votes.",
-      template: `FROM product_reviews | WHERE helpful_votes > 50 | KEEP review_title, helpful_votes | SORT helpful_votes DESC | LIMIT 5`,
+      template: `FROM product_reviews | WHERE helpful_votes > 20 | KEEP review_title, helpful_votes | SORT helpful_votes DESC | LIMIT 5`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Adjust the threshold for helpful votes to 30 or 100 to see different sets of reviews.",
+        "Adjust the threshold for helpful votes to 10 or 40 to see different sets of reviews.",
 
       ],
 
