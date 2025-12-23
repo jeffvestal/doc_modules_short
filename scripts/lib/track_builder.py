@@ -240,6 +240,14 @@ class TrackBuilder:
         self.build_setup_script(lab_config, slug, str(setup_path))
         files_created['setup'] = str(setup_path)
         
+        # Setup kubernetes-vm script (static, same for all tracks)
+        kvm_setup_path = track_dir / "track_scripts" / "setup-kubernetes-vm"
+        kvm_template_path = self.templates_dir / "setup-kubernetes-vm"
+        if kvm_template_path.exists():
+            kvm_setup_path.write_text(kvm_template_path.read_text(), encoding='utf-8')
+            kvm_setup_path.chmod(0o755)
+            files_created['setup_kvm'] = str(kvm_setup_path)
+        
         # Copy check script (use existing one as template)
         check_path = track_dir / "01-intro" / "check-host-1"
         # For now, create a simple check script
