@@ -50,7 +50,8 @@ class ReportGenerator:
             'slug': slug,
             'url': url,
             'example_count': example_count,
-            'validation_passed': validation_passed
+            'validation_passed': validation_passed,
+            'pushed': False
         })
         self.report_data['summary']['successfully_created'] += 1
     
@@ -70,7 +71,8 @@ class ReportGenerator:
         self.report_data['skipped_labs'].append({
             'slug': slug,
             'url': url,
-            'reason': reason
+            'reason': reason,
+            'pushed': False
         })
         self.report_data['summary']['skipped'] += 1
     
@@ -99,6 +101,24 @@ class ReportGenerator:
         
         self.report_data['failed_labs'].append(entry)
         self.report_data['summary']['failed'] += 1
+    
+    def mark_lab_pushed(self, slug: str) -> None:
+        """Mark a lab as successfully pushed.
+        
+        Args:
+            slug: Lab slug
+        """
+        # Mark in created labs
+        for lab in self.report_data['created_labs']:
+            if lab['slug'] == slug:
+                lab['pushed'] = True
+                return
+        
+        # Mark in skipped labs
+        for lab in self.report_data['skipped_labs']:
+            if lab['slug'] == slug:
+                lab['pushed'] = True
+                return
     
     def add_validation_warning(
         self,
@@ -195,13 +215,16 @@ class ReportGenerator:
             created_table.add_column("Lab", style="cyan")
             created_table.add_column("Examples", style="green")
             created_table.add_column("Status", style="green")
+            created_table.add_column("Pushed", style="green")
             
             for lab in self.report_data['created_labs']:
                 status = "✓ Validated" if lab['validation_passed'] else "⚠️  Warnings"
+                pushed = "✓" if lab.get('pushed', False) else "—"
                 created_table.add_row(
                     f"[green]✓[/green] docs-lab-{lab['slug']}",
                     str(lab['example_count']),
-                    status
+                    status,
+                    pushed
                 )
             
             self.console.print(created_table)
@@ -212,11 +235,14 @@ class ReportGenerator:
             skipped_table = Table(title="Skipped Labs", show_header=True, header_style="bold")
             skipped_table.add_column("Lab", style="cyan")
             skipped_table.add_column("Reason", style="yellow")
+            skipped_table.add_column("Pushed", style="green")
             
             for lab in self.report_data['skipped_labs']:
+                pushed = "✓" if lab.get('pushed', False) else "—"
                 skipped_table.add_row(
                     f"[yellow]⊘[/yellow] docs-lab-{lab['slug']}",
-                    lab['reason']
+                    lab['reason'],
+                    pushed
                 )
             
             self.console.print(skipped_table)

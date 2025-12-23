@@ -220,6 +220,11 @@ def main():
         help='Skip review step and auto-deploy (skip existing tracks)'
     )
     parser.add_argument(
+        '--push',
+        action='store_true',
+        help='Skip review and push directly to GitHub and Instruqt'
+    )
+    parser.add_argument(
         '--regenerate',
         action='store_true',
         help='Regenerate existing labs (overwrites)'
@@ -263,6 +268,10 @@ def main():
     if args.yolo:
         args.skip_review = True
         args.regenerate = True
+    
+    # Handle push flag
+    if args.push:
+        args.skip_review = True
     
     # Get URLs
     urls = []
@@ -377,8 +386,16 @@ def main():
     # Batch operations (if not dry-run)
     if not args.dry_run and results:
         created_slugs = [r['slug'] for r in results if r.get('status') == 'success']
+        skipped_slugs = [r['slug'] for r in results if r.get('status') == 'skipped']
         
-        if created_slugs and not args.skip_review and not args.yolo:
+        # Determine which labs to push
+        if args.push:
+            # Push both created and existing labs
+            slugs_to_push = created_slugs + skipped_slugs
+        else:
+            slugs_to_push = created_slugs
+        
+        if created_slugs and not args.skip_review and not args.yolo and not args.push:
             # Pause for review
             print(f"\n[Review] {len(created_slugs)} labs created.", flush=True)
             response = input("Deploy to GitHub and Instruqt? (Y/n): ").strip().lower()
@@ -386,10 +403,10 @@ def main():
                 print("[Review] Deployment cancelled.", flush=True)
                 sys.exit(0)
         
-        if created_slugs:
+        if slugs_to_push:
             # Git commit and push
             print("\n[Deploy] Committing changes...", flush=True)
-            commit_message = f"Auto-generated labs: {', '.join(created_slugs)}"
+            commit_message = f"Auto-generated labs: {', '.join(slugs_to_push)}"
             
             subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
             subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
@@ -397,9 +414,13 @@ def main():
             
             print("[Deploy] ✓ Changes pushed to GitHub", flush=True)
             
+            # Git push succeeded - mark all labs as pushed (git is source of truth)
+            for slug in slugs_to_push:
+                report.mark_lab_pushed(slug)
+            
             # Push to Instruqt
             print("[Deploy] Pushing tracks to Instruqt...", flush=True)
-            for slug in created_slugs:
+            for slug in slugs_to_push:
                 track_dir = PROJECT_ROOT / "instruqt_labs" / f"docs-lab-{slug}"
                 if track_dir.exists():
                     # Validate first (run FROM the track directory)
@@ -422,9 +443,11 @@ def main():
                             print(f"[Deploy] ⚠ Track docs-lab-{slug} already exists in Instruqt (use 'instruqt track push' manually to update)", flush=True)
                         else:
                             # Other error, print warning but don't fail
-                            print(f"[Deploy] ⚠ Failed to push docs-lab-{slug}: {push_result.stderr or push_result.stdout}", flush=True)
+                            print(f"[Deploy] ⚠ Failed to push docs-lab-{slug} to Instruqt: {push_result.stderr or push_result.stdout}", flush=True)
                     else:
-                        print(f"[Deploy] ✓ Pushed docs-lab-{slug}", flush=True)
+                        print(f"[Deploy] ✓ Pushed docs-lab-{slug} to Instruqt", flush=True)
+                else:
+                    print(f"[Deploy] ⚠ Track directory not found for docs-lab-{slug}", flush=True)
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):
