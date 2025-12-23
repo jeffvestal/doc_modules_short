@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-12-23T14:43:21.030751Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 17.401716947555542
+  },
+  "created_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 6,
+      "validation_passed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example_4",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: Query returned 0 rows"
+    }
+  ]
+}

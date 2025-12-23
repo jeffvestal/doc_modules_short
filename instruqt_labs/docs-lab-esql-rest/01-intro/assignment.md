@@ -74,60 +74,71 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the esql_rest query:
+This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
 ### Filter products by category and sort by price
-Retrieve products in the 'Electronics' category, showing their name and price, sorted by price in ascending order.
+Find products in the 'Electronics' category and sort them by price in descending order.
 
 
 **Try This:**
 
-- Try changing the category to 'Books' or 'Clothing' to see different results.
+- Change 'Electronics' to another category like 'Books' or 'Clothing' and observe the results.
 
 
 
 
-### Find reviews mentioning specific keywords
-Search for reviews that mention either 'durable' or 'comfortable', and display the review title and rating sorted by rating in descending order.
-
-
-**Try This:**
-
-- Try replacing 'durable' with 'easy to use' to explore other keywords.
-
-
-
-
-### List verified purchasers with specific interests
-Find usernames of verified purchasers who are interested in 'Books', limiting the results to 10 users.
+### Retrieve top-rated product reviews
+List reviews with a rating of 5, showing only the review title and rating.
 
 
 **Try This:**
 
-- Try changing the interest to 'Electronics' or 'Sports' to find users with other interests.
+- Change the rating to 4 or 3 to see reviews with different ratings.
 
 
 
 
-### Top-rated reviews with helpful votes
-Retrieve the top 5 highest-rated reviews that have more than 20 helpful votes, showing the review title and rating.
-
-
-**Try This:**
-
-- Try reducing the helpful votes threshold to 10 to see more results.
-
-
-
-
-### Search products by brand and price range
-Find products from the 'AudioMax' brand that cost less than $50, sorted by price in ascending order.
+### Find users interested in specific topics
+Find users whose interests include 'Books', displaying their username and interests.
 
 
 **Try This:**
 
-- Try changing the brand to 'GlowEssence' and modifying the price range to explore other results.
+- Replace 'Books' with 'Electronics' or 'Sports' to find users with different interests.
+
+
+
+
+### Search for products with a specific feature
+Find products with 'wireless' in their description.
+
+
+**Try This:**
+
+- Change 'wireless' to another keyword like 'portable' or 'durable' to find different products.
+
+
+
+
+### Filter verified reviews with helpful votes
+Find reviews that are verified purchases and have at least 20 helpful votes, sorted by helpful votes descending.
+
+
+**Try This:**
+
+- Change the helpful votes threshold to 15 or 10 to include more reviews.
+
+
+
+
+### List premium users by trust score
+Find premium account users, sorted by trust score in descending order.
+
+
+**Try This:**
+
+- Change the account type to 'Free' or 'Enterprise' to explore other user types.
 
 
 
