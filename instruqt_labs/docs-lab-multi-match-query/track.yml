@@ -1,5 +1,4 @@
 slug: docs-lab-multi-match-query
-id: placeholder
 title: Docs Lab - Multi-match Query
 teaser: Learn how to use the multi_match_query query in Elasticsearch
 description: |
@@ -26,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "9927d636cc14562fec88556b4974a736"
+checksum: "db352aee0b0b4df6e2f5bbb260f43d45"
 enhanced_loading: false

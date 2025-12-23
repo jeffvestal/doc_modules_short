@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: changing a character, removing a character, inserting a character, or transposing two adjacent characters.
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: changing a character, removing a character, inserting a character, or transposing two adjacent characters.
 
 ## What You'll Learn
 
@@ -77,67 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find products with similar names
-Search for products with names closely resembling 'wirless'.
+### Find similar product names with fuzziness
+Search for product names similar to 'wirless' with automatic fuzziness calculation.
 
 
 **Try This:**
 
-- Change the value to 'wirless' or 'wirless headphones'.
-
-- Adjust the fuzziness to '1' or '2' to see different results.
+- Try changing the value to 'wirles' or 'wirelles' and observe the results.
 
 
 
 
-### Find reviews with slightly misspelled titles
-Search for reviews with titles that are similar to 'comfotable'.
+### Search for products with prefix matching
+Search for product descriptions similar to 'smrt' with a prefix length of 1.
 
 
 **Try This:**
 
-- Modify the value to 'comfotable seating' or 'comfotrable couch'.
-
-- Change the prefix_length to '2' to require the first two characters to match.
+- Try changing the prefix_length to 2 and observe how the results change.
 
 
 
 
-### Find users with interests close to 'Electronics'
-Search for users whose interests are similar to 'Elctronics'.
+### Find similar review titles using transpositions
+Search for review titles similar to 'comfrotable' with transpositions enabled.
 
 
 **Try This:**
 
-- Try searching for 'Books' or 'Elctronic gadgets'.
-
-- Set transpositions to 'false' and observe the difference in results.
+- Try disabling transpositions by setting 'transpositions' to false.
 
 
 
 
-### Find products with misspelled descriptions
-Search for products with descriptions similar to 'wirless connectivity'.
+### Search user interests with rewrite method
+Search for interests similar to 'Elecronics' using a custom rewrite method.
 
 
 **Try This:**
 
-- Change the value to 'wirless network' or 'wreless signal'.
-
-- Use fuzziness 'AUTO' instead of '1' for dynamic edit distances.
+- Try changing the rewrite method to 'constant_score_blended' and compare the results.
 
 
 
 
-### Find users with similar usernames
-Search for users with usernames close to 'AveryWilams55'.
+### Match product descriptions with expanded terms
+Search for product descriptions similar to 'premum' with a maximum of 20 term expansions.
 
 
 **Try This:**
 
-- Change the value to 'CameronLopez20' or 'DakotaHernadez39'.
-
-- Reduce max_expansions to '10' and observe fewer results.
+- Try increasing max_expansions to 50 and observe the difference in results.
 
 
 

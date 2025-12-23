@@ -74,60 +74,71 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
 ### Search across product name and description
-Find products related to 'wireless headphones' by searching both name and description fields.
+Find products related to 'wireless audio' in both product names and descriptions.
 
 
 **Try This:**
 
-- Try replacing 'wireless headphones' with 'premium speakers' to see different results.
+- Try searching for 'premium headphones' or 'Bluetooth speakers'.
 
 
 
 
-### Search product reviews
-Find reviews mentioning 'comfortable' and 'durable', searching across title and text fields.
-
-
-**Try This:**
-
-- Try modifying the query to 'stylish durable' to find reviews emphasizing style.
-
-
-
-
-### Cross-field search for user interests
-Search for users interested in both 'Electronics' and 'Books' across the interests field.
+### Match product reviews with specific keywords
+Search for reviews that include both 'durable' and 'comfortable' in the title or text.
 
 
 **Try This:**
 
-- Replace 'Electronics Books' with 'Sports Outdoors' to find users with different interests.
+- Experiment with keywords like 'easy to use' or 'high quality'.
 
 
 
 
-### Weighted search across fields
-Boost results from the product name field while searching 'wireless headphones'.
-
-
-**Try This:**
-
-- Adjust the boost factor on 'product_name^2' to prioritize this field more strongly.
-
-
-
-
-### Search using phrase prefix type
-Find reviews starting with 'durable' or 'comfortable' in the title and text fields.
+### Search user interests for multiple categories
+Find users interested in both 'Electronics' and 'Books'.
 
 
 **Try This:**
 
-- Try replacing 'durable comfortable' with 'easy assembly' to find reviews with similar prefixes.
+- Try searching for 'Sports' or 'Beauty' interests.
+
+
+
+
+### Boost specific fields in product search
+Search for 'wireless' in products, giving higher priority to product names.
+
+
+**Try This:**
+
+- Boost description instead using 'product_description^3'.
+
+
+
+
+### Search reviews using phrase prefix
+Find reviews where the title or text starts with 'great' or 'excellent'.
+
+
+**Try This:**
+
+- Try searching for prefix phrases like 'easy' or 'fast shipping'.
+
+
+
+
+### Tie-breaker in cross-field search
+Search for 'premium quality' across all user interests with tie-breaking for partial matches.
+
+
+**Try This:**
+
+- Adjust tie_breaker to 0.5 or try different keywords like 'affordable'.
 
 
 

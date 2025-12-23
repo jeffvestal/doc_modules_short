@@ -30,16 +30,6 @@ class TrackBuilder:
             autoescape=select_autoescape(['html', 'xml'])
         )
     
-    def generate_track_id(self) -> str:
-        """Generate a unique track ID (placeholder - Instruqt will assign real ID).
-        
-        Returns:
-            Placeholder track ID
-        """
-        # Instruqt will assign a real ID when track is created
-        # For now, return a placeholder
-        return "placeholder"
-    
     def generate_checksum(self, content: str) -> str:
         """Generate checksum for track.yml.
         
@@ -109,7 +99,6 @@ class TrackBuilder:
         
         context = {
             'slug': slug,
-            'track_id': self.generate_track_id(),
             'display_name': display_name,
             'teaser': f"Learn how to use the {lab_config.get('queryType', '')} query in Elasticsearch",
             'description': description[:200] + "..." if len(description) > 200 else description,

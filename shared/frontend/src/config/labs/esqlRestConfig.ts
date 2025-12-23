@@ -30,27 +30,33 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example1',
-      title: "Find Wireless Products",
-      description: "Search for products that mention \u0027wireless\u0027 in their description and limit the results to 10.",
-      template: `FROM products | WHERE product_description LIKE "*wireless*" | LIMIT 10`,
+      title: "Find wireless products",
+      description: "Search for products with \u0027wireless\u0027 in their description.",
+      template: `FROM products | WHERE product_description LIKE "*wireless*" | KEEP product_name, product_price | SORT product_price DESC | LIMIT 5`,
       index: 'products',
 
       tryThis: [
 
-        "Try changing \u0027wireless\u0027 to another word like \u0027Bluetooth\u0027.",
+        "Change \u0027wireless\u0027 to \u0027premium\u0027 to find products with \u0027premium\u0027 in their description.",
+
+        "Add a condition to filter by product_category, e.g., `AND product_category == \"Electronics\"`.",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Specifies the dataset to query.",
+        "FROM": "Defines the dataset to query.",
 
-        "WHERE": "Filters results based on a condition.",
+        "WHERE": "Filters the results based on a condition.",
 
-        "LIKE": "Performs a text match using wildcards (*).",
+        "LIKE": "Performs a wildcard text search.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "KEEP": "Specifies which fields to include in the results.",
+
+        "SORT": "Orders the results based on a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -58,25 +64,33 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example2',
-      title: "Top Premium Products by Price",
-      description: "Search for premium products and sort them by price in descending order, keeping only the product name and price.",
-      template: `FROM products | WHERE product_name LIKE "*premium*" | KEEP product_name, product_price | SORT product_price DESC`,
-      index: 'products',
+      title: "Top-rated reviews mentioning durability",
+      description: "Find product reviews mentioning \u0027durable\u0027 and sort them by rating in descending order.",
+      template: `FROM product_reviews | WHERE review_text LIKE "*durable*" | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 5`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try sorting by ascending price by using \u0027ASC\u0027 instead of \u0027DESC\u0027.",
+        "Change \u0027durable\u0027 to \u0027comfortable\u0027 to find reviews mentioning \u0027comfortable\u0027.",
+
+        "Add a condition to include verified purchases only, e.g., `AND verified_purchase == \"True\"`.",
 
       ],
 
 
       tooltips: {
 
-        "KEEP": "Selects specific fields to include in the results.",
+        "FROM": "Defines the dataset to query.",
 
-        "SORT": "Orders results by a specified field.",
+        "WHERE": "Filters the results based on a condition.",
 
-        "DESC": "Sorts in descending order.",
+        "LIKE": "Performs a wildcard text search.",
+
+        "KEEP": "Specifies which fields to include in the results.",
+
+        "SORT": "Orders the results based on a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -84,27 +98,33 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example3',
-      title: "Comfortable Product Reviews",
-      description: "Search for reviews mentioning \u0027comfortable\u0027 and limit the results to 10.",
-      template: `FROM product_reviews | WHERE review_text LIKE "*comfortable*" | LIMIT 10`,
-      index: 'product_reviews',
+      title: "Users interested in Books and Electronics",
+      description: "Search for users with interests in both \u0027Books\u0027 and \u0027Electronics\u0027.",
+      template: `FROM product_users | WHERE interests LIKE "*Books*" OR interests LIKE "*Electronics*" | KEEP username, interests | LIMIT 10`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Try changing \u0027comfortable\u0027 to another word like \u0027durable\u0027.",
+        "Add another interest, e.g., `OR interests LIKE \"*Sports*\"`.",
+
+        "Change the LIMIT value to display more or fewer results.",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Specifies the dataset to query.",
+        "FROM": "Defines the dataset to query.",
 
-        "WHERE": "Filters results based on a condition.",
+        "WHERE": "Filters the results based on a condition.",
 
-        "LIKE": "Performs a text match using wildcards (*).",
+        "LIKE": "Performs a wildcard text search.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "OR": "Combines multiple conditions, returning results that match any condition.",
+
+        "KEEP": "Specifies which fields to include in the results.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -112,25 +132,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example4',
-      title: "Top Durable and Comfortable Reviews",
-      description: "Search for reviews mentioning \u0027durable\u0027 or \u0027comfortable\u0027, keep the review title and rating, and sort by rating in descending order.",
-      template: `FROM product_reviews | WHERE review_text LIKE "*durable*" OR review_text LIKE "*comfortable*" | KEEP review_title, review_rating | SORT review_rating DESC`,
-      index: 'product_reviews',
+      title: "Affordable products in Electronics",
+      description: "Find products in the \u0027Electronics\u0027 category with prices under $50.",
+      template: `FROM products | WHERE product_category == "Electronics" AND product_price < 50 | KEEP product_name, product_price | SORT product_price ASC | LIMIT 10`,
+      index: 'products',
 
       tryThis: [
 
-        "Try adding another keyword to the search condition, such as \u0027stylish\u0027.",
+        "Change the price filter to `product_price \u003c 100` to include more products.",
+
+        "Remove the category filter to see affordable products from all categories.",
 
       ],
 
 
       tooltips: {
 
-        "OR": "Combines multiple conditions, returning results that match any condition.",
+        "FROM": "Defines the dataset to query.",
 
-        "KEEP": "Selects specific fields to include in the results.",
+        "WHERE": "Filters the results based on a condition.",
 
-        "SORT": "Orders results by a specified field.",
+        "KEEP": "Specifies which fields to include in the results.",
+
+        "SORT": "Orders the results based on a field.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -138,27 +164,29 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example5',
-      title: "Find Users Interested in Electronics",
-      description: "Search for users with interests related to \u0027Electronics\u0027 and limit the results to 10.",
-      template: `FROM product_users | WHERE interests LIKE "*Electronics*" | LIMIT 10`,
+      title: "Frequently reviewed users",
+      description: "Find users who have written the most reviews.",
+      template: `FROM product_users | SORT total_reviews_count DESC | KEEP username, total_reviews_count | LIMIT 5`,
       index: 'product_users',
 
       tryThis: [
 
-        "Try changing \u0027Electronics\u0027 to another interest like \u0027Books\u0027.",
+        "Add a condition to filter by account type, e.g., `WHERE account_type == \"Premium\"`.",
+
+        "Change the sorting order to `ASC` to find users with the fewest reviews.",
 
       ],
 
 
       tooltips: {
 
-        "FROM": "Specifies the dataset to query.",
+        "FROM": "Defines the dataset to query.",
 
-        "WHERE": "Filters results based on a condition.",
+        "SORT": "Orders the results based on a field.",
 
-        "LIKE": "Performs a text match using wildcards (*).",
+        "KEEP": "Specifies which fields to include in the results.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -166,25 +194,31 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example6',
-      title: "Users Interested in Multiple Categories",
-      description: "Search for users with interests in \u0027Books\u0027 or \u0027Electronics\u0027, keep the username and interests, and limit the results to 10.",
-      template: `FROM product_users | WHERE interests LIKE "*Books*" OR interests LIKE "*Electronics*" | KEEP username, interests | LIMIT 10`,
-      index: 'product_users',
+      title: "Highly rated verified reviews",
+      description: "Find verified reviews with the highest ratings.",
+      template: `FROM product_reviews | WHERE verified_purchase == "True" AND review_rating >= 4 | SORT review_rating DESC, helpful_votes DESC | KEEP review_title, review_rating, helpful_votes | LIMIT 10`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try adding another interest, such as \u0027Sports\u0027, to the query.",
+        "Change the rating filter to `review_rating \u003e= 5` to see only perfect reviews.",
+
+        "Remove the verified purchase filter to include all reviews.",
 
       ],
 
 
       tooltips: {
 
-        "OR": "Combines multiple conditions, returning results that match any condition.",
+        "FROM": "Defines the dataset to query.",
 
-        "KEEP": "Selects specific fields to include in the results.",
+        "WHERE": "Filters the results based on a condition.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "SORT": "Orders the results based on one or more fields.",
+
+        "KEEP": "Specifies which fields to include in the results.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 

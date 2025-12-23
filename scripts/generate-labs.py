@@ -380,7 +380,7 @@ def main():
         
         if created_slugs and not args.skip_review and not args.yolo:
             # Pause for review
-            print(f"\n[Review] {len(created_slugs)} labs created. Review before deploying?", flush=True)
+            print(f"\n[Review] {len(created_slugs)} labs created.", flush=True)
             response = input("Deploy to GitHub and Instruqt? (Y/n): ").strip().lower()
             if response and response != 'y':
                 print("[Review] Deployment cancelled.", flush=True)
@@ -409,12 +409,22 @@ def main():
                         check=True
                     )
                     # Push (run FROM the track directory)
-                    subprocess.run(
+                    push_result = subprocess.run(
                         ['instruqt', 'track', 'push', '--force'],
                         cwd=track_dir,
-                        check=True
+                        capture_output=True,
+                        text=True
                     )
-                    print(f"[Deploy] ✓ Pushed docs-lab-{slug}", flush=True)
+                    if push_result.returncode != 0:
+                        if 'already exists' in push_result.stderr.lower() or 'already exists' in push_result.stdout.lower():
+                            # Track already exists in Instruqt - this is OK for regenerated tracks
+                            # The track files are updated in git, Instruqt will sync on next manual push
+                            print(f"[Deploy] ⚠ Track docs-lab-{slug} already exists in Instruqt (use 'instruqt track push' manually to update)", flush=True)
+                        else:
+                            # Other error, print warning but don't fail
+                            print(f"[Deploy] ⚠ Failed to push docs-lab-{slug}: {push_result.stderr or push_result.stdout}", flush=True)
+                    else:
+                        print(f"[Deploy] ✓ Pushed docs-lab-{slug}", flush=True)
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):

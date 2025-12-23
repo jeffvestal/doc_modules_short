@@ -1,5 +1,4 @@
 slug: docs-lab-fuzzy-query
-id: placeholder
 title: Docs Lab - Fuzzy Query
 teaser: Learn how to use the fuzzy_query query in Elasticsearch
 description: |
@@ -26,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "7676273b97219450409412bfd8c13c97"
+checksum: "036c7a069a40146cc4cd21bdaea3864b"
 enhanced_loading: false

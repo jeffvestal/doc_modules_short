@@ -77,68 +77,80 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Find Wireless Products
-Search for products that mention 'wireless' in their description and limit the results to 10.
+### Find wireless products
+Search for products with 'wireless' in their description.
 
 
 **Try This:**
 
-- Try changing 'wireless' to another word like 'Bluetooth'.
+- Change 'wireless' to 'premium' to find products with 'premium' in their description.
+
+- Add a condition to filter by product_category, e.g., `AND product_category == "Electronics"`.
 
 
 
 
-### Top Premium Products by Price
-Search for premium products and sort them by price in descending order, keeping only the product name and price.
-
-
-**Try This:**
-
-- Try sorting by ascending price by using 'ASC' instead of 'DESC'.
-
-
-
-
-### Comfortable Product Reviews
-Search for reviews mentioning 'comfortable' and limit the results to 10.
+### Top-rated reviews mentioning durability
+Find product reviews mentioning 'durable' and sort them by rating in descending order.
 
 
 **Try This:**
 
-- Try changing 'comfortable' to another word like 'durable'.
+- Change 'durable' to 'comfortable' to find reviews mentioning 'comfortable'.
+
+- Add a condition to include verified purchases only, e.g., `AND verified_purchase == "True"`.
 
 
 
 
-### Top Durable and Comfortable Reviews
-Search for reviews mentioning 'durable' or 'comfortable', keep the review title and rating, and sort by rating in descending order.
-
-
-**Try This:**
-
-- Try adding another keyword to the search condition, such as 'stylish'.
-
-
-
-
-### Find Users Interested in Electronics
-Search for users with interests related to 'Electronics' and limit the results to 10.
+### Users interested in Books and Electronics
+Search for users with interests in both 'Books' and 'Electronics'.
 
 
 **Try This:**
 
-- Try changing 'Electronics' to another interest like 'Books'.
+- Add another interest, e.g., `OR interests LIKE "*Sports*"`.
+
+- Change the LIMIT value to display more or fewer results.
 
 
 
 
-### Users Interested in Multiple Categories
-Search for users with interests in 'Books' or 'Electronics', keep the username and interests, and limit the results to 10.
+### Affordable products in Electronics
+Find products in the 'Electronics' category with prices under $50.
 
 
 **Try This:**
 
-- Try adding another interest, such as 'Sports', to the query.
+- Change the price filter to `product_price < 100` to include more products.
+
+- Remove the category filter to see affordable products from all categories.
+
+
+
+
+### Frequently reviewed users
+Find users who have written the most reviews.
+
+
+**Try This:**
+
+- Add a condition to filter by account type, e.g., `WHERE account_type == "Premium"`.
+
+- Change the sorting order to `ASC` to find users with the fewest reviews.
+
+
+
+
+### Highly rated verified reviews
+Find verified reviews with the highest ratings.
+
+
+**Try This:**
+
+- Change the rating filter to `review_rating >= 5` to see only perfect reviews.
+
+- Remove the verified purchase filter to include all reviews.
 
 
 

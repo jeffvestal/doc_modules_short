@@ -13,9 +13,9 @@ export const termConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: "product_name",
-    product_reviews: "review_text",
-    product_users: "interests",
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
   sampleQueries: {
     products: "wireless",
@@ -30,8 +30,8 @@ export const termConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find a product by exact category",
-      description: "Search for products in the \u0027Electronics\u0027 category using an exact match.",
+      title: "Find products in a specific category",
+      description: "Search for all products in the \u0027Electronics\u0027 category.",
       template: `{
   "query": {
     "term": {
@@ -45,16 +45,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the `product_category` value to \u0027Books\u0027 or \u0027Clothing\u0027 and observe the results.",
+        "Change \u0027Electronics\u0027 to \u0027Books\u0027 to find products in the Books category.",
 
-        "Try searching for a category not in the dataset, such as \u0027Furniture\u0027, and see what happens.",
+        "Try using another category such as \u0027Clothing\u0027 or \u0027Beauty\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "The category of the product. Use exact values like \u0027Electronics\u0027 or \u0027Books\u0027.",
+        "product_category": "This is an exact match field. Use one of the predefined categories.",
 
       },
 
@@ -62,13 +62,13 @@ export const termConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Find reviews with specific helpful votes",
-      description: "Retrieve reviews that have exactly 27 helpful votes.",
+      title: "Find highly-rated reviews",
+      description: "Search for reviews with a rating of 5.",
       template: `{
   "query": {
     "term": {
-      "helpful_votes": {
-        "value": 27
+      "review_rating": {
+        "value": 5
       }
     }
   }
@@ -77,16 +77,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `helpful_votes` to another value like 15 or 34 to see different results.",
+        "Change the rating to 4 to see reviews with a slightly lower rating.",
 
-        "Try using a value not in the dataset, such as 50, to test the query behavior.",
+        "Try searching for reviews with a rating of 1 to find negative reviews.",
 
       ],
 
 
       tooltips: {
 
-        "helpful_votes": "The number of helpful votes a review received. Use exact numeric values like 10, 15, or 27.",
+        "review_rating": "This field stores review ratings as exact numbers (1-5).",
 
       },
 
@@ -94,7 +94,7 @@ export const termConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Find a specific username",
+      title: "Find a specific user by username",
       description: "Search for a user with the username \u0027AveryWilliams55\u0027.",
       template: `{
   "query": {
@@ -109,16 +109,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the `username` value to other options like \u0027CameronLopez20\u0027 or \u0027CaseyRodriguez81\u0027.",
+        "Change the username to \u0027CameronLopez20\u0027 to find a different user.",
 
-        "Try searching for a username not in the dataset, such as \u0027UnknownUser\u0027, and check the results.",
+        "Try using \u0027CaseyRodriguez81\u0027 or \u0027JordanMartinez33\u0027 as the username.",
 
       ],
 
 
       tooltips: {
 
-        "username": "The unique username of a user. Use exact values like \u0027AveryWilliams55\u0027 or \u0027JordanMartinez33\u0027.",
+        "username": "Usernames are stored as exact strings. Ensure you use the correct capitalization and spelling.",
 
       },
 
@@ -126,8 +126,8 @@ export const termConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Search for a specific product brand",
-      description: "Find all products from the brand \u0027AudioMax\u0027.",
+      title: "Find products by brand",
+      description: "Search for all products from the brand \u0027AudioMax\u0027.",
       template: `{
   "query": {
     "term": {
@@ -141,16 +141,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `product_brand` to other values like \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027.",
+        "Change the brand to \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027 to find products from other brands.",
 
-        "Test the query with a non-existent brand like \u0027TechGenius\u0027 to observe the output.",
+        "Try using \u0027AutoGuard\u0027 to find automotive products.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "The brand of the product. Use exact values like \u0027AudioMax\u0027 or \u0027GlowNaturals\u0027.",
+        "product_brand": "This is an exact match field. Use one of the predefined brand names.",
 
       },
 
@@ -158,8 +158,8 @@ export const termConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Filter verified purchases",
-      description: "Find all reviews marked as verified purchases.",
+      title: "Find verified purchases",
+      description: "Search for reviews where the purchase is verified.",
       template: `{
   "query": {
     "term": {
@@ -173,16 +173,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `verified_purchase` to \u0027False\u0027 to filter only non-verified purchases.",
+        "Change \u0027True\u0027 to \u0027False\u0027 to find reviews where the purchase is not verified.",
 
-        "Combine this query with other filters like `review_rating` for more specific results.",
+        "Combine this with a rating filter to find verified purchases with high ratings.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Indicates if the review is from a verified purchase. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
+        "verified_purchase": "This field uses string values (\u0027True\u0027 or \u0027False\u0027). Ensure the value is case-sensitive.",
 
       },
 
@@ -190,13 +190,13 @@ export const termConfig: LabConfig = {
 
     {
       id: '6',
-      title: "Search for a specific product price",
-      description: "Retrieve all products priced at exactly $49.99.",
+      title: "Find products by price",
+      description: "Search for products with a price of 59.99.",
       template: `{
   "query": {
     "term": {
       "product_price": {
-        "value": 49.99
+        "value": 59.99
       }
     }
   }
@@ -205,16 +205,16 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change `product_price` to 89.99 or 24.99 and observe the responses.",
+        "Change the price to 89.99 to find more expensive products.",
 
-        "Try using a price not in the dataset, such as 99.99, to test the query\u0027s behavior.",
+        "Try using a lower price, such as 14.99, to find cheaper products.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The exact price of the product. Use numeric values like 49.99 or 89.99.",
+        "product_price": "This field stores the exact numerical price. Ensure the value matches one in the dataset.",
 
       },
 
