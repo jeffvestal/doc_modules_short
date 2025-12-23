@@ -393,7 +393,7 @@ def main():
             
             subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
             subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
-            subprocess.run(['git', 'push', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
+            subprocess.run(['git', 'push', '--force', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
             
             print("[Deploy] ✓ Changes pushed to GitHub", flush=True)
             

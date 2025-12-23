@@ -77,68 +77,68 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter Products by Category
-Retrieve all products in the 'Electronics' category.
+### Find Wireless Products
+Search for products that mention 'wireless' in their description and limit the results to 10.
 
 
 **Try This:**
 
-- Try changing the category to 'Books' or 'Toys' to explore other product categories.
+- Try changing 'wireless' to another word like 'Bluetooth'.
 
 
 
 
-### Find Highly Rated Reviews
-Show reviews with a rating of 5 and include helpful votes.
-
-
-**Try This:**
-
-- Try changing the rating to 4 or 3 to see reviews with lower ratings.
-
-
-
-
-### Search for Users by Interests
-Retrieve users who are interested in 'Books' or 'Electronics'.
+### Top Premium Products by Price
+Search for premium products and sort them by price in descending order, keeping only the product name and price.
 
 
 **Try This:**
 
-- Try replacing 'Books' with 'Sports' or 'Beauty' to find users with other interests.
+- Try sorting by ascending price by using 'ASC' instead of 'DESC'.
 
 
 
 
-### Top Verified Purchases
-Find users who are verified purchasers and sort them by trust score.
-
-
-**Try This:**
-
-- Try changing the sort order to ascending by replacing 'DESC' with 'ASC'.
-
-
-
-
-### Search for Affordable Products
-Retrieve products that are priced below $50.
+### Comfortable Product Reviews
+Search for reviews mentioning 'comfortable' and limit the results to 10.
 
 
 **Try This:**
 
-- Try changing the price filter to 'product_price < 30' to narrow the search further.
+- Try changing 'comfortable' to another word like 'durable'.
 
 
 
 
-### Reviews Mentioning Durability
-Find reviews that mention the word 'durable' in their text.
+### Top Durable and Comfortable Reviews
+Search for reviews mentioning 'durable' or 'comfortable', keep the review title and rating, and sort by rating in descending order.
 
 
 **Try This:**
 
-- Try adding another keyword using 'OR', such as 'comfortable', to expand the results.
+- Try adding another keyword to the search condition, such as 'stylish'.
+
+
+
+
+### Find Users Interested in Electronics
+Search for users with interests related to 'Electronics' and limit the results to 10.
+
+
+**Try This:**
+
+- Try changing 'Electronics' to another interest like 'Books'.
+
+
+
+
+### Users Interested in Multiple Categories
+Search for users with interests in 'Books' or 'Electronics', keep the username and interests, and limit the results to 10.
+
+
+**Try This:**
+
+- Try adding another interest, such as 'Sports', to the query.
 
 
 
