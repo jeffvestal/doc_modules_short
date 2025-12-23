@@ -32,7 +32,7 @@ export const esqlRestConfig: LabConfig = {
       id: 'example_1',
       title: "Filter products by category and sort by price",
       description: "Retrieve all products from the \u0027Electronics\u0027 category, keep only the product name and price, and sort by price in descending order.",
-      template: `FROM products | WHERE product_category == 'Electronics' | KEEP product_name, product_price | SORT product_price DESC | LIMIT 5`,
+      template: `FROM products | WHERE product_category == "Electronics" | KEEP product_name, product_price | SORT product_price DESC | LIMIT 5`,
       index: 'products',
 
       tryThis: [
@@ -60,7 +60,7 @@ export const esqlRestConfig: LabConfig = {
       id: 'example_2',
       title: "Find top-rated reviews for durable products",
       description: "Search product reviews containing the word \u0027durable\u0027, keep the review title and rating, and sort by rating in descending order.",
-      template: `FROM product_reviews | WHERE review_text LIKE '*durable*' | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 10`,
+      template: `FROM product_reviews | WHERE review_text LIKE "*durable*" | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 10`,
       index: 'product_reviews',
 
       tryThis: [
@@ -90,7 +90,7 @@ export const esqlRestConfig: LabConfig = {
       id: 'example_3',
       title: "Identify active users interested in Electronics",
       description: "List users interested in Electronics, showing their username and total reviews count.",
-      template: `FROM product_users | WHERE interests LIKE '*Electronics*' | KEEP username, total_reviews_count | SORT total_reviews_count DESC | LIMIT 10`,
+      template: `FROM product_users | WHERE interests LIKE "*Electronics*" | KEEP username, total_reviews_count | SORT total_reviews_count DESC | LIMIT 10`,
       index: 'product_users',
 
       tryThis: [
@@ -148,7 +148,7 @@ export const esqlRestConfig: LabConfig = {
       id: 'example_5',
       title: "Analyze product pricing trends",
       description: "Retrieve products from a specific brand, showing their name, category, and price, sorted by price in ascending order.",
-      template: `FROM products | WHERE product_brand == 'BrandX' | KEEP product_name, product_category, product_price | SORT product_price ASC | LIMIT 10`,
+      template: `FROM products | WHERE product_brand == "AudioMax" | KEEP product_name, product_category, product_price | SORT product_price ASC | LIMIT 10`,
       index: 'products',
 
       tryThis: [

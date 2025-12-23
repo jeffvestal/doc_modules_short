@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-esqlrest
+id: vxp2udhcy4yi
 type: challenge
 title: ES|QL Query Lab
 teaser: Learn how to use the esql_rest query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # ES|QL Query Lab
+
+    Welcome to the interactive lab for the esql_rest query!
+
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 tabs:
-- id: tab-querylab-esqlrest
+- id: bsrq8oyzrw5h
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-esqlrest
+- id: rnr7a4oa2ziv
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-esqlrest
+- id: jzyoc6xijfhv
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-esqlrest
+- id: g0gphoox5j18
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # ES|QL Query Lab
-    
-    Welcome to the interactive lab for the esql_rest query!
-    
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # ES|QL Query Lab
