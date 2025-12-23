@@ -77,80 +77,80 @@ Returns documents that contain an **exact** term in a provided field. You can us
 This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find product by exact category
-This query searches for products in the 'Electronics' category.
+### Find a product by exact category
+Search for products in the 'Electronics' category using an exact match.
 
 
 **Try This:**
 
-- Change the value to 'Appliances' to see if there are products in that category.
+- Change the `product_category` value to 'Books' or 'Clothing' and observe the results.
 
-- Try using a different field like 'product_brand' with a brand name as the value.
-
-
-
-
-### Find review by user ID
-This query retrieves product reviews written by a specific user ID.
-
-
-**Try This:**
-
-- Replace 'user123' with a different user ID to find reviews from other users.
-
-- Change the field to 'verified_purchase' and the value to 'true' to find verified reviews.
+- Try searching for a category not in the dataset, such as 'Furniture', and see what happens.
 
 
 
 
-### Find user by username
-This query retrieves information about a user with an exact username.
+### Find reviews with specific helpful votes
+Retrieve reviews that have exactly 27 helpful votes.
 
 
 **Try This:**
 
-- Change 'john_doe' to a different username to find a different user.
+- Change `helpful_votes` to another value like 15 or 34 to see different results.
 
-- Try searching another field, like 'account_type', to filter users by their account type.
-
-
-
-
-### Find products by exact price
-This query retrieves products that have a price of exactly 99.99.
-
-
-**Try This:**
-
-- Change the price value to 49.99 to find cheaper products.
-
-- Try using the 'product_brand' field to filter products by a specific brand.
+- Try using a value not in the dataset, such as 50, to test the query behavior.
 
 
 
 
-### Find reviews with helpful votes
-This query retrieves reviews that have exactly 10 helpful votes.
+### Find a specific username
+Search for a user with the username 'AveryWilliams55'.
 
 
 **Try This:**
 
-- Modify the value to 5 or 20 to see reviews with different numbers of helpful votes.
+- Change the `username` value to other options like 'CameronLopez20' or 'CaseyRodriguez81'.
 
-- Use the 'review_rating' field to filter reviews based on their rating instead.
-
-
+- Try searching for a username not in the dataset, such as 'UnknownUser', and check the results.
 
 
-### Find users by account type
-This query retrieves users with an account type of 'premium'.
+
+
+### Search for a specific product brand
+Find all products from the brand 'AudioMax'.
 
 
 **Try This:**
 
-- Change 'premium' to 'basic' to find users with basic accounts.
+- Change `product_brand` to other values like 'GlowNaturals' or 'PlaySmart'.
 
-- Try querying the 'location_country' field to find users from a specific country.
+- Test the query with a non-existent brand like 'TechGenius' to observe the output.
+
+
+
+
+### Filter verified purchases
+Find all reviews marked as verified purchases.
+
+
+**Try This:**
+
+- Change `verified_purchase` to 'False' to filter only non-verified purchases.
+
+- Combine this query with other filters like `review_rating` for more specific results.
+
+
+
+
+### Search for a specific product price
+Retrieve all products priced at exactly $49.99.
+
+
+**Try This:**
+
+- Change `product_price` to 89.99 or 24.99 and observe the responses.
+
+- Try using a price not in the dataset, such as 99.99, to test the query's behavior.
 
 
 

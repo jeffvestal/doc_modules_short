@@ -30,25 +30,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find product by exact category",
-      description: "This query searches for products in the \u0027Electronics\u0027 category.",
-      template: `{ "query": { "term": { "product_category": { "value": "Electronics" } } } }`,
+      title: "Find a product by exact category",
+      description: "Search for products in the \u0027Electronics\u0027 category using an exact match.",
+      template: `{
+  "query": {
+    "term": {
+      "product_category": {
+        "value": "Electronics"
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the value to \u0027Appliances\u0027 to see if there are products in that category.",
+        "Change the `product_category` value to \u0027Books\u0027 or \u0027Clothing\u0027 and observe the results.",
 
-        "Try using a different field like \u0027product_brand\u0027 with a brand name as the value.",
+        "Try searching for a category not in the dataset, such as \u0027Furniture\u0027, and see what happens.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "The field containing the product category.",
-
-        "value": "The exact value to match in the specified field.",
+        "product_category": "The category of the product. Use exact values like \u0027Electronics\u0027 or \u0027Books\u0027.",
 
       },
 
@@ -56,25 +62,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Find verified purchase reviews",
-      description: "This query retrieves product reviews that are verified purchases.",
-      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
+      title: "Find reviews with specific helpful votes",
+      description: "Retrieve reviews that have exactly 27 helpful votes.",
+      template: `{
+  "query": {
+    "term": {
+      "helpful_votes": {
+        "value": 27
+      }
+    }
+  }
+}`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Change the value to 'False' to find non-verified reviews.",
+        "Change `helpful_votes` to another value like 15 or 34 to see different results.",
 
-        "Try the 'review_rating' field with a value of 5 to find 5-star reviews.",
+        "Try using a value not in the dataset, such as 50, to test the query behavior.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Boolean field indicating if the reviewer purchased the product.",
-
-        "value": "The exact value to match ('True' or 'False').",
+        "helpful_votes": "The number of helpful votes a review received. Use exact numeric values like 10, 15, or 27.",
 
       },
 
@@ -82,25 +94,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Find user by username",
-      description: "This query retrieves information about a user with an exact username.",
-      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
+      title: "Find a specific username",
+      description: "Search for a user with the username \u0027AveryWilliams55\u0027.",
+      template: `{
+  "query": {
+    "term": {
+      "username": {
+        "value": "AveryWilliams55"
+      }
+    }
+  }
+}`,
       index: 'product_users',
 
       tryThis: [
 
-        "Try other usernames like 'CameronLopez20' or 'JordanMartinez33'.",
+        "Change the `username` value to other options like \u0027CameronLopez20\u0027 or \u0027CaseyRodriguez81\u0027.",
 
-        "Try searching the 'account_type' field with 'Premium' or 'Enterprise'.",
+        "Try searching for a username not in the dataset, such as \u0027UnknownUser\u0027, and check the results.",
 
       ],
 
 
       tooltips: {
 
-        "username": "The field containing the user's unique username.",
-
-        "value": "The exact username to match.",
+        "username": "The unique username of a user. Use exact values like \u0027AveryWilliams55\u0027 or \u0027JordanMartinez33\u0027.",
 
       },
 
@@ -108,25 +126,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Find products by exact price",
-      description: "This query retrieves products that have a price of exactly 89.99.",
-      template: `{ "query": { "term": { "product_price": { "value": 89.99 } } } }`,
+      title: "Search for a specific product brand",
+      description: "Find all products from the brand \u0027AudioMax\u0027.",
+      template: `{
+  "query": {
+    "term": {
+      "product_brand": {
+        "value": "AudioMax"
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the price value to 49.99 or 129.99 to find other products.",
+        "Change `product_brand` to other values like \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027.",
 
-        "Try the 'product_brand' field with 'AudioMax' or 'BrewMaster'.",
+        "Test the query with a non-existent brand like \u0027TechGenius\u0027 to observe the output.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The field containing the price of the product.",
-
-        "value": "The exact price to match.",
+        "product_brand": "The brand of the product. Use exact values like \u0027AudioMax\u0027 or \u0027GlowNaturals\u0027.",
 
       },
 
@@ -134,25 +158,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Find reviews with helpful votes",
-      description: "This query retrieves reviews that have exactly 10 helpful votes.",
-      template: `{ "query": { "term": { "helpful_votes": { "value": 10 } } } }`,
+      title: "Filter verified purchases",
+      description: "Find all reviews marked as verified purchases.",
+      template: `{
+  "query": {
+    "term": {
+      "verified_purchase": {
+        "value": "True"
+      }
+    }
+  }
+}`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Modify the value to 5 or 20 to see reviews with different numbers of helpful votes.",
+        "Change `verified_purchase` to \u0027False\u0027 to filter only non-verified purchases.",
 
-        "Use the \u0027review_rating\u0027 field to filter reviews based on their rating instead.",
+        "Combine this query with other filters like `review_rating` for more specific results.",
 
       ],
 
 
       tooltips: {
 
-        "helpful_votes": "The field containing the number of helpful votes a review received.",
-
-        "value": "The exact number of votes to match.",
+        "verified_purchase": "Indicates if the review is from a verified purchase. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
 
       },
 
@@ -160,25 +190,31 @@ export const termConfig: LabConfig = {
 
     {
       id: '6',
-      title: "Find users by account type",
-      description: "This query retrieves users with a Premium account type.",
-      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
-      index: 'product_users',
+      title: "Search for a specific product price",
+      description: "Retrieve all products priced at exactly $49.99.",
+      template: `{
+  "query": {
+    "term": {
+      "product_price": {
+        "value": 49.99
+      }
+    }
+  }
+}`,
+      index: 'products',
 
       tryThis: [
 
-        "Change 'Premium' to 'Free' or 'Enterprise' to find other account types.",
+        "Change `product_price` to 89.99 or 24.99 and observe the responses.",
 
-        "Note: Term queries are case-sensitive - 'premium' won't match 'Premium'.",
+        "Try using a price not in the dataset, such as 99.99, to test the query\u0027s behavior.",
 
       ],
 
 
       tooltips: {
 
-        "account_type": "The field containing the account type of the user.",
-
-        "value": "The exact account type to match (case-sensitive).",
+        "product_price": "The exact price of the product. Use numeric values like 49.99 or 89.99.",
 
       },
 
