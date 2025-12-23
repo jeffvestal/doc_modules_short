@@ -404,50 +404,142 @@ def main():
                 sys.exit(0)
         
         if slugs_to_push:
+            # Track deployment results
+            deploy_results = []
+            
             # Git commit and push
             print("\n[Deploy] Committing changes...", flush=True)
             commit_message = f"Auto-generated labs: {', '.join(slugs_to_push)}"
             
-            subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
-            subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
-            subprocess.run(['git', 'push', '--force', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
-            
-            print("[Deploy] ✓ Changes pushed to GitHub", flush=True)
+            github_success = False
+            github_error = None
+            try:
+                subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
+                subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
+                subprocess.run(['git', 'push', '--force', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
+                print("[Deploy] ✓ Changes pushed to GitHub", flush=True)
+                github_success = True
+            except subprocess.CalledProcessError as e:
+                github_error = str(e)
+                print(f"[Deploy] ✗ Failed to push to GitHub: {github_error}", flush=True)
             
             # Git push succeeded - mark all labs as pushed (git is source of truth)
-            for slug in slugs_to_push:
-                report.mark_lab_pushed(slug)
+            if github_success:
+                for slug in slugs_to_push:
+                    report.mark_lab_pushed(slug)
             
             # Push to Instruqt
             print("[Deploy] Pushing tracks to Instruqt...", flush=True)
             for slug in slugs_to_push:
+                inst_success = False
+                inst_error = None
                 track_dir = PROJECT_ROOT / "instruqt_labs" / f"docs-lab-{slug}"
+                
                 if track_dir.exists():
-                    # Validate first (run FROM the track directory)
-                    subprocess.run(
-                        ['instruqt', 'track', 'validate'],
-                        cwd=track_dir,
-                        check=True
-                    )
-                    # Push (run FROM the track directory)
-                    push_result = subprocess.run(
-                        ['instruqt', 'track', 'push', '--force'],
-                        cwd=track_dir,
-                        capture_output=True,
-                        text=True
-                    )
-                    if push_result.returncode != 0:
-                        if 'already exists' in push_result.stderr.lower() or 'already exists' in push_result.stdout.lower():
-                            # Track already exists in Instruqt - this is OK for regenerated tracks
-                            # The track files are updated in git, Instruqt will sync on next manual push
-                            print(f"[Deploy] ⚠ Track docs-lab-{slug} already exists in Instruqt (use 'instruqt track push' manually to update)", flush=True)
+                    try:
+                        # Validate first (run FROM the track directory)
+                        subprocess.run(
+                            ['instruqt', 'track', 'validate'],
+                            cwd=track_dir,
+                            check=True
+                        )
+                        # Push (run FROM the track directory)
+                        push_result = subprocess.run(
+                            ['instruqt', 'track', 'push', '--force'],
+                            cwd=track_dir,
+                            capture_output=True,
+                            text=True
+                        )
+                        if push_result.returncode != 0:
+                            error_output = push_result.stderr or push_result.stdout or ""
+                            if 'already exists' in error_output.lower():
+                                # Track already exists in Instruqt - this is OK for regenerated tracks
+                                inst_error = "Track already exists (may need manual update)"
+                                print(f"[Deploy] ⚠ Track docs-lab-{slug} already exists in Instruqt", flush=True)
+                            else:
+                                # Extract error message (first line or truncated)
+                                inst_error = error_output.strip().split('\n')[0][:80]
+                                if len(error_output.strip().split('\n')[0]) > 80:
+                                    inst_error += "..."
+                                print(f"[Deploy] ⚠ Failed to push docs-lab-{slug} to Instruqt: {inst_error}", flush=True)
                         else:
-                            # Other error, print warning but don't fail
-                            print(f"[Deploy] ⚠ Failed to push docs-lab-{slug} to Instruqt: {push_result.stderr or push_result.stdout}", flush=True)
-                    else:
-                        print(f"[Deploy] ✓ Pushed docs-lab-{slug} to Instruqt", flush=True)
+                            inst_success = True
+                            print(f"[Deploy] ✓ Pushed docs-lab-{slug} to Instruqt", flush=True)
+                    except subprocess.CalledProcessError as e:
+                        inst_error = str(e)[:80]
+                        print(f"[Deploy] ⚠ Failed to push docs-lab-{slug} to Instruqt: {inst_error}", flush=True)
                 else:
+                    inst_error = "Track directory not found"
                     print(f"[Deploy] ⚠ Track directory not found for docs-lab-{slug}", flush=True)
+                
+                # Record result for this lab
+                deploy_results.append({
+                    'slug': slug,
+                    'github_success': github_success,
+                    'github_error': github_error,
+                    'instruqt_success': inst_success,
+                    'instruqt_error': inst_error
+                })
+            
+            # Print deployment summary
+            if deploy_results:
+                from rich.table import Table as RichTable
+                from rich.panel import Panel as RichPanel
+                from rich.console import Console
+                
+                console = Console()
+                console.print()
+                
+                deploy_table = RichTable(title="Deployment Summary", show_header=True, header_style="bold")
+                deploy_table.add_column("Lab", style="cyan")
+                deploy_table.add_column("GitHub", style="green", justify="center")
+                deploy_table.add_column("Instruqt", style="green", justify="center")
+                deploy_table.add_column("Notes", style="yellow")
+                
+                github_count = 0
+                instruqt_count = 0
+                failed_count = 0
+                
+                for result in deploy_results:
+                    github_status = "[green]✓[/green]" if result['github_success'] else "[red]✗[/red]"
+                    if result['github_success']:
+                        github_count += 1
+                    
+                    if result['instruqt_success']:
+                        inst_status = "[green]✓[/green]"
+                        instruqt_count += 1
+                    elif result['instruqt_error']:
+                        inst_status = "[red]✗[/red]"
+                        failed_count += 1
+                    else:
+                        inst_status = "[yellow]—[/yellow]"
+                    
+                    notes = result['instruqt_error'] or result['github_error'] or ""
+                    if len(notes) > 60:
+                        notes = notes[:57] + "..."
+                    
+                    deploy_table.add_row(
+                        f"docs-lab-{result['slug']}",
+                        github_status,
+                        inst_status,
+                        notes
+                    )
+                
+                console.print(deploy_table)
+                console.print()
+                
+                # Summary line
+                summary_parts = []
+                if github_count > 0:
+                    summary_parts.append(f"{github_count} pushed to GitHub")
+                if instruqt_count > 0:
+                    summary_parts.append(f"{instruqt_count} pushed to Instruqt")
+                if failed_count > 0:
+                    summary_parts.append(f"{failed_count} failed")
+                
+                if summary_parts:
+                    summary_text = "Summary: " + ", ".join(summary_parts)
+                    console.print(f"[bold]{summary_text}[/bold]", flush=True)
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):
