@@ -29,9 +29,9 @@ export const esqlRestConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example1',
-      title: "Filter products by description",
-      description: "Find products with \u0027wireless\u0027 in their description and limit the results to 10.",
+      id: 'example_1',
+      title: "Find Wireless Products",
+      description: "Search for products where the description contains the word \u0027wireless\u0027.",
       template: {
         products: `FROM products | WHERE product_description LIKE "*wireless*" | LIMIT 10`,
         product_reviews: `FROM product_reviews | WHERE review_text LIKE "*wireless*" | LIMIT 10`,
@@ -41,7 +41,9 @@ export const esqlRestConfig: LabConfig = {
 
       tryThis: [
 
-        "Try changing \u0027wireless\u0027 to another term like \u0027premium\u0027 to see different results.",
+        "Change \u0027wireless\u0027 to another term like \u0027portable\u0027 or \u0027smart\u0027",
+
+        "Experiment with LIMIT to adjust the number of results returned.",
 
       ],
 
@@ -50,50 +52,20 @@ export const esqlRestConfig: LabConfig = {
 
         "FROM": "Specifies the dataset to query.",
 
-        "WHERE": "Filters the results based on a condition.",
+        "WHERE": "Filters results to only include rows matching the condition.",
 
-        "LIKE": "Performs a text search using wildcards.",
+        "LIKE": "Performs a wildcard text match. Use * as a wildcard.",
 
-        "LIMIT": "Restricts the number of results returned.",
-
-      },
-
-    },
-
-    {
-      id: 'example2',
-      title: "Sort products by price",
-      description: "Find premium products, keep only their names and prices, and sort them by price in descending order.",
-      template: {
-        products: `FROM products | WHERE product_name LIKE "*premium*" | KEEP product_name, product_price | SORT product_price DESC`,
-        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*premium*" | KEEP review_title, review_rating | SORT review_rating DESC`,
-        product_users: `FROM product_users | WHERE account_type == "Premium" | KEEP username, trust_score | SORT trust_score DESC`,
-      },
-      index: 'products',
-
-      tryThis: [
-
-        "Try changing \u0027premium\u0027 to another keyword like \u0027wireless\u0027 or remove the SORT clause to see unsorted results.",
-
-      ],
-
-
-      tooltips: {
-
-        "KEEP": "Selects specific fields to include in the result.",
-
-        "SORT": "Arranges the results based on a field, optionally in descending order.",
-
-        "DESC": "Sorts the results in descending order.",
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
     },
 
     {
-      id: 'example3',
-      title: "Find highly-rated reviews",
-      description: "Search for reviews mentioning \u0027durable\u0027 or \u0027comfortable\u0027, keep the title and rating, and sort by rating in descending order.",
+      id: 'example_2',
+      title: "Top Rated Durable Reviews",
+      description: "Find reviews mentioning \u0027durable\u0027 or \u0027comfortable\u0027, sorted by rating in descending order.",
       template: {
         products: `FROM products | WHERE product_description LIKE "*durable*" OR product_description LIKE "*comfortable*" | KEEP product_name, product_price | SORT product_price DESC`,
         product_reviews: `FROM product_reviews | WHERE review_text LIKE "*durable*" OR review_text LIKE "*comfortable*" | KEEP review_title, review_rating | SORT review_rating DESC`,
@@ -103,27 +75,31 @@ export const esqlRestConfig: LabConfig = {
 
       tryThis: [
 
-        "Try changing \u0027durable\u0027 and \u0027comfortable\u0027 to other keywords like \u0027easy\u0027 or \u0027reliable\u0027.",
+        "Change the keywords in the WHERE clause to find reviews mentioning other terms.",
+
+        "Try removing the OR condition to focus on one keyword.",
 
       ],
 
 
       tooltips: {
 
-        "OR": "Combines multiple conditions, returning results that match any condition.",
+        "FROM": "Specifies the dataset to query.",
 
-        "KEEP": "Selects specific fields to include in the result.",
+        "WHERE": "Filters results to match the condition, allowing multiple conditions with OR.",
 
-        "SORT": "Arranges the results based on a field, optionally in descending order.",
+        "KEEP": "Selects specific fields to include in the output.",
+
+        "SORT": "Sorts the results by the specified field and order.",
 
       },
 
     },
 
     {
-      id: 'example4',
-      title: "Filter users by interests",
-      description: "Find users interested in \u0027Electronics\u0027 and limit the results to 10.",
+      id: 'example_3',
+      title: "Electronics Enthusiasts",
+      description: "Find users with interests in \u0027Electronics\u0027.",
       template: {
         products: `FROM products | WHERE product_category == "Electronics" | LIMIT 10`,
         product_reviews: `FROM product_reviews | WHERE review_text LIKE "*Electronics*" | LIMIT 10`,
@@ -133,7 +109,9 @@ export const esqlRestConfig: LabConfig = {
 
       tryThis: [
 
-        "Try changing \u0027Electronics\u0027 to another interest like \u0027Books\u0027 to find different users.",
+        "Replace \u0027Electronics\u0027 with another interest like \u0027Books\u0027 or \u0027Sports\u0027.",
+
+        "Increase the LIMIT to see more results.",
 
       ],
 
@@ -142,41 +120,79 @@ export const esqlRestConfig: LabConfig = {
 
         "FROM": "Specifies the dataset to query.",
 
-        "WHERE": "Filters the results based on a condition.",
+        "WHERE": "Filters results to include rows where the condition is true.",
 
-        "LIKE": "Performs a text search using wildcards.",
+        "LIKE": "Performs a wildcard text match. Use * as a wildcard.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
     },
 
     {
-      id: 'example5',
-      title: "Find users with multiple interests",
-      description: "Search for users interested in \u0027Books\u0027 or \u0027Electronics\u0027, keep their username and interests, and limit the results to 10.",
+      id: 'example_4',
+      title: "Premium Products by Price",
+      description: "Find premium products and display their name and price, sorted by price in descending order.",
       template: {
-        products: `FROM products | WHERE product_category == "Books" OR product_category == "Electronics" | KEEP product_name, product_category | LIMIT 10`,
-        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*Books*" OR review_text LIKE "*Electronics*" | KEEP reviewer_name, review_text | LIMIT 10`,
-        product_users: `FROM product_users | WHERE interests LIKE "*Books*" OR interests LIKE "*Electronics*" | KEEP username, interests | LIMIT 10`,
+        products: `FROM products | WHERE product_name LIKE "*premium*" | KEEP product_name, product_price | SORT product_price DESC`,
+        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*premium*" | KEEP review_title, review_rating | SORT review_rating DESC`,
+        product_users: `FROM product_users | WHERE account_type == "Premium" | KEEP username, trust_score | SORT trust_score DESC`,
       },
-      index: 'product_users',
+      index: 'products',
 
       tryThis: [
 
-        "Try adding another interest like \u0027Sports\u0027 or removing the LIMIT clause to see all results.",
+        "Change \u0027premium\u0027 to another term like \u0027luxury\u0027 or \u0027classic\u0027.",
+
+        "Sort the results in ascending order by replacing DESC with ASC.",
 
       ],
 
 
       tooltips: {
 
-        "OR": "Combines multiple conditions, returning results that match any condition.",
+        "FROM": "Specifies the dataset to query.",
 
-        "KEEP": "Selects specific fields to include in the result.",
+        "WHERE": "Filters results to include rows matching the condition.",
 
-        "LIMIT": "Restricts the number of results returned.",
+        "KEEP": "Selects specific fields to include in the output.",
+
+        "SORT": "Sorts the results by the specified field and order.",
+
+      },
+
+    },
+
+    {
+      id: 'example_5',
+      title: "Top Verified Reviews",
+      description: "Retrieve reviews from verified purchases with a high number of helpful votes.",
+      template: {
+        products: `FROM products | WHERE product_category == "Electronics" AND product_price > 50 | SORT product_price DESC | LIMIT 5`,
+        product_reviews: `FROM product_reviews | WHERE verified_purchase == "True" AND helpful_votes > 15 | SORT helpful_votes DESC | LIMIT 5`,
+        product_users: `FROM product_users | WHERE verified_purchaser == "True" AND trust_score > 15 | SORT trust_score DESC | LIMIT 5`,
+      },
+      index: 'product_reviews',
+
+      tryThis: [
+
+        "Change the helpful_votes threshold to 10 or 20.",
+
+        "Experiment with sorting in ascending order instead.",
+
+      ],
+
+
+      tooltips: {
+
+        "FROM": "Specifies the dataset to query.",
+
+        "WHERE": "Filters results to include only verified purchases with helpful votes greater than 15.",
+
+        "SORT": "Sorts the results by the specified field and order.",
+
+        "LIMIT": "Limits the number of results returned.",
 
       },
 

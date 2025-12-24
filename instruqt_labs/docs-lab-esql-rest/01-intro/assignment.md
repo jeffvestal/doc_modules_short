@@ -77,57 +77,67 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 5 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by description
-Find products with 'wireless' in their description and limit the results to 10.
+### Find Wireless Products
+Search for products where the description contains the word 'wireless'.
 
 
 **Try This:**
 
-- Try changing 'wireless' to another term like 'premium' to see different results.
+- Change 'wireless' to another term like 'portable' or 'smart'
+
+- Experiment with LIMIT to adjust the number of results returned.
 
 
 
 
-### Sort products by price
-Find premium products, keep only their names and prices, and sort them by price in descending order.
-
-
-**Try This:**
-
-- Try changing 'premium' to another keyword like 'wireless' or remove the SORT clause to see unsorted results.
-
-
-
-
-### Find highly-rated reviews
-Search for reviews mentioning 'durable' or 'comfortable', keep the title and rating, and sort by rating in descending order.
+### Top Rated Durable Reviews
+Find reviews mentioning 'durable' or 'comfortable', sorted by rating in descending order.
 
 
 **Try This:**
 
-- Try changing 'durable' and 'comfortable' to other keywords like 'easy' or 'reliable'.
+- Change the keywords in the WHERE clause to find reviews mentioning other terms.
+
+- Try removing the OR condition to focus on one keyword.
 
 
 
 
-### Filter users by interests
-Find users interested in 'Electronics' and limit the results to 10.
-
-
-**Try This:**
-
-- Try changing 'Electronics' to another interest like 'Books' to find different users.
-
-
-
-
-### Find users with multiple interests
-Search for users interested in 'Books' or 'Electronics', keep their username and interests, and limit the results to 10.
+### Electronics Enthusiasts
+Find users with interests in 'Electronics'.
 
 
 **Try This:**
 
-- Try adding another interest like 'Sports' or removing the LIMIT clause to see all results.
+- Replace 'Electronics' with another interest like 'Books' or 'Sports'.
+
+- Increase the LIMIT to see more results.
+
+
+
+
+### Premium Products by Price
+Find premium products and display their name and price, sorted by price in descending order.
+
+
+**Try This:**
+
+- Change 'premium' to another term like 'luxury' or 'classic'.
+
+- Sort the results in ascending order by replacing DESC with ASC.
+
+
+
+
+### Top Verified Reviews
+Retrieve reviews from verified purchases with a high number of helpful votes.
+
+
+**Try This:**
+
+- Change the helpful_votes threshold to 10 or 20.
+
+- Experiment with sorting in ascending order instead.
 
 
 
