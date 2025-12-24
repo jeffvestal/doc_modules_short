@@ -70,7 +70,14 @@ class QualityChecker:
         for example in examples:
             template = example.get('template', '')
             # Normalize template for comparison (remove whitespace)
-            normalized = ' '.join(template.split())
+            # Handle both string templates and multi-index dict templates
+            if isinstance(template, dict):
+                # For multi-index templates, use the 'products' template as reference
+                template_str = template.get('products', '')
+            else:
+                template_str = template
+            
+            normalized = ' '.join(template_str.split())
             
             if normalized in seen_queries:
                 warnings.append({

@@ -32,7 +32,11 @@ export const {{ slug }}Config: LabConfig = {
       id: '{{ example.id }}',
       title: {{ example.title | tojson }},
       description: {{ example.description | tojson }},
-      template: `{{ example.template | replace('`', '\\`') }}`,
+      template: {% if example.template is mapping %}{
+        products: `{{ example.template.products | replace('`', '\\`') }}`,
+        product_reviews: `{{ example.template.product_reviews | replace('`', '\\`') }}`,
+        product_users: `{{ example.template.product_users | replace('`', '\\`') }}`,
+      }{% else %}`{{ example.template | replace('`', '\\`') }}`{% endif %},
       index: '{{ example.index }}',
 {% if example.tryThis %}
       tryThis: [

@@ -215,7 +215,7 @@ class ESValidator:
             - valid: bool
             - hit_count: int
             - error: Optional[str]
-            - fixed_template: Optional[str]
+            - fixed_template: Optional[str] or Optional[Dict[str, str]] for multi-index
         """
         try:
             template = example.get('template', '')
@@ -223,17 +223,55 @@ class ESValidator:
             
             # Handle ES|QL queries (plain text, not JSON)
             if query_language == 'esql':
-                success, row_count, error, fixed_query = self.validate_esql_query(
-                    template, 
-                    index=index, 
-                    max_retries=max_retries
-                )
-                return {
-                    'valid': success,
-                    'hit_count': row_count,
-                    'error': error,
-                    'fixed_template': fixed_query
-                }
+                # Check if template is multi-index (dict)
+                if isinstance(template, dict):
+                    # Validate all index variations
+                    indices = ['products', 'product_reviews', 'product_users']
+                    all_valid = True
+                    total_hits = 0
+                    errors = []
+                    fixed_templates = {}
+                    
+                    for idx in indices:
+                        if idx not in template:
+                            errors.append(f"Missing template for {idx}")
+                            all_valid = False
+                            continue
+                        
+                        idx_template = template[idx]
+                        success, row_count, error, fixed_query = self.validate_esql_query(
+                            idx_template,
+                            index=idx,
+                            max_retries=max_retries
+                        )
+                        
+                        if success:
+                            total_hits += row_count
+                            if fixed_query:
+                                fixed_templates[idx] = fixed_query
+                        else:
+                            all_valid = False
+                            errors.append(f"{idx}: {error}")
+                    
+                    return {
+                        'valid': all_valid,
+                        'hit_count': total_hits,
+                        'error': '; '.join(errors) if errors else None,
+                        'fixed_template': fixed_templates if fixed_templates else None
+                    }
+                else:
+                    # Single template (legacy or non-multi-index)
+                    success, row_count, error, fixed_query = self.validate_esql_query(
+                        template, 
+                        index=index, 
+                        max_retries=max_retries
+                    )
+                    return {
+                        'valid': success,
+                        'hit_count': row_count,
+                        'error': error,
+                        'fixed_template': fixed_query
+                    }
             
             # Handle Query DSL (JSON format)
             if isinstance(template, str):

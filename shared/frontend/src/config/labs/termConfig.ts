@@ -29,9 +29,9 @@ export const termConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
-      title: "Find product by exact category",
-      description: "Search for all products in the \u0027Electronics\u0027 category.",
+      id: '1',
+      title: "Find products in a specific category",
+      description: "Search for products in the \u0027Electronics\u0027 category.",
       template: `{
   "query": {
     "term": {
@@ -45,27 +45,23 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change \u0027Electronics\u0027 to another category such as \u0027Books\u0027 or \u0027Clothing\u0027.",
-
-        "Use the \u0027product_brand\u0027 field to search by brand instead.",
+        "Change the value from \u0027Electronics\u0027 to another category like \u0027Books\u0027 or \u0027Clothing\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "Field containing predefined categories like Electronics, Books, etc.",
-
-        "value": "The exact value you want to match in the field.",
+        "product_category": "The category the product belongs to. Example values include \u0027Electronics\u0027, \u0027Books\u0027, etc.",
 
       },
 
     },
 
     {
-      id: 'example_2',
-      title: "Retrieve reviews with a specific rating",
-      description: "Find all product reviews with a rating of 5.",
+      id: '2',
+      title: "Search for reviews with a specific rating",
+      description: "Retrieve all reviews with a rating of 5.",
       template: `{
   "query": {
     "term": {
@@ -79,32 +75,28 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the rating to 4 or 3 to retrieve reviews with those ratings.",
-
-        "Combine this query with a range query to find reviews within a rating range.",
+        "Modify the rating value to 4 or 3 to explore reviews with different ratings.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "Field representing the numeric rating of a review (1-5).",
-
-        "value": "The exact rating you want to match.",
+        "review_rating": "The rating given in the review. Valid values are integers from 1 to 5.",
 
       },
 
     },
 
     {
-      id: 'example_3',
-      title: "Search for a specific user by username",
-      description: "Find a user by their exact username.",
+      id: '3',
+      title: "Find users with a specific account type",
+      description: "Retrieve all users with an \u0027Premium\u0027 account type.",
       template: `{
   "query": {
     "term": {
-      "username": {
-        "value": "AveryWilliams55"
+      "account_type": {
+        "value": "Premium"
       }
     }
   }
@@ -113,32 +105,28 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Replace \u0027AveryWilliams55\u0027 with another username from the dataset such as \u0027CameronLopez20\u0027.",
-
-        "Use the \u0027account_type\u0027 field to search for users with a specific account type.",
+        "Change the account type to \u0027Free\u0027 or \u0027Enterprise\u0027 to see users with different subscriptions.",
 
       ],
 
 
       tooltips: {
 
-        "username": "Field containing the exact username for a user.",
-
-        "value": "The specific username to match in the query.",
+        "account_type": "The type of account the user has. Possible values are \u0027Free\u0027, \u0027Premium\u0027, and \u0027Enterprise\u0027.",
 
       },
 
     },
 
     {
-      id: 'example_4',
-      title: "Find products by exact price",
-      description: "Retrieve products priced at $49.99.",
+      id: '4',
+      title: "Search for a product by brand",
+      description: "Find all products from the brand \u0027AudioMax\u0027.",
       template: `{
   "query": {
     "term": {
-      "product_price": {
-        "value": 49.99
+      "product_brand": {
+        "value": "AudioMax"
       }
     }
   }
@@ -147,27 +135,23 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the price to another value, such as 89.99 or 29.99.",
-
-        "Use the \u0027product_category\u0027 field to filter products by category instead.",
+        "Switch the brand to \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027 to explore products from other brands.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "Field representing the exact price of a product.",
-
-        "value": "The specific price to match in the query.",
+        "product_brand": "The brand of the product. Example values include \u0027AudioMax\u0027, \u0027GlowNaturals\u0027, etc.",
 
       },
 
     },
 
     {
-      id: 'example_5',
-      title: "Search for verified purchases in reviews",
-      description: "Find all reviews marked as verified purchases.",
+      id: '5',
+      title: "Search for verified reviews",
+      description: "Retrieve reviews marked as a verified purchase.",
       template: `{
   "query": {
     "term": {
@@ -181,18 +165,44 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change \u0027True\u0027 to \u0027False\u0027 to find reviews that are not verified purchases.",
-
-        "Combine this query with a term query on \u0027review_rating\u0027 for more specific results.",
+        "Change the value to \u0027False\u0027 to find unverified purchase reviews.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Field indicating whether a review is from a verified purchase (\u0027True\u0027 or \u0027False\u0027).",
+        "verified_purchase": "Indicates whether the review is for a verified purchase. Accepts \u0027True\u0027 or \u0027False\u0027.",
 
-        "value": "The exact value to match (either \u0027True\u0027 or \u0027False\u0027).",
+      },
+
+    },
+
+    {
+      id: '6',
+      title: "Find a specific user by username",
+      description: "Search for a user with the exact username \u0027AveryWilliams55\u0027.",
+      template: `{
+  "query": {
+    "term": {
+      "username": {
+        "value": "AveryWilliams55"
+      }
+    }
+  }
+}`,
+      index: 'product_users',
+
+      tryThis: [
+
+        "Replace the username with \u0027CameronLopez20\u0027 or \u0027JordanMartinez33\u0027 to find other users.",
+
+      ],
+
+
+      tooltips: {
+
+        "username": "The unique username of the user. Example values include \u0027AveryWilliams55\u0027, \u0027CameronLopez20\u0027, etc.",
 
       },
 

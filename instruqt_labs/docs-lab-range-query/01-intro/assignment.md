@@ -77,68 +77,68 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products within a specific price range
-This query retrieves products with prices between $30 and $60.
+### Find products within a price range
+This query retrieves all products priced between $30 and $60.
 
 
 **Try This:**
 
-- Adjust the price range to explore products in different budget categories.
+- Change the price range to find products priced below $40 or above $100.
 
 
 
 
-### Find reviews with high ratings
-This query retrieves reviews with a rating of 4 or higher.
-
-
-**Try This:**
-
-- Change the rating range to find reviews with lower ratings.
-
-
-
-
-### Find reviews from the last month
-This query retrieves reviews submitted within the last month.
+### Filter reviews by high ratings
+This query fetches reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Modify the date range to explore reviews from different time periods.
+- Modify the query to find reviews with a rating of 3 or less.
 
 
 
 
-### Find users with high trust scores
-This query retrieves users with a trust score greater than 4.5.
-
-
-**Try This:**
-
-- Experiment with different trust score thresholds to find users with varying levels of trust.
-
-
-
-
-### Find reviews with a high number of helpful votes
-This query retrieves reviews with more than 20 helpful votes.
+### Find recent reviewers
+This query retrieves users who joined after January 1, 2020.
 
 
 **Try This:**
 
-- Adjust the number of helpful votes to find reviews with varying levels of engagement.
+- Adjust the date range to find users who joined before 2019.
 
 
 
 
-### Find active users based on review count
-This query retrieves users who have written at least 15 reviews.
+### Search for top reviewers
+This query finds users with a trust score greater than or equal to 80.
 
 
 **Try This:**
 
-- Lower the minimum review count to find less active users.
+- Adjust the trust score threshold to find users with lower scores.
+
+
+
+
+### Filter reviews by helpful votes
+This query retrieves reviews with at least 20 helpful votes.
+
+
+**Try This:**
+
+- Change the threshold to find reviews with fewer than 15 helpful votes.
+
+
+
+
+### Find discounted products
+This query retrieves products with a price less than $50.
+
+
+**Try This:**
+
+- Alter the price range to find products costing more than $100.
 
 
 

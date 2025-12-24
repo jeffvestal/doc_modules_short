@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the multi_match_query query!
     
-    The `multi_match` query builds on the `match` query to allow multi-field queries.
+    The multi_match query builds on the match query to allow multi-field queries.
 ---
 
 # Multi-match Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Multi-match Query lab! This lab teaches you how to us
 
 ## Overview
 
-The `multi_match` query builds on the `match` query to allow multi-field queries.
+The multi_match query builds on the match query to allow multi-field queries.
 
 ## What You'll Learn
 
@@ -74,71 +74,60 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search across product name and description
-Fetch products with 'wireless' mentioned in either the name or description fields.
-
-
-**Try This:**
-
-- Try modifying the query to search for 'premium' or 'Bluetooth'.
-
-
-
-
-### Search for reviews mentioning multiple terms
-Find reviews that mention 'durable' or 'comfortable' in the title or text fields.
+### Search multiple fields for product descriptions
+Find products that match the query 'wireless headphones' in the fields 'product_name' and 'product_description'.
 
 
 **Try This:**
 
-- Change the query to look for 'amazing' or 'excellent'.
+- Try changing the query to 'premium speakers' or add weighting to fields using the '^' operator (e.g., 'product_name^2').
 
 
 
 
-### Boost field relevance for product name
-Search for 'wireless' in product fields, but prioritize matches in the name field.
-
-
-**Try This:**
-
-- Try adjusting the boost value (e.g., ^5) or adding more fields.
-
-
-
-
-### Search for users with specific interests
-Find users interested in 'Books' or 'Electronics'.
+### Find product reviews mentioning durability and comfort
+Search for reviews that mention both 'durable' and 'comfortable' in 'review_title' and 'review_text' fields.
 
 
 **Try This:**
 
-- Modify the query to search for 'Sports' or 'Pet Supplies'.
+- Try searching for 'easy to use' or 'highly recommended' to see different results.
 
 
 
 
-### Phrase prefix search in product reviews
-Search for reviews starting with 'great pr' in title and text fields.
-
-
-**Try This:**
-
-- Try searching for 'excellent ser' or 'comfortable ch'.
-
-
-
-
-### Cross-field search for user interests
-Search for users with interests in 'Books' and 'Electronics'.
+### Search user interests for matches
+Find users interested in 'Electronics enthusiast' by searching the 'interests' field.
 
 
 **Try This:**
 
-- Adjust the operator to 'or' and search for 'Sports' or 'Beauty'.
+- Try searching for 'Books lover' or 'Sports fan' to find users with those interests.
+
+
+
+
+### Boosted field search in product descriptions
+Search for 'premium quality' in 'product_name' and 'product_description', giving extra weight to 'product_name'.
+
+
+**Try This:**
+
+- Experiment with different boosts (e.g., 'product_description^3') or search for 'affordable price'.
+
+
+
+
+### Cross-field search with tie breaker
+Search for 'comfortable durable' in 'review_title' and 'review_text', using a tie breaker for better scoring.
+
+
+**Try This:**
+
+- Modify the query to 'lightweight portable' or test different tie breaker values (e.g., 0.5).
 
 
 

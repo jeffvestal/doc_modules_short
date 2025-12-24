@@ -324,13 +324,22 @@ Return ONLY the JSON object, no markdown formatting."""
             
             # Post-process: Fix ES|QL queries - convert single quotes to double quotes
             # ES|QL requires double quotes for string literals, but LLMs often generate single quotes
+            # Also generate multi-index templates for ES|QL
             if query_language == 'esql':
                 import re
                 for example in lab_config.get('examples', []):
                     if 'template' in example and isinstance(example['template'], str):
                         # Replace single-quoted strings with double-quoted strings
                         # Match 'value' and replace with "value"
-                        example['template'] = re.sub(r"'([^']*)'", r'"\1"', example['template'])
+                        original_template = re.sub(r"'([^']*)'", r'"\1"', example['template'])
+                        
+                        # Generate multi-index templates
+                        multi_index_template = self._generate_multi_index_esql_template(
+                            original_template,
+                            example,
+                            dataset_schemas
+                        )
+                        example['template'] = multi_index_template
             
             # RETRY IF NO EXAMPLES GENERATED
             examples = lab_config.get('examples', [])
@@ -541,4 +550,118 @@ Return ONLY the fixed ES|QL query string (no quotes around it, no explanations).
             
         except Exception as e:
             raise RuntimeError(f"ES|QL query fix failed: {e}")
+    
+    def _generate_multi_index_esql_template(
+        self,
+        original_template: str,
+        example: Dict[str, Any],
+        dataset_schemas: Dict[str, Any]
+    ) -> Dict[str, str]:
+        """Generate ES|QL query variations for all three indices.
+        
+        Args:
+            original_template: The original ES|QL query template
+            example: The example dict (for context like title, description)
+            dataset_schemas: Dataset schema information
+            
+        Returns:
+            Dict mapping index names to ES|QL query strings
+        """
+        indices = ['products', 'product_reviews', 'product_users']
+        multi_template = {}
+        
+        # Get the original index from the example
+        original_index = example.get('index', 'products')
+        
+        # Start with the original template for its index
+        multi_template[original_index] = original_template
+        
+        # Generate variations for the other two indices
+        for target_index in indices:
+            if target_index == original_index:
+                continue
+            
+            # Use LLM to generate equivalent query for this index
+            schema_info = dataset_schemas.get(target_index, {})
+            
+            system_prompt = """You are an expert at creating equivalent ES|QL queries for different Elasticsearch indices.
+Your task is to generate an ES|QL query for a different index that achieves the same learning objective.
+
+CRITICAL ES|QL RULES:
+1. ES|QL uses DOUBLE QUOTES for string literals, NOT single quotes
+2. Use LIKE with wildcards for text search: LIKE "*term*"
+3. For exact matches on keyword fields, use == with double quotes
+4. Use fields that exist in the target index schema
+5. Preserve the same query structure and operations (WHERE, KEEP, SORT, LIMIT, etc.)
+6. Maintain the same learning objective (same type of filtering/sorting)
+
+Return ONLY the ES|QL query string. No explanations, no markdown, no code blocks."""
+            
+            user_prompt = f"""Generate an equivalent ES|QL query for the {target_index} index that achieves the same learning objective as this query:
+
+Original Query (for {original_index}):
+{original_template}
+
+Example Title: {example.get('title', '')}
+Example Description: {example.get('description', '')}
+
+Target Index: {target_index}
+
+Schema for {target_index}:
+- Fields: {schema_info.get('fields', [])}
+- Searchable text fields: {schema_info.get('searchable_text_fields', [])}
+- Keyword field values: {json.dumps(schema_info.get('keyword_field_values', {}), indent=2)}
+- Working ES|QL examples: {schema_info.get('esql_examples', [])}
+
+Generate an equivalent query that:
+1. Uses appropriate fields from {target_index}
+2. Achieves the same learning goal (same operations, same complexity)
+3. Will return results (use realistic values from keyword_field_values or LIKE patterns)
+4. Uses double quotes for all string literals
+
+Return ONLY the ES|QL query string (no quotes around it, no explanations)."""
+            
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    temperature=0.5,
+                    max_tokens=500
+                )
+                
+                content = response.choices[0].message.content.strip()
+                
+                # Remove any markdown code blocks
+                if content.startswith('```'):
+                    lines = content.split('\n')
+                    content_lines = []
+                    in_block = False
+                    for line in lines:
+                        if line.strip().startswith('```'):
+                            in_block = not in_block
+                            continue
+                        if in_block:
+                            content_lines.append(line)
+                    content = '\n'.join(content_lines).strip()
+                
+                # Remove surrounding quotes if LLM added them
+                if (content.startswith('"') and content.endswith('"')) or \
+                   (content.startswith("'") and content.endswith("'")):
+                    content = content[1:-1]
+                
+                # Ensure double quotes for string literals (fix any single quotes)
+                import re
+                content = re.sub(r"'([^']*)'", r'"\1"', content)
+                
+                multi_template[target_index] = content
+                
+            except Exception as e:
+                # If generation fails, fall back to a simple FROM-only query
+                print(f"[WARNING] Failed to generate {target_index} variation: {e}")
+                multi_template[target_index] = f"FROM {target_index} | LIMIT 10"
+        
+        return multi_template
 

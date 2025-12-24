@@ -29,9 +29,9 @@ export const rangeConfig: LabConfig = {
   examples: [
 
     {
-      id: 'range_query_price',
-      title: "Find products within a specific price range",
-      description: "This query retrieves products with prices between $30 and $60.",
+      id: '1',
+      title: "Find products within a price range",
+      description: "This query retrieves all products priced between $30 and $60.",
       template: `{
   "query": {
     "range": {
@@ -46,25 +46,27 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Adjust the price range to explore products in different budget categories.",
+        "Change the price range to find products priced below $40 or above $100.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "Specifies the inclusive lower bound for the range.",
+        "product_price": "The field representing the price of the product.",
 
-        "lte": "Specifies the inclusive upper bound for the range.",
+        "gte": "Specifies the minimum value for the range.",
+
+        "lte": "Specifies the maximum value for the range.",
 
       },
 
     },
 
     {
-      id: 'range_query_review_rating',
-      title: "Find reviews with high ratings",
-      description: "This query retrieves reviews with a rating of 4 or higher.",
+      id: '2',
+      title: "Filter reviews by high ratings",
+      description: "This query fetches reviews with a rating of 4 or higher.",
       template: `{
   "query": {
     "range": {
@@ -78,61 +80,62 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the rating range to find reviews with lower ratings.",
+        "Modify the query to find reviews with a rating of 3 or less.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "Specifies the minimum rating to include in the results.",
+        "review_rating": "The field representing the rating given in the review.",
+
+        "gte": "Specifies the minimum rating to filter by.",
 
       },
 
     },
 
     {
-      id: 'range_query_review_date',
-      title: "Find reviews from the last month",
-      description: "This query retrieves reviews submitted within the last month.",
+      id: '3',
+      title: "Find recent reviewers",
+      description: "This query retrieves users who joined after January 1, 2020.",
       template: `{
   "query": {
     "range": {
-      "review_date": {
-        "gte": "now-1M/M",
-        "lte": "now/M"
+      "member_since": {
+        "gte": "2020-01-01"
       }
     }
   }
 }`,
-      index: 'product_reviews',
+      index: 'product_users',
 
       tryThis: [
 
-        "Modify the date range to explore reviews from different time periods.",
+        "Adjust the date range to find users who joined before 2019.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "Defines the start of the range using a relative date (e.g., \u0027now-1M/M\u0027 for the start of last month).",
+        "member_since": "The field representing the date when the user joined.",
 
-        "lte": "Defines the end of the range using a relative date (e.g., \u0027now/M\u0027 for the end of the current month).",
+        "gte": "Specifies the start date for the range.",
 
       },
 
     },
 
     {
-      id: 'range_query_user_trust',
-      title: "Find users with high trust scores",
-      description: "This query retrieves users with a trust score greater than 4.5.",
+      id: '4',
+      title: "Search for top reviewers",
+      description: "This query finds users with a trust score greater than or equal to 80.",
       template: `{
   "query": {
     "range": {
       "trust_score": {
-        "gt": 4.5
+        "gte": 80
       }
     }
   }
@@ -141,28 +144,30 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Experiment with different trust score thresholds to find users with varying levels of trust.",
+        "Adjust the trust score threshold to find users with lower scores.",
 
       ],
 
 
       tooltips: {
 
-        "gt": "Specifies the exclusive lower bound for the range.",
+        "trust_score": "The field representing the trust score of the user.",
+
+        "gte": "Specifies the minimum trust score to filter by.",
 
       },
 
     },
 
     {
-      id: 'range_query_reviews_helpful_votes',
-      title: "Find reviews with a high number of helpful votes",
-      description: "This query retrieves reviews with more than 20 helpful votes.",
+      id: '5',
+      title: "Filter reviews by helpful votes",
+      description: "This query retrieves reviews with at least 20 helpful votes.",
       template: `{
   "query": {
     "range": {
       "helpful_votes": {
-        "gt": 20
+        "gte": 20
       }
     }
   }
@@ -171,44 +176,48 @@ export const rangeConfig: LabConfig = {
 
       tryThis: [
 
-        "Adjust the number of helpful votes to find reviews with varying levels of engagement.",
+        "Change the threshold to find reviews with fewer than 15 helpful votes.",
 
       ],
 
 
       tooltips: {
 
-        "gt": "Specifies the exclusive lower bound for the range.",
+        "helpful_votes": "The field representing the number of helpful votes a review received.",
+
+        "gte": "Specifies the minimum number of helpful votes to filter by.",
 
       },
 
     },
 
     {
-      id: 'range_query_user_reviews',
-      title: "Find active users based on review count",
-      description: "This query retrieves users who have written at least 15 reviews.",
+      id: '6',
+      title: "Find discounted products",
+      description: "This query retrieves products with a price less than $50.",
       template: `{
   "query": {
     "range": {
-      "total_reviews_count": {
-        "gte": 15
+      "product_price": {
+        "lt": 50
       }
     }
   }
 }`,
-      index: 'product_users',
+      index: 'products',
 
       tryThis: [
 
-        "Lower the minimum review count to find less active users.",
+        "Alter the price range to find products costing more than $100.",
 
       ],
 
 
       tooltips: {
 
-        "gte": "Specifies the inclusive lower bound for the range.",
+        "product_price": "The field representing the price of the product.",
+
+        "lt": "Specifies the upper limit for the price range.",
 
       },
 

@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 
 ## What You'll Learn
 
@@ -77,68 +77,80 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter Products by Category
-Retrieve a list of products in the 'Electronics' category and display their names and prices.
+### Filter and Sort Products
+Filter products by category and sort them by price in descending order.
 
 
 **Try This:**
 
-- Change the product_category to 'Books' or 'Clothing' to see different results.
+- Change the product_category to "Books" or "Clothing".
+
+- Remove the SORT clause to see unsorted results.
 
 
 
 
-### Sort Product Reviews by Rating
-Find reviews mentioning 'durable' or 'comfortable' and display them sorted by rating in descending order.
-
-
-**Try This:**
-
-- Try removing the SORT clause to see the default order of results.
-
-
-
-
-### Find Verified Purchasers with High Trust Scores
-List usernames of verified purchasers with a trust score greater than 80.
+### Find Top Rated Reviews
+Retrieve reviews with a rating of 5 and sort by helpful votes in descending order.
 
 
 **Try This:**
 
-- Change the trust_score threshold to 90 to narrow the results.
+- Change the review_rating to 4 or 3.
+
+- Remove the LIMIT clause to see all reviews with the specified rating.
 
 
 
 
-### Search Products with Specific Keywords
-Find products with descriptions containing the keyword 'wireless' and display their names and categories.
-
-
-**Try This:**
-
-- Replace 'wireless' with another keyword like 'premium' or 'durable' to explore different products.
-
-
-
-
-### Top Users by Review Count
-Retrieve usernames and their total review counts, sorted by the number of reviews in descending order.
+### Filter Users by Interests
+Find users interested in Electronics or Books, displaying only their username and interests.
 
 
 **Try This:**
 
-- Try adding a WHERE clause to filter users by account_type, e.g., 'WHERE account_type == "Premium"'.
+- Add additional interests like "Sports" or "Toys".
+
+- Remove the LIMIT clause to see all matching users.
 
 
 
 
-### Most Helpful Reviews
-Find the most helpful reviews (based on helpful_votes) and display their titles and vote counts.
+### Find Premium Priced Products
+Find products with prices greater than $50, displaying their name and price.
 
 
 **Try This:**
 
-- Add a WHERE clause to filter reviews with a minimum number of helpful votes, e.g., 'WHERE helpful_votes > 20'.
+- Change the condition to product_price <= 50 to find cheaper products.
+
+- Add a LIMIT clause to restrict the number of results.
+
+
+
+
+### Find Verified Purchase Reviews
+Retrieve reviews from verified purchases with at least 15 helpful votes.
+
+
+**Try This:**
+
+- Change the helpful_votes condition to >= 10.
+
+- Remove the SORT clause to see unsorted results.
+
+
+
+
+### Find Users with High Trust Scores
+Retrieve users with a trust score greater than 80, displaying their username and trust score.
+
+
+**Try This:**
+
+- Change the trust_score condition to > 50.
+
+- Remove the LIMIT clause to see all matching users.
 
 
 

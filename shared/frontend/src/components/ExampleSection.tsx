@@ -31,7 +31,16 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 }) => {
   const storageKey = `query-lab-${example.id}`;
   const savedQuery = localStorage.getItem(storageKey);
-  const [query, setQuery] = useState(savedQuery || example.template);
+  // Get initial query: use saved, or template for current index (if multi-index), or template string
+  const getInitialQuery = () => {
+    if (savedQuery) return savedQuery;
+    if (typeof example.template === 'object') {
+      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
+      return example.template[idx] || example.template[example.index];
+    }
+    return example.template;
+  };
+  const [query, setQuery] = useState(getInitialQuery());
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,12 +68,21 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 
   // Save to localStorage on query change
   useEffect(() => {
-    if (query !== example.template) {
+    // Get the default template for comparison
+    let defaultTemplate: string;
+    if (typeof example.template === 'object') {
+      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
+      defaultTemplate = example.template[idx] || example.template[example.index];
+    } else {
+      defaultTemplate = example.template;
+    }
+    
+    if (query !== defaultTemplate) {
       localStorage.setItem(storageKey, query);
     }
-  }, [query, storageKey, example.template]);
+  }, [query, storageKey, example.template, selectedIndex, example.index]);
 
-  // Swap query field when selectedIndex changes (for Query DSL and ES|QL)
+  // Swap query when selectedIndex changes (for Query DSL and ES|QL)
   useEffect(() => {
     if (!selectedIndex) return;
 
@@ -72,48 +90,58 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     const effectiveIndex = selectedIndex;
 
     if (labConfig.queryLanguage === 'esql') {
-      // Handle ES|QL queries
-      try {
-        // Find FROM clause
-        const fromMatch = query.match(/FROM\s+(\w+)/i);
-        if (!fromMatch) return; // Can't find FROM clause
-        
-        const currentIndex = fromMatch[1];
-        if (currentIndex === effectiveIndex) return; // Already using the correct index
-        
-        // Replace FROM clause with new index
-        let updatedQuery = query.replace(/FROM\s+\w+/i, `FROM ${effectiveIndex}`);
-        
-        // Try to update search terms in WHERE clauses
-        // Look for LIKE patterns with wildcards: LIKE "*term*"
-        const likePattern = /LIKE\s+["']\*([^*]+)\*["']/gi;
-        const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
-        
-        if (sampleQueryText && likePattern.test(query)) {
-          // Replace LIKE patterns with new search term
-          updatedQuery = updatedQuery.replace(likePattern, () => {
-            return `LIKE "*${sampleQueryText}*"`;
-          });
+      // Handle ES|QL queries - check if template is multi-index
+      if (typeof example.template === 'object') {
+        // Multi-index template: swap entire template
+        const idx = effectiveIndex as 'products' | 'product_reviews' | 'product_users';
+        const newTemplate = example.template[idx];
+        if (newTemplate && newTemplate !== query) {
+          setQuery(newTemplate);
         }
-        
-        // Also handle == comparisons with string literals
-        const eqPattern = /==\s+["']([^"']+)["']/gi;
-        if (sampleQueryText && eqPattern.test(query)) {
-          // Replace first string literal in == comparisons (be conservative)
-          let replaced = false;
-          updatedQuery = updatedQuery.replace(eqPattern, (match, value) => {
-            if (!replaced && value.length > 0) {
-              replaced = true;
-              return `== "${sampleQueryText}"`;
-            }
-            return match;
-          });
+      } else {
+        // Legacy single template: try to update FROM clause and search terms
+        try {
+          // Find FROM clause
+          const fromMatch = query.match(/FROM\s+(\w+)/i);
+          if (!fromMatch) return; // Can't find FROM clause
+          
+          const currentIndex = fromMatch[1];
+          if (currentIndex === effectiveIndex) return; // Already using the correct index
+          
+          // Replace FROM clause with new index
+          let updatedQuery = query.replace(/FROM\s+\w+/i, `FROM ${effectiveIndex}`);
+          
+          // Try to update search terms in WHERE clauses
+          // Look for LIKE patterns with wildcards: LIKE "*term*"
+          const likePattern = /LIKE\s+["']\*([^*]+)\*["']/gi;
+          const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
+          
+          if (sampleQueryText && likePattern.test(query)) {
+            // Replace LIKE patterns with new search term
+            updatedQuery = updatedQuery.replace(likePattern, () => {
+              return `LIKE "*${sampleQueryText}*"`;
+            });
+          }
+          
+          // Also handle == comparisons with string literals
+          const eqPattern = /==\s+["']([^"']+)["']/gi;
+          if (sampleQueryText && eqPattern.test(query)) {
+            // Replace first string literal in == comparisons (be conservative)
+            let replaced = false;
+            updatedQuery = updatedQuery.replace(eqPattern, (_match: string, value: string) => {
+              if (!replaced && value.length > 0) {
+                replaced = true;
+                return `== "${sampleQueryText}"`;
+              }
+              return _match;
+            });
+          }
+          
+          setQuery(updatedQuery);
+        } catch (err) {
+          // If parsing fails, don't update (user might be editing)
+          // Silently ignore the error
         }
-        
-        setQuery(updatedQuery);
-      } catch (err) {
-        // If parsing fails, don't update (user might be editing)
-        // Silently ignore the error
       }
     } else {
       // Handle Query DSL (existing logic)
@@ -244,7 +272,15 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
   };
 
   const handleReset = () => {
-    setQuery(example.template);
+    // Reset to template for current index (if multi-index) or template string
+    let resetTemplate: string;
+    if (typeof example.template === 'object') {
+      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
+      resetTemplate = example.template[idx] || example.template[example.index];
+    } else {
+      resetTemplate = example.template;
+    }
+    setQuery(resetTemplate);
     setResponse(null);
     setError(null);
     setGlowSide('editor');

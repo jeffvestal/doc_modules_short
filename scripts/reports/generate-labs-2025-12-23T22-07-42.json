@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-12-23T22:07:42.563939Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 49.110875844955444
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "error": "'dict' object has no attribute 'split'"
+    }
+  ],
+  "validation_warnings": []
+}

@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (b**ox → f**ox) - Removing a character (b**lack → lack) - Inserting a character (sic → sic**k**) - Transposing two adjacent characters (ac**t → ca**t)
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (b**ox → f**ox) - Removing a character (b**lack → lack) - Inserting a character (sic → sic**k**) - Transposing two adjacent characters (ac**t → ca**t)
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 
 ## What You'll Learn
 
@@ -77,57 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Search for products with fuzzy match on name
-This example demonstrates fuzzy matching on the product_name field to find products with names similar to 'wireless'.
+### Find products with similar names
+Search for products with names similar to 'wirless'.
 
 
 **Try This:**
 
-- Experiment with different values for fuzziness, such as 1 or 2, to control the edit distance.
+- Try searching for a misspelled product name like 'wirless' or 'prmium'.
 
 
 
 
-### Find reviews with fuzzy match on title
-This example finds reviews with titles similar to 'durable', allowing for fuzzy matches.
-
-
-**Try This:**
-
-- Try increasing max_expansions to include more variations of the term.
-
-
-
-
-### Search for users with fuzzy match on interests
-This query searches for users whose interests are similar to 'Books', allowing fuzzy matches.
+### Find reviews with similar titles
+Search for reviews with titles similar to 'comfrtable'.
 
 
 **Try This:**
 
-- Adjust prefix_length to require a fixed number of matching characters at the start.
+- Try searching for a common typo in review titles, such as 'comfrtable' instead of 'comfortable'.
 
 
 
 
-### Find products with fuzzy match and custom transpositions
-Use this query to find products where the name is similar to 'premium' and allows transpositions.
-
-
-**Try This:**
-
-- Experiment with transpositions set to false to see how results differ.
-
-
-
-
-### Search reviews with fuzzy match and constant_score rewrite
-This query demonstrates fuzzy matching on review text, using a custom rewrite method.
+### Find users with similar interests
+Search for users with interests similar to 'Eletronics'.
 
 
 **Try This:**
 
-- Test other rewrite options like 'scoring_boolean' or 'constant_score_blended' to observe scoring behavior.
+- Try searching for interests with a typo, such as 'Eletronics' instead of 'Electronics'.
+
+
+
+
+### Find products with similar descriptions
+Search for products with descriptions similar to 'wirelss'.
+
+
+**Try This:**
+
+- Try searching for a typo in product descriptions, such as 'wirelss' instead of 'wireless'.
+
+
+
+
+### Find reviewers with similar names
+Search for reviewers with names similar to 'AveryWilams55'.
+
+
+**Try This:**
+
+- Try searching for a misspelled username, such as 'AveryWilams55' instead of 'AveryWilliams55'.
 
 
 

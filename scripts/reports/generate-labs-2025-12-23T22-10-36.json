@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-12-23T22:10:36.716228Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 53.57639288902283
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "error": "Build failed: "
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "filter_wireless_products",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: products: Query returned 0 rows after 6 attempts; ..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "filter_comfortable_reviews",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: product_users: Query returned 0 rows after 6 attem..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "top_rated_reviews",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: product_users: Query returned 0 rows after 6 attem..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "filter_user_interests",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: product_reviews: Query returned 0 rows after 6 att..."
+    }
+  ]
+}

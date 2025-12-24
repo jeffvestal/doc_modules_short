@@ -90,7 +90,11 @@ export interface QueryExample {
   id: string;
   title: string;
   description: string;
-  template: string;
+  template: string | {
+    products: string;
+    product_reviews: string;
+    product_users: string;
+  };
   index: 'products' | 'product_reviews' | 'product_users';
   tryThis?: string[];
   tooltips?: Record<string, string>;

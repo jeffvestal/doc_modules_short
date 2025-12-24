@@ -74,70 +74,71 @@ Returns documents that contain an **exact** term in a provided field. You can us
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the term_query query:
+This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find product by exact category
-Search for all products in the 'Electronics' category.
-
-
-**Try This:**
-
-- Change 'Electronics' to another category such as 'Books' or 'Clothing'.
-
-- Use the 'product_brand' field to search by brand instead.
-
-
-
-
-### Retrieve reviews with a specific rating
-Find all product reviews with a rating of 5.
+### Find products in a specific category
+Search for products in the 'Electronics' category.
 
 
 **Try This:**
 
-- Change the rating to 4 or 3 to retrieve reviews with those ratings.
-
-- Combine this query with a range query to find reviews within a rating range.
+- Change the value from 'Electronics' to another category like 'Books' or 'Clothing'.
 
 
 
 
-### Search for a specific user by username
-Find a user by their exact username.
+### Search for reviews with a specific rating
+Retrieve all reviews with a rating of 5.
 
 
 **Try This:**
 
-- Replace 'AveryWilliams55' with another username from the dataset such as 'CameronLopez20'.
-
-- Use the 'account_type' field to search for users with a specific account type.
+- Modify the rating value to 4 or 3 to explore reviews with different ratings.
 
 
 
 
-### Find products by exact price
-Retrieve products priced at $49.99.
+### Find users with a specific account type
+Retrieve all users with an 'Premium' account type.
 
 
 **Try This:**
 
-- Change the price to another value, such as 89.99 or 29.99.
-
-- Use the 'product_category' field to filter products by category instead.
+- Change the account type to 'Free' or 'Enterprise' to see users with different subscriptions.
 
 
 
 
-### Search for verified purchases in reviews
-Find all reviews marked as verified purchases.
+### Search for a product by brand
+Find all products from the brand 'AudioMax'.
 
 
 **Try This:**
 
-- Change 'True' to 'False' to find reviews that are not verified purchases.
+- Switch the brand to 'GlowNaturals' or 'PlaySmart' to explore products from other brands.
 
-- Combine this query with a term query on 'review_rating' for more specific results.
+
+
+
+### Search for verified reviews
+Retrieve reviews marked as a verified purchase.
+
+
+**Try This:**
+
+- Change the value to 'False' to find unverified purchase reviews.
+
+
+
+
+### Find a specific user by username
+Search for a user with the exact username 'AveryWilliams55'.
+
+
+**Try This:**
+
+- Replace the username with 'CameronLopez20' or 'JordanMartinez33' to find other users.
 
 
 
