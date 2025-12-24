@@ -31,12 +31,12 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
 }) => {
   const storageKey = `query-lab-${example.id}`;
   const savedQuery = localStorage.getItem(storageKey);
-  // Get initial query: use saved, or template for current index (if multi-index), or template string
+  // Get initial query: use saved, or template for example's default index (if multi-index), or template string
+  // Always start with example.index, not selectedIndex, so each example shows its intended query
   const getInitialQuery = () => {
     if (savedQuery) return savedQuery;
     if (typeof example.template === 'object') {
-      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
-      return example.template[idx] || example.template[example.index];
+      return example.template[example.index];  // Always start with example's default index
     }
     return example.template;
   };
@@ -83,7 +83,14 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
   }, [query, storageKey, example.template, selectedIndex, example.index]);
 
   // Swap query when selectedIndex changes (for Query DSL and ES|QL)
+  // Skip on initial mount - let each example start with its default index
+  const isInitialMount = React.useRef(true);
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return; // Skip on initial mount
+    }
+    
     if (!selectedIndex) return;
 
     // Determine the effective index to use

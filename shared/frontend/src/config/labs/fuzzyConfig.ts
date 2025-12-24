@@ -4,7 +4,7 @@ export const fuzzyConfig: LabConfig = {
   queryLanguage: 'query_dsl',
   queryType: 'fuzzy_query',
   displayName: 'Fuzzy Query',
-  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box \u2192 fox) - Removing a character (black \u2192 lack) - Inserting a character (sic \u2192 sick) - Transposing two adjacent characters (act \u2192 cat)",
+  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.",
   docUrl: 'https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query',
 
   keyDisplayFields: {
@@ -29,128 +29,122 @@ export const fuzzyConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
+      id: 'fuzzy_product_name',
       title: "Find products with similar names",
-      description: "Search for products with names similar to \u0027wirless\u0027.",
-      template: `{ "query": { "fuzzy": { "product_name": { "value": "wirless", "fuzziness": "AUTO" } } } }`,
+      description: "Search for products where the name is similar to \u0027wirless\u0027 using fuzzy matching.",
+      template: `{ "query": { "fuzzy": { "product_name": { "value": "wirless", "fuzziness": "AUTO", "max_expansions": 10, "prefix_length": 1 } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Try searching for a misspelled product name like \u0027wirless\u0027 or \u0027prmium\u0027.",
+        "Try changing \u0027wirless\u0027 to \u0027wrlss\u0027 or \u0027wireles\u0027 to see different results.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to match with fuzzy logic.",
+        "fuzziness": "The edit distance allowed for matching terms.",
 
-        "fuzziness": "AUTO means the fuzziness is automatically determined based on the term length.",
+        "max_expansions": "The maximum number of terms to consider during matching.",
+
+        "prefix_length": "The number of characters at the start of the term that must match exactly.",
 
       },
 
     },
 
     {
-      id: 'example_2',
+      id: 'fuzzy_review_title',
       title: "Find reviews with similar titles",
-      description: "Search for reviews with titles similar to \u0027comfrtable\u0027.",
-      template: `{ "query": { "fuzzy": { "review_title": { "value": "comfrtable", "fuzziness": 2, "prefix_length": 1 } } } }`,
+      description: "Search for reviews where the title is similar to \u0027comfy\u0027 using fuzzy matching and automatic fuzziness.",
+      template: `{ "query": { "fuzzy": { "review_title": { "value": "comfy", "fuzziness": "AUTO", "transpositions": true } } } }`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Try searching for a common typo in review titles, such as \u0027comfrtable\u0027 instead of \u0027comfortable\u0027.",
+        "Try changing \u0027comfy\u0027 to \u0027cmfy\u0027 or \u0027comfort\u0027 to explore matching variations.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to match with fuzzy logic.",
+        "transpositions": "Allows swapping two adjacent characters (e.g., \u0027act\u0027 -\u003e \u0027cat\u0027).",
 
-        "fuzziness": "Defines the maximum edit distance. Higher values allow more differences.",
-
-        "prefix_length": "Specifies the number of initial characters that must match exactly.",
+        "fuzziness": "Set to \u0027AUTO\u0027 for automatic adjustment based on term length.",
 
       },
 
     },
 
     {
-      id: 'example_3',
+      id: 'fuzzy_interests',
       title: "Find users with similar interests",
-      description: "Search for users with interests similar to \u0027Eletronics\u0027.",
-      template: `{ "query": { "fuzzy": { "interests": { "value": "Eletronics", "fuzziness": "AUTO", "max_expansions": 30 } } } }`,
+      description: "Search for users whose interests field contains terms similar to \u0027Books\u0027.",
+      template: `{ "query": { "fuzzy": { "interests": { "value": "Books", "prefix_length": 2, "max_expansions": 30 } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Try searching for interests with a typo, such as \u0027Eletronics\u0027 instead of \u0027Electronics\u0027.",
+        "Change \u0027Books\u0027 to \u0027Boks\u0027 or \u0027Boooks\u0027 and observe the results.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to match with fuzzy logic.",
+        "prefix_length": "Ensures the first N characters of the term are matched exactly.",
 
-        "fuzziness": "AUTO adjusts the level of fuzziness automatically.",
-
-        "max_expansions": "Limits the number of terms generated during the query expansion.",
+        "max_expansions": "Limits the number of fuzzy matches that are expanded.",
 
       },
 
     },
 
     {
-      id: 'example_4',
+      id: 'fuzzy_product_description',
       title: "Find products with similar descriptions",
-      description: "Search for products with descriptions similar to \u0027wirelss\u0027.",
-      template: `{ "query": { "fuzzy": { "product_description": { "value": "wirelss", "fuzziness": 1, "prefix_length": 2 } } } }`,
+      description: "Search for products with descriptions containing terms similar to \u0027premium\u0027.",
+      template: `{ "query": { "fuzzy": { "product_description": { "value": "premium", "fuzziness": "2", "rewrite": "constant_score" } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Try searching for a typo in product descriptions, such as \u0027wirelss\u0027 instead of \u0027wireless\u0027.",
+        "Change \u0027premium\u0027 to \u0027premum\u0027 or \u0027premiun\u0027 and notice the difference in results.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to match with fuzzy logic.",
+        "fuzziness": "Specifies the maximum edit distance explicitly.",
 
-        "fuzziness": "Defines the maximum number of allowed character changes (edit distance).",
-
-        "prefix_length": "Ensures the first few characters match exactly.",
+        "rewrite": "Controls how the scoring is calculated. \u0027constant_score\u0027 ignores term-level scoring.",
 
       },
 
     },
 
     {
-      id: 'example_5',
-      title: "Find reviewers with similar names",
-      description: "Search for reviewers with names similar to \u0027AveryWilams55\u0027.",
-      template: `{ "query": { "fuzzy": { "username": { "value": "AveryWilams55", "fuzziness": "AUTO", "prefix_length": 0, "transpositions": true } } } }`,
-      index: 'product_users',
+      id: 'fuzzy_review_text',
+      title: "Find reviews with similar text",
+      description: "Search for reviews with text containing terms similar to \u0027durable\u0027.",
+      template: `{ "query": { "fuzzy": { "review_text": { "value": "durable", "fuzziness": "AUTO", "prefix_length": 1 } } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try searching for a misspelled username, such as \u0027AveryWilams55\u0027 instead of \u0027AveryWilliams55\u0027.",
+        "Change \u0027durable\u0027 to \u0027durabl\u0027 or \u0027durrable\u0027 to see matching variations.",
 
       ],
 
 
       tooltips: {
 
-        "value": "The term to match with fuzzy logic.",
+        "fuzziness": "Automatic fuzziness adjusts based on the length of the term.",
 
-        "fuzziness": "AUTO adapts the fuzziness level based on the term length.",
-
-        "transpositions": "Set to true to allow swapping of adjacent characters in the match.",
+        "prefix_length": "Specifies the number of initial characters that must match exactly.",
 
       },
 

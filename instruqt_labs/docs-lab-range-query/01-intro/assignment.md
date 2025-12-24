@@ -74,71 +74,70 @@ Returns documents that contain terms within a provided range.
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the range_query query:
+This lab includes 5 examples demonstrating different aspects of the range_query query:
 
 
-### Find products within a price range
-This query retrieves all products priced between $30 and $60.
-
-
-**Try This:**
-
-- Change the price range to find products priced below $40 or above $100.
-
-
-
-
-### Filter reviews by high ratings
-This query fetches reviews with a rating of 4 or higher.
+### Find products in a specific price range
+Search for products with prices between $30 and $60.
 
 
 **Try This:**
 
-- Modify the query to find reviews with a rating of 3 or less.
+- Change the range to find products over $60.
+
+- Try setting only a lower bound (gte) to see products above a certain price.
 
 
 
 
-### Find recent reviewers
-This query retrieves users who joined after January 1, 2020.
-
-
-**Try This:**
-
-- Adjust the date range to find users who joined before 2019.
-
-
-
-
-### Search for top reviewers
-This query finds users with a trust score greater than or equal to 80.
+### Filter reviews by rating
+Retrieve reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Adjust the trust score threshold to find users with lower scores.
+- Change the range to find reviews with a lower rating.
+
+- Combine this query with a term query to filter by verified purchases.
 
 
 
 
-### Filter reviews by helpful votes
-This query retrieves reviews with at least 20 helpful votes.
-
-
-**Try This:**
-
-- Change the threshold to find reviews with fewer than 15 helpful votes.
-
-
-
-
-### Find discounted products
-This query retrieves products with a price less than $50.
+### Search for recent reviews
+Find reviews posted in the last 6 months.
 
 
 **Try This:**
 
-- Alter the price range to find products costing more than $100.
+- Adjust the range to search for reviews from the last year.
+
+- Try combining this with a range filter on review_rating.
+
+
+
+
+### Find users by trust score
+Search for users with a trust score above 70.
+
+
+**Try This:**
+
+- Change the range to find users with trust scores below 50.
+
+- Combine this with a match query on interests to refine results.
+
+
+
+
+### Filter products by price and boost relevance
+Search for products with prices between $20 and $80, boosting relevance for mid-range prices.
+
+
+**Try This:**
+
+- Adjust the boost value to prioritize mid-range products even more.
+
+- Change the price range to focus on luxury products.
 
 
 

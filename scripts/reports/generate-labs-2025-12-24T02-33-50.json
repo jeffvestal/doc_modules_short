@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-12-24T02:33:50.453638Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 52.62602686882019
+  },
+  "created_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 5,
+      "validation_passed": false,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": [
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example1",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: products: BadRequestError(400, 'parsing_exception'..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example3",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: product_users: Query returned 0 rows after 6 attem..."
+    },
+    {
+      "lab_slug": "esql-rest",
+      "example_id": "example4",
+      "warning_type": "validation_failed",
+      "message": "Validation failed: product_reviews: Query returned 0 rows after 6 att..."
+    }
+  ]
+}

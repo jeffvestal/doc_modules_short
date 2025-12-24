@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 
 ## What You'll Learn
 
@@ -74,83 +74,60 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the esql_rest query:
+This lab includes 5 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter and Sort Products
-Filter products by category and sort them by price in descending order.
-
-
-**Try This:**
-
-- Change the product_category to "Books" or "Clothing".
-
-- Remove the SORT clause to see unsorted results.
-
-
-
-
-### Find Top Rated Reviews
-Retrieve reviews with a rating of 5 and sort by helpful votes in descending order.
+### Filter products by description
+Find products with 'wireless' in their description and limit the results to 10.
 
 
 **Try This:**
 
-- Change the review_rating to 4 or 3.
-
-- Remove the LIMIT clause to see all reviews with the specified rating.
+- Try changing 'wireless' to another term like 'premium' to see different results.
 
 
 
 
-### Filter Users by Interests
-Find users interested in Electronics or Books, displaying only their username and interests.
+### Sort products by price
+Find premium products, keep only their names and prices, and sort them by price in descending order.
 
 
 **Try This:**
 
-- Add additional interests like "Sports" or "Toys".
-
-- Remove the LIMIT clause to see all matching users.
+- Try changing 'premium' to another keyword like 'wireless' or remove the SORT clause to see unsorted results.
 
 
 
 
-### Find Premium Priced Products
-Find products with prices greater than $50, displaying their name and price.
+### Find highly-rated reviews
+Search for reviews mentioning 'durable' or 'comfortable', keep the title and rating, and sort by rating in descending order.
 
 
 **Try This:**
 
-- Change the condition to product_price <= 50 to find cheaper products.
-
-- Add a LIMIT clause to restrict the number of results.
+- Try changing 'durable' and 'comfortable' to other keywords like 'easy' or 'reliable'.
 
 
 
 
-### Find Verified Purchase Reviews
-Retrieve reviews from verified purchases with at least 15 helpful votes.
+### Filter users by interests
+Find users interested in 'Electronics' and limit the results to 10.
 
 
 **Try This:**
 
-- Change the helpful_votes condition to >= 10.
-
-- Remove the SORT clause to see unsorted results.
+- Try changing 'Electronics' to another interest like 'Books' to find different users.
 
 
 
 
-### Find Users with High Trust Scores
-Retrieve users with a trust score greater than 80, displaying their username and trust score.
+### Find users with multiple interests
+Search for users interested in 'Books' or 'Electronics', keep their username and interests, and limit the results to 10.
 
 
 **Try This:**
 
-- Change the trust_score condition to > 50.
-
-- Remove the LIMIT clause to see all matching users.
+- Try adding another interest like 'Sports' or removing the LIMIT clause to see all results.
 
 
 
