@@ -4,7 +4,7 @@ export const esqlRestConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_rest',
   displayName: 'ES|QL Query',
-  description: "The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.",
+  description: "\u003ctip\u003e The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. \u003c/tip\u003e",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-rest',
 
   keyDisplayFields: {
@@ -29,188 +29,192 @@ export const esqlRestConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example1',
-      title: "Find Affordable Electronics",
-      description: "Retrieve electronics products priced under $50.",
+      id: 'example_1',
+      title: "Filter Products by Category",
+      description: "Find all products in the \u0027Electronics\u0027 category and display their names, brands, and prices.",
       template: {
-        products: `FROM products | WHERE product_category == "Electronics" AND product_price < 50 | KEEP product_name, product_price | SORT product_price ASC`,
-        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*electronics*" AND review_rating < 5 | KEEP review_title, review_rating | SORT review_rating ASC`,
-        product_users: `FROM product_users | WHERE interests LIKE "*Electronics*" AND trust_score < 50 | KEEP username, trust_score | SORT trust_score ASC`,
+        products: `FROM products | WHERE product_category == "Electronics" | KEEP product_name, product_brand, product_price | LIMIT 5`,
+        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*electronics*" | KEEP review_title, reviewer_name, review_rating | LIMIT 5`,
+        product_users: `FROM product_users | WHERE interests LIKE "*Electronics*" | KEEP username, account_type, trust_score | LIMIT 5`,
       },
       index: 'products',
 
       tryThis: [
 
-        "Try changing the category to \u0027Books\u0027 or adjusting the price filter to explore other results.",
+        "Change \u0027Electronics\u0027 to another category like \u0027Books\u0027 or \u0027Clothing\u0027 to see different results.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "Selects only rows where the product category matches \u0027Electronics\u0027.",
+        "FROM": "Specifies the dataset to query.",
 
-        "product_price": "Filters results to include products priced under $50.",
+        "WHERE": "Filters the data based on the given condition.",
 
-        "KEEP": "Limits the output to show only the selected fields.",
+        "KEEP": "Limits the output to the specified fields.",
 
-        "SORT": "Sorts the results by price in ascending order.",
-
-      },
-
-    },
-
-    {
-      id: 'example2',
-      title: "Highly Rated Reviews",
-      description: "Find reviews with a rating of 5 stars, sorted by helpful votes.",
-      template: {
-        products: `FROM products | WHERE product_category == "Electronics" | SORT product_price DESC | LIMIT 5`,
-        product_reviews: `FROM product_reviews | WHERE review_rating == 5 | SORT helpful_votes DESC | LIMIT 5`,
-        product_users: `FROM product_users | WHERE avg_rating_given == 5 | SORT trust_score DESC | LIMIT 5`,
-      },
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Experiment with different review ratings or sort by review_date to see the latest reviews.",
-
-      ],
-
-
-      tooltips: {
-
-        "review_rating": "Filters reviews to include only those with a rating of 5.",
-
-        "SORT": "Orders the results by helpful votes in descending order.",
-
-        "LIMIT": "Limits the number of results to 5.",
+        "LIMIT": "Restricts the number of results returned.",
 
       },
 
     },
 
     {
-      id: 'example3',
-      title: "Active Users Interested in Books",
-      description: "List usernames of users interested in books with more than 10 reviews.",
+      id: 'example_2',
+      title: "Sort Products by Price",
+      description: "Retrieve product names and prices, sorted by price in descending order.",
       template: {
-        products: `FROM products | WHERE product_category == "Books" AND product_price > 10 | KEEP product_name, product_price | SORT product_price DESC`,
-        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*book*" AND helpful_votes > 10 | KEEP reviewer_name, helpful_votes | SORT helpful_votes DESC`,
-        product_users: `FROM product_users | WHERE interests LIKE "*Books*" AND total_reviews_count > 10 | KEEP username, total_reviews_count | SORT total_reviews_count DESC`,
-      },
-      index: 'product_users',
-
-      tryThis: [
-
-        "Change the interest to \u0027Electronics\u0027 or adjust the total_reviews_count filter to refine the results.",
-
-      ],
-
-
-      tooltips: {
-
-        "interests": "Filters users with interests related to \u0027Books\u0027.",
-
-        "total_reviews_count": "Includes only users who have written more than 10 reviews.",
-
-        "KEEP": "Displays only the username and total review count fields in the output.",
-
-        "SORT": "Sorts users by their total number of reviews in descending order.",
-
-      },
-
-    },
-
-    {
-      id: 'example4',
-      title: "Top Brands in Clothing",
-      description: "Retrieve the most expensive clothing items from top brands.",
-      template: {
-        products: `FROM products | WHERE product_category == "Clothing" | SORT product_price DESC | KEEP product_name, product_brand, product_price | LIMIT 5`,
-        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*quality*" | SORT helpful_votes DESC | KEEP review_title, reviewer_name, helpful_votes | LIMIT 5`,
-        product_users: `FROM product_users | WHERE account_type == "Premium" | SORT trust_score DESC | KEEP username, email, trust_score | LIMIT 5`,
+        products: `FROM products | KEEP product_name, product_price | SORT product_price DESC | LIMIT 10`,
+        product_reviews: `FROM product_reviews | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 10`,
+        product_users: `FROM product_users | KEEP username, trust_score | SORT trust_score DESC | LIMIT 10`,
       },
       index: 'products',
 
       tryThis: [
 
-        "Change the category to \u0027Sports and Outdoors\u0027 or sort in ascending order to find the cheapest items.",
+        "Change \u0027DESC\u0027 to \u0027ASC\u0027 to sort prices in ascending order.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "Filters products to include only those in the \u0027Clothing\u0027 category.",
+        "KEEP": "Selects the fields to include in the result set.",
 
-        "SORT": "Orders the results by price in descending order.",
+        "SORT": "Orders the results by the specified field.",
 
-        "KEEP": "Shows only the product name, brand, and price in the output.",
+        "DESC": "Sorts in descending order.",
 
-        "LIMIT": "Restricts the output to the top 5 results.",
+        "LIMIT": "Limits the number of results.",
 
       },
 
     },
 
     {
-      id: 'example5',
-      title: "Verified Purchases with High Ratings",
-      description: "Find verified purchases with a rating of 4 or higher.",
+      id: 'example_3',
+      title: "Search Reviews by Keywords",
+      description: "Find reviews that mention \u0027durable\u0027 or \u0027comfortable\u0027, displaying their titles and ratings.",
       template: {
-        products: `FROM products | WHERE product_category == "Electronics" AND product_price >= 50 | KEEP product_name, product_price, product_category | LIMIT 10`,
-        product_reviews: `FROM product_reviews | WHERE verified_purchase == "True" AND review_rating >= 4 | KEEP review_title, review_rating, verified_purchase | LIMIT 10`,
-        product_users: `FROM product_users | WHERE verified_purchaser == "True" AND avg_rating_given >= 4 | KEEP username, avg_rating_given, verified_purchaser | LIMIT 10`,
+        products: `FROM products | WHERE product_description LIKE "*durable*" OR product_description LIKE "*comfortable*" | KEEP product_name, product_price | SORT product_price DESC | LIMIT 10`,
+        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*durable*" OR review_text LIKE "*comfortable*" | KEEP review_title, review_rating | SORT review_rating DESC | LIMIT 10`,
+        product_users: `FROM product_users | WHERE interests LIKE "*durable*" OR interests LIKE "*comfortable*" | KEEP username, avg_rating_given | SORT avg_rating_given DESC | LIMIT 10`,
       },
       index: 'product_reviews',
 
       tryThis: [
 
-        "Adjust the rating filter to include reviews with a rating of 3 or experiment with non-verified purchases.",
+        "Try searching for other keywords like \u0027stylish\u0027 or \u0027functional\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Filters reviews to include only verified purchases.",
+        "WHERE": "Filters reviews based on specific keywords.",
 
-        "review_rating": "Includes reviews with a rating of 4 or higher.",
+        "LIKE": "Performs a wildcard search for partial matches.",
 
-        "KEEP": "Restricts the output to show only the review title, rating, and verification status.",
+        "OR": "Combines two or more conditions.",
 
-        "LIMIT": "Limits the results to 10 reviews.",
+        "SORT": "Orders the results based on the field specified.",
 
       },
 
     },
 
     {
-      id: 'example6',
-      title: "Users from Specific Location",
-      description: "Retrieve usernames of users located in \u0027New York\u0027.",
+      id: 'example_4',
+      title: "Filter Verified Purchases",
+      description: "Retrieve verified purchase reviews with a rating of 5, sorted by helpful votes.",
       template: {
-        products: `FROM products | WHERE product_category == "Electronics" | KEEP product_name, product_category | SORT product_name ASC`,
-        product_reviews: `FROM product_reviews | WHERE reviewer_name LIKE "*New York*" | KEEP reviewer_name | SORT reviewer_name ASC`,
-        product_users: `FROM product_users | WHERE location_city == "New York" | KEEP username, location_city | SORT username ASC`,
+        products: `FROM products | WHERE product_category == "Electronics" AND product_price == 89.99 | KEEP product_name, product_brand | SORT product_price DESC | LIMIT 5`,
+        product_reviews: `FROM product_reviews | WHERE verified_purchase == "True" AND review_rating == 5 | KEEP review_title, helpful_votes | SORT helpful_votes DESC | LIMIT 5`,
+        product_users: `FROM product_users | WHERE verified_purchaser == "True" AND avg_rating_given == 5 | KEEP username, trust_score | SORT trust_score DESC | LIMIT 5`,
       },
-      index: 'product_users',
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the city to \u0027San Francisco\u0027 or filter by location_state instead.",
+        "Change \u0027review_rating == 5\u0027 to another rating (e.g., 4) to find reviews with different ratings.",
 
       ],
 
 
       tooltips: {
 
-        "location_city": "Filters users based on their city (e.g., \u0027New York\u0027).",
+        "WHERE": "Filters data based on specific conditions.",
 
-        "KEEP": "Displays only the username and city fields in the output.",
+        "AND": "Combines multiple conditions that all must be true.",
 
-        "SORT": "Orders the results alphabetically by username.",
+        "SORT": "Sorts the results by the specified field in the chosen order.",
+
+      },
+
+    },
+
+    {
+      id: 'example_5',
+      title: "Find Users by Interest",
+      description: "Retrieve usernames and interests of users who are interested in \u0027Books\u0027 or \u0027Electronics\u0027.",
+      template: {
+        products: `FROM products | WHERE product_category == "Books" OR product_category == "Electronics" | KEEP product_name, product_category | LIMIT 10`,
+        product_reviews: `FROM product_reviews | WHERE review_text LIKE "*Books*" OR review_text LIKE "*Electronics*" | KEEP reviewer_name, review_text | LIMIT 10`,
+        product_users: `FROM product_users | WHERE interests LIKE "*Books*" OR interests LIKE "*Electronics*" | KEEP username, interests | LIMIT 10`,
+      },
+      index: 'product_users',
+
+      tryThis: [
+
+        "Add another interest to the WHERE clause, like \u0027Sports\u0027, to see additional results.",
+
+      ],
+
+
+      tooltips: {
+
+        "FROM": "Specifies the dataset to query.",
+
+        "WHERE": "Filters data based on the given conditions.",
+
+        "OR": "Combines multiple conditions, where either can be true.",
+
+        "KEEP": "Limits the output to specific fields.",
+
+        "LIMIT": "Restricts the number of results.",
+
+      },
+
+    },
+
+    {
+      id: 'example_6',
+      title: "Top Reviewers by Trust Score",
+      description: "List the top 5 users with the highest trust scores.",
+      template: {
+        products: `FROM products | KEEP product_name, product_price | SORT product_price DESC | LIMIT 5`,
+        product_reviews: `FROM product_reviews | KEEP reviewer_name, helpful_votes | SORT helpful_votes DESC | LIMIT 5`,
+        product_users: `FROM product_users | KEEP username, trust_score | SORT trust_score DESC | LIMIT 5`,
+      },
+      index: 'product_users',
+
+      tryThis: [
+
+        "Change the limit to 10 or sort in ascending order to see different results.",
+
+      ],
+
+
+      tooltips: {
+
+        "KEEP": "Specifies the fields to include in the output.",
+
+        "SORT": "Orders the results by the specified field.",
+
+        "DESC": "Sorts the results in descending order.",
+
+        "LIMIT": "Restricts the number of results returned.",
 
       },
 

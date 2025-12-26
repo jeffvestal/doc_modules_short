@@ -4,7 +4,7 @@ export const multiMatchConfig: LabConfig = {
   queryLanguage: 'query_dsl',
   queryType: 'multi_match_query',
   displayName: 'Multi-match Query',
-  description: "The `multi_match` query builds on the [`match` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) to allow multi-field queries.",
+  description: "The `multi_match` query builds on the `match` query to allow multi-field queries.",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query',
 
   keyDisplayFields: {
@@ -13,9 +13,9 @@ export const multiMatchConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: "product_name",
-    product_reviews: "review_text",
-    product_users: "interests",
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
   sampleQueries: {
     products: "wireless",
@@ -29,192 +29,158 @@ export const multiMatchConfig: LabConfig = {
   examples: [
 
     {
-      id: '1',
-      title: "Search across product name and description",
-      description: "Find products that match the term \u0027wireless headphones\u0027 in either the name or description.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "wireless headphones",
-      "fields": ["product_name", "product_description"]
-    }
-  }
-}`,
+      id: 'example_1',
+      title: "Search across multiple fields for a product",
+      description: "Search for products where the name or description contains the term \u0027wireless headphones\u0027.",
+      template: `{ "query": { "multi_match": { "query": "wireless headphones", "fields": ["product_name", "product_description"] } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Try searching for another product-related term like \u0027noise cancelling\u0027 or \u0027smartphone\u0027.",
+        "Change the query to \u0027noise cancelling\u0027 to find products with that phrase.",
+
+        "Add more fields to the \u0027fields\u0027 array, such as \u0027product_category\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The search term to look for.",
+        "query": "The search term to be matched against the specified fields.",
 
-        "fields": "The fields to search within. You can include multiple fields.",
+        "fields": "List of fields to search across. Use searchable fields from the dataset.",
 
       },
 
     },
 
     {
-      id: '2',
-      title: "Search product reviews for keywords",
-      description: "Search the title and text of reviews for mentions of \u0027great performance\u0027.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "great performance",
-      "fields": ["review_title", "review_text"]
-    }
-  }
-}`,
+      id: 'example_2',
+      title: "Search product reviews by title or text",
+      description: "Search for reviews mentioning \u0027excellent sound quality\u0027 in either the title or the review text.",
+      template: `{ "query": { "multi_match": { "query": "excellent sound quality", "fields": ["review_title", "review_text"] } } }`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Try searching for phrases like \u0027excellent quality\u0027 or \u0027highly recommend\u0027.",
+        "Change the query to \u0027durable and comfortable\u0027 to find reviews with those terms.",
+
+        "Experiment with different field weights by modifying the field names with \u0027^\u0027 (e.g., \u0027review_title^2\u0027).",
 
       ],
 
 
       tooltips: {
 
-        "query": "The search term to look for in review content.",
+        "query": "The text to search for in the specified fields.",
 
-        "fields": "The fields to search within, such as review title and text.",
+        "fields": "Fields to be searched. Use fields relevant to the dataset.",
 
       },
 
     },
 
     {
-      id: '3',
-      title: "Boost specific fields in queries",
-      description: "Boost the importance of the product name field over the description when searching for \u0027smart speaker\u0027.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "smart speaker",
-      "fields": ["product_name^2", "product_description"]
-    }
-  }
-}`,
+      id: 'example_3',
+      title: "Boost relevance of specific fields",
+      description: "Search for products with \u0027premium\u0027 in the name or description, giving higher weight to matches in the name.",
+      template: `{ "query": { "multi_match": { "query": "premium", "fields": ["product_name^3", "product_description"] } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Adjust the boost value (e.g., `^3`) to emphasize the product name even more.",
+        "Adjust the boost value for \u0027product_name\u0027 to see how it affects the results.",
+
+        "Add more fields to the search, such as \u0027product_brand\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The search term to look for.",
+        "query": "The term to search for in the specified fields.",
 
-        "fields": "Boost a field by appending `^\u003cboost value\u003e`; higher boosts make the field more significant in scoring.",
-
-      },
-
-    },
-
-    {
-      id: '4',
-      title: "Use the \u0027most_fields\u0027 type for field aggregation",
-      description: "Search for terms in multiple fields and combine the scores of all matching fields.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "comfortable",
-      "type": "most_fields",
-      "fields": ["review_title", "review_text"]
-    }
-  }
-}`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Switch to the \u0027best_fields\u0027 type for the highest-scoring field or try another phrase like \u0027durable\u0027.",
-
-      ],
-
-
-      tooltips: {
-
-        "query": "The search term to look for.",
-
-        "type": "The scoring method to use. \u0027most_fields\u0027 combines scores from all fields.",
-
-        "fields": "The fields to search within.",
+        "fields": "Use \u0027^\u0027 to apply a weight to specific fields, increasing their importance in the search.",
 
       },
 
     },
 
     {
-      id: '5',
-      title: "Search user interests",
-      description: "Search for users with interests related to \u0027photography\u0027.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "photography",
-      "fields": ["interests"]
-    }
-  }
-}`,
+      id: 'example_4',
+      title: "Cross-field search for user interests",
+      description: "Search for users interested in \u0027Books\u0027 or \u0027Electronics\u0027 using a cross-field strategy.",
+      template: `{ "query": { "multi_match": { "query": "Books Electronics", "type": "cross_fields", "fields": ["interests"] } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Try searching for interests like \u0027hiking\u0027 or \u0027gardening\u0027.",
+        "Change the query to include other interests, like \u0027Sports\u0027 or \u0027Fashion\u0027.",
+
+        "Test the \u0027AND\u0027 operator by adding \u0027operator\u0027: \u0027and\u0027 to the query.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The term to search for in user interests.",
+        "query": "The search terms to match, separated by spaces.",
 
-        "fields": "The fields to search, in this case, the \u0027interests\u0027 field.",
+        "type": "Defines how the query should behave. \u0027cross_fields\u0027 treats the fields as a single combined field.",
 
       },
 
     },
 
     {
-      id: '6',
-      title: "Use the \u0027phrase_prefix\u0027 type for autocomplete",
-      description: "Search for terms starting with \u0027wire\u0027 in product name and description.",
-      template: `{
-  "query": {
-    "multi_match": {
-      "query": "wire",
-      "type": "phrase_prefix",
-      "fields": ["product_name", "product_description"]
-    }
-  }
-}`,
-      index: 'products',
+      id: 'example_5',
+      title: "Find reviews with phrase matching",
+      description: "Search for reviews mentioning the phrase \u0027comfortable fit\u0027 in either the title or review text.",
+      template: `{ "query": { "multi_match": { "query": "comfortable fit", "type": "phrase", "fields": ["review_title", "review_text"] } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try changing the prefix to \u0027smart\u0027 or \u0027head\u0027 for other autocomplete suggestions.",
+        "Change the phrase to \u0027easy to use\u0027 and see the results.",
+
+        "Test the \u0027phrase_prefix\u0027 type to allow for partial matches.",
 
       ],
 
 
       tooltips: {
 
-        "query": "The prefix to search for.",
+        "query": "The exact phrase to search for.",
 
-        "type": "The \u0027phrase_prefix\u0027 type matches terms starting with the given prefix.",
+        "type": "Use \u0027phrase\u0027 to match exact phrases or \u0027phrase_prefix\u0027 for partial matches.",
 
-        "fields": "The fields to search within.",
+      },
+
+    },
+
+    {
+      id: 'example_6',
+      title: "Search with tie-breaking for fields",
+      description: "Search for products with the term \u0027gaming\u0027 in either the name or description, using a tie-breaker for equal scores.",
+      template: `{ "query": { "multi_match": { "query": "gaming", "type": "best_fields", "fields": ["product_name", "product_description"], "tie_breaker": 0.3 } } }`,
+      index: 'products',
+
+      tryThis: [
+
+        "Change the query to \u0027portable\u0027 and observe the results.",
+
+        "Adjust the tie_breaker value to see how it impacts the scoring.",
+
+      ],
+
+
+      tooltips: {
+
+        "query": "The search term to match.",
+
+        "type": "Use \u0027best_fields\u0027 to find the single best matching field.",
+
+        "tie_breaker": "A value between 0 and 1 that controls how scores from multiple fields are combined.",
 
       },
 

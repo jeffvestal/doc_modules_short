@@ -77,57 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find products with fuzzy match on name
-Search for products where the name is similar to 'wireles' with automatic fuzziness handling.
+### Search for similar product names
+Find products with names similar to 'wireles' using automatic fuzziness.
 
 
 **Try This:**
 
-- Try searching with different misspellings, such as 'wirless' or 'wreless', to see how fuzzy matching works.
+- Try using other misspelled product names like 'Bluetoth' or 'Premum'.
 
 
 
 
-### Search product reviews with prefix fuzziness
-Find reviews with titles similar to 'comfort' while requiring the first 2 characters to match.
-
-
-**Try This:**
-
-- Change the prefix_length to 0 and observe how the results adjust.
-
-
-
-
-### Match user interests with fixed fuzziness
-Search for users with interests similar to 'Electonic' using a fixed fuzziness of 1.
+### Find reviews with similar titles
+Search for review titles similar to 'comfotable' with a fuzziness of 2.
 
 
 **Try This:**
 
-- Use 'Electronic' instead of 'Electonic' and compare the results.
+- Try changing 'comfotable' to 'durabl' or 'qualty'.
 
 
 
 
-### Find products with fuzzy match and transpositions enabled
-Search for products with names similar to 'premiim', allowing transposition of characters.
-
-
-**Try This:**
-
-- Disable transpositions to see how results differ when transposing characters is not allowed.
-
-
-
-
-### Search reviews with constant score rewrite
-Find reviews with fuzzy matches on 'durable' using constant score blending for efficiency.
+### Search user interests with prefix match
+Find user interests similar to 'Electornics' with a prefix length of 1.
 
 
 **Try This:**
 
-- Change the rewrite method to 'scoring_boolean' and observe how results are ranked.
+- Try using interests like 'Books' or 'SportsOutdoors' with misspellings.
+
+
+
+
+### Search product descriptions with transpositions enabled
+Find products with descriptions similar to 'wirless' using transpositions.
+
+
+**Try This:**
+
+- Try using other misspelled descriptions like 'premum audio' or 'beauty producs'.
+
+
+
+
+### Search user interests with constant score rewrite
+Find users with interests similar to 'Books' using constant score rewrite.
+
+
+**Try This:**
+
+- Try using 'Electronics' or 'Toys' as search terms.
 
 
 

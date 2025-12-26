@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the multi_match_query query!
     
-    The `multi_match` query builds on the [`match` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) to allow multi-field queries.
+    The `multi_match` query builds on the `match` query to allow multi-field queries.
 ---
 
 # Multi-match Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Multi-match Query lab! This lab teaches you how to us
 
 ## Overview
 
-The `multi_match` query builds on the [`match` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) to allow multi-field queries.
+The `multi_match` query builds on the `match` query to allow multi-field queries.
 
 ## What You'll Learn
 
@@ -77,68 +77,80 @@ The `multi_match` query builds on the [`match` query](https://www.elastic.co/doc
 This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search across product name and description
-Find products that match the term 'wireless headphones' in either the name or description.
+### Search across multiple fields for a product
+Search for products where the name or description contains the term 'wireless headphones'.
 
 
 **Try This:**
 
-- Try searching for another product-related term like 'noise cancelling' or 'smartphone'.
+- Change the query to 'noise cancelling' to find products with that phrase.
+
+- Add more fields to the 'fields' array, such as 'product_category'.
 
 
 
 
-### Search product reviews for keywords
-Search the title and text of reviews for mentions of 'great performance'.
-
-
-**Try This:**
-
-- Try searching for phrases like 'excellent quality' or 'highly recommend'.
-
-
-
-
-### Boost specific fields in queries
-Boost the importance of the product name field over the description when searching for 'smart speaker'.
+### Search product reviews by title or text
+Search for reviews mentioning 'excellent sound quality' in either the title or the review text.
 
 
 **Try This:**
 
-- Adjust the boost value (e.g., `^3`) to emphasize the product name even more.
+- Change the query to 'durable and comfortable' to find reviews with those terms.
+
+- Experiment with different field weights by modifying the field names with '^' (e.g., 'review_title^2').
 
 
 
 
-### Use the 'most_fields' type for field aggregation
-Search for terms in multiple fields and combine the scores of all matching fields.
-
-
-**Try This:**
-
-- Switch to the 'best_fields' type for the highest-scoring field or try another phrase like 'durable'.
-
-
-
-
-### Search user interests
-Search for users with interests related to 'photography'.
+### Boost relevance of specific fields
+Search for products with 'premium' in the name or description, giving higher weight to matches in the name.
 
 
 **Try This:**
 
-- Try searching for interests like 'hiking' or 'gardening'.
+- Adjust the boost value for 'product_name' to see how it affects the results.
+
+- Add more fields to the search, such as 'product_brand'.
 
 
 
 
-### Use the 'phrase_prefix' type for autocomplete
-Search for terms starting with 'wire' in product name and description.
+### Cross-field search for user interests
+Search for users interested in 'Books' or 'Electronics' using a cross-field strategy.
 
 
 **Try This:**
 
-- Try changing the prefix to 'smart' or 'head' for other autocomplete suggestions.
+- Change the query to include other interests, like 'Sports' or 'Fashion'.
+
+- Test the 'AND' operator by adding 'operator': 'and' to the query.
+
+
+
+
+### Find reviews with phrase matching
+Search for reviews mentioning the phrase 'comfortable fit' in either the title or review text.
+
+
+**Try This:**
+
+- Change the phrase to 'easy to use' and see the results.
+
+- Test the 'phrase_prefix' type to allow for partial matches.
+
+
+
+
+### Search with tie-breaking for fields
+Search for products with the term 'gaming' in either the name or description, using a tie-breaker for equal scores.
+
+
+**Try This:**
+
+- Change the query to 'portable' and observe the results.
+
+- Adjust the tie_breaker value to see how it impacts the scoring.
 
 
 

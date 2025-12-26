@@ -78,79 +78,79 @@ This lab includes 6 examples demonstrating different aspects of the range_query 
 
 
 ### Find products within a specific price range
-Search for products priced between $30 and $60.
+This query retrieves all products with a price between $20 and $50.
 
 
 **Try This:**
 
-- Try changing the price range to $50-$100.
+- Change the price range to 10-30 to find cheaper products.
 
-- Experiment with using only a minimum price (e.g., gte: 20).
-
-
+- Try using only `gte` to find products with a price greater than or equal to 30.
 
 
-### Filter reviews with high ratings
-Retrieve reviews with a rating of 4 or higher.
+
+
+### Retrieve highly-rated reviews
+Fetch reviews where the rating is between 4 and 5 stars.
 
 
 **Try This:**
 
-- Adjust the minimum rating to 3 and see how the results change.
+- Change the range to 3-5 to include moderately rated reviews.
 
-- Try adding an upper limit (e.g., lte: 5) to find reviews within a specific range.
+- Remove `lte` to only retrieve reviews rated 4 or higher.
 
 
 
 
 ### Filter users by trust score
-Find users with a trust score between 70 and 100.
+Retrieve user profiles with a trust score between 80 and 100.
 
 
 **Try This:**
 
-- Adjust the trust score range to 50-90 to see different results.
+- Adjust the range to 70-90 to include users with a lower trust score.
 
-- Try removing the upper limit (lte) to find users with trust scores above a certain value.
-
-
-
-
-### Retrieve recent reviews
-Search for reviews posted within the last 30 days.
-
-
-**Try This:**
-
-- Change the range to the last 7 days (e.g., now-7d/d).
-
-- Try using only a lower bound (gte) to include reviews from a specific date onward.
+- Remove `gte` to find users with a trust score below 100.
 
 
 
 
-### Find products with premium prices
-Retrieve products priced over $100.
+### Find recent reviews
+Retrieve reviews posted within the last 30 days.
 
 
 **Try This:**
 
-- Modify the query to include products priced between $50 and $150.
+- Change the range to `now-7d/d` to find reviews from the last week.
 
-- Remove the upper limit to find all products above a specific price.
-
-
+- Remove `lte` to include all reviews from the past 30 days onward.
 
 
-### Find highly rated reviews with helpful votes
-Search for reviews with a rating of 5 and more than 20 helpful votes.
+
+
+### Filter products by mid-range prices
+Find products priced between $30 and $70.
 
 
 **Try This:**
 
-- Change the helpful votes range to 15-30.
+- Change the range to 50-100 to find higher-priced products.
 
-- Try using a rating range of 4 to 5 instead of a fixed value.
+- Use only `lte` to find products cheaper than $70.
+
+
+
+
+### Retrieve products within a specific brand and price range
+Fetch products from the brand 'GlowNaturals' priced between $20 and $60.
+
+
+**Try This:**
+
+- Change the brand to 'AudioMax' to find products from another brand.
+
+- Adjust the price range to $50-$100 to find more expensive items.
 
 
 

@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 
 ## What You'll Learn
 
@@ -77,68 +77,68 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Find Affordable Electronics
-Retrieve electronics products priced under $50.
+### Filter Products by Category
+Find all products in the 'Electronics' category and display their names, brands, and prices.
 
 
 **Try This:**
 
-- Try changing the category to 'Books' or adjusting the price filter to explore other results.
+- Change 'Electronics' to another category like 'Books' or 'Clothing' to see different results.
 
 
 
 
-### Highly Rated Reviews
-Find reviews with a rating of 5 stars, sorted by helpful votes.
-
-
-**Try This:**
-
-- Experiment with different review ratings or sort by review_date to see the latest reviews.
-
-
-
-
-### Active Users Interested in Books
-List usernames of users interested in books with more than 10 reviews.
+### Sort Products by Price
+Retrieve product names and prices, sorted by price in descending order.
 
 
 **Try This:**
 
-- Change the interest to 'Electronics' or adjust the total_reviews_count filter to refine the results.
+- Change 'DESC' to 'ASC' to sort prices in ascending order.
 
 
 
 
-### Top Brands in Clothing
-Retrieve the most expensive clothing items from top brands.
-
-
-**Try This:**
-
-- Change the category to 'Sports and Outdoors' or sort in ascending order to find the cheapest items.
-
-
-
-
-### Verified Purchases with High Ratings
-Find verified purchases with a rating of 4 or higher.
+### Search Reviews by Keywords
+Find reviews that mention 'durable' or 'comfortable', displaying their titles and ratings.
 
 
 **Try This:**
 
-- Adjust the rating filter to include reviews with a rating of 3 or experiment with non-verified purchases.
+- Try searching for other keywords like 'stylish' or 'functional'.
 
 
 
 
-### Users from Specific Location
-Retrieve usernames of users located in 'New York'.
+### Filter Verified Purchases
+Retrieve verified purchase reviews with a rating of 5, sorted by helpful votes.
 
 
 **Try This:**
 
-- Change the city to 'San Francisco' or filter by location_state instead.
+- Change 'review_rating == 5' to another rating (e.g., 4) to find reviews with different ratings.
+
+
+
+
+### Find Users by Interest
+Retrieve usernames and interests of users who are interested in 'Books' or 'Electronics'.
+
+
+**Try This:**
+
+- Add another interest to the WHERE clause, like 'Sports', to see additional results.
+
+
+
+
+### Top Reviewers by Trust Score
+List the top 5 users with the highest trust scores.
+
+
+**Try This:**
+
+- Change the limit to 10 or sort in ascending order to see different results.
 
 
 

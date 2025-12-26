@@ -125,6 +125,18 @@ def process_single_url(
             query_language=query_language
         )
         
+        # BLOCK lab creation if ANY example returns 0 hits
+        zero_hit_examples = [
+            r for r in validation_results['results'] 
+            if r.get('hit_count', 0) == 0
+        ]
+        if zero_hit_examples:
+            example_ids = [r.get('example_id', '?') for r in zero_hit_examples]
+            error_msg = f"Blocked: {len(zero_hit_examples)} example(s) returned 0 hits ({', '.join(example_ids)})"
+            report.add_failed_lab(slug, url, error_msg)
+            state_manager.mark_failed(url, error_msg)
+            return {'status': 'failed', 'slug': slug, 'url': url, 'error': error_msg}
+        
         # Quality checks
         quality_checker = QualityChecker(min_hits=args.min_hits if hasattr(args, 'min_hits') else 3)
         quality_results = quality_checker.run_all_checks(lab_config, validation_results['results'])

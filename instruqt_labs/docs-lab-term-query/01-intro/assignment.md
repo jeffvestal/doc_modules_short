@@ -77,80 +77,80 @@ Returns documents that contain an **exact** term in a provided field. You can us
 This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find products in a specific category
-This query retrieves all products that belong to the 'Electronics' category.
+### Find products in the 'Electronics' category
+This query retrieves all products from the 'Electronics' category.
 
 
 **Try This:**
 
-- Change 'Electronics' to another category like 'Books' or 'Clothing'.
+- Change the category to 'Home and Kitchen' or 'Books' and observe the results.
 
-- Try using a category that does not exist to see how the results change.
-
-
-
-
-### Filter products by brand
-Retrieve all products made by the brand 'AudioMax'.
-
-
-**Try This:**
-
-- Change the brand to 'GlowNaturals' or 'BrewMaster'.
-
-- Experiment with a non-existent brand to test the exact match behavior.
+- Try searching for a category that doesn't exist in the data.
 
 
 
 
-### Find reviews with verified purchases
-Retrieve all product reviews where the purchase was verified.
+### Find 5-star reviews
+This query retrieves all reviews that have a rating of 5 stars.
 
 
 **Try This:**
 
-- Switch 'True' to 'False' to find reviews from unverified purchases.
+- Change the rating to 4 or 3 to find reviews with lower ratings.
 
-- Check the effect of case sensitivity by using 'true' or 'FALSE'.
-
-
-
-
-### Find reviews with a specific rating
-Retrieve all reviews that have a 5-star rating.
-
-
-**Try This:**
-
-- Change the rating to 1, 2, or 3 to see reviews with lower ratings.
-
-- Try using a non-existent rating like 6 to observe the behavior.
+- Try using a rating value not present in the dataset and observe the results.
 
 
 
 
-### Filter users by account type
-Retrieve all users with a 'Premium' account type.
+### Find users with a 'Premium' account type
+This query retrieves all users who have a 'Premium' account type.
 
 
 **Try This:**
 
-- Change 'Premium' to 'Free' or 'Enterprise' to see users with different account types.
+- Change the account type to 'Free' or 'Enterprise' to find different types of users.
 
-- Test with invalid values like 'premium' to verify case sensitivity.
-
-
+- Try using a lowercase value like 'premium' and observe how the case sensitivity affects the results.
 
 
-### Find a specific user by username
-Retrieve a user with the username 'AveryWilliams55'.
+
+
+### Find products from the 'AudioMax' brand
+This query retrieves all products that are manufactured by the 'AudioMax' brand.
 
 
 **Try This:**
 
-- Switch the username to 'CameronLopez20' or another available username.
+- Change the brand to 'GlowNaturals' or 'PlaySmart' to find products from other manufacturers.
 
-- Enter a non-existent username to test the result for no matches.
+- Use a brand name that doesn't exist in the dataset and observe the results.
+
+
+
+
+### Find reviews marked as verified purchase
+This query retrieves all reviews that are marked as a verified purchase.
+
+
+**Try This:**
+
+- Change the value to 'False' to find reviews that are not verified purchases.
+
+- Try using lowercase 'true' or 'false' and observe the case sensitivity of the query.
+
+
+
+
+### Find products priced at $89.99
+This query retrieves all products that have a price of $89.99.
+
+
+**Try This:**
+
+- Change the price to $49.99 or $129.99 to find products with other prices.
+
+- Use a price that doesn't exist in the dataset (e.g., $199.99) and observe the results.
 
 
 

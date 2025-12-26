@@ -238,15 +238,16 @@ export const CompactResultsList: React.FC<CompactResultsListProps> = ({
     const esqlResponse = response as EsqlResponse;
     esqlColumns = esqlResponse.columns || [];
     esqlRows = esqlResponse.values || [];
-    // Convert columnar to row format for display
+    // Convert ES|QL row format to hit format for display
+    // ES|QL values format: values[rowIndex][columnIndex]
     if (esqlColumns.length > 0 && esqlRows.length > 0) {
-      const rowCount = esqlRows[0]?.length || 0;
-      for (let i = 0; i < rowCount; i++) {
+      for (let rowIdx = 0; rowIdx < esqlRows.length; rowIdx++) {
         const row: any = {};
+        const rowValues = esqlRows[rowIdx];
         esqlColumns.forEach((col, colIdx) => {
-          row[col.name] = esqlRows[colIdx]?.[i];
+          row[col.name] = rowValues[colIdx];
         });
-        hits.push({ _source: row, _id: `row-${i}` });
+        hits.push({ _source: row, _id: `row-${rowIdx}` });
       }
     }
     total = hits.length;
