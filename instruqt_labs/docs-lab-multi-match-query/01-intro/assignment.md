@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: fn3udtsc2cyq
+id: placeholder-multimatchquery
 type: challenge
 title: Multi-match Query Lab
 teaser: Learn how to use the multi_match_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Multi-match Query Lab
-
-    Welcome to the interactive lab for the multi_match_query query!
-
-    The `multi_match` query builds on the `match` query to allow multi-field queries.
 tabs:
-- id: tfbhrytzz1zw
+- id: tab-querylab-multimatchquery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: gyfmy2aeenyn
+- id: tab-querylabfull-multimatchquery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: wyokpgibzm1n
+- id: tab-terminal-multimatchquery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: iltadwuxub87
+- id: tab-dataset-multimatchquery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Multi-match Query Lab
+    
+    Welcome to the interactive lab for the multi_match_query query!
+    
+    The `multi_match` query builds on the `match` query to allow multi-field queries.
 ---
 
 # Multi-match Query Lab
@@ -79,80 +77,68 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search across multiple fields for a product
-Search for products where the name or description contains the term 'wireless headphones'.
+### Basic multi-match query on product fields
+Search for products with the phrase 'wireless headphones' in their name or description.
 
 
 **Try This:**
 
-- Change the query to 'noise cancelling' to find products with that phrase.
-
-- Add more fields to the 'fields' array, such as 'product_category'.
+- Try searching for other product features, like 'premium sound' or 'smartwatch'.
 
 
 
 
-### Search product reviews by title or text
-Search for reviews mentioning 'excellent sound quality' in either the title or the review text.
+### Boosting specific fields
+Boost the importance of the product name field when searching for 'smartphone'.
 
 
 **Try This:**
 
-- Change the query to 'durable and comfortable' to find reviews with those terms.
-
-- Experiment with different field weights by modifying the field names with '^' (e.g., 'review_title^2').
+- Experiment with different boosts, e.g., 'product_description^3'.
 
 
 
 
-### Boost relevance of specific fields
-Search for products with 'premium' in the name or description, giving higher weight to matches in the name.
+### Multi-match query on review fields
+Search for reviews mentioning 'comfortable' or 'durable' in the title or text.
 
 
 **Try This:**
 
-- Adjust the boost value for 'product_name' to see how it affects the results.
+- Try searching for reviews mentioning other qualities like 'affordable' or 'long-lasting'.
 
-- Add more fields to the search, such as 'product_brand'.
+
+
+
+### Using type 'phrase_prefix'
+Search for products with descriptions starting with 'wireless'.
+
+
+**Try This:**
+
+- Try changing the prefix to 'bluetooth' or 'smart'.
 
 
 
 
 ### Cross-field search for user interests
-Search for users interested in 'Books' or 'Electronics' using a cross-field strategy.
+Search for users interested in 'Books' or related terms.
 
 
 **Try This:**
 
-- Change the query to include other interests, like 'Sports' or 'Fashion'.
-
-- Test the 'AND' operator by adding 'operator': 'and' to the query.
+- Try searching for other interests like 'Electronics' or 'Toys'.
 
 
 
 
-### Find reviews with phrase matching
-Search for reviews mentioning the phrase 'comfortable fit' in either the title or review text.
+### Tie breaker for multiple fields
+Search for reviews mentioning 'great quality', balancing matches across title and text.
 
 
 **Try This:**
 
-- Change the phrase to 'easy to use' and see the results.
-
-- Test the 'phrase_prefix' type to allow for partial matches.
-
-
-
-
-### Search with tie-breaking for fields
-Search for products with the term 'gaming' in either the name or description, using a tie-breaker for equal scores.
-
-
-**Try This:**
-
-- Change the query to 'portable' and observe the results.
-
-- Adjust the tie_breaker value to see how it impacts the scoring.
+- Adjust the tie_breaker value to see how it affects scoring.
 
 
 

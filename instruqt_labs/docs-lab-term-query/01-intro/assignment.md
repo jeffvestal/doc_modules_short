@@ -78,67 +78,67 @@ This lab includes 6 examples demonstrating different aspects of the term_query q
 
 
 ### Find products in a specific category
-Search for products in the 'Electronics' category.
+Retrieve all products that belong to the 'Electronics' category.
 
 
 **Try This:**
 
-- Change the `value` to another category such as 'Books' or 'Clothing'.
+- Change the `value` to another category such as `Books` or `Clothing` to explore more results.
 
 
 
 
-### Find reviews with a specific rating
-Search for reviews with a rating of 5.
-
-
-**Try This:**
-
-- Try changing the `value` to 4 or 1 to see reviews with different ratings.
-
-
-
-
-### Find users with a specific account type
-Search for users with a 'Premium' account.
+### Search for a specific product brand
+Find all products manufactured by the brand 'GlowNaturals'.
 
 
 **Try This:**
 
-- Change the `value` to 'Free' or 'Enterprise' to find users with different account types.
+- Try replacing `GlowNaturals` with another brand like `AudioMax` or `PlayPals`.
 
 
 
 
-### Find products by brand
-Search for products from the brand 'AudioMax'.
-
-
-**Try This:**
-
-- Try using 'GlowNaturals' or 'WorkEase' as the brand value.
-
-
-
-
-### Find verified reviews
-Search for reviews that are marked as verified purchases.
+### Search for highly-rated reviews
+Find reviews with a rating of 5 stars.
 
 
 **Try This:**
 
-- Change the `value` to 'False' to find non-verified reviews.
+- Change the `value` to a lower rating (e.g., 3) to find reviews with a different rating.
 
 
 
 
-### Find users by username
-Search for a user with the username 'AveryWilliams55'.
+### Find verified purchases
+Retrieve reviews that are marked as verified purchases.
 
 
 **Try This:**
 
-- Change the `value` to another username like 'CameronLopez20' or 'JordanMartinez33'.
+- Change the `value` to `False` to find reviews for unverified purchases.
+
+
+
+
+### Find a specific user
+Retrieve all data for the user with the username 'AveryWilliams55'.
+
+
+**Try This:**
+
+- Replace `AveryWilliams55` with another username like `CameronLopez20` to find data for a different user.
+
+
+
+
+### Search for premium account users
+Find users with a 'Premium' account type.
+
+
+**Try This:**
+
+- Change the `value` to `Free` or `Enterprise` to find other types of account users.
 
 
 

@@ -1,5 +1,4 @@
 slug: docs-lab-multi-match-query
-id: vryja19qnslt
 title: Docs Lab - Multi-match Query
 teaser: Learn how to use the multi_match_query query in Elasticsearch
 description: |
@@ -7,9 +6,9 @@ description: |
 icon: ""
 tags:
 - elasticsearch
-- multi-match-query
 - full-text-queries
 - query-dsl
+- multi-match-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -26,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "17627668412510340863"
+checksum: "a0b363b79d80f61beaa4e42e42f522e8"
 enhanced_loading: false

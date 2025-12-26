@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
 
 ## What You'll Learn
 
@@ -74,83 +74,60 @@ Returns documents that contain terms similar to the search term, as measured by 
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the fuzzy_query query:
+This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find similar product names
-Search for products where the name is similar to 'wireless'.
-
-
-**Try This:**
-
-- Change the search term to 'premium' or 'audio' to explore other matches.
-
-- Set 'fuzziness' to 'AUTO' for automatic adjustments.
-
-
-
-
-### Search for reviews with similar titles
-Find reviews with titles similar to 'comfortable'.
+### Search for similar product names
+Find products with names similar to 'wireles' using automatic fuzziness adjustment.
 
 
 **Try This:**
 
-- Try searching for 'durable' or 'reliable' to see other similar matches.
-
-- Adjust 'fuzziness' to 2 for stricter matching.
+- Try changing the value to 'wirless' or 'wirleess' to observe how fuzziness impacts results.
 
 
 
 
-### Search usernames with prefix matching
-Find users with usernames similar to 'Dakota' but require a prefix match of at least 2 characters.
+### Find reviews with similar titles
+Search for reviews with titles similar to 'comfotable' and require at least 2 matching prefix characters.
 
 
 **Try This:**
 
-- Change the search term to 'Jordan' or 'Avery' for other matches.
-
-- Increase 'prefix_length' to ensure stricter matches.
+- Try adjusting the prefix_length to 0 or 3 to see how it affects the results.
 
 
 
 
-### Search product descriptions for similar terms
-Find products with descriptions similar to 'kitchen'.
+### Search user interests with fuzziness level 2
+Find users with interests matching terms similar to 'electronic' with a fuzziness level of 2.
 
 
 **Try This:**
 
-- Try searching for 'home' or 'cook' for other relevant results.
-
-- Adjust 'fuzziness' to 2 for broader matches.
+- Try changing the fuzziness to 'AUTO' or 1 to see how it impacts the results.
 
 
 
 
-### Find reviews with transposed characters
-Search for reviews containing terms similar to 'reliable' but allow transpositions.
+### Find products with brand name typos
+Search for products with brand names similar to 'AudioMx' using fuzziness.
 
 
 **Try This:**
 
-- Change the term to 'comfortable' or 'durable' to explore other matches.
-
-- Set 'transpositions' to false to disable adjacent character swaps.
+- Try changing the value to 'AudioMaxx' or 'AudMax' to test different levels of fuzziness.
 
 
 
 
-### Search user interests with limited expansions
-Find users with interests similar to 'Books' but limit the number of expansions.
+### Find reviews with text typos
+Search for reviews with text matching terms similar to 'durabe' using fuzziness.
 
 
 **Try This:**
 
-- Change the search term to 'Electronics' or 'Sports' to explore other interests.
-
-- Increase 'max_expansions' for broader results.
+- Try turning transpositions off or setting fuzziness to 1 to compare results.
 
 
 

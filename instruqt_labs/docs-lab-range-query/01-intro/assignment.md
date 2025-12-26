@@ -77,80 +77,80 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products within a price range
-Search for products priced between $30 and $70.
+### Filter Products by Price Range
+Find products priced between $30 and $60.
 
 
 **Try This:**
 
-- Change the price range to $20 - $50.
+- Change the price range to find products under $50.
 
-- Try using only 'gte' or 'lte' to set a minimum or maximum.
-
-
-
-
-### Retrieve highly rated reviews
-Get reviews with a rating of 4 or higher.
-
-
-**Try This:**
-
-- Adjust the minimum rating to 3.
-
-- Add an upper limit by using 'lte'.
+- Use 'gt' or 'lt' to find products strictly greater or less than a price.
 
 
 
 
-### Search for recent reviews
-Find reviews posted in the last 30 days.
+### Find Highly Rated Reviews
+Search for product reviews with ratings between 4 and 5.
 
 
 **Try This:**
 
-- Change the time range to the last 7 days.
+- Modify 'gte' to 3 to include moderately rated reviews.
 
-- Adjust the query to only include reviews before today.
-
-
-
-
-### Filter users by membership date
-Find users who joined after January 1, 2020.
-
-
-**Try This:**
-
-- Change the date to '2019-01-01' to look further back.
-
-- Add an upper limit to find users who joined within a specific timeframe.
+- Remove 'lte' to see reviews with ratings 4 and above.
 
 
 
 
-### Find products in premium price range
-Search for products priced above $100.
+### Filter Users by Review Activity
+Find users who have written between 10 and 50 reviews.
 
 
 **Try This:**
 
-- Lower the price threshold to $80.
+- Increase 'lte' to 100 to include more active users.
 
-- Include an upper limit to restrict the range.
-
-
+- Use 'gt' and 'lt' to exclude the boundary values.
 
 
-### Filter by user's trust score
-Find users with a trust score between 50 and 80.
+
+
+### Search Products in Upper Price Range
+Find products priced above $100.
 
 
 **Try This:**
 
-- Expand the range to include trust scores above 80.
+- Add a 'lt' filter to set an upper limit on the price.
 
-- Remove 'lte' to only filter by the minimum trust score.
+- Search for products priced above $200.
+
+
+
+
+### Find Recent Reviews
+Search for reviews from the last 30 days.
+
+
+**Try This:**
+
+- Change '30d' to '7d' to find reviews from the last week.
+
+- Use 'now-1y/y' to filter reviews from the past year.
+
+
+
+
+### Filter Users by Trust Score
+Find users with a trust score between 70 and 90.
+
+
+**Try This:**
+
+- Increase 'lte' to 100 to include users with perfect trust scores.
+
+- Set 'gte' to 50 to include users with lower trust scores.
 
 
 
