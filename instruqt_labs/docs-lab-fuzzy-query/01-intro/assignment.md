@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 
 ## What You'll Learn
 
@@ -78,56 +78,56 @@ This lab includes 5 examples demonstrating different aspects of the fuzzy_query 
 
 
 ### Search for similar product names
-Find products with names similar to 'wireles' using automatic fuzziness adjustment.
+Find products where the name is similar to the term 'wireles' using AUTO fuzziness.
 
 
 **Try This:**
 
-- Try changing the value to 'wirless' or 'wirleess' to observe how fuzziness impacts results.
+- Try changing 'wireles' to a term like 'wirless' or 'wirles' to see how variations affect the results.
 
 
 
 
-### Find reviews with similar titles
-Search for reviews with titles similar to 'comfotable' and require at least 2 matching prefix characters.
-
-
-**Try This:**
-
-- Try adjusting the prefix_length to 0 or 3 to see how it affects the results.
-
-
-
-
-### Search user interests with fuzziness level 2
-Find users with interests matching terms similar to 'electronic' with a fuzziness level of 2.
+### Search for similar review text
+Find reviews where the text is similar to the term 'comfortabl' with fuzziness of 2 and a prefix length of 1.
 
 
 **Try This:**
 
-- Try changing the fuzziness to 'AUTO' or 1 to see how it impacts the results.
+- Modify 'comfortabl' to terms like 'comfrtable' or 'cmfortabl' and observe changes in results.
 
 
 
 
-### Find products with brand name typos
-Search for products with brand names similar to 'AudioMx' using fuzziness.
-
-
-**Try This:**
-
-- Try changing the value to 'AudioMaxx' or 'AudMax' to test different levels of fuzziness.
-
-
-
-
-### Find reviews with text typos
-Search for reviews with text matching terms similar to 'durabe' using fuzziness.
+### Search for similar usernames
+Find user accounts where the username is similar to 'AveryWillims' using AUTO fuzziness and transpositions enabled.
 
 
 **Try This:**
 
-- Try turning transpositions off or setting fuzziness to 1 to compare results.
+- Change 'AveryWillims' to variations like 'AveryWilams' or 'AveryWilims' and note the results.
+
+
+
+
+### Search for similar product descriptions
+Find products where the description is similar to 'premum' with AUTO fuzziness and constant score rewrite.
+
+
+**Try This:**
+
+- Try changing 'premum' to 'premium' or 'prmium' and see how the similarity affects the matches.
+
+
+
+
+### Search for similar interests
+Find users with interests similar to 'Electonics' using fuzziness of 1.
+
+
+**Try This:**
+
+- Replace 'Electonics' with 'Electroncs' or 'Electrnics' to test different edit distances.
 
 
 

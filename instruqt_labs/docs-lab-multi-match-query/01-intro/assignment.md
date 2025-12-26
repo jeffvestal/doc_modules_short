@@ -2,7 +2,7 @@
 slug: intro
 id: placeholder-multimatchquery
 type: challenge
-title: Multi-match Query Lab
+title: Multi-Match Query Lab
 teaser: Learn how to use the multi_match_query query in Elasticsearch
 tabs:
 - id: tab-querylab-multimatchquery
@@ -31,16 +31,16 @@ tabs:
 notes:
 - type: text
   contents: |
-    # Multi-match Query Lab
+    # Multi-Match Query Lab
     
     Welcome to the interactive lab for the multi_match_query query!
     
     The `multi_match` query builds on the `match` query to allow multi-field queries.
 ---
 
-# Multi-match Query Lab
+# Multi-Match Query Lab
 
-Welcome to the interactive Multi-match Query lab! This lab teaches you how to use the multi_match_query query in Elasticsearch.
+Welcome to the interactive Multi-Match Query lab! This lab teaches you how to use the multi_match_query query in Elasticsearch.
 
 ## Overview
 
@@ -77,68 +77,68 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Basic multi-match query on product fields
-Search for products with the phrase 'wireless headphones' in their name or description.
+### Search across multiple fields in products
+Find products with 'wireless' in the name or description.
 
 
 **Try This:**
 
-- Try searching for other product features, like 'premium sound' or 'smartwatch'.
+- Try replacing 'wireless' with other keywords like 'premium' or 'durable' to see how it affects the results.
 
 
 
 
-### Boosting specific fields
-Boost the importance of the product name field when searching for 'smartphone'.
-
-
-**Try This:**
-
-- Experiment with different boosts, e.g., 'product_description^3'.
-
-
-
-
-### Multi-match query on review fields
-Search for reviews mentioning 'comfortable' or 'durable' in the title or text.
+### Boost specific fields
+Give more weight to matches in the product name field.
 
 
 **Try This:**
 
-- Try searching for reviews mentioning other qualities like 'affordable' or 'long-lasting'.
+- Try experimenting with different boost values, e.g., 'product_name^3', to see how boosting affects the ranking of results.
 
 
 
 
-### Using type 'phrase_prefix'
-Search for products with descriptions starting with 'wireless'.
-
-
-**Try This:**
-
-- Try changing the prefix to 'bluetooth' or 'smart'.
-
-
-
-
-### Cross-field search for user interests
-Search for users interested in 'Books' or related terms.
+### Search product reviews
+Find reviews mentioning 'comfortable' in the title or text.
 
 
 **Try This:**
 
-- Try searching for other interests like 'Electronics' or 'Toys'.
+- Try replacing 'comfortable' with other terms, like 'durable' or 'easy setup', to find different reviews.
 
 
 
 
-### Tie breaker for multiple fields
-Search for reviews mentioning 'great quality', balancing matches across title and text.
+### Use the 'phrase_prefix' type
+Search for reviews where the title or text starts with 'durable and'.
 
 
 **Try This:**
 
-- Adjust the tie_breaker value to see how it affects scoring.
+- Try using different phrases like 'easy to' or 'great for' to explore the prefix search functionality.
+
+
+
+
+### Search user interests
+Find users interested in 'Books' and 'Electronics'.
+
+
+**Try This:**
+
+- Try changing the query to other combinations like 'Sports Outdoors' or 'Beauty' to see how it matches users.
+
+
+
+
+### Use 'most_fields' type
+Search for users where the text matches in most fields.
+
+
+**Try This:**
+
+- Try replacing 'outdoor enthusiast' with another phrase like 'tech lover' or 'avid reader' to observe field-matching behavior.
 
 
 

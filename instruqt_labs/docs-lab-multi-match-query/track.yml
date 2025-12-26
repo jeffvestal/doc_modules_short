@@ -1,5 +1,5 @@
 slug: docs-lab-multi-match-query
-title: Docs Lab - Multi-match Query
+title: Docs Lab - Multi-Match Query
 teaser: Learn how to use the multi_match_query query in Elasticsearch
 description: |
   The `multi_match` query builds on the `match` query to allow multi-field queries.
@@ -25,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "a0b363b79d80f61beaa4e42e42f522e8"
+checksum: "d03348ea60675c73e4cb8d0598e7cdae"
 enhanced_loading: false

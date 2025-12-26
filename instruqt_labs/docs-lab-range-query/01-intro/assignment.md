@@ -77,80 +77,68 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Filter Products by Price Range
-Find products priced between $30 and $60.
+### Find products within a price range
+Search for products with a price between $50 and $100.
 
 
 **Try This:**
 
-- Change the price range to find products under $50.
-
-- Use 'gt' or 'lt' to find products strictly greater or less than a price.
+- Modify the price range to find products above $75.
 
 
 
 
-### Find Highly Rated Reviews
-Search for product reviews with ratings between 4 and 5.
+### Filter reviews with high ratings
+Retrieve reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Modify 'gte' to 3 to include moderately rated reviews.
-
-- Remove 'lte' to see reviews with ratings 4 and above.
+- Experiment with ratings of 3 or higher to include more reviews.
 
 
 
 
-### Filter Users by Review Activity
-Find users who have written between 10 and 50 reviews.
+### Find recent reviews
+Search for reviews posted within the last month.
 
 
 **Try This:**
 
-- Increase 'lte' to 100 to include more active users.
-
-- Use 'gt' and 'lt' to exclude the boundary values.
+- Change the range to look for reviews from the last week.
 
 
 
 
-### Search Products in Upper Price Range
-Find products priced above $100.
+### Find trusted users
+Search for users with a trust score of 80 or higher.
 
 
 **Try This:**
 
-- Add a 'lt' filter to set an upper limit on the price.
-
-- Search for products priced above $200.
+- Adjust the trust score threshold to 90 for even more trusted users.
 
 
 
 
-### Find Recent Reviews
-Search for reviews from the last 30 days.
+### Search for mid-range priced products
+Find products with prices between $25 and $75.
 
 
 **Try This:**
 
-- Change '30d' to '7d' to find reviews from the last week.
-
-- Use 'now-1y/y' to filter reviews from the past year.
+- Experiment with a price range of $10 to $50.
 
 
 
 
-### Filter Users by Trust Score
-Find users with a trust score between 70 and 90.
+### Find recent premium user activity
+Search for premium users who joined within the last year.
 
 
 **Try This:**
 
-- Increase 'lte' to 100 to include users with perfect trust scores.
-
-- Set 'gte' to 50 to include users with lower trust scores.
+- Change the range to find users who joined in the last 6 months.
 
 
 
