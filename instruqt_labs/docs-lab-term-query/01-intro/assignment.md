@@ -83,74 +83,74 @@ This query retrieves all products that belong to the 'Electronics' category.
 
 **Try This:**
 
-- Change the 'value' to 'Books' to search for products in the 'Books' category.
+- Change 'Electronics' to another category like 'Books' or 'Clothing'.
 
-- Try using a different field, such as 'product_brand', to filter by brand.
-
-
-
-
-### Search for highly rated reviews
-This query retrieves all reviews with a rating of 5.
-
-
-**Try This:**
-
-- Change the 'value' to 4 to search for reviews with a rating of 4.
-
-- Combine this query with a range query to filter reviews within a specific rating range.
+- Try using a category that does not exist to see how the results change.
 
 
 
 
-### Find premium users
-This query retrieves all users who have a 'Premium' account type.
+### Filter products by brand
+Retrieve all products made by the brand 'AudioMax'.
 
 
 **Try This:**
 
-- Change the 'value' to 'Free' to find users with a free account.
+- Change the brand to 'GlowNaturals' or 'BrewMaster'.
 
-- Try searching by 'username' to look for a specific user's account.
-
-
-
-
-### Locate verified purchases
-This query retrieves all reviews marked as a verified purchase.
-
-
-**Try This:**
-
-- Change the 'value' to 'False' to find reviews that are not verified purchases.
-
-- Try combining this query with a term query on 'review_rating' for more specific results.
+- Experiment with a non-existent brand to test the exact match behavior.
 
 
 
 
-### Find products by brand
-This query retrieves all products from the 'AudioMax' brand.
+### Find reviews with verified purchases
+Retrieve all product reviews where the purchase was verified.
 
 
 **Try This:**
 
-- Change the 'value' to 'GlowNaturals' to search for products from a different brand.
+- Switch 'True' to 'False' to find reviews from unverified purchases.
 
-- Combine this query with a range query on 'product_price' to find products within a specific price range.
-
-
+- Check the effect of case sensitivity by using 'true' or 'FALSE'.
 
 
-### Search by exact username
-This query retrieves a user with the exact username 'AveryWilliams55'.
+
+
+### Find reviews with a specific rating
+Retrieve all reviews that have a 5-star rating.
 
 
 **Try This:**
 
-- Change the 'value' to 'CameronLopez20' to search for a different user.
+- Change the rating to 1, 2, or 3 to see reviews with lower ratings.
 
-- Combine this query with a term query on 'account_type' to find specific account types for a user.
+- Try using a non-existent rating like 6 to observe the behavior.
+
+
+
+
+### Filter users by account type
+Retrieve all users with a 'Premium' account type.
+
+
+**Try This:**
+
+- Change 'Premium' to 'Free' or 'Enterprise' to see users with different account types.
+
+- Test with invalid values like 'premium' to verify case sensitivity.
+
+
+
+
+### Find a specific user by username
+Retrieve a user with the username 'AveryWilliams55'.
+
+
+**Try This:**
+
+- Switch the username to 'CameronLopez20' or another available username.
+
+- Enter a non-existent username to test the result for no matches.
 
 
 

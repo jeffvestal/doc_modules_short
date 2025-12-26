@@ -13,9 +13,9 @@ export const termConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: ["product_name", "product_description"],
-    product_reviews: ["review_title", "review_text"],
-    product_users: ["interests"],
+    products: "product_name",
+    product_reviews: "review_text",
+    product_users: "interests",
   },
   sampleQueries: {
     products: "wireless",
@@ -29,144 +29,192 @@ export const termConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
+      id: 'term_query_product_category',
       title: "Find products in a specific category",
       description: "This query retrieves all products that belong to the \u0027Electronics\u0027 category.",
-      template: `{ "query": { "term": { "product_category": { "value": "Electronics" } } } }`,
+      template: `{
+  "query": {
+    "term": {
+      "product_category": {
+        "value": "Electronics"
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the \u0027value\u0027 to \u0027Books\u0027 to search for products in the \u0027Books\u0027 category.",
+        "Change \u0027Electronics\u0027 to another category like \u0027Books\u0027 or \u0027Clothing\u0027.",
 
-        "Try using a different field, such as \u0027product_brand\u0027, to filter by brand.",
-
-      ],
-
-
-      tooltips: {
-
-        "product_category": "Filters products by their exact category. Use values from the keyword_field_values.",
-
-      },
-
-    },
-
-    {
-      id: 'example_2',
-      title: "Search for highly rated reviews",
-      description: "This query retrieves all reviews with a rating of 5.",
-      template: `{ "query": { "term": { "review_rating": { "value": 5 } } } }`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Change the \u0027value\u0027 to 4 to search for reviews with a rating of 4.",
-
-        "Combine this query with a range query to filter reviews within a specific rating range.",
+        "Try using a category that does not exist to see how the results change.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "Filters reviews by their exact rating value. Ratings range from 1 to 5.",
+        "product_category": "The category field must match exactly. Use the predefined keyword values.",
 
       },
 
     },
 
     {
-      id: 'example_3',
-      title: "Find premium users",
-      description: "This query retrieves all users who have a \u0027Premium\u0027 account type.",
-      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
-      index: 'product_users',
-
-      tryThis: [
-
-        "Change the \u0027value\u0027 to \u0027Free\u0027 to find users with a free account.",
-
-        "Try searching by \u0027username\u0027 to look for a specific user\u0027s account.",
-
-      ],
-
-
-      tooltips: {
-
-        "account_type": "Filters users by their exact account type. Values are case-sensitive.",
-
-      },
-
-    },
-
-    {
-      id: 'example_4',
-      title: "Locate verified purchases",
-      description: "This query retrieves all reviews marked as a verified purchase.",
-      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Change the \u0027value\u0027 to \u0027False\u0027 to find reviews that are not verified purchases.",
-
-        "Try combining this query with a term query on \u0027review_rating\u0027 for more specific results.",
-
-      ],
-
-
-      tooltips: {
-
-        "verified_purchase": "Filters reviews by whether they are marked as a verified purchase. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
-
-      },
-
-    },
-
-    {
-      id: 'example_5',
-      title: "Find products by brand",
-      description: "This query retrieves all products from the \u0027AudioMax\u0027 brand.",
-      template: `{ "query": { "term": { "product_brand": { "value": "AudioMax" } } } }`,
+      id: 'term_query_product_brand',
+      title: "Filter products by brand",
+      description: "Retrieve all products made by the brand \u0027AudioMax\u0027.",
+      template: `{
+  "query": {
+    "term": {
+      "product_brand": {
+        "value": "AudioMax"
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the \u0027value\u0027 to \u0027GlowNaturals\u0027 to search for products from a different brand.",
+        "Change the brand to \u0027GlowNaturals\u0027 or \u0027BrewMaster\u0027.",
 
-        "Combine this query with a range query on \u0027product_price\u0027 to find products within a specific price range.",
+        "Experiment with a non-existent brand to test the exact match behavior.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "Filters products by their exact brand name. Use values from the keyword_field_values.",
+        "product_brand": "This field uses exact matching. Ensure the value matches the available options.",
 
       },
 
     },
 
     {
-      id: 'example_6',
-      title: "Search by exact username",
-      description: "This query retrieves a user with the exact username \u0027AveryWilliams55\u0027.",
-      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
-      index: 'product_users',
+      id: 'term_query_verified_purchase',
+      title: "Find reviews with verified purchases",
+      description: "Retrieve all product reviews where the purchase was verified.",
+      template: `{
+  "query": {
+    "term": {
+      "verified_purchase": {
+        "value": "True"
+      }
+    }
+  }
+}`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the \u0027value\u0027 to \u0027CameronLopez20\u0027 to search for a different user.",
+        "Switch \u0027True\u0027 to \u0027False\u0027 to find reviews from unverified purchases.",
 
-        "Combine this query with a term query on \u0027account_type\u0027 to find specific account types for a user.",
+        "Check the effect of case sensitivity by using \u0027true\u0027 or \u0027FALSE\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "username": "Filters users by their exact username. Values are case-sensitive.",
+        "verified_purchase": "This field is case-sensitive and uses string values (\u0027True\u0027 or \u0027False\u0027).",
+
+      },
+
+    },
+
+    {
+      id: 'term_query_review_rating',
+      title: "Find reviews with a specific rating",
+      description: "Retrieve all reviews that have a 5-star rating.",
+      template: `{
+  "query": {
+    "term": {
+      "review_rating": {
+        "value": 5
+      }
+    }
+  }
+}`,
+      index: 'product_reviews',
+
+      tryThis: [
+
+        "Change the rating to 1, 2, or 3 to see reviews with lower ratings.",
+
+        "Try using a non-existent rating like 6 to observe the behavior.",
+
+      ],
+
+
+      tooltips: {
+
+        "review_rating": "Only integer values between 1 and 5 are valid for this field.",
+
+      },
+
+    },
+
+    {
+      id: 'term_query_account_type',
+      title: "Filter users by account type",
+      description: "Retrieve all users with a \u0027Premium\u0027 account type.",
+      template: `{
+  "query": {
+    "term": {
+      "account_type": {
+        "value": "Premium"
+      }
+    }
+  }
+}`,
+      index: 'product_users',
+
+      tryThis: [
+
+        "Change \u0027Premium\u0027 to \u0027Free\u0027 or \u0027Enterprise\u0027 to see users with different account types.",
+
+        "Test with invalid values like \u0027premium\u0027 to verify case sensitivity.",
+
+      ],
+
+
+      tooltips: {
+
+        "account_type": "Account types are case-sensitive and must match the predefined values exactly.",
+
+      },
+
+    },
+
+    {
+      id: 'term_query_username',
+      title: "Find a specific user by username",
+      description: "Retrieve a user with the username \u0027AveryWilliams55\u0027.",
+      template: `{
+  "query": {
+    "term": {
+      "username": {
+        "value": "AveryWilliams55"
+      }
+    }
+  }
+}`,
+      index: 'product_users',
+
+      tryThis: [
+
+        "Switch the username to \u0027CameronLopez20\u0027 or another available username.",
+
+        "Enter a non-existent username to test the result for no matches.",
+
+      ],
+
+
+      tooltips: {
+
+        "username": "Usernames must match exactly, including case sensitivity.",
 
       },
 

@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: autovacyml8c
+id: placeholder-esqlrest
 type: challenge
 title: ES|QL Query Lab
 teaser: Learn how to use the esql_rest query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # ES|QL Query Lab
-
-    Welcome to the interactive lab for the esql_rest query!
-
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 tabs:
-- id: nnpnimwbnena
+- id: tab-querylab-esqlrest
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: 7wlmfynozyq1
+- id: tab-querylabfull-esqlrest
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: umjxcuu3ysry
+- id: tab-terminal-esqlrest
   title: Terminal
   type: terminal
   hostname: host-1
-- id: kyyysdga3q8t
+- id: tab-dataset-esqlrest
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # ES|QL Query Lab
+    
+    Welcome to the interactive lab for the esql_rest query!
+    
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -76,70 +74,71 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the esql_rest query:
+This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Find Wireless Products
-Search for products where the description contains the word 'wireless'.
-
-
-**Try This:**
-
-- Change 'wireless' to another term like 'portable' or 'smart'
-
-- Experiment with LIMIT to adjust the number of results returned.
-
-
-
-
-### Top Rated Durable Reviews
-Find reviews mentioning 'durable' or 'comfortable', sorted by rating in descending order.
+### Find Affordable Electronics
+Retrieve electronics products priced under $50.
 
 
 **Try This:**
 
-- Change the keywords in the WHERE clause to find reviews mentioning other terms.
-
-- Try removing the OR condition to focus on one keyword.
+- Try changing the category to 'Books' or adjusting the price filter to explore other results.
 
 
 
 
-### Electronics Enthusiasts
-Find users with interests in 'Electronics'.
+### Highly Rated Reviews
+Find reviews with a rating of 5 stars, sorted by helpful votes.
 
 
 **Try This:**
 
-- Replace 'Electronics' with another interest like 'Books' or 'Sports'.
-
-- Increase the LIMIT to see more results.
+- Experiment with different review ratings or sort by review_date to see the latest reviews.
 
 
 
 
-### Premium Products by Price
-Find premium products and display their name and price, sorted by price in descending order.
+### Active Users Interested in Books
+List usernames of users interested in books with more than 10 reviews.
 
 
 **Try This:**
 
-- Change 'premium' to another term like 'luxury' or 'classic'.
-
-- Sort the results in ascending order by replacing DESC with ASC.
+- Change the interest to 'Electronics' or adjust the total_reviews_count filter to refine the results.
 
 
 
 
-### Top Verified Reviews
-Retrieve reviews from verified purchases with a high number of helpful votes.
+### Top Brands in Clothing
+Retrieve the most expensive clothing items from top brands.
 
 
 **Try This:**
 
-- Change the helpful_votes threshold to 10 or 20.
+- Change the category to 'Sports and Outdoors' or sort in ascending order to find the cheapest items.
 
-- Experiment with sorting in ascending order instead.
+
+
+
+### Verified Purchases with High Ratings
+Find verified purchases with a rating of 4 or higher.
+
+
+**Try This:**
+
+- Adjust the rating filter to include reviews with a rating of 3 or experiment with non-verified purchases.
+
+
+
+
+### Users from Specific Location
+Retrieve usernames of users located in 'New York'.
+
+
+**Try This:**
+
+- Change the city to 'San Francisco' or filter by location_state instead.
 
 
 

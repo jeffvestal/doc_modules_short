@@ -13,22 +13,20 @@ import { searchProducts, validateQuery, executeEsqlQuery, validateEsqlQuery } fr
 import { detectFieldFromQuery, swapQueryField, detectQueryType } from '../lib/queryFieldUtils';
 import { labConfig } from '../config/labConfig';
 import type { QueryExample, SearchResponse, Document } from '../types';
+import { AVAILABLE_INDICES, type IndexName } from './QueryLab';
 
 interface ExampleSectionProps {
   example: QueryExample;
-  keyDisplayField: string;
-  selectedIndex?: string;
-  onIndexChange?: (index: string) => void;
-  availableIndices?: readonly string[];
 }
 
 export const ExampleSection: React.FC<ExampleSectionProps> = ({ 
-  example, 
-  keyDisplayField,
-  selectedIndex,
-  onIndexChange,
-  availableIndices,
+  example,
 }) => {
+  // Each example manages its own selectedIndex, starting with the example's default index
+  const [selectedIndex, setSelectedIndex] = useState<IndexName>(example.index);
+  
+  // Calculate keyDisplayField based on local selectedIndex
+  const keyDisplayField = labConfig.keyDisplayFields[selectedIndex];
   const storageKey = `query-lab-${example.id}`;
   const savedQuery = localStorage.getItem(storageKey);
   // Get initial query: use saved, or template for example's default index (if multi-index), or template string
@@ -71,8 +69,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     // Get the default template for comparison
     let defaultTemplate: string;
     if (typeof example.template === 'object') {
-      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
-      defaultTemplate = example.template[idx] || example.template[example.index];
+      defaultTemplate = example.template[selectedIndex] || example.template[example.index];
     } else {
       defaultTemplate = example.template;
     }
@@ -90,8 +87,6 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       isInitialMount.current = false;
       return; // Skip on initial mount
     }
-    
-    if (!selectedIndex) return;
 
     // Determine the effective index to use
     const effectiveIndex = selectedIndex;
@@ -263,8 +258,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
           }
         }
 
-        const indexToUse = selectedIndex || example.index;
-        const result = await searchProducts(queryObj, indexToUse);
+        const result = await searchProducts(queryObj, selectedIndex);
         setResponse(result.data);
         setQueryTime(result.took);
         setGlowSide('results');
@@ -282,8 +276,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
     // Reset to template for current index (if multi-index) or template string
     let resetTemplate: string;
     if (typeof example.template === 'object') {
-      const idx = (selectedIndex || example.index) as 'products' | 'product_reviews' | 'product_users';
-      resetTemplate = example.template[idx] || example.template[example.index];
+      resetTemplate = example.template[selectedIndex] || example.template[example.index];
     } else {
       resetTemplate = example.template;
     }
@@ -337,9 +330,13 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
               onHighlightingChange={setEnableHighlighting}
               onCopyQuery={() => navigator.clipboard.writeText(query)}
               tooltips={example.tooltips}
-              selectedIndex={selectedIndex || example.index}
-              onIndexChange={onIndexChange}
-              availableIndices={availableIndices}
+              selectedIndex={selectedIndex}
+              onIndexChange={(index: string) => {
+                if (AVAILABLE_INDICES.includes(index as IndexName)) {
+                  setSelectedIndex(index as IndexName);
+                }
+              }}
+              availableIndices={AVAILABLE_INDICES}
             />
             <EuiSpacer size="m" />
             <EuiFlexGroup gutterSize="s">
@@ -367,7 +364,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
               queryTime={queryTime}
               example={example}
               currentQuery={query}
-              effectiveIndex={selectedIndex || example.index}
+              effectiveIndex={selectedIndex}
             />
           </div>
         </EuiFlexItem>

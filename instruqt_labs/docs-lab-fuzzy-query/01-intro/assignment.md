@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the fuzzy_query query!
     
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 ---
 
 # Fuzzy Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 
 ## What You'll Learn
 
@@ -77,57 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find products with similar names
-Search for products where the name is similar to 'wirless' using fuzzy matching.
+### Find products with fuzzy match on name
+Search for products where the name is similar to 'wireles' with automatic fuzziness handling.
 
 
 **Try This:**
 
-- Try changing 'wirless' to 'wrlss' or 'wireles' to see different results.
+- Try searching with different misspellings, such as 'wirless' or 'wreless', to see how fuzzy matching works.
 
 
 
 
-### Find reviews with similar titles
-Search for reviews where the title is similar to 'comfy' using fuzzy matching and automatic fuzziness.
-
-
-**Try This:**
-
-- Try changing 'comfy' to 'cmfy' or 'comfort' to explore matching variations.
-
-
-
-
-### Find users with similar interests
-Search for users whose interests field contains terms similar to 'Books'.
+### Search product reviews with prefix fuzziness
+Find reviews with titles similar to 'comfort' while requiring the first 2 characters to match.
 
 
 **Try This:**
 
-- Change 'Books' to 'Boks' or 'Boooks' and observe the results.
+- Change the prefix_length to 0 and observe how the results adjust.
 
 
 
 
-### Find products with similar descriptions
-Search for products with descriptions containing terms similar to 'premium'.
-
-
-**Try This:**
-
-- Change 'premium' to 'premum' or 'premiun' and notice the difference in results.
-
-
-
-
-### Find reviews with similar text
-Search for reviews with text containing terms similar to 'durable'.
+### Match user interests with fixed fuzziness
+Search for users with interests similar to 'Electonic' using a fixed fuzziness of 1.
 
 
 **Try This:**
 
-- Change 'durable' to 'durabl' or 'durrable' to see matching variations.
+- Use 'Electronic' instead of 'Electonic' and compare the results.
+
+
+
+
+### Find products with fuzzy match and transpositions enabled
+Search for products with names similar to 'premiim', allowing transposition of characters.
+
+
+**Try This:**
+
+- Disable transpositions to see how results differ when transposing characters is not allowed.
+
+
+
+
+### Search reviews with constant score rewrite
+Find reviews with fuzzy matches on 'durable' using constant score blending for efficiency.
+
+
+**Try This:**
+
+- Change the rewrite method to 'scoring_boolean' and observe how results are ranked.
 
 
 

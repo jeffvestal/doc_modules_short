@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: jxjwf0mvi19t
+id: placeholder-multimatchquery
 type: challenge
 title: Multi-match Query Lab
 teaser: Learn how to use the multi_match_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Multi-match Query Lab
-
-    Welcome to the interactive lab for the multi_match_query query!
-
-    The multi_match query builds on the match query to allow multi-field queries.
 tabs:
-- id: 0wjxl0xwdsno
+- id: tab-querylab-multimatchquery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: 4xkq9cfygq6b
+- id: tab-querylabfull-multimatchquery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: m9opy8yqbrp9
+- id: tab-terminal-multimatchquery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: vdvyzoekbx6z
+- id: tab-dataset-multimatchquery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Multi-match Query Lab
+    
+    Welcome to the interactive lab for the multi_match_query query!
+    
+    The `multi_match` query builds on the [`match` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) to allow multi-field queries.
 ---
 
 # Multi-match Query Lab
@@ -46,7 +44,7 @@ Welcome to the interactive Multi-match Query lab! This lab teaches you how to us
 
 ## Overview
 
-The multi_match query builds on the match query to allow multi-field queries.
+The `multi_match` query builds on the [`match` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query) to allow multi-field queries.
 
 ## What You'll Learn
 
@@ -76,60 +74,71 @@ The multi_match query builds on the match query to allow multi-field queries.
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search multiple fields for product descriptions
-Find products that match the query 'wireless headphones' in the fields 'product_name' and 'product_description'.
-
-
-**Try This:**
-
-- Try changing the query to 'premium speakers' or add weighting to fields using the '^' operator (e.g., 'product_name^2').
-
-
-
-
-### Find product reviews mentioning durability and comfort
-Search for reviews that mention both 'durable' and 'comfortable' in 'review_title' and 'review_text' fields.
+### Search across product name and description
+Find products that match the term 'wireless headphones' in either the name or description.
 
 
 **Try This:**
 
-- Try searching for 'easy to use' or 'highly recommended' to see different results.
+- Try searching for another product-related term like 'noise cancelling' or 'smartphone'.
 
 
 
 
-### Search user interests for matches
-Find users interested in 'Electronics enthusiast' by searching the 'interests' field.
-
-
-**Try This:**
-
-- Try searching for 'Books lover' or 'Sports fan' to find users with those interests.
-
-
-
-
-### Boosted field search in product descriptions
-Search for 'premium quality' in 'product_name' and 'product_description', giving extra weight to 'product_name'.
+### Search product reviews for keywords
+Search the title and text of reviews for mentions of 'great performance'.
 
 
 **Try This:**
 
-- Experiment with different boosts (e.g., 'product_description^3') or search for 'affordable price'.
+- Try searching for phrases like 'excellent quality' or 'highly recommend'.
 
 
 
 
-### Cross-field search with tie breaker
-Search for 'comfortable durable' in 'review_title' and 'review_text', using a tie breaker for better scoring.
+### Boost specific fields in queries
+Boost the importance of the product name field over the description when searching for 'smart speaker'.
 
 
 **Try This:**
 
-- Modify the query to 'lightweight portable' or test different tie breaker values (e.g., 0.5).
+- Adjust the boost value (e.g., `^3`) to emphasize the product name even more.
+
+
+
+
+### Use the 'most_fields' type for field aggregation
+Search for terms in multiple fields and combine the scores of all matching fields.
+
+
+**Try This:**
+
+- Switch to the 'best_fields' type for the highest-scoring field or try another phrase like 'durable'.
+
+
+
+
+### Search user interests
+Search for users with interests related to 'photography'.
+
+
+**Try This:**
+
+- Try searching for interests like 'hiking' or 'gardening'.
+
+
+
+
+### Use the 'phrase_prefix' type for autocomplete
+Search for terms starting with 'wire' in product name and description.
+
+
+**Try This:**
+
+- Try changing the prefix to 'smart' or 'head' for other autocomplete suggestions.
 
 
 

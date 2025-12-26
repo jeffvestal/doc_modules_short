@@ -74,70 +74,83 @@ Returns documents that contain terms within a provided range.
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the range_query query:
+This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products in a specific price range
-Search for products with prices between $30 and $60.
+### Find products within a specific price range
+Search for products priced between $30 and $60.
 
 
 **Try This:**
 
-- Change the range to find products over $60.
+- Try changing the price range to $50-$100.
 
-- Try setting only a lower bound (gte) to see products above a certain price.
-
-
+- Experiment with using only a minimum price (e.g., gte: 20).
 
 
-### Filter reviews by rating
+
+
+### Filter reviews with high ratings
 Retrieve reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Change the range to find reviews with a lower rating.
+- Adjust the minimum rating to 3 and see how the results change.
 
-- Combine this query with a term query to filter by verified purchases.
-
-
-
-
-### Search for recent reviews
-Find reviews posted in the last 6 months.
-
-
-**Try This:**
-
-- Adjust the range to search for reviews from the last year.
-
-- Try combining this with a range filter on review_rating.
+- Try adding an upper limit (e.g., lte: 5) to find reviews within a specific range.
 
 
 
 
-### Find users by trust score
-Search for users with a trust score above 70.
+### Filter users by trust score
+Find users with a trust score between 70 and 100.
 
 
 **Try This:**
 
-- Change the range to find users with trust scores below 50.
+- Adjust the trust score range to 50-90 to see different results.
 
-- Combine this with a match query on interests to refine results.
-
-
+- Try removing the upper limit (lte) to find users with trust scores above a certain value.
 
 
-### Filter products by price and boost relevance
-Search for products with prices between $20 and $80, boosting relevance for mid-range prices.
+
+
+### Retrieve recent reviews
+Search for reviews posted within the last 30 days.
 
 
 **Try This:**
 
-- Adjust the boost value to prioritize mid-range products even more.
+- Change the range to the last 7 days (e.g., now-7d/d).
 
-- Change the price range to focus on luxury products.
+- Try using only a lower bound (gte) to include reviews from a specific date onward.
+
+
+
+
+### Find products with premium prices
+Retrieve products priced over $100.
+
+
+**Try This:**
+
+- Modify the query to include products priced between $50 and $150.
+
+- Remove the upper limit to find all products above a specific price.
+
+
+
+
+### Find highly rated reviews with helpful votes
+Search for reviews with a rating of 5 and more than 20 helpful votes.
+
+
+**Try This:**
+
+- Change the helpful votes range to 15-30.
+
+- Try using a rating range of 4 to 5 instead of a fixed value.
 
 
 
