@@ -246,7 +246,12 @@ class ESValidator:
                         )
                         
                         if success:
-                            total_hits += row_count
+                            if row_count == 0:
+                                # 0 rows is a validation failure even if query succeeded
+                                all_valid = False
+                                errors.append(f"{idx}: Query returned 0 rows")
+                            else:
+                                total_hits += row_count
                             if fixed_query:
                                 fixed_templates[idx] = fixed_query
                         else:

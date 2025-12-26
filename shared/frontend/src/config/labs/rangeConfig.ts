@@ -30,16 +30,25 @@ export const rangeConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find products within a specific price range",
-      description: "This query retrieves all products with a price between $20 and $50.",
-      template: `{"query": {"range": {"product_price": {"gte": 20, "lte": 50}}}}`,
+      title: "Find products within a price range",
+      description: "Search for products priced between $30 and $70.",
+      template: `{
+  "query": {
+    "range": {
+      "product_price": {
+        "gte": 30,
+        "lte": 70
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the price range to 10-30 to find cheaper products.",
+        "Change the price range to $20 - $50.",
 
-        "Try using only `gte` to find products with a price greater than or equal to 30.",
+        "Try using only \u0027gte\u0027 or \u0027lte\u0027 to set a minimum or maximum.",
 
       ],
 
@@ -58,27 +67,33 @@ export const rangeConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Retrieve highly-rated reviews",
-      description: "Fetch reviews where the rating is between 4 and 5 stars.",
-      template: `{"query": {"range": {"review_rating": {"gte": 4, "lte": 5}}}}`,
+      title: "Retrieve highly rated reviews",
+      description: "Get reviews with a rating of 4 or higher.",
+      template: `{
+  "query": {
+    "range": {
+      "review_rating": {
+        "gte": 4
+      }
+    }
+  }
+}`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Change the range to 3-5 to include moderately rated reviews.",
+        "Adjust the minimum rating to 3.",
 
-        "Remove `lte` to only retrieve reviews rated 4 or higher.",
+        "Add an upper limit by using \u0027lte\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "The star rating given to a product, ranging from 1 to 5.",
+        "review_rating": "The rating given in the review (1-5).",
 
         "gte": "Greater than or equal to the specified value.",
-
-        "lte": "Less than or equal to the specified value.",
 
       },
 
@@ -86,27 +101,38 @@ export const rangeConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Filter users by trust score",
-      description: "Retrieve user profiles with a trust score between 80 and 100.",
-      template: `{"query": {"range": {"trust_score": {"gte": 80, "lte": 100}}}}`,
-      index: 'product_users',
+      title: "Search for recent reviews",
+      description: "Find reviews posted in the last 30 days.",
+      template: `{
+  "query": {
+    "range": {
+      "review_date": {
+        "gte": "now-30d/d",
+        "lte": "now/d"
+      }
+    }
+  }
+}`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Adjust the range to 70-90 to include users with a lower trust score.",
+        "Change the time range to the last 7 days.",
 
-        "Remove `gte` to find users with a trust score below 100.",
+        "Adjust the query to only include reviews before today.",
 
       ],
 
 
       tooltips: {
 
-        "trust_score": "A score indicating the trustworthiness of a user.",
+        "review_date": "The date the review was posted.",
 
         "gte": "Greater than or equal to the specified value.",
 
         "lte": "Less than or equal to the specified value.",
+
+        "now-30d/d": "A relative date range indicating 30 days ago.",
 
       },
 
@@ -114,29 +140,33 @@ export const rangeConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Find recent reviews",
-      description: "Retrieve reviews posted within the last 30 days.",
-      template: `{"query": {"range": {"review_date": {"gte": "now-30d/d", "lte": "now/d"}}}}`,
-      index: 'product_reviews',
+      title: "Filter users by membership date",
+      description: "Find users who joined after January 1, 2020.",
+      template: `{
+  "query": {
+    "range": {
+      "member_since": {
+        "gte": "2020-01-01"
+      }
+    }
+  }
+}`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Change the range to `now-7d/d` to find reviews from the last week.",
+        "Change the date to \u00272019-01-01\u0027 to look further back.",
 
-        "Remove `lte` to include all reviews from the past 30 days onward.",
+        "Add an upper limit to find users who joined within a specific timeframe.",
 
       ],
 
 
       tooltips: {
 
-        "review_date": "The date when the review was posted.",
+        "member_since": "The date the user joined.",
 
         "gte": "Greater than or equal to the specified value.",
-
-        "lte": "Less than or equal to the specified value.",
-
-        "now": "Represents the current date and time.",
 
       },
 
@@ -144,16 +174,24 @@ export const rangeConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Filter products by mid-range prices",
-      description: "Find products priced between $30 and $70.",
-      template: `{"query": {"range": {"product_price": {"gte": 30, "lte": 70}}}}`,
+      title: "Find products in premium price range",
+      description: "Search for products priced above $100.",
+      template: `{
+  "query": {
+    "range": {
+      "product_price": {
+        "gte": 100
+      }
+    }
+  }
+}`,
       index: 'products',
 
       tryThis: [
 
-        "Change the range to 50-100 to find higher-priced products.",
+        "Lower the price threshold to $80.",
 
-        "Use only `lte` to find products cheaper than $70.",
+        "Include an upper limit to restrict the range.",
 
       ],
 
@@ -164,33 +202,38 @@ export const rangeConfig: LabConfig = {
 
         "gte": "Greater than or equal to the specified value.",
 
-        "lte": "Less than or equal to the specified value.",
-
       },
 
     },
 
     {
       id: '6',
-      title: "Retrieve products within a specific brand and price range",
-      description: "Fetch products from the brand \u0027GlowNaturals\u0027 priced between $20 and $60.",
-      template: `{"query": {"bool": {"must": [{"term": {"product_brand": "GlowNaturals"}}, {"range": {"product_price": {"gte": 20, "lte": 60}}}]}}}`,
-      index: 'products',
+      title: "Filter by user\u0027s trust score",
+      description: "Find users with a trust score between 50 and 80.",
+      template: `{
+  "query": {
+    "range": {
+      "trust_score": {
+        "gte": 50,
+        "lte": 80
+      }
+    }
+  }
+}`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Change the brand to \u0027AudioMax\u0027 to find products from another brand.",
+        "Expand the range to include trust scores above 80.",
 
-        "Adjust the price range to $50-$100 to find more expensive items.",
+        "Remove \u0027lte\u0027 to only filter by the minimum trust score.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "The brand name of the product.",
-
-        "product_price": "The price of the product in USD.",
+        "trust_score": "A score representing the user\u0027s reliability.",
 
         "gte": "Greater than or equal to the specified value.",
 

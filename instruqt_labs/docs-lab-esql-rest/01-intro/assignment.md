@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
+The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 
 ## What You'll Learn
 
@@ -77,68 +77,80 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter Products by Category
-Find all products in the 'Electronics' category and display their names, brands, and prices.
+### Filter products by description
+Find products with 'wireless' in their description and limit the results to 10.
 
 
 **Try This:**
 
-- Change 'Electronics' to another category like 'Books' or 'Clothing' to see different results.
+- Change the keyword from 'wireless' to another term like 'portable'.
+
+- Try increasing the LIMIT to 20 to view more results.
 
 
 
 
-### Sort Products by Price
-Retrieve product names and prices, sorted by price in descending order.
-
-
-**Try This:**
-
-- Change 'DESC' to 'ASC' to sort prices in ascending order.
-
-
-
-
-### Search Reviews by Keywords
-Find reviews that mention 'durable' or 'comfortable', displaying their titles and ratings.
+### Sort products by price
+Retrieve premium products and display their name and price, sorted by price in descending order.
 
 
 **Try This:**
 
-- Try searching for other keywords like 'stylish' or 'functional'.
+- Modify the SORT direction to ascending (ASC) to see the cheapest premium products first.
+
+- Add a LIMIT clause to display only the top 5 results.
 
 
 
 
-### Filter Verified Purchases
-Retrieve verified purchase reviews with a rating of 5, sorted by helpful votes.
-
-
-**Try This:**
-
-- Change 'review_rating == 5' to another rating (e.g., 4) to find reviews with different ratings.
-
-
-
-
-### Find Users by Interest
-Retrieve usernames and interests of users who are interested in 'Books' or 'Electronics'.
+### Find highly rated reviews
+Search for product reviews that mention 'durable' or 'comfortable' and display the title and rating, sorted by rating in descending order.
 
 
 **Try This:**
 
-- Add another interest to the WHERE clause, like 'Sports', to see additional results.
+- Replace 'durable' with another term such as 'sturdy'.
+
+- Add a LIMIT clause to return only the top 5 results.
 
 
 
 
-### Top Reviewers by Trust Score
-List the top 5 users with the highest trust scores.
+### Find users interested in Electronics
+Retrieve users whose interests include 'Electronics' and limit the results to 10.
 
 
 **Try This:**
 
-- Change the limit to 10 or sort in ascending order to see different results.
+- Change the keyword from 'Electronics' to another interest, such as 'Books'.
+
+- Remove the LIMIT clause to return all matching users.
+
+
+
+
+### Analyze verified purchases
+Retrieve only verified purchases from reviews and sort them by the number of helpful votes in descending order.
+
+
+**Try This:**
+
+- Change the SORT direction to ascending (ASC) to see the least helpful reviews first.
+
+- Add a LIMIT clause to display only the top 5 results.
+
+
+
+
+### Find users by account type
+Retrieve usernames of users with a 'Premium' account and display only their username.
+
+
+**Try This:**
+
+- Change 'Premium' to 'Free' or 'Enterprise' to see other account types.
+
+- Add a LIMIT clause to only return a specific number of results.
 
 
 

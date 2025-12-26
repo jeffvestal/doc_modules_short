@@ -77,80 +77,68 @@ Returns documents that contain an **exact** term in a provided field. You can us
 This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find products in the 'Electronics' category
-This query retrieves all products from the 'Electronics' category.
+### Find products in a specific category
+Search for products in the 'Electronics' category.
 
 
 **Try This:**
 
-- Change the category to 'Home and Kitchen' or 'Books' and observe the results.
-
-- Try searching for a category that doesn't exist in the data.
+- Change the `value` to another category such as 'Books' or 'Clothing'.
 
 
 
 
-### Find 5-star reviews
-This query retrieves all reviews that have a rating of 5 stars.
+### Find reviews with a specific rating
+Search for reviews with a rating of 5.
 
 
 **Try This:**
 
-- Change the rating to 4 or 3 to find reviews with lower ratings.
-
-- Try using a rating value not present in the dataset and observe the results.
+- Try changing the `value` to 4 or 1 to see reviews with different ratings.
 
 
 
 
-### Find users with a 'Premium' account type
-This query retrieves all users who have a 'Premium' account type.
+### Find users with a specific account type
+Search for users with a 'Premium' account.
 
 
 **Try This:**
 
-- Change the account type to 'Free' or 'Enterprise' to find different types of users.
-
-- Try using a lowercase value like 'premium' and observe how the case sensitivity affects the results.
+- Change the `value` to 'Free' or 'Enterprise' to find users with different account types.
 
 
 
 
-### Find products from the 'AudioMax' brand
-This query retrieves all products that are manufactured by the 'AudioMax' brand.
+### Find products by brand
+Search for products from the brand 'AudioMax'.
 
 
 **Try This:**
 
-- Change the brand to 'GlowNaturals' or 'PlaySmart' to find products from other manufacturers.
-
-- Use a brand name that doesn't exist in the dataset and observe the results.
+- Try using 'GlowNaturals' or 'WorkEase' as the brand value.
 
 
 
 
-### Find reviews marked as verified purchase
-This query retrieves all reviews that are marked as a verified purchase.
+### Find verified reviews
+Search for reviews that are marked as verified purchases.
 
 
 **Try This:**
 
-- Change the value to 'False' to find reviews that are not verified purchases.
-
-- Try using lowercase 'true' or 'false' and observe the case sensitivity of the query.
+- Change the `value` to 'False' to find non-verified reviews.
 
 
 
 
-### Find products priced at $89.99
-This query retrieves all products that have a price of $89.99.
+### Find users by username
+Search for a user with the username 'AveryWilliams55'.
 
 
 **Try This:**
 
-- Change the price to $49.99 or $129.99 to find products with other prices.
-
-- Use a price that doesn't exist in the dataset (e.g., $199.99) and observe the results.
+- Change the `value` to another username like 'CameronLopez20' or 'JordanMartinez33'.
 
 
 

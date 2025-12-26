@@ -13,9 +13,9 @@ export const termConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: ["product_name", "product_description"],
-    product_reviews: ["review_title", "review_text"],
-    product_users: ["interests"],
+    products: "product_name",
+    product_reviews: "review_text",
+    product_users: "interests",
   },
   sampleQueries: {
     products: "wireless",
@@ -29,14 +29,15 @@ export const termConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
-      title: "Find products in the \u0027Electronics\u0027 category",
-      description: "This query retrieves all products from the \u0027Electronics\u0027 category.",
+      id: '1',
+      title: "Find products in a specific category",
+      description: "Search for products in the \u0027Electronics\u0027 category.",
       template: `{
   "query": {
     "term": {
       "product_category": {
-        "value": "Electronics"
+        "value": "Electronics",
+        "boost": 1.0
       }
     }
   }
@@ -45,32 +46,33 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the category to \u0027Home and Kitchen\u0027 or \u0027Books\u0027 and observe the results.",
-
-        "Try searching for a category that doesn\u0027t exist in the data.",
+        "Change the `value` to another category such as \u0027Books\u0027 or \u0027Clothing\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "This field contains predefined categories of products. Use the exact values listed in the dataset (e.g., \u0027Electronics\u0027).",
+        "product_category": "This field represents the product\u0027s category. It is a keyword field, so the value must match exactly.",
 
-        "value": "The exact term you want to match. The match is case-sensitive and must be an exact match.",
+        "value": "The exact term to match in the specified field.",
+
+        "boost": "Optional. Boosts the relevance score of the query. Default is 1.0.",
 
       },
 
     },
 
     {
-      id: 'example_2',
-      title: "Find 5-star reviews",
-      description: "This query retrieves all reviews that have a rating of 5 stars.",
+      id: '2',
+      title: "Find reviews with a specific rating",
+      description: "Search for reviews with a rating of 5.",
       template: `{
   "query": {
     "term": {
       "review_rating": {
-        "value": 5
+        "value": 5,
+        "boost": 1.5
       }
     }
   }
@@ -79,32 +81,33 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the rating to 4 or 3 to find reviews with lower ratings.",
-
-        "Try using a rating value not present in the dataset and observe the results.",
+        "Try changing the `value` to 4 or 1 to see reviews with different ratings.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "This field contains the numerical rating given in a review, ranging from 1 to 5.",
+        "review_rating": "This field represents the rating given in a review. Use a numeric value between 1 and 5.",
 
-        "value": "The exact rating value to match. Ensure that the value exists in the dataset.",
+        "value": "The exact rating value to match.",
+
+        "boost": "Optional. Increases the relevance of documents with this rating. Higher values make these results rank higher.",
 
       },
 
     },
 
     {
-      id: 'example_3',
-      title: "Find users with a \u0027Premium\u0027 account type",
-      description: "This query retrieves all users who have a \u0027Premium\u0027 account type.",
+      id: '3',
+      title: "Find users with a specific account type",
+      description: "Search for users with a \u0027Premium\u0027 account.",
       template: `{
   "query": {
     "term": {
       "account_type": {
-        "value": "Premium"
+        "value": "Premium",
+        "boost": 1.0
       }
     }
   }
@@ -113,32 +116,33 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the account type to \u0027Free\u0027 or \u0027Enterprise\u0027 to find different types of users.",
-
-        "Try using a lowercase value like \u0027premium\u0027 and observe how the case sensitivity affects the results.",
+        "Change the `value` to \u0027Free\u0027 or \u0027Enterprise\u0027 to find users with different account types.",
 
       ],
 
 
       tooltips: {
 
-        "account_type": "This field defines the account type of the user. Valid values are \u0027Free\u0027, \u0027Premium\u0027, and \u0027Enterprise\u0027.",
+        "account_type": "This field represents the user\u0027s account type. Use exact values like \u0027Free\u0027, \u0027Premium\u0027, or \u0027Enterprise\u0027.",
 
-        "value": "The exact term you want to match. Note that this is case-sensitive.",
+        "value": "The exact term to match for the account type.",
+
+        "boost": "Optional. Adjust the relevance score for matches. Default is 1.0.",
 
       },
 
     },
 
     {
-      id: 'example_4',
-      title: "Find products from the \u0027AudioMax\u0027 brand",
-      description: "This query retrieves all products that are manufactured by the \u0027AudioMax\u0027 brand.",
+      id: '4',
+      title: "Find products by brand",
+      description: "Search for products from the brand \u0027AudioMax\u0027.",
       template: `{
   "query": {
     "term": {
       "product_brand": {
-        "value": "AudioMax"
+        "value": "AudioMax",
+        "boost": 1.0
       }
     }
   }
@@ -147,32 +151,33 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the brand to \u0027GlowNaturals\u0027 or \u0027PlaySmart\u0027 to find products from other manufacturers.",
-
-        "Use a brand name that doesn\u0027t exist in the dataset and observe the results.",
+        "Try using \u0027GlowNaturals\u0027 or \u0027WorkEase\u0027 as the brand value.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "This field contains the name of the product\u0027s brand. Use the exact values listed in the dataset (e.g., \u0027AudioMax\u0027).",
+        "product_brand": "This field represents the brand of the product. Use exact brand names like \u0027AudioMax\u0027 or \u0027GlowNaturals\u0027.",
 
-        "value": "The exact term you want to match. The match is case-sensitive and must be an exact match.",
+        "value": "The exact term to match for the product\u0027s brand.",
+
+        "boost": "Optional. Adjust the relevance score for matches. Default is 1.0.",
 
       },
 
     },
 
     {
-      id: 'example_5',
-      title: "Find reviews marked as verified purchase",
-      description: "This query retrieves all reviews that are marked as a verified purchase.",
+      id: '5',
+      title: "Find verified reviews",
+      description: "Search for reviews that are marked as verified purchases.",
       template: `{
   "query": {
     "term": {
       "verified_purchase": {
-        "value": "True"
+        "value": "True",
+        "boost": 1.0
       }
     }
   }
@@ -181,52 +186,53 @@ export const termConfig: LabConfig = {
 
       tryThis: [
 
-        "Change the value to \u0027False\u0027 to find reviews that are not verified purchases.",
-
-        "Try using lowercase \u0027true\u0027 or \u0027false\u0027 and observe the case sensitivity of the query.",
+        "Change the `value` to \u0027False\u0027 to find non-verified reviews.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "This field indicates whether the purchase was verified. Valid values are \u0027True\u0027 and \u0027False\u0027 (case-sensitive).",
+        "verified_purchase": "This field indicates whether the review is from a verified purchase. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
 
-        "value": "The exact term you want to match. Note that this is case-sensitive.",
+        "value": "The exact term to match for verified purchase status.",
+
+        "boost": "Optional. Adjust the relevance score for matches. Default is 1.0.",
 
       },
 
     },
 
     {
-      id: 'example_6',
-      title: "Find products priced at $89.99",
-      description: "This query retrieves all products that have a price of $89.99.",
+      id: '6',
+      title: "Find users by username",
+      description: "Search for a user with the username \u0027AveryWilliams55\u0027.",
       template: `{
   "query": {
     "term": {
-      "product_price": {
-        "value": 89.99
+      "username": {
+        "value": "AveryWilliams55",
+        "boost": 1.0
       }
     }
   }
 }`,
-      index: 'products',
+      index: 'product_users',
 
       tryThis: [
 
-        "Change the price to $49.99 or $129.99 to find products with other prices.",
-
-        "Use a price that doesn\u0027t exist in the dataset (e.g., $199.99) and observe the results.",
+        "Change the `value` to another username like \u0027CameronLopez20\u0027 or \u0027JordanMartinez33\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "This field represents the price of the product. Use exact numerical values as listed in the dataset.",
+        "username": "This field represents the unique username of a user. Use exact usernames for matching.",
 
-        "value": "The exact price value you want to match. Ensure it matches the dataset format (e.g., 89.99).",
+        "value": "The exact term to match for the username.",
+
+        "boost": "Optional. Adjust the relevance score for matches. Default is 1.0.",
 
       },
 

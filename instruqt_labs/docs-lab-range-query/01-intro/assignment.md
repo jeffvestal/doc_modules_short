@@ -77,80 +77,80 @@ Returns documents that contain terms within a provided range.
 This lab includes 6 examples demonstrating different aspects of the range_query query:
 
 
-### Find products within a specific price range
-This query retrieves all products with a price between $20 and $50.
+### Find products within a price range
+Search for products priced between $30 and $70.
 
 
 **Try This:**
 
-- Change the price range to 10-30 to find cheaper products.
+- Change the price range to $20 - $50.
 
-- Try using only `gte` to find products with a price greater than or equal to 30.
-
-
-
-
-### Retrieve highly-rated reviews
-Fetch reviews where the rating is between 4 and 5 stars.
-
-
-**Try This:**
-
-- Change the range to 3-5 to include moderately rated reviews.
-
-- Remove `lte` to only retrieve reviews rated 4 or higher.
+- Try using only 'gte' or 'lte' to set a minimum or maximum.
 
 
 
 
-### Filter users by trust score
-Retrieve user profiles with a trust score between 80 and 100.
+### Retrieve highly rated reviews
+Get reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Adjust the range to 70-90 to include users with a lower trust score.
+- Adjust the minimum rating to 3.
 
-- Remove `gte` to find users with a trust score below 100.
-
-
-
-
-### Find recent reviews
-Retrieve reviews posted within the last 30 days.
-
-
-**Try This:**
-
-- Change the range to `now-7d/d` to find reviews from the last week.
-
-- Remove `lte` to include all reviews from the past 30 days onward.
+- Add an upper limit by using 'lte'.
 
 
 
 
-### Filter products by mid-range prices
-Find products priced between $30 and $70.
+### Search for recent reviews
+Find reviews posted in the last 30 days.
 
 
 **Try This:**
 
-- Change the range to 50-100 to find higher-priced products.
+- Change the time range to the last 7 days.
 
-- Use only `lte` to find products cheaper than $70.
-
-
+- Adjust the query to only include reviews before today.
 
 
-### Retrieve products within a specific brand and price range
-Fetch products from the brand 'GlowNaturals' priced between $20 and $60.
+
+
+### Filter users by membership date
+Find users who joined after January 1, 2020.
 
 
 **Try This:**
 
-- Change the brand to 'AudioMax' to find products from another brand.
+- Change the date to '2019-01-01' to look further back.
 
-- Adjust the price range to $50-$100 to find more expensive items.
+- Add an upper limit to find users who joined within a specific timeframe.
+
+
+
+
+### Find products in premium price range
+Search for products priced above $100.
+
+
+**Try This:**
+
+- Lower the price threshold to $80.
+
+- Include an upper limit to restrict the range.
+
+
+
+
+### Filter by user's trust score
+Find users with a trust score between 50 and 80.
+
+
+**Try This:**
+
+- Expand the range to include trust scores above 80.
+
+- Remove 'lte' to only filter by the minimum trust score.
 
 
 

@@ -387,13 +387,10 @@ def main():
     # Set summary
     report.set_summary(len(urls), elapsed_time)
     
-    # Print report
-    report.print_report()
-    
-    # Save JSON report
+    # Save JSON report (before deployment so we have a record even if deployment fails)
+    report_path = None
     if not args.dry_run:
         report_path = report.save_json()
-        print(f"\nFull report saved to: {report_path}", flush=True)
     
     # Batch operations (if not dry-run)
     if not args.dry_run and results:
@@ -413,6 +410,9 @@ def main():
             response = input("Deploy to GitHub and Instruqt? (Y/n): ").strip().lower()
             if response and response != 'y':
                 print("[Review] Deployment cancelled.", flush=True)
+                report.print_report()
+                if report_path:
+                    print(f"\nFull report saved to: {report_path}", flush=True)
                 sys.exit(0)
         
         if slugs_to_push:
@@ -550,8 +550,16 @@ def main():
                     summary_parts.append(f"{failed_count} failed")
                 
                 if summary_parts:
-                    summary_text = "Summary: " + ", ".join(summary_parts)
+                    summary_text = "Deployment: " + ", ".join(summary_parts)
                     console.print(f"[bold]{summary_text}[/bold]")
+                console.print()
+    
+    # Print final consolidated report
+    report.print_report()
+    
+    # Show report path
+    if report_path:
+        print(f"\nFull report saved to: {report_path}", flush=True)
     
     # Clear state on success
     if all(r.get('status') in ('success', 'skipped') for r in results):

@@ -74,60 +74,83 @@ Returns documents that contain terms similar to the search term, as measured by 
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
+This lab includes 6 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Search for similar product names
-Find products with names similar to 'wireles' using automatic fuzziness.
-
-
-**Try This:**
-
-- Try using other misspelled product names like 'Bluetoth' or 'Premum'.
-
-
-
-
-### Find reviews with similar titles
-Search for review titles similar to 'comfotable' with a fuzziness of 2.
+### Find similar product names
+Search for products where the name is similar to 'wireless'.
 
 
 **Try This:**
 
-- Try changing 'comfotable' to 'durabl' or 'qualty'.
+- Change the search term to 'premium' or 'audio' to explore other matches.
+
+- Set 'fuzziness' to 'AUTO' for automatic adjustments.
 
 
 
 
-### Search user interests with prefix match
-Find user interests similar to 'Electornics' with a prefix length of 1.
-
-
-**Try This:**
-
-- Try using interests like 'Books' or 'SportsOutdoors' with misspellings.
-
-
-
-
-### Search product descriptions with transpositions enabled
-Find products with descriptions similar to 'wirless' using transpositions.
+### Search for reviews with similar titles
+Find reviews with titles similar to 'comfortable'.
 
 
 **Try This:**
 
-- Try using other misspelled descriptions like 'premum audio' or 'beauty producs'.
+- Try searching for 'durable' or 'reliable' to see other similar matches.
+
+- Adjust 'fuzziness' to 2 for stricter matching.
 
 
 
 
-### Search user interests with constant score rewrite
-Find users with interests similar to 'Books' using constant score rewrite.
+### Search usernames with prefix matching
+Find users with usernames similar to 'Dakota' but require a prefix match of at least 2 characters.
 
 
 **Try This:**
 
-- Try using 'Electronics' or 'Toys' as search terms.
+- Change the search term to 'Jordan' or 'Avery' for other matches.
+
+- Increase 'prefix_length' to ensure stricter matches.
+
+
+
+
+### Search product descriptions for similar terms
+Find products with descriptions similar to 'kitchen'.
+
+
+**Try This:**
+
+- Try searching for 'home' or 'cook' for other relevant results.
+
+- Adjust 'fuzziness' to 2 for broader matches.
+
+
+
+
+### Find reviews with transposed characters
+Search for reviews containing terms similar to 'reliable' but allow transpositions.
+
+
+**Try This:**
+
+- Change the term to 'comfortable' or 'durable' to explore other matches.
+
+- Set 'transpositions' to false to disable adjacent character swaps.
+
+
+
+
+### Search user interests with limited expansions
+Find users with interests similar to 'Books' but limit the number of expansions.
+
+
+**Try This:**
+
+- Change the search term to 'Electronics' or 'Sports' to explore other interests.
+
+- Increase 'max_expansions' for broader results.
 
 
 
