@@ -7,6 +7,7 @@ from typing import Dict, List, Any, Optional
 from dotenv import load_dotenv
 from openai import OpenAI
 from cache_manager import CacheManager
+from mcp_client import get_mcp_client, MCPClient
 
 
 # Load .env from project root (parent of scripts directory)
@@ -15,7 +16,7 @@ load_dotenv(project_root / ".env")
 
 
 class ExampleGenerator:
-    """Generates lab examples using OpenAI."""
+    """Generates lab examples using OpenAI and MCP (for ES|QL)."""
     
     def __init__(self, cache_manager: Optional[CacheManager] = None):
         """Initialize example generator.
@@ -37,6 +38,13 @@ class ExampleGenerator:
             api_key=api_key
         )
         self.model = model
+        
+        # Initialize MCP client for ES|QL (optional - falls back to OpenAI if not configured)
+        self.mcp_client = get_mcp_client()
+        if self.mcp_client:
+            print("[MCP] Agent Builder MCP client initialized for ES|QL generation")
+        else:
+            print("[MCP] No MCP configuration found - using OpenAI for ES|QL generation")
     
     def _load_existing_config_example(self) -> str:
         """Load an existing lab config as a few-shot example.
@@ -559,6 +567,9 @@ Return ONLY the fixed ES|QL query string (no quotes around it, no explanations).
     ) -> Dict[str, str]:
         """Generate ES|QL query variations for all three indices.
         
+        Uses MCP Agent Builder when available for better query generation.
+        Falls back to OpenAI if MCP is not configured.
+        
         Args:
             original_template: The original ES|QL query template
             example: The example dict (for context like title, description)
@@ -573,15 +584,46 @@ Return ONLY the fixed ES|QL query string (no quotes around it, no explanations).
         # Get the original index from the example
         original_index = example.get('index', 'products')
         
-        # Start with the original template for its index
-        multi_template[original_index] = original_template
+        # Build description for MCP
+        description = f"{example.get('title', '')}: {example.get('description', '')}"
         
-        # Generate variations for the other two indices
+        # Generate query for each index using MCP or OpenAI
         for target_index in indices:
-            if target_index == original_index:
-                continue
+            if target_index == original_index and original_template:
+                # Use MCP to regenerate even the original for better quality
+                if self.mcp_client:
+                    try:
+                        esql = self.mcp_client.generate_esql(
+                            query=description,
+                            index=target_index,
+                            context=f"Generate an ES|QL query that demonstrates: {example.get('title', 'basic query')}"
+                        )
+                        multi_template[target_index] = esql
+                        print(f"[MCP] Generated ES|QL for {target_index}")
+                        continue
+                    except Exception as e:
+                        print(f"[MCP] Failed for {target_index}, using original: {e}")
+                        multi_template[target_index] = original_template
+                        continue
+                else:
+                    multi_template[target_index] = original_template
+                    continue
             
-            # Use LLM to generate equivalent query for this index
+            # Use MCP for better query generation
+            if self.mcp_client:
+                try:
+                    esql = self.mcp_client.generate_esql(
+                        query=description,
+                        index=target_index,
+                        context=f"Generate an ES|QL query for {target_index} similar to: {original_template}"
+                    )
+                    multi_template[target_index] = esql
+                    print(f"[MCP] Generated ES|QL for {target_index}")
+                    continue
+                except Exception as e:
+                    print(f"[MCP] Failed for {target_index}, falling back to OpenAI: {e}")
+            
+            # Fall back to OpenAI
             schema_info = dataset_schemas.get(target_index, {})
             
             system_prompt = """You are an expert at creating equivalent ES|QL queries for different Elasticsearch indices.

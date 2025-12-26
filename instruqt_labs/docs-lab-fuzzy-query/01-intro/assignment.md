@@ -77,57 +77,57 @@ Returns documents that contain terms similar to the search term, as measured by 
 This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Search for similar product names
-Find products where the name is similar to the term 'wireles' using AUTO fuzziness.
+### Find similar product names
+Search for products where the name is similar to 'wireles' using automatic fuzziness.
 
 
 **Try This:**
 
-- Try changing 'wireles' to a term like 'wirless' or 'wirles' to see how variations affect the results.
+- Try changing 'wireles' to 'wirless' or 'wireless' to see how fuzziness impacts results.
 
 
 
 
-### Search for similar review text
-Find reviews where the text is similar to the term 'comfortabl' with fuzziness of 2 and a prefix length of 1.
-
-
-**Try This:**
-
-- Modify 'comfortabl' to terms like 'comfrtable' or 'cmfortabl' and observe changes in results.
-
-
-
-
-### Search for similar usernames
-Find user accounts where the username is similar to 'AveryWillims' using AUTO fuzziness and transpositions enabled.
+### Match product descriptions with limited fuzziness
+Search for products with descriptions similar to 'premum' allowing up to 1 edit distance.
 
 
 **Try This:**
 
-- Change 'AveryWillims' to variations like 'AveryWilams' or 'AveryWilims' and note the results.
+- Experiment with 'premum' and 'premium' to see if results differ when fuzziness is set to 1.
 
 
 
 
-### Search for similar product descriptions
-Find products where the description is similar to 'premum' with AUTO fuzziness and constant score rewrite.
-
-
-**Try This:**
-
-- Try changing 'premum' to 'premium' or 'prmium' and see how the similarity affects the matches.
-
-
-
-
-### Search for similar interests
-Find users with interests similar to 'Electonics' using fuzziness of 1.
+### Find similar review texts
+Search for reviews with text similar to 'durabl' allowing up to 2 edit distances.
 
 
 **Try This:**
 
-- Replace 'Electonics' with 'Electroncs' or 'Electrnics' to test different edit distances.
+- Try changing 'durabl' to 'durable' or 'durablity' and compare the results.
+
+
+
+
+### Prefix matching for user interests
+Search for users with interests similar to 'electroncs' requiring a prefix length of 2.
+
+
+**Try This:**
+
+- Test with 'electroncs' and see the effect of different prefix lengths like 0 or 3.
+
+
+
+
+### Find verified reviews with fuzzy matching
+Search for verified reviews with titles similar to 'comfrtable' allowing automatic fuzziness.
+
+
+**Try This:**
+
+- Modify 'comfrtable' to 'comfortable' or 'comfrtble' and observe the results.
 
 
 

@@ -74,768 +74,83 @@ Returns documents that contain an **exact** term in a provided field. You can us
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the term_query query:
+This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find products in Electronics category
-Search for products that belong to the 'Electronics' category.
+### Find products in a specific category
+Search for all products in the 'Electronics' category.
 
 
 **Try This:**
 
-- T
+- Change the category to 'Books' or 'Toys' to see results for those categories.
 
-- r
+- Try searching for 'Home and Kitchen' to explore products in that category.
 
-- y
 
--  
 
-- c
 
-- h
-
-- a
-
-- n
-
-- g
-
-- i
-
-- n
-
-- g
-
--  
-
-- `
-
-- E
-
-- l
-
-- e
-
-- c
-
-- t
-
-- r
-
-- o
-
-- n
-
-- i
-
-- c
-
-- s
-
-- `
-
--  
-
-- t
-
-- o
-
--  
-
-- a
-
-- n
-
-- o
-
-- t
-
-- h
-
-- e
-
-- r
-
--  
-
-- c
-
-- a
-
-- t
-
-- e
-
-- g
-
-- o
-
-- r
-
-- y
-
--  
-
-- l
-
-- i
-
-- k
-
-- e
-
--  
-
-- `
-
-- B
-
-- o
-
-- o
-
-- k
-
-- s
-
-- `
-
--  
-
-- o
-
-- r
-
--  
-
-- `
-
-- C
-
-- l
-
-- o
-
-- t
-
-- h
-
-- i
-
-- n
-
-- g
-
-- `
-
-- .
-
-
-
-
-### Find products by brand
-Search for products from the 'GlowNaturals' brand.
+### Search for products from a specific brand
+Retrieve all products made by the brand 'GlowNaturals'.
 
 
 **Try This:**
 
-- T
+- Change the brand to 'AudioMax' or 'PlaySmart' to see their products.
 
-- r
+- Try searching for another brand from the keyword list.
 
-- y
 
--  
 
-- c
 
-- h
-
-- a
-
-- n
-
-- g
-
-- i
-
-- n
-
-- g
-
--  
-
-- `
-
-- G
-
-- l
-
-- o
-
-- w
-
-- N
-
-- a
-
-- t
-
-- u
-
-- r
-
-- a
-
-- l
-
-- s
-
-- `
-
--  
-
-- t
-
-- o
-
--  
-
-- a
-
-- n
-
-- o
-
-- t
-
-- h
-
-- e
-
-- r
-
--  
-
-- b
-
-- r
-
-- a
-
-- n
-
-- d
-
--  
-
-- l
-
-- i
-
-- k
-
-- e
-
--  
-
-- `
-
-- A
-
-- u
-
-- d
-
-- i
-
-- o
-
-- M
-
-- a
-
-- x
-
-- `
-
--  
-
-- o
-
-- r
-
--  
-
-- `
-
-- P
-
-- l
-
-- a
-
-- y
-
-- P
-
-- a
-
-- l
-
-- s
-
-- `
-
-- .
-
-
-
-
-### Search for verified purchase reviews
-Find reviews where the purchase was verified.
+### Find reviews with a specific rating
+Retrieve all reviews with a 5-star rating.
 
 
 **Try This:**
 
-- T
+- Change the rating to 3 or 4 to explore reviews with different ratings.
 
-- r
+- Try searching for the lowest rating (1) to find critical reviews.
 
-- y
 
--  
 
-- c
 
-- h
-
-- a
-
-- n
-
-- g
-
-- i
-
-- n
-
-- g
-
--  
-
-- `
-
-- T
-
-- r
-
-- u
-
-- e
-
-- `
-
--  
-
-- t
-
-- o
-
--  
-
-- `
-
-- F
-
-- a
-
-- l
-
-- s
-
-- e
-
-- `
-
--  
-
-- t
-
-- o
-
--  
-
-- f
-
-- i
-
-- n
-
-- d
-
--  
-
-- n
-
-- o
-
-- n
-
-- -
-
-- v
-
-- e
-
-- r
-
-- i
-
-- f
-
-- i
-
-- e
-
-- d
-
--  
-
-- p
-
-- u
-
-- r
-
-- c
-
-- h
-
-- a
-
-- s
-
-- e
-
-- s
-
-- .
-
-
-
-
-### Find user by username
-Search for a user with the username 'AveryWilliams55'.
+### Filter reviews by verified purchase
+Find all reviews marked as verified purchases.
 
 
 **Try This:**
 
-- T
+- Change the value to 'False' to find reviews that are not verified purchases.
 
-- r
+- Combine this query with other fields, like 'review_rating', for more specific results.
 
-- y
 
--  
 
-- c
 
-- h
-
-- a
-
-- n
-
-- g
-
-- i
-
-- n
-
-- g
-
--  
-
-- t
-
-- h
-
-- e
-
--  
-
-- u
-
-- s
-
-- e
-
-- r
-
-- n
-
-- a
-
-- m
-
-- e
-
--  
-
-- t
-
-- o
-
--  
-
-- `
-
-- C
-
-- a
-
-- m
-
-- e
-
-- r
-
-- o
-
-- n
-
-- L
-
-- o
-
-- p
-
-- e
-
-- z
-
-- 2
-
-- 0
-
-- `
-
--  
-
-- o
-
-- r
-
--  
-
-- `
-
-- D
-
-- a
-
-- k
-
-- o
-
-- t
-
-- a
-
-- H
-
-- e
-
-- r
-
-- n
-
-- a
-
-- n
-
-- d
-
-- e
-
-- z
-
-- 3
-
-- 9
-
-- `
-
-- .
-
-
-
-
-### Find reviews with a 5-star rating
-Search for reviews where the rating is exactly 5 stars.
+### Search users by account type
+Find all users with a 'Premium' account.
 
 
 **Try This:**
 
-- T
+- Change the account type to 'Free' or 'Enterprise' to explore other user groups.
 
-- r
+- Combine this query with age group or location fields for deeper insights.
 
-- y
 
--  
 
-- c
 
-- h
+### Search users by username
+Find the user with the username 'AveryWilliams55'.
 
-- a
 
-- n
+**Try This:**
 
-- g
+- Change the username to 'CameronLopez20' or 'JordanMartinez33' to find other users.
 
-- i
-
-- n
-
-- g
-
--  
-
-- t
-
-- h
-
-- e
-
--  
-
-- r
-
-- a
-
-- t
-
-- i
-
-- n
-
-- g
-
--  
-
-- t
-
-- o
-
--  
-
-- `
-
-- 1
-
-- `
-
-- ,
-
--  
-
-- `
-
-- 3
-
-- `
-
-- ,
-
--  
-
-- o
-
-- r
-
--  
-
-- `
-
-- 4
-
-- `
-
--  
-
-- t
-
-- o
-
--  
-
-- f
-
-- i
-
-- n
-
-- d
-
--  
-
-- r
-
-- e
-
-- v
-
-- i
-
-- e
-
-- w
-
-- s
-
--  
-
-- w
-
-- i
-
-- t
-
-- h
-
--  
-
-- t
-
-- h
-
-- o
-
-- s
-
-- e
-
--  
-
-- r
-
-- a
-
-- t
-
-- i
-
-- n
-
-- g
-
-- s
-
-- .
+- Try searching for a username not in the dataset to see how no results are returned.
 
 
 

@@ -13,9 +13,9 @@ export const termConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: "product_name",
-    product_reviews: "review_text",
-    product_users: "interests",
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
   sampleQueries: {
     products: "wireless",
@@ -29,858 +29,144 @@ export const termConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example1',
-      title: "Find products in Electronics category",
-      description: "Search for products that belong to the \u0027Electronics\u0027 category.",
-      template: `{
-  "query": {
-    "term": {
-      "product_category": {
-        "value": "Electronics"
-      }
-    }
-  }
-}`,
+      id: '1',
+      title: "Find products in a specific category",
+      description: "Search for all products in the \u0027Electronics\u0027 category.",
+      template: `{ "query": { "term": { "product_category": { "value": "Electronics" } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "T",
+        "Change the category to \u0027Books\u0027 or \u0027Toys\u0027 to see results for those categories.",
 
-        "r",
-
-        "y",
-
-        " ",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "n",
-
-        "g",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "`",
-
-        "E",
-
-        "l",
-
-        "e",
-
-        "c",
-
-        "t",
-
-        "r",
-
-        "o",
-
-        "n",
-
-        "i",
-
-        "c",
-
-        "s",
-
-        "`",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "a",
-
-        "n",
-
-        "o",
-
-        "t",
-
-        "h",
-
-        "e",
-
-        "r",
-
-        " ",
-
-        "c",
-
-        "a",
-
-        "t",
-
-        "e",
-
-        "g",
-
-        "o",
-
-        "r",
-
-        "y",
-
-        " ",
-
-        "l",
-
-        "i",
-
-        "k",
-
-        "e",
-
-        " ",
-
-        "`",
-
-        "B",
-
-        "o",
-
-        "o",
-
-        "k",
-
-        "s",
-
-        "`",
-
-        " ",
-
-        "o",
-
-        "r",
-
-        " ",
-
-        "`",
-
-        "C",
-
-        "l",
-
-        "o",
-
-        "t",
-
-        "h",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        "`",
-
-        ".",
+        "Try searching for \u0027Home and Kitchen\u0027 to explore products in that category.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "Exact category name such as \u0027Electronics\u0027, \u0027Books\u0027, etc.",
+        "product_category": "This field contains the category of the product. Ensure the value matches exactly.",
 
       },
 
     },
 
     {
-      id: 'example2',
-      title: "Find products by brand",
-      description: "Search for products from the \u0027GlowNaturals\u0027 brand.",
-      template: `{
-  "query": {
-    "term": {
-      "product_brand": {
-        "value": "GlowNaturals"
-      }
-    }
-  }
-}`,
+      id: '2',
+      title: "Search for products from a specific brand",
+      description: "Retrieve all products made by the brand \u0027GlowNaturals\u0027.",
+      template: `{ "query": { "term": { "product_brand": { "value": "GlowNaturals" } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "T",
+        "Change the brand to \u0027AudioMax\u0027 or \u0027PlaySmart\u0027 to see their products.",
 
-        "r",
-
-        "y",
-
-        " ",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "n",
-
-        "g",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "`",
-
-        "G",
-
-        "l",
-
-        "o",
-
-        "w",
-
-        "N",
-
-        "a",
-
-        "t",
-
-        "u",
-
-        "r",
-
-        "a",
-
-        "l",
-
-        "s",
-
-        "`",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "a",
-
-        "n",
-
-        "o",
-
-        "t",
-
-        "h",
-
-        "e",
-
-        "r",
-
-        " ",
-
-        "b",
-
-        "r",
-
-        "a",
-
-        "n",
-
-        "d",
-
-        " ",
-
-        "l",
-
-        "i",
-
-        "k",
-
-        "e",
-
-        " ",
-
-        "`",
-
-        "A",
-
-        "u",
-
-        "d",
-
-        "i",
-
-        "o",
-
-        "M",
-
-        "a",
-
-        "x",
-
-        "`",
-
-        " ",
-
-        "o",
-
-        "r",
-
-        " ",
-
-        "`",
-
-        "P",
-
-        "l",
-
-        "a",
-
-        "y",
-
-        "P",
-
-        "a",
-
-        "l",
-
-        "s",
-
-        "`",
-
-        ".",
+        "Try searching for another brand from the keyword list.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "Exact brand name such as \u0027GlowNaturals\u0027, \u0027AudioMax\u0027, etc.",
+        "product_brand": "This field identifies the brand of the product. Use exact matches from the keyword list.",
 
       },
 
     },
 
     {
-      id: 'example3',
-      title: "Search for verified purchase reviews",
-      description: "Find reviews where the purchase was verified.",
-      template: `{
-  "query": {
-    "term": {
-      "verified_purchase": {
-        "value": "True"
-      }
-    }
-  }
-}`,
+      id: '3',
+      title: "Find reviews with a specific rating",
+      description: "Retrieve all reviews with a 5-star rating.",
+      template: `{ "query": { "term": { "review_rating": { "value": 5 } } } }`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "T",
+        "Change the rating to 3 or 4 to explore reviews with different ratings.",
 
-        "r",
-
-        "y",
-
-        " ",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "n",
-
-        "g",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "`",
-
-        "T",
-
-        "r",
-
-        "u",
-
-        "e",
-
-        "`",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "`",
-
-        "F",
-
-        "a",
-
-        "l",
-
-        "s",
-
-        "e",
-
-        "`",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "f",
-
-        "i",
-
-        "n",
-
-        "d",
-
-        " ",
-
-        "n",
-
-        "o",
-
-        "n",
-
-        "-",
-
-        "v",
-
-        "e",
-
-        "r",
-
-        "i",
-
-        "f",
-
-        "i",
-
-        "e",
-
-        "d",
-
-        " ",
-
-        "p",
-
-        "u",
-
-        "r",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "s",
-
-        "e",
-
-        "s",
-
-        ".",
+        "Try searching for the lowest rating (1) to find critical reviews.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Exact match for purchase verification status (\u0027True\u0027 or \u0027False\u0027).",
+        "review_rating": "This field contains numerical ratings for reviews. Use values from 1 to 5.",
 
       },
 
     },
 
     {
-      id: 'example4',
-      title: "Find user by username",
-      description: "Search for a user with the username \u0027AveryWilliams55\u0027.",
-      template: `{
-  "query": {
-    "term": {
-      "username": {
-        "value": "AveryWilliams55"
-      }
-    }
-  }
-}`,
+      id: '4',
+      title: "Filter reviews by verified purchase",
+      description: "Find all reviews marked as verified purchases.",
+      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
+      index: 'product_reviews',
+
+      tryThis: [
+
+        "Change the value to \u0027False\u0027 to find reviews that are not verified purchases.",
+
+        "Combine this query with other fields, like \u0027review_rating\u0027, for more specific results.",
+
+      ],
+
+
+      tooltips: {
+
+        "verified_purchase": "This field indicates whether the reviewer purchased the product. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
+
+      },
+
+    },
+
+    {
+      id: '5',
+      title: "Search users by account type",
+      description: "Find all users with a \u0027Premium\u0027 account.",
+      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "T",
+        "Change the account type to \u0027Free\u0027 or \u0027Enterprise\u0027 to explore other user groups.",
 
-        "r",
-
-        "y",
-
-        " ",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "n",
-
-        "g",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "t",
-
-        "h",
-
-        "e",
-
-        " ",
-
-        "u",
-
-        "s",
-
-        "e",
-
-        "r",
-
-        "n",
-
-        "a",
-
-        "m",
-
-        "e",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "`",
-
-        "C",
-
-        "a",
-
-        "m",
-
-        "e",
-
-        "r",
-
-        "o",
-
-        "n",
-
-        "L",
-
-        "o",
-
-        "p",
-
-        "e",
-
-        "z",
-
-        "2",
-
-        "0",
-
-        "`",
-
-        " ",
-
-        "o",
-
-        "r",
-
-        " ",
-
-        "`",
-
-        "D",
-
-        "a",
-
-        "k",
-
-        "o",
-
-        "t",
-
-        "a",
-
-        "H",
-
-        "e",
-
-        "r",
-
-        "n",
-
-        "a",
-
-        "n",
-
-        "d",
-
-        "e",
-
-        "z",
-
-        "3",
-
-        "9",
-
-        "`",
-
-        ".",
+        "Combine this query with age group or location fields for deeper insights.",
 
       ],
 
 
       tooltips: {
 
-        "username": "Exact username such as \u0027AveryWilliams55\u0027.",
+        "account_type": "This field indicates the type of user account. Use \u0027Free\u0027, \u0027Premium\u0027, or \u0027Enterprise\u0027.",
 
       },
 
     },
 
     {
-      id: 'example5',
-      title: "Find reviews with a 5-star rating",
-      description: "Search for reviews where the rating is exactly 5 stars.",
-      template: `{
-  "query": {
-    "term": {
-      "review_rating": {
-        "value": 5
-      }
-    }
-  }
-}`,
-      index: 'product_reviews',
+      id: '6',
+      title: "Search users by username",
+      description: "Find the user with the username \u0027AveryWilliams55\u0027.",
+      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
+      index: 'product_users',
 
       tryThis: [
 
-        "T",
+        "Change the username to \u0027CameronLopez20\u0027 or \u0027JordanMartinez33\u0027 to find other users.",
 
-        "r",
-
-        "y",
-
-        " ",
-
-        "c",
-
-        "h",
-
-        "a",
-
-        "n",
-
-        "g",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "t",
-
-        "h",
-
-        "e",
-
-        " ",
-
-        "r",
-
-        "a",
-
-        "t",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "`",
-
-        "1",
-
-        "`",
-
-        ",",
-
-        " ",
-
-        "`",
-
-        "3",
-
-        "`",
-
-        ",",
-
-        " ",
-
-        "o",
-
-        "r",
-
-        " ",
-
-        "`",
-
-        "4",
-
-        "`",
-
-        " ",
-
-        "t",
-
-        "o",
-
-        " ",
-
-        "f",
-
-        "i",
-
-        "n",
-
-        "d",
-
-        " ",
-
-        "r",
-
-        "e",
-
-        "v",
-
-        "i",
-
-        "e",
-
-        "w",
-
-        "s",
-
-        " ",
-
-        "w",
-
-        "i",
-
-        "t",
-
-        "h",
-
-        " ",
-
-        "t",
-
-        "h",
-
-        "o",
-
-        "s",
-
-        "e",
-
-        " ",
-
-        "r",
-
-        "a",
-
-        "t",
-
-        "i",
-
-        "n",
-
-        "g",
-
-        "s",
-
-        ".",
+        "Try searching for a username not in the dataset to see how no results are returned.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "Exact numeric rating (e.g., 1, 2, 3, 4, 5).",
+        "username": "This field represents the unique username of the user. Use an exact match to find the user.",
 
       },
 

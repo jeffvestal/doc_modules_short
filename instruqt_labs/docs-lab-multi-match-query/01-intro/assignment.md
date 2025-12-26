@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-multimatchquery
+id: qqtawaconara
 type: challenge
 title: Multi-Match Query Lab
 teaser: Learn how to use the multi_match_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Multi-Match Query Lab
+
+    Welcome to the interactive lab for the multi_match_query query!
+
+    The `multi_match` query builds on the `match` query to allow multi-field queries.
 tabs:
-- id: tab-querylab-multimatchquery
+- id: fn0wetl2nxft
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-multimatchquery
+- id: 863wfv7yjvol
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-multimatchquery
+- id: qmtyeq90tc1n
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-multimatchquery
+- id: t5maq3bt9axx
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Multi-Match Query Lab
-    
-    Welcome to the interactive lab for the multi_match_query query!
-    
-    The `multi_match` query builds on the `match` query to allow multi-field queries.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Multi-Match Query Lab

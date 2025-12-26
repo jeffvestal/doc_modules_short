@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-rangequery
+id: 7fnkr6anktay
 type: challenge
 title: Range Query Lab
 teaser: Learn how to use the range_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Range Query Lab
+
+    Welcome to the interactive lab for the range_query query!
+
+    Returns documents that contain terms within a provided range.
 tabs:
-- id: tab-querylab-rangequery
+- id: gthtduovywyc
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-rangequery
+- id: xrexfnnchxxt
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-rangequery
+- id: hzo5qhboiouq
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-rangequery
+- id: 0wmf0jv3alwa
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Range Query Lab
-    
-    Welcome to the interactive lab for the range_query query!
-    
-    Returns documents that contain terms within a provided range.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Range Query Lab
