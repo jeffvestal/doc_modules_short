@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: qmp88lp7opnk
+id: placeholder-esqlrest
 type: challenge
 title: ES|QL Query Lab
 teaser: Learn how to use the esql_rest query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # ES|QL Query Lab
-
-    Welcome to the interactive lab for the esql_rest query!
-
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 tabs:
-- id: 1sg1yogpp9gv
+- id: tab-querylab-esqlrest
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: dksxamsxxy0t
+- id: tab-querylabfull-esqlrest
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: 8soliwjziqwn
+- id: tab-terminal-esqlrest
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 4yuatdkpwpf9
+- id: tab-dataset-esqlrest
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # ES|QL Query Lab
+    
+    Welcome to the interactive lab for the esql_rest query!
+    
+    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
 ---
 
 # ES|QL Query Lab
@@ -79,80 +77,68 @@ The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-l
 This lab includes 6 examples demonstrating different aspects of the esql_rest query:
 
 
-### Filter products by description
-Find products with 'wireless' in their description and limit the results to 10.
+### Filter products by category and sort by price
+Retrieve all Electronics products and sort them by price in ascending order.
 
 
 **Try This:**
 
-- Change the keyword from 'wireless' to another term like 'portable'.
-
-- Try increasing the LIMIT to 20 to view more results.
+- Try changing the category to 'Books' or 'Clothing' to explore different results.
 
 
 
 
-### Sort products by price
-Retrieve premium products and display their name and price, sorted by price in descending order.
+### Find reviews mentioning specific keywords
+Search for reviews mentioning 'durable' or 'comfortable' and display their titles and ratings.
 
 
 **Try This:**
 
-- Modify the SORT direction to ascending (ASC) to see the cheapest premium products first.
-
-- Add a LIMIT clause to display only the top 5 results.
+- Try replacing the keywords with 'sturdy' or 'reliable' to find other reviews.
 
 
 
 
-### Find highly rated reviews
-Search for product reviews that mention 'durable' or 'comfortable' and display the title and rating, sorted by rating in descending order.
+### Identify active users interested in specific topics
+List usernames and their interests for users who are interested in Books or Electronics.
 
 
 **Try This:**
 
-- Replace 'durable' with another term such as 'sturdy'.
-
-- Add a LIMIT clause to return only the top 5 results.
+- Try changing the interests to 'Sports' or 'Beauty' to view users with different preferences.
 
 
 
 
-### Find users interested in Electronics
-Retrieve users whose interests include 'Electronics' and limit the results to 10.
+### Analyze verified purchases with high helpful votes
+Find reviews from verified purchases with more than 20 helpful votes.
 
 
 **Try This:**
 
-- Change the keyword from 'Electronics' to another interest, such as 'Books'.
-
-- Remove the LIMIT clause to return all matching users.
+- Try modifying the helpful_votes threshold to 15 or 30 to see different results.
 
 
 
 
-### Analyze verified purchases
-Retrieve only verified purchases from reviews and sort them by the number of helpful votes in descending order.
+### Discover premium users with high trust scores
+Retrieve usernames and trust scores of Premium account users.
 
 
 **Try This:**
 
-- Change the SORT direction to ascending (ASC) to see the least helpful reviews first.
-
-- Add a LIMIT clause to display only the top 5 results.
+- Try changing the account_type to 'Free' or 'Enterprise' to analyze other user groups.
 
 
 
 
-### Find users by account type
-Retrieve usernames of users with a 'Premium' account and display only their username.
+### Search for affordable products by brand
+Find products from 'GlowNaturals' priced below $50, sorted by price.
 
 
 **Try This:**
 
-- Change 'Premium' to 'Free' or 'Enterprise' to see other account types.
-
-- Add a LIMIT clause to only return a specific number of results.
+- Try changing the brand to 'AudioMax' or 'PlayPals' and adjust the price range to explore other products.
 
 
 

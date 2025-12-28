@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-fuzzyquery
+id: ov0pjqbp69vh
 type: challenge
 title: Fuzzy Query Lab
 teaser: Learn how to use the fuzzy_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Fuzzy Query Lab
+
+    Welcome to the interactive lab for the fuzzy_query query!
+
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 tabs:
-- id: tab-querylab-fuzzyquery
+- id: xcpjeal5wleb
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-fuzzyquery
+- id: xxsfo7idilhu
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-fuzzyquery
+- id: nukehryl6ott
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-fuzzyquery
+- id: 5lqwqsyvv0sq
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Fuzzy Query Lab
-    
-    Welcome to the interactive lab for the fuzzy_query query!
-    
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Fuzzy Query Lab

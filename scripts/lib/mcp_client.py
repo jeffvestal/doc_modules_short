@@ -68,6 +68,20 @@ class MCPClient:
             headers=self.headers,
             timeout=httpx.Timeout(60.0, connect=10.0)
         )
+        
+        # #region agent log
+        # List available tools at initialization for debugging
+        import json as json_mod
+        log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+        try:
+            available = self.list_tools()
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H1", "location": "mcp_client.py:__init__", "message": "MCP initialized", "data": {"server_url": self.server_url, "available_tools": available}, "timestamp": __import__('time').time()}) + "\n")
+            print(f"[MCP] Available tools: {available}")
+        except Exception as e:
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H1", "location": "mcp_client.py:__init__", "message": "Failed to list tools", "data": {"error": str(e)}, "timestamp": __import__('time').time()}) + "\n")
+        # #endregion
     
     def _call_tool(
         self,
@@ -83,6 +97,11 @@ class MCPClient:
         Returns:
             Tool response
         """
+        # #region agent log
+        import json as json_mod
+        log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+        # #endregion
+        
         # MCP uses JSON-RPC 2.0 style requests
         payload = {
             "jsonrpc": "2.0",
@@ -94,10 +113,22 @@ class MCPClient:
             }
         }
         
+        # #region agent log
+        with open(log_path, 'a') as f:
+            f.write(json_mod.dumps({"hypothesisId": "H3", "location": "mcp_client.py:_call_tool", "message": "MCP request", "data": {"tool_name": tool_name, "payload": payload, "server_url": self.server_url}, "timestamp": __import__('time').time()}) + "\n")
+        # #endregion
+        
         try:
             response = self.client.post(self.server_url, json=payload)
+            result = response.json()
+            
+            # #region agent log
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H3", "location": "mcp_client.py:_call_tool", "message": "MCP response", "data": {"status": response.status_code, "result": result}, "timestamp": __import__('time').time()}) + "\n")
+            # #endregion
+            
             response.raise_for_status()
-            return response.json()
+            return result
         except httpx.HTTPStatusError as e:
             raise RuntimeError(
                 f"MCP request failed with status {e.response.status_code}: "
@@ -139,35 +170,38 @@ class MCPClient:
         if context:
             arguments["context"] = context
         
-        result = self._call_tool("platform.core.generate_esql", arguments)
+        result = self._call_tool("platform_core_generate_esql", arguments)
         
         # Extract ES|QL from response
-        # Response format: {"results": [{"type": "query", "data": {"esql": "..."}}]}
+        # Actual format: {"result": {"content": [{"type": "text", "text": "{\"results\":[{\"type\":\"query\",\"data\":{\"esql\":\"...\"}}]}"}]}}
         try:
+            # Handle the actual MCP response format
             if "result" in result:
-                # Standard MCP response
                 content = result["result"]
-                if isinstance(content, dict) and "results" in content:
+                # Check for content array format (actual MCP format)
+                if isinstance(content, dict) and "content" in content:
+                    for item in content["content"]:
+                        if isinstance(item, dict) and item.get("type") == "text":
+                            # The text field is a JSON string that needs parsing
+                            text = item.get("text", "{}")
+                            parsed = json.loads(text)
+                            if "results" in parsed:
+                                for r in parsed["results"]:
+                                    if r.get("type") == "query" and "data" in r:
+                                        return r["data"].get("esql", "")
+                # Legacy format check
+                elif isinstance(content, dict) and "results" in content:
                     for item in content["results"]:
                         if item.get("type") == "query" and "data" in item:
                             return item["data"].get("esql", "")
                 elif isinstance(content, str):
                     return content
             
-            # Direct results format (observed in testing)
+            # Direct results format (fallback)
             if "results" in result:
                 for item in result["results"]:
                     if item.get("type") == "query" and "data" in item:
                         return item["data"].get("esql", "")
-            
-            # Fallback: return raw if it looks like ES|QL
-            raw = json.dumps(result)
-            if "FROM " in raw:
-                # Try to extract the query
-                import re
-                match = re.search(r'FROM\s+\w+[^"]*', raw)
-                if match:
-                    return match.group(0)
             
             raise ValueError(f"Could not extract ES|QL from response: {result}")
             
@@ -190,7 +224,7 @@ class MCPClient:
             "query": query
         }
         
-        result = self._call_tool("platform.core.execute_esql", arguments)
+        result = self._call_tool("platform_core_execute_esql", arguments)
         
         # Extract results
         try:
@@ -271,6 +305,46 @@ class MCPClient:
             return response.status_code == 200
         except Exception:
             return False
+    
+    # #region agent log
+    def list_tools(self) -> list:
+        """List available tools on the MCP server.
+        
+        Returns:
+            List of available tool names
+        """
+        import json as json_mod
+        log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+        
+        payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/list"
+        }
+        
+        try:
+            response = self.client.post(self.server_url, json=payload)
+            result = response.json()
+            
+            # Log the full response
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H1", "location": "mcp_client.py:list_tools", "message": "tools/list response", "data": {"status": response.status_code, "response": result}, "timestamp": __import__('time').time()}) + "\n")
+            
+            # Extract tool names
+            tools = []
+            if "result" in result and "tools" in result["result"]:
+                for tool in result["result"]["tools"]:
+                    tools.append(tool.get("name", "unknown"))
+            
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H1", "location": "mcp_client.py:list_tools", "message": "available tools", "data": {"tools": tools}, "timestamp": __import__('time').time()}) + "\n")
+            
+            return tools
+        except Exception as e:
+            with open(log_path, 'a') as f:
+                f.write(json_mod.dumps({"hypothesisId": "H1", "location": "mcp_client.py:list_tools", "message": "list_tools failed", "data": {"error": str(e)}, "timestamp": __import__('time').time()}) + "\n")
+            return []
+    # #endregion
     
     def close(self):
         """Close the HTTP client."""

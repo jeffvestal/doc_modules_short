@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-termquery
+id: nth3ck3f8myr
 type: challenge
 title: Term Query Lab
 teaser: Learn how to use the term_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Term Query Lab
+
+    Welcome to the interactive lab for the term_query query!
+
+    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
 tabs:
-- id: tab-querylab-termquery
+- id: lvlc8hrjusk8
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-termquery
+- id: dxrmw6fp2hof
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-termquery
+- id: ywuzsjzyruv8
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-termquery
+- id: yrieefxegpzb
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Term Query Lab
-    
-    Welcome to the interactive lab for the term_query query!
-    
-    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Term Query Lab

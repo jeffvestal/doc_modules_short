@@ -1,5 +1,4 @@
 slug: docs-lab-esql-rest
-id: a6qfvlunlt13
 title: Docs Lab - ES|QL Query
 teaser: Learn how to use the esql_rest query in Elasticsearch
 description: |
@@ -26,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "2214401639240135159"
+checksum: "065208711eb412574065cbc6b1e1fd1f"
 enhanced_loading: false

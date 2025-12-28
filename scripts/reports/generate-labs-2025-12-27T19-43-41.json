@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-12-27T19:43:41.070058Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 212.72318077087402
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "error": "Blocked: 2 example(s) failed validation (example_2, example_3)"
+    }
+  ],
+  "validation_warnings": []
+}

@@ -116,8 +116,9 @@ def process_single_url(
             parsed_doc.get('code_examples', [])
         )
         
-        # Validate examples
-        es_validator = ESValidator(example_generator, dataset_schemas)
+        # Validate examples (pass MCP client if available for ES|QL validation)
+        mcp_client = getattr(example_generator, 'mcp_client', None)
+        es_validator = ESValidator(example_generator, dataset_schemas, mcp_client)
         query_language = lab_config.get('queryLanguage', 'query_dsl')
         validation_results = es_validator.validate_all_examples(
             lab_config.get('examples', []),

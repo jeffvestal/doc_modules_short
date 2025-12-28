@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 from example_generator import ExampleGenerator
 from cache_manager import CacheManager
+from mcp_client import MCPClient, get_mcp_client
 
 
 # Load .env from project root (parent of scripts directory)
@@ -21,16 +22,19 @@ class ESValidator:
     def __init__(
         self,
         example_generator: Optional[ExampleGenerator] = None,
-        dataset_schemas: Optional[Dict[str, Any]] = None
+        dataset_schemas: Optional[Dict[str, Any]] = None,
+        mcp_client: Optional[MCPClient] = None
     ):
         """Initialize ES validator.
         
         Args:
             example_generator: Optional generator for fixing queries
             dataset_schemas: Dataset schema information
+            mcp_client: Optional MCP client for ES|QL validation
         """
         self.example_generator = example_generator
         self.dataset_schemas = dataset_schemas or {}
+        self.mcp_client = mcp_client
         
         es_url = os.getenv("ELASTICSEARCH_URL")
         es_api_key = os.getenv("ELASTICSEARCH_APIKEY")
@@ -127,7 +131,8 @@ class ESValidator:
         self,
         query: str,
         index: str = 'products',
-        max_retries: int = 3
+        max_retries: int = 3,
+        use_mcp: bool = True
     ) -> Tuple[bool, int, Optional[str], Optional[str]]:
         """Validate an ES|QL query with auto-fix retries.
         
@@ -135,6 +140,7 @@ class ESValidator:
             query: ES|QL query string
             index: Target index name (for fixing)
             max_retries: Maximum retry attempts
+            use_mcp: Whether to use MCP for validation (if available)
             
         Returns:
             Tuple of (success, row_count, error_message, fixed_query)
@@ -144,7 +150,53 @@ class ESValidator:
         
         for attempt in range(max_retries + 1):
             try:
-                # Use the esql.query API
+                # Use MCP's execute_esql if available (validates on serverless cluster)
+                if use_mcp and self.mcp_client:
+                    try:
+                        result = self.mcp_client.execute_esql(current_query)
+                        # #region agent log
+                        log_path = "/Users/jeffvestal/repos/doc_modules_short/.cursor/debug.log"
+                        with open(log_path, 'a') as f:
+                            import time as t
+                            f.write(json.dumps({"hypothesisId": "H_EXEC", "location": "es_validator.py:validate_esql_query", "message": "execute_esql result", "data": {"query": current_query[:100], "result_type": str(type(result)), "result_keys": list(result.keys()) if isinstance(result, dict) else None, "result_sample": str(result)[:500]}, "timestamp": t.time()}) + "\n")
+                        # #endregion
+                        # Parse MCP response - format is: {"content": [{"type": "text", "text": "{\"results\":[...]}"}]}
+                        if isinstance(result, dict) and 'content' in result:
+                            content = result.get('content', [])
+                            if content and isinstance(content, list):
+                                for item in content:
+                                    if isinstance(item, dict) and item.get('type') == 'text':
+                                        text = item.get('text', '{}')
+                                        parsed = json.loads(text)
+                                        if 'results' in parsed:
+                                            for r in parsed['results']:
+                                                # Check for tabular_data type (successful execution)
+                                                if r.get('type') == 'tabular_data' and 'data' in r:
+                                                    row_count = len(r['data'].get('values', []))
+                                                    # #region agent log
+                                                    with open(log_path, 'a') as f:
+                                                        f.write(json.dumps({"hypothesisId": "H_EXEC", "location": "es_validator.py", "message": "tabular_data found", "data": {"row_count": row_count, "columns": len(r['data'].get('columns', []))}, "timestamp": t.time()}) + "\n")
+                                                    # #endregion
+                                                    if row_count > 0:
+                                                        return True, row_count, None, current_query if attempt > 0 else None
+                                                # Check for error type
+                                                elif r.get('type') == 'error' and 'data' in r:
+                                                    error_msg = r['data'].get('message', 'Unknown MCP error')
+                                                    # #region agent log
+                                                    with open(log_path, 'a') as f:
+                                                        f.write(json.dumps({"hypothesisId": "H_EXEC", "location": "es_validator.py", "message": "MCP error", "data": {"error": error_msg[:200]}, "timestamp": t.time()}) + "\n")
+                                                    # #endregion
+                                                    raise Exception(f"MCP execute error: {error_msg}")
+                    except Exception as mcp_error:
+                        # If MCP fails, fall back to local ES
+                        # #region agent log
+                        with open(log_path, 'a') as f:
+                            import time as t
+                            f.write(json.dumps({"hypothesisId": "H_EXEC", "location": "es_validator.py", "message": "MCP fallback", "data": {"error": str(mcp_error)[:200]}, "timestamp": t.time()}) + "\n")
+                        # #endregion
+                        print(f"[MCP] execute_esql failed, falling back to local ES: {mcp_error}")
+                
+                # Fall back to local ES validation
                 response = self.es.esql.query(query=current_query)
                 
                 # ES|QL returns columns and values
@@ -245,16 +297,18 @@ class ESValidator:
                             max_retries=max_retries
                         )
                         
+                        MIN_REQUIRED_DOCS = 3
                         if success:
-                            if row_count == 0:
-                                # 0 rows is a validation failure even if query succeeded
+                            if row_count < MIN_REQUIRED_DOCS:
+                                # Each index must return at least 3 docs
                                 all_valid = False
-                                errors.append(f"{idx}: Query returned 0 rows")
+                                errors.append(f"{idx}: Query returned {row_count} rows (need >= {MIN_REQUIRED_DOCS})")
                             else:
                                 total_hits += row_count
                             if fixed_query:
                                 fixed_templates[idx] = fixed_query
                         else:
+                            # Syntax/execution error is a real failure
                             all_valid = False
                             errors.append(f"{idx}: {error}")
                     
@@ -271,12 +325,12 @@ class ESValidator:
                         index=index, 
                         max_retries=max_retries
                     )
-                    return {
-                        'valid': success,
-                        'hit_count': row_count,
-                        'error': error,
+                return {
+                    'valid': success,
+                    'hit_count': row_count,
+                    'error': error,
                         'fixed_template': fixed_query
-                    }
+                }
             
             # Handle Query DSL (JSON format)
             if isinstance(template, str):

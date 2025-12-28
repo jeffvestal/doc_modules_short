@@ -385,6 +385,23 @@ Return ONLY the JSON object, no markdown formatting."""
                             # Merge retry examples into lab_config
                             lab_config['examples'] = retry_config.get('examples', [])
                             print(f"[LLM] Retry successful - got {len(lab_config['examples'])} examples")
+                            
+                            # Apply ES|QL multi-index template processing for retried examples
+                            if query_language == 'esql':
+                                for example in lab_config['examples']:
+                                    if 'template' in example and isinstance(example['template'], str):
+                                        # Fix single quotes to double quotes
+                                        import re
+                                        original_template = re.sub(r"'([^']*)'", r'"\1"', example['template'])
+                                        
+                                        # Generate multi-index templates
+                                        multi_index_template = self._generate_multi_index_esql_template(
+                                            original_template,
+                                            example,
+                                            dataset_schemas
+                                        )
+                                        example['template'] = multi_index_template
+                            
                             break
                     except json.JSONDecodeError:
                         continue
@@ -478,7 +495,9 @@ Return ONLY the fixed query as a JSON object. Do not include explanations or mar
         dataset_schemas: Dict[str, Any],
         target_index: str
     ) -> str:
-        """Ask LLM to fix an ES|QL query that returned 0 rows or had errors.
+        """Ask MCP or LLM to fix an ES|QL query that returned 0 rows or had errors.
+        
+        Uses MCP when available since it has access to actual cluster data.
         
         Args:
             query: The ES|QL query string that failed
@@ -491,6 +510,24 @@ Return ONLY the fixed query as a JSON object. Do not include explanations or mar
         """
         import re
         
+        # Use MCP for fixing if available - it has access to actual data
+        if self.mcp_client and "0 rows" in error_message.lower():
+            try:
+                # Ask MCP to generate a DIFFERENT query that will return data
+                fixed = self.mcp_client.generate_esql(
+                    query=f"Generate an ES|QL query for {target_index} that returns at least 3 documents. "
+                          f"The previous query returned 0 results: {query}. "
+                          f"Use DIFFERENT field values that actually exist in the data. "
+                          f"Explore the index to find values that will match.",
+                    index=target_index,
+                    context=f"The query '{query}' returned 0 results. Generate a working alternative "
+                            f"that demonstrates the same ES|QL pattern but uses values that exist in {target_index}."
+                )
+                print(f"[MCP] Regenerated query for {target_index}")
+                return fixed
+            except Exception as e:
+                print(f"[MCP] Fix failed for {target_index}: {e}, falling back to OpenAI")
+        
         schema_info = dataset_schemas.get(target_index, {})
         
         system_prompt = """You are an expert at fixing ES|QL queries.
@@ -501,10 +538,11 @@ CRITICAL ES|QL RULES:
 2. Use LIKE with wildcards for text search: LIKE "*term*"
 3. For exact matches on keyword fields, use == with double quotes
 4. Check field names match the schema exactly
+5. If a query returns 0 results, try BROADER search terms or DIFFERENT field values
 
 Return ONLY the fixed ES|QL query string. No explanations, no markdown, no code blocks."""
 
-        user_prompt = f"""Fix this ES|QL query:
+        user_prompt = f"""Fix this ES|QL query that returned 0 results:
 
 Query: {query}
 
@@ -518,6 +556,11 @@ Schema for {target_index}:
 - Keyword field values: {json.dumps(schema_info.get('keyword_field_values', {}), indent=2)}
 - Working ES|QL examples: {schema_info.get('esql_examples', [])}
 
+IMPORTANT: If the query uses specific field values that don't exist, try:
+- Using wildcards (LIKE "*pattern*") instead of exact matches
+- Removing restrictive WHERE clauses
+- Using different field values from the keyword_field_values above
+
 Return ONLY the fixed ES|QL query string (no quotes around it, no explanations)."""
 
         try:
@@ -527,7 +570,7 @@ Return ONLY the fixed ES|QL query string (no quotes around it, no explanations).
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                temperature=0.3,
+                temperature=0.5,  # Higher temperature for more variety
                 max_tokens=500
             )
             
@@ -584,38 +627,23 @@ Return ONLY the fixed ES|QL query string (no quotes around it, no explanations).
         # Get the original index from the example
         original_index = example.get('index', 'products')
         
-        # Build description for MCP
-        description = f"{example.get('title', '')}: {example.get('description', '')}"
+        # Extract the ES|QL concept being demonstrated (e.g., WHERE, LIKE, aggregation)
+        example_title = example.get('title', 'basic query')
         
         # Generate query for each index using MCP or OpenAI
+        # Each index gets its own query with data that EXISTS in that index
         for target_index in indices:
-            if target_index == original_index and original_template:
-                # Use MCP to regenerate even the original for better quality
-                if self.mcp_client:
-                    try:
-                        esql = self.mcp_client.generate_esql(
-                            query=description,
-                            index=target_index,
-                            context=f"Generate an ES|QL query that demonstrates: {example.get('title', 'basic query')}"
-                        )
-                        multi_template[target_index] = esql
-                        print(f"[MCP] Generated ES|QL for {target_index}")
-                        continue
-                    except Exception as e:
-                        print(f"[MCP] Failed for {target_index}, using original: {e}")
-                        multi_template[target_index] = original_template
-                        continue
-                else:
-                    multi_template[target_index] = original_template
-                    continue
-            
-            # Use MCP for better query generation
+            # Use MCP for better query generation - ask for queries that WILL return data
             if self.mcp_client:
                 try:
+                    # Ask MCP to generate a query that demonstrates the concept AND returns data
                     esql = self.mcp_client.generate_esql(
-                        query=description,
+                        query=f"Generate an ES|QL query on the {target_index} index that demonstrates: {example_title}. "
+                              f"The query MUST return at least 3 documents. Use field values that exist in the actual data.",
                         index=target_index,
-                        context=f"Generate an ES|QL query for {target_index} similar to: {original_template}"
+                        context=f"Generate an ES|QL query for {target_index} that will return results. "
+                                f"Look at the actual data in the index and use real field values. "
+                                f"Pattern to demonstrate: {original_template}"
                     )
                     multi_template[target_index] = esql
                     print(f"[MCP] Generated ES|QL for {target_index}")

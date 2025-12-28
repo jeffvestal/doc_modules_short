@@ -20,7 +20,7 @@ interface ExampleSectionProps {
 }
 
 export const ExampleSection: React.FC<ExampleSectionProps> = ({ 
-  example,
+  example, 
 }) => {
   // Each example manages its own selectedIndex, starting with the example's default index
   const [selectedIndex, setSelectedIndex] = useState<IndexName>(example.index);
@@ -147,47 +147,47 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       }
     } else {
       // Handle Query DSL (existing logic)
-      try {
-        const queryObj = JSON.parse(query);
-        const queryType = detectQueryType(queryObj);
+    try {
+      const queryObj = JSON.parse(query);
+      const queryType = detectQueryType(queryObj);
+      
+      if (!queryType) return; // Can't detect query type
+      
+      const currentField = detectFieldFromQuery(queryObj, queryType);
+      
+      if (currentField) {
+        // Get the target field for the selected index (can be string or string[])
+        const targetFieldRaw = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
+        // If it's an array, use the first field; otherwise use as-is
+        const targetField = Array.isArray(targetFieldRaw) ? targetFieldRaw[0] : targetFieldRaw;
         
-        if (!queryType) return; // Can't detect query type
+        // Only swap if the current field is different from target and is a known search field
+        const knownSearchFields = Object.values(labConfig.searchFields).flat();
+        const shouldSwap = targetField && 
+                          currentField !== targetField && 
+                          knownSearchFields.includes(currentField);
         
-        const currentField = detectFieldFromQuery(queryObj, queryType);
-        
-        if (currentField) {
-          // Get the target field for the selected index (can be string or string[])
-          const targetFieldRaw = labConfig.searchFields[effectiveIndex as keyof typeof labConfig.searchFields];
-          // If it's an array, use the first field; otherwise use as-is
-          const targetField = Array.isArray(targetFieldRaw) ? targetFieldRaw[0] : targetFieldRaw;
+        if (shouldSwap) {
+          // Get the sample query text for the selected index
+          const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
           
-          // Only swap if the current field is different from target and is a known search field
-          const knownSearchFields = Object.values(labConfig.searchFields).flat();
-          const shouldSwap = targetField && 
-                            currentField !== targetField && 
-                            knownSearchFields.includes(currentField);
+          // Use generic swap function
+          const swappedQueryObj = swapQueryField(
+            queryObj,
+            currentField,
+            targetField,
+            sampleQueryText,
+            queryType
+          );
           
-          if (shouldSwap) {
-            // Get the sample query text for the selected index
-            const sampleQueryText = labConfig.sampleQueries[effectiveIndex as keyof typeof labConfig.sampleQueries];
-            
-            // Use generic swap function
-            const swappedQueryObj = swapQueryField(
-              queryObj,
-              currentField,
-              targetField,
-              sampleQueryText,
-              queryType
-            );
-            
-            // Update the query string with proper formatting
-            const updatedQuery = JSON.stringify(swappedQueryObj, null, 2);
-            setQuery(updatedQuery);
-          }
+          // Update the query string with proper formatting
+          const updatedQuery = JSON.stringify(swappedQueryObj, null, 2);
+          setQuery(updatedQuery);
         }
-      } catch (err) {
-        // If JSON parsing fails, don't update (user might be editing)
-        // Silently ignore the error
+      }
+    } catch (err) {
+      // If JSON parsing fails, don't update (user might be editing)
+      // Silently ignore the error
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
