@@ -1,0 +1,166 @@
+{
+  "timestamp": "2026-01-03T02:46:28.433193Z",
+  "summary": {
+    "total_urls": 19,
+    "successfully_created": 18,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 847.8647110462189
+  },
+  "created_labs": [
+    {
+      "slug": "match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "simple-query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "term-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "terms-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "exists-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "prefix-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-prefix-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "wildcard-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-wildcard-query",
+      "example_count": 4,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "example_count": 4,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "regexp-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-regexp-query",
+      "example_count": 4,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "bool-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query",
+      "example_count": 4,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "constant-score-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-constant-score-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "dis-max-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-dis-max-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "esql-commands",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-commands",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "esql-syntax",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-syntax",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "boosting-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-boosting-query",
+      "error": "Only 3 valid example(s) after dropping failures (need 4)"
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "term-query",
+      "example_id": "3",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    },
+    {
+      "lab_slug": "fuzzy-query",
+      "example_id": "example_5",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    },
+    {
+      "lab_slug": "regexp-query",
+      "example_id": "example6",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    }
+  ]
+}

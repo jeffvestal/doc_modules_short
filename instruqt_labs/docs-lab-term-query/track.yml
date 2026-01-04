@@ -1,5 +1,4 @@
 slug: docs-lab-term-query
-id: 4shgt7ypupqf
 title: Docs Lab - Term Query
 teaser: Learn how to use the term_query query in Elasticsearch
 description: |
@@ -26,5 +25,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "13905327774383169064"
+checksum: "ce453c9c0931c1b391102ccfc767a7f8"
 enhanced_loading: false

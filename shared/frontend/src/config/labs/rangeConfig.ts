@@ -5,7 +5,7 @@ export const rangeConfig: LabConfig = {
   queryType: 'range_query',
   displayName: 'Range Query',
   description: "Returns documents that contain terms within a provided range.",
-  docUrl: 'https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query',
+  docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query',
 
   keyDisplayFields: {
     products: 'product_name',
@@ -29,208 +29,144 @@ export const rangeConfig: LabConfig = {
   examples: [
 
     {
-      id: 'example_1',
+      id: '1',
       title: "Find products within a price range",
-      description: "Search for products with a price between $50 and $100.",
-      template: `{
-  "query": {
-    "range": {
-      "product_price": {
-        "gte": 50,
-        "lte": 100
-      }
-    }
-  }
-}`,
+      description: "Search for products priced between $20 and $50.",
+      template: `{ "query": { "range": { "product_price": { "gte": 20, "lte": 50 } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Modify the price range to find products above $75.",
+        "Try changing the price range to 30 and 70.",
+
+        "Filter for products priced below $40 by using only \u0027lte\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The price of the product in USD.",
-
-        "gte": "Greater than or equal to.",
-
-        "lte": "Less than or equal to.",
+        "product_price": "The price of the product. Use \u0027gte\u0027 for greater than or equal to and \u0027lte\u0027 for less than or equal to.",
 
       },
 
     },
 
     {
-      id: 'example_2',
-      title: "Filter reviews with high ratings",
+      id: '2',
+      title: "Top-rated reviews",
       description: "Retrieve reviews with a rating of 4 or higher.",
-      template: `{
-  "query": {
-    "range": {
-      "review_rating": {
-        "gte": 4
-      }
-    }
-  }
-}`,
+      template: `{ "query": { "range": { "review_rating": { "gte": 4 } } } }`,
       index: 'product_reviews',
 
       tryThis: [
 
-        "Experiment with ratings of 3 or higher to include more reviews.",
+        "Try lowering the rating to 3 to see more results.",
+
+        "Find reviews with a maximum rating of 5 by adding \u0027lte: 5\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "The rating given by the reviewer, ranging from 1 to 5.",
-
-        "gte": "Greater than or equal to.",
+        "review_rating": "The rating given in a review. Values range from 1 (lowest) to 5 (highest).",
 
       },
 
     },
 
     {
-      id: 'example_3',
-      title: "Find recent reviews",
-      description: "Search for reviews posted within the last month.",
-      template: `{
-  "query": {
-    "range": {
-      "review_date": {
-        "gte": "now-1M/M",
-        "lte": "now"
-      }
-    }
-  }
-}`,
-      index: 'product_reviews',
-
-      tryThis: [
-
-        "Change the range to look for reviews from the last week.",
-
-      ],
-
-
-      tooltips: {
-
-        "review_date": "The date the review was posted.",
-
-        "gte": "Greater than or equal to.",
-
-        "lte": "Less than or equal to.",
-
-        "now-1M/M": "The beginning of the current month minus 1 month.",
-
-      },
-
-    },
-
-    {
-      id: 'example_4',
-      title: "Find trusted users",
-      description: "Search for users with a trust score of 80 or higher.",
-      template: `{
-  "query": {
-    "range": {
-      "trust_score": {
-        "gte": 80
-      }
-    }
-  }
-}`,
+      id: '3',
+      title: "Filter users with low trust scores",
+      description: "Find users with a trust score of 80 or below.",
+      template: `{ "query": { "range": { "trust_score": { "lte": 80 } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Adjust the trust score threshold to 90 for even more trusted users.",
+        "Try finding users with trust scores greater than 50 by using \u0027gte: 50\u0027.",
+
+        "Combine \u0027gte\u0027 and \u0027lte\u0027 to create a range, such as 50 to 80.",
 
       ],
 
 
       tooltips: {
 
-        "trust_score": "A score representing the user\u0027s trust level.",
-
-        "gte": "Greater than or equal to.",
+        "trust_score": "A numerical score indicating user trustworthiness. Higher is better.",
 
       },
 
     },
 
     {
-      id: 'example_5',
-      title: "Search for mid-range priced products",
-      description: "Find products with prices between $25 and $75.",
-      template: `{
-  "query": {
-    "range": {
-      "product_price": {
-        "gte": 25,
-        "lte": 75
-      }
-    }
-  }
-}`,
+      id: '4',
+      title: "Filter reviews by date",
+      description: "Retrieve reviews posted in the year 2023.",
+      template: `{ "query": { "range": { "review_date": { "gte": "2023-01-01", "lte": "2023-12-31" } } } }`,
+      index: 'product_reviews',
+
+      tryThis: [
+
+        "Try changing the range to a single month, e.g., January 2023.",
+
+        "Use only \u0027gte\u0027 to find reviews posted after a specific date.",
+
+      ],
+
+
+      tooltips: {
+
+        "review_date": "The date a review was posted. Use date strings in \u0027YYYY-MM-DD\u0027 format.",
+
+      },
+
+    },
+
+    {
+      id: '5',
+      title: "Find affordable products",
+      description: "Search for products priced less than $30.",
+      template: `{ "query": { "range": { "product_price": { "lte": 30 } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Experiment with a price range of $10 to $50.",
+        "Increase the price limit to $50 to find more results.",
+
+        "Combine with \u0027gte\u0027 to create a range, e.g., $10 to $30.",
 
       ],
 
 
       tooltips: {
 
-        "product_price": "The price of the product in USD.",
-
-        "gte": "Greater than or equal to.",
-
-        "lte": "Less than or equal to.",
+        "product_price": "The price of the product. Use \u0027lte\u0027 for less than or equal to.",
 
       },
 
     },
 
     {
-      id: 'example_6',
-      title: "Find recent premium user activity",
-      description: "Search for premium users who joined within the last year.",
-      template: `{
-  "query": {
-    "range": {
-      "member_since": {
-        "gte": "now-1y/y",
-        "lte": "now"
-      }
-    }
-  }
-}`,
+      id: '6',
+      title: "Find experienced users",
+      description: "Retrieve users who have been members for 5 years or more.",
+      template: `{ "query": { "range": { "member_since": { "lte": "now-5y/y" } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Change the range to find users who joined in the last 6 months.",
+        "Change the range to 3 years by using \u0027now-3y/y\u0027.",
+
+        "Try filtering for newer users by using \u0027gte: now-1y/y\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "member_since": "The date the user created their account.",
-
-        "gte": "Greater than or equal to.",
-
-        "lte": "Less than or equal to.",
-
-        "now-1y/y": "The start of the current year minus 1 year.",
+        "member_since": "The date when the user joined. Use date math like \u0027now-5y/y\u0027 for ranges.",
 
       },
 

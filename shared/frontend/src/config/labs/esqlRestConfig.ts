@@ -4,7 +4,7 @@ export const esqlRestConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_rest',
   displayName: 'ES|QL Query',
-  description: "The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.",
+  description: "\u003ctip\u003e The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. \u003c/tip\u003e",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-rest',
 
   keyDisplayFields: {
@@ -31,35 +31,35 @@ export const esqlRestConfig: LabConfig = {
     {
       id: 'example_1',
       title: "Filter products by category and sort by price",
-      description: "Retrieve all Electronics products and sort them by price in ascending order.",
+      description: "Retrieve all products in the \u0027Electronics\u0027 category and sort them by price in descending order.",
       template: {
         products: `FROM products
-| WHERE product_category == "Home and Kitchen"
-| SORT product_price ASC
-| LIMIT 5`,
+| WHERE product_category == "Pet Supplies"
+| SORT product_price DESC
+| LIMIT 10`,
         product_reviews: `FROM product_reviews
-| WHERE verified_purchase == "True"
-| SORT review_rating ASC
-| LIMIT 5`,
+| WHERE review_rating >= 4
+| SORT review_date DESC
+| LIMIT 10`,
         product_users: `FROM product_users
-| WHERE interests LIKE "*Electronics*"
-| SORT avg_rating_given DESC
-| LIMIT 5`,
+| WHERE account_type == "Premium"
+| SORT trust_score DESC
+| LIMIT 10`,
       },
       index: 'products',
 
       tryThis: [
 
-        "Try changing the category to \u0027Books\u0027 or \u0027Clothing\u0027 to explore different results.",
+        "Change the category to \u0027Clothing\u0027 or another value from the provided list.",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "Filters the products belonging to a specific category. Use exact matches from the dataset.",
+        "product_category": "Filters for products in the specified category.",
 
-        "SORT": "Sorts the results in ascending (ASC) or descending (DESC) order.",
+        "SORT": "Sorts the results by the specified field (e.g., product_price).",
 
         "LIMIT": "Limits the number of results returned.",
 
@@ -69,41 +69,41 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_2',
-      title: "Find reviews mentioning specific keywords",
-      description: "Search for reviews mentioning \u0027durable\u0027 or \u0027comfortable\u0027 and display their titles and ratings.",
+      title: "Find high-rated reviews",
+      description: "Retrieve reviews with a rating of 5 stars and display the title, rating, and helpful votes.",
       template: {
         products: `FROM products
-| WHERE product_description LIKE "*durable*" OR product_description LIKE "*comfort*"
-| KEEP product_name, product_brand, product_description, product_price
+| WHERE product_price >= 100
+| KEEP product_name, product_brand, product_category, product_price
 | SORT product_price DESC
 | LIMIT 10`,
         product_reviews: `FROM product_reviews
-| WHERE review_text LIKE "*sturdy*" OR review_text LIKE "*comfortable*" OR review_text LIKE "*quality*"
-| KEEP review_title, review_text, review_rating
-| SORT review_rating DESC
-| LIMIT 100`,
+| WHERE review_rating == 5
+| KEEP review_title, review_rating, helpful_votes, reviewer_name
+| SORT helpful_votes DESC
+| LIMIT 10`,
         product_users: `FROM product_users
-| WHERE interests LIKE "*Electronics*" OR interests LIKE "*Beauty*"
-| KEEP username, interests, avg_rating_given
-| SORT avg_rating_given DESC
+| WHERE avg_rating_given >= 4.3
+| KEEP username, avg_rating_given, trust_score, total_reviews_count
+| SORT trust_score DESC
 | LIMIT 10`,
       },
       index: 'product_reviews',
 
       tryThis: [
 
-        "Try replacing the keywords with \u0027sturdy\u0027 or \u0027reliable\u0027 to find other reviews.",
+        "Modify the rating to 4 or another value to see reviews with different ratings.",
 
       ],
 
 
       tooltips: {
 
-        "WHERE": "Filters results based on the specified condition.",
+        "WHERE": "Filters the results based on the specified condition.",
 
-        "LIKE": "Performs a text-based search using wildcard patterns.",
+        "KEEP": "Specifies which fields to include in the output.",
 
-        "KEEP": "Selects specific fields to be returned in the results.",
+        "SORT": "Sorts the results by the specified field in descending order.",
 
       },
 
@@ -111,42 +111,40 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_3',
-      title: "Identify active users interested in specific topics",
-      description: "List usernames and their interests for users who are interested in Books or Electronics.",
+      title: "Search for specific user interests",
+      description: "Find users interested in \u0027Books\u0027 or \u0027Electronics\u0027 and display their username and interests.",
       template: {
         products: `FROM products
-| WHERE product_category == "Electronics" OR product_category == "Beauty"
-| KEEP product_name, product_category, product_brand, product_price
+| WHERE product_category IN ("Toys", "Beauty", "Office Products")
 | SORT product_price DESC
 | LIMIT 10`,
         product_reviews: `FROM product_reviews
-| WHERE review_text LIKE "*cream*" OR review_text LIKE "*toy*"
-| STATS review_count = COUNT(*) BY reviewer_name, review_user_id
-| WHERE review_count >= 1
-| SORT review_count DESC
+| WHERE review_text LIKE "*kids*" OR review_text LIKE "*skin*" OR review_text LIKE "*coffee*"
+| KEEP reviewer_name, review_title, review_text, review_rating
+| SORT review_rating DESC
 | LIMIT 10`,
         product_users: `FROM product_users
-| WHERE interests LIKE "*Electronics*" OR interests LIKE "*Beauty*" OR interests LIKE "*Clothing*"
-| KEEP username, interests, account_type, verified_purchaser, member_since
-| SORT member_since DESC
+| WHERE interests LIKE "*Electronics*" OR interests LIKE "*Clothing*" OR interests LIKE "*Toys*"
+| KEEP username, interests, account_type
+| SORT username
 | LIMIT 10`,
       },
       index: 'product_users',
 
       tryThis: [
 
-        "Try changing the interests to \u0027Sports\u0027 or \u0027Beauty\u0027 to view users with different preferences.",
+        "Change the interest to \u0027Sports\u0027 or another value to explore other user interests.",
 
       ],
 
 
       tooltips: {
 
-        "interests": "Searches user interests for matching keywords.",
+        "LIKE": "Performs a wildcard text search on the field.",
 
-        "KEEP": "Specifies the fields to include in the results.",
+        "OR": "Combines multiple conditions where at least one must be true.",
 
-        "LIMIT": "Restricts the number of records returned to the given value.",
+        "KEEP": "Specifies only the desired fields to include in the output.",
 
       },
 
@@ -154,41 +152,41 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_4',
-      title: "Analyze verified purchases with high helpful votes",
-      description: "Find reviews from verified purchases with more than 20 helpful votes.",
+      title: "Find affordable products",
+      description: "List products priced below $50 and show their name, brand, and price.",
       template: {
         products: `FROM products
-| WHERE product_category == "Electronics" AND product_price > 80
+| WHERE product_price < 50
 | KEEP product_name, product_brand, product_price
-| SORT product_price DESC
-| LIMIT 5`,
+| SORT product_price ASC
+| LIMIT 10`,
         product_reviews: `FROM product_reviews
-| WHERE verified_purchase == "True" AND helpful_votes > 20
-| KEEP review_title, review_text, helpful_votes, reviewer_name, review_rating
-| SORT helpful_votes DESC
+| WHERE review_text LIKE "*$*" AND (review_text LIKE "*affordable*" OR review_text LIKE "*cheap*" OR review_text LIKE "*inexpensive*" OR review_text LIKE "*$12.99*")
+| KEEP review_id, review_title, review_text, review_rating
+| SORT review_rating DESC
 | LIMIT 10`,
         product_users: `FROM product_users
-| WHERE verified_purchaser == "True" AND trust_score > 50
-| KEEP username, verified_purchaser, trust_score, account_type
-| SORT trust_score DESC
+| WHERE trust_score < 50
+| KEEP username, email, trust_score
+| SORT trust_score ASC
 | LIMIT 10`,
       },
-      index: 'product_reviews',
+      index: 'products',
 
       tryThis: [
 
-        "Try modifying the helpful_votes threshold to 15 or 30 to see different results.",
+        "Adjust the price threshold to $30 or $100 to see different results.",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "Filters reviews to include only those marked as verified purchases.",
+        "product_price": "Filters products based on their price.",
 
-        "helpful_votes": "Specifies the number of helpful votes a review must have.",
+        "KEEP": "Specifies which fields to include in the output.",
 
-        "SORT": "Orders the results by the number of helpful votes in descending order.",
+        "SORT": "Sorts the results by the specified field in ascending order.",
 
       },
 
@@ -196,41 +194,41 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_5',
-      title: "Discover premium users with high trust scores",
-      description: "Retrieve usernames and trust scores of Premium account users.",
+      title: "Identify verified product reviews",
+      description: "Retrieve reviews marked as verified purchases and sort them by review date.",
       template: {
         products: `FROM products
-| WHERE product_price >= 89.99
+| WHERE product_category == "Home and Kitchen"
 | KEEP product_name, product_brand, product_price
 | SORT product_price DESC
-| LIMIT 10`,
+| LIMIT 5`,
         product_reviews: `FROM product_reviews
 | WHERE verified_purchase == "True"
-| SORT helpful_votes DESC
-| KEEP reviewer_name, review_rating, helpful_votes, verified_purchase
+| KEEP review_title, review_date, reviewer_name, review_rating
+| SORT review_date DESC
 | LIMIT 10`,
         product_users: `FROM product_users
-| WHERE account_type == "Premium"
-| KEEP username, trust_score
-| SORT trust_score DESC
+| WHERE verified_purchaser == "True"
+| KEEP username, member_since, account_type, verified_purchaser
+| SORT member_since DESC
 | LIMIT 10`,
       },
-      index: 'product_users',
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Try changing the account_type to \u0027Free\u0027 or \u0027Enterprise\u0027 to analyze other user groups.",
+        "Change the filter to \u0027False\u0027 to see non-verified reviews.",
 
       ],
 
 
       tooltips: {
 
-        "account_type": "Filters users based on their account type (e.g., Free, Premium, Enterprise).",
+        "verified_purchase": "Filters reviews to show only those marked as verified purchases.",
 
-        "trust_score": "A numerical value indicating the user\u0027s trust level.",
+        "SORT": "Sorts the results by the specified field (e.g., review_date).",
 
-        "SORT": "Sorts the results by trust_score in descending order.",
+        "LIMIT": "Limits the number of results returned.",
 
       },
 
@@ -238,41 +236,41 @@ export const esqlRestConfig: LabConfig = {
 
     {
       id: 'example_6',
-      title: "Search for affordable products by brand",
-      description: "Find products from \u0027GlowNaturals\u0027 priced below $50, sorted by price.",
+      title: "Analyze user activity",
+      description: "Find premium users who have written more than 20 reviews and display their username and total reviews count.",
       template: {
         products: `FROM products
-| WHERE product_brand == "AudioMax" AND product_price < 100
-| KEEP product_name, product_brand, product_price
-| SORT product_price ASC
+| WHERE product_category == "Home and Kitchen" AND product_price > 80
+| STATS avg_price = AVG(product_price), max_price = MAX(product_price), product_count = COUNT(*) BY product_brand
+| SORT avg_price DESC
 | LIMIT 10`,
         product_reviews: `FROM product_reviews
-| WHERE reviewer_name == "Emily Carter" AND review_rating >= 4
-| KEEP reviewer_name, review_title, review_rating, review_date
-| SORT review_rating DESC
+| WHERE helpful_votes > 15 AND verified_purchase == "True"
+| STATS total_reviews = COUNT(*), avg_rating = AVG(review_rating), total_helpful_votes = SUM(helpful_votes) BY reviewer_name
+| SORT total_helpful_votes DESC
 | LIMIT 10`,
         product_users: `FROM product_users
-| WHERE interests LIKE "*Beauty*" AND account_type == "Free"
-| KEEP username, interests, account_type
-| SORT username ASC
+| WHERE account_type == "Free" AND total_reviews_count >= 1
+| KEEP username, account_type, total_reviews_count, age_group, verified_purchaser, avg_rating_given
+| SORT total_reviews_count DESC
 | LIMIT 10`,
       },
-      index: 'products',
+      index: 'product_users',
 
       tryThis: [
 
-        "Try changing the brand to \u0027AudioMax\u0027 or \u0027PlayPals\u0027 and adjust the price range to explore other products.",
+        "Change the account type to \u0027Free\u0027 or \u0027Enterprise\u0027 to analyze other user groups.",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "Filters products by their brand name. Use exact matches.",
+        "account_type": "Filters users based on their account type.",
 
-        "product_price": "Specifies the price range for filtering products.",
+        "AND": "Combines multiple conditions where all must be true.",
 
-        "SORT": "Organizes the results in ascending order based on product_price.",
+        "total_reviews_count": "Filters users based on the number of reviews they have written.",
 
       },
 

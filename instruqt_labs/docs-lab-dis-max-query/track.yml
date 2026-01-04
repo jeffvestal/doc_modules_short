@@ -1,0 +1,29 @@
+slug: docs-lab-dis-max-query
+title: Docs Lab - Disjunction Max Query
+teaser: Learn how to use the dis_max_query query in Elasticsearch
+description: |
+  Returns documents matching one or more wrapped queries, called query clauses or clauses. If a returned document matches multiple query clauses, the `dis_max` query assigns the document the highest rel...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- dis-max-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "761bf3b1fd84270ef9fa66d8bf5d1deb"
+enhanced_loading: false

@@ -4,8 +4,8 @@ export const fuzzyConfig: LabConfig = {
   queryLanguage: 'query_dsl',
   queryType: 'fuzzy_query',
   displayName: 'Fuzzy Query',
-  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box \u2192 fox) - Removing a character (black \u2192 lack) - Inserting a character (sic \u2192 sick) - Transposing two adjacent characters (act \u2192 cat)",
-  docUrl: 'https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query',
+  description: "Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.",
+  docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query',
 
   keyDisplayFields: {
     products: 'product_name',
@@ -13,9 +13,9 @@ export const fuzzyConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: ["product_name", "product_description"],
-    product_reviews: ["review_title", "review_text"],
-    product_users: ["interests"],
+    products: "product_name",
+    product_reviews: "review_text",
+    product_users: "interests",
   },
   sampleQueries: {
     products: "wireless",
@@ -29,85 +29,17 @@ export const fuzzyConfig: LabConfig = {
   examples: [
 
     {
-      id: '1',
-      title: "Find similar product names",
-      description: "Search for products where the name is similar to \u0027wireles\u0027 using automatic fuzziness.",
+      id: 'example_2',
+      title: "Find similar review titles",
+      description: "Search for review titles similar to \u0027durable\u0027. Useful for identifying reviews with common misspellings or alternative phrasing.",
       template: `{
   "query": {
     "fuzzy": {
-      "product_name": {
-        "value": "wireles",
-        "fuzziness": "AUTO"
-      }
-    }
-  }
-}`,
-      index: 'products',
-
-      tryThis: [
-
-        "Try changing \u0027wireles\u0027 to \u0027wirless\u0027 or \u0027wireless\u0027 to see how fuzziness impacts results.",
-
-      ],
-
-
-      tooltips: {
-
-        "product_name": "The field containing product names.",
-
-        "value": "The search term. Fuzzy matching will look for similar terms.",
-
-        "fuzziness": "The edit distance allowed for matching. Use \u0027AUTO\u0027 for dynamic adjustment.",
-
-      },
-
-    },
-
-    {
-      id: '2',
-      title: "Match product descriptions with limited fuzziness",
-      description: "Search for products with descriptions similar to \u0027premum\u0027 allowing up to 1 edit distance.",
-      template: `{
-  "query": {
-    "fuzzy": {
-      "product_description": {
-        "value": "premum",
-        "fuzziness": 1
-      }
-    }
-  }
-}`,
-      index: 'products',
-
-      tryThis: [
-
-        "Experiment with \u0027premum\u0027 and \u0027premium\u0027 to see if results differ when fuzziness is set to 1.",
-
-      ],
-
-
-      tooltips: {
-
-        "product_description": "The field containing product descriptions.",
-
-        "value": "The input search string.",
-
-        "fuzziness": "Defines the maximum allowable edit distance for matches.",
-
-      },
-
-    },
-
-    {
-      id: '3',
-      title: "Find similar review texts",
-      description: "Search for reviews with text similar to \u0027durabl\u0027 allowing up to 2 edit distances.",
-      template: `{
-  "query": {
-    "fuzzy": {
-      "review_text": {
-        "value": "durabl",
-        "fuzziness": 2
+      "review_title": {
+        "value": "durable",
+        "fuzziness": 2,
+        "prefix_length": 0,
+        "transpositions": true
       }
     }
   }
@@ -116,33 +48,32 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Try changing \u0027durabl\u0027 to \u0027durable\u0027 or \u0027durablity\u0027 and compare the results.",
+        "Try changing \u0027durable\u0027 to \u0027durrable\u0027 or \u0027durbale\u0027 to test transpositions and edit distances.",
 
       ],
 
 
       tooltips: {
 
-        "review_text": "The field containing review texts.",
+        "fuzziness": "Set to a numeric value to explicitly define the edit distance.",
 
-        "value": "The term to search for similar matches.",
-
-        "fuzziness": "The maximum edit distance. Higher values expand the search results.",
+        "transpositions": "Enables swapping of adjacent characters as an allowable edit operation.",
 
       },
 
     },
 
     {
-      id: '4',
-      title: "Prefix matching for user interests",
-      description: "Search for users with interests similar to \u0027electroncs\u0027 requiring a prefix length of 2.",
+      id: 'example_3',
+      title: "Search for similar user interests",
+      description: "Find users whose documented interests are similar to \u0027Books\u0027. This helps identify users with close interests despite typos or variations.",
       template: `{
   "query": {
     "fuzzy": {
       "interests": {
-        "value": "electroncs",
+        "value": "Books",
         "fuzziness": "AUTO",
+        "max_expansions": 30,
         "prefix_length": 2
       }
     }
@@ -152,53 +83,82 @@ export const fuzzyConfig: LabConfig = {
 
       tryThis: [
 
-        "Test with \u0027electroncs\u0027 and see the effect of different prefix lengths like 0 or 3.",
+        "Try searching for \u0027Boooks\u0027 or \u0027Boks\u0027 to explore how fuzziness handles input errors.",
 
       ],
 
 
       tooltips: {
 
-        "interests": "The field representing user interests.",
+        "prefix_length": "Requires an exact match for the initial characters of the term.",
 
-        "value": "The term to search for similar matches.",
-
-        "prefix_length": "The number of initial characters that must match exactly.",
+        "max_expansions": "Adjust this to optimize query performance by limiting the number of matching terms.",
 
       },
 
     },
 
     {
-      id: '5',
-      title: "Find verified reviews with fuzzy matching",
-      description: "Search for verified reviews with titles similar to \u0027comfrtable\u0027 allowing automatic fuzziness.",
+      id: 'example_4',
+      title: "Find products with similar descriptions",
+      description: "Search for products where the description is similar to \u0027premium quality\u0027. This query helps identify products with closely related descriptions.",
       template: `{
   "query": {
     "fuzzy": {
-      "review_title": {
-        "value": "comfrtable",
-        "fuzziness": "AUTO"
+      "product_description": {
+        "value": "premium quality",
+        "fuzziness": "AUTO",
+        "prefix_length": 0,
+        "rewrite": "constant_score_blended"
       }
     }
   }
 }`,
-      index: 'product_reviews',
+      index: 'products',
 
       tryThis: [
 
-        "Modify \u0027comfrtable\u0027 to \u0027comfortable\u0027 or \u0027comfrtble\u0027 and observe the results.",
+        "Try modifying \u0027premium quality\u0027 to include typos like \u0027premiom qualty\u0027.",
 
       ],
 
 
       tooltips: {
 
-        "review_title": "The field containing review titles.",
+        "rewrite": "Specifies the scoring mechanism for matching terms. Use \u0027constant_score_blended\u0027 for blended constant scoring.",
 
-        "value": "The input term for fuzzy matching.",
+      },
 
-        "fuzziness": "Automatically adjusts the edit distance based on the input length.",
+    },
+
+    {
+      id: 'example_5',
+      title: "Search for similar product brand names",
+      description: "Find products with a brand name similar to \u0027GlowEssence\u0027. This is useful for locating brands with slight variations or common typos.",
+      template: `{
+  "query": {
+    "fuzzy": {
+      "product_brand": {
+        "value": "GlowEssence",
+        "fuzziness": "AUTO",
+        "prefix_length": 1,
+        "transpositions": true
+      }
+    }
+  }
+}`,
+      index: 'products',
+
+      tryThis: [
+
+        "Try searching for \u0027GlowEsence\u0027 or \u0027GlowEsensce\u0027 to see how close matches are handled.",
+
+      ],
+
+
+      tooltips: {
+
+        "transpositions": "Allows swapping adjacent characters, such as \u0027Es\u0027 to \u0027Se\u0027.",
 
       },
 

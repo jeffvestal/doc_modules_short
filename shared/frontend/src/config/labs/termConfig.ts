@@ -5,7 +5,7 @@ export const termConfig: LabConfig = {
   queryType: 'term_query',
   displayName: 'Term Query',
   description: "Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.",
-  docUrl: 'https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query',
+  docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query',
 
   keyDisplayFields: {
     products: 'product_name',
@@ -13,9 +13,9 @@ export const termConfig: LabConfig = {
     product_users: 'username',
   },
   searchFields: {
-    products: ["product_name", "product_description"],
-    product_reviews: ["review_title", "review_text"],
-    product_users: ["interests"],
+    products: "product_name",
+    product_reviews: "review_text",
+    product_users: "interests",
   },
   sampleQueries: {
     products: "wireless",
@@ -30,23 +30,167 @@ export const termConfig: LabConfig = {
 
     {
       id: '1',
-      title: "Find products in a specific category",
-      description: "Search for all products in the \u0027Electronics\u0027 category.",
+      title: "Find products by category",
+      description: "Search for products in the \u0027Electronics\u0027 category.",
       template: `{ "query": { "term": { "product_category": { "value": "Electronics" } } } }`,
       index: 'products',
 
       tryThis: [
 
-        "Change the category to \u0027Books\u0027 or \u0027Toys\u0027 to see results for those categories.",
+        "T",
 
-        "Try searching for \u0027Home and Kitchen\u0027 to explore products in that category.",
+        "r",
+
+        "y",
+
+        " ",
+
+        "c",
+
+        "h",
+
+        "a",
+
+        "n",
+
+        "g",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        " ",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        " ",
+
+        "v",
+
+        "a",
+
+        "l",
+
+        "u",
+
+        "e",
+
+        " ",
+
+        "t",
+
+        "o",
+
+        " ",
+
+        "a",
+
+        "n",
+
+        "o",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        "r",
+
+        " ",
+
+        "c",
+
+        "a",
+
+        "t",
+
+        "e",
+
+        "g",
+
+        "o",
+
+        "r",
+
+        "y",
+
+        ",",
+
+        " ",
+
+        "s",
+
+        "u",
+
+        "c",
+
+        "h",
+
+        " ",
+
+        "a",
+
+        "s",
+
+        " ",
+
+        "\u0027",
+
+        "B",
+
+        "o",
+
+        "o",
+
+        "k",
+
+        "s",
+
+        "\u0027",
+
+        " ",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "\u0027",
+
+        "C",
+
+        "l",
+
+        "o",
+
+        "t",
+
+        "h",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        "\u0027",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "product_category": "This field contains the category of the product. Ensure the value matches exactly.",
+        "product_category": "The category of the product. Exact match required, e.g., \u0027Electronics\u0027.",
 
       },
 
@@ -54,23 +198,175 @@ export const termConfig: LabConfig = {
 
     {
       id: '2',
-      title: "Search for products from a specific brand",
-      description: "Retrieve all products made by the brand \u0027GlowNaturals\u0027.",
-      template: `{ "query": { "term": { "product_brand": { "value": "GlowNaturals" } } } }`,
-      index: 'products',
+      title: "Find reviews with a specific rating",
+      description: "Retrieve all reviews that have a 5-star rating.",
+      template: `{ "query": { "term": { "review_rating": { "value": 5 } } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the brand to \u0027AudioMax\u0027 or \u0027PlaySmart\u0027 to see their products.",
+        "T",
 
-        "Try searching for another brand from the keyword list.",
+        "r",
+
+        "y",
+
+        " ",
+
+        "s",
+
+        "e",
+
+        "t",
+
+        "t",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        " ",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        " ",
+
+        "v",
+
+        "a",
+
+        "l",
+
+        "u",
+
+        "e",
+
+        " ",
+
+        "t",
+
+        "o",
+
+        " ",
+
+        "a",
+
+        "n",
+
+        "o",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        "r",
+
+        " ",
+
+        "r",
+
+        "a",
+
+        "t",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        " ",
+
+        "(",
+
+        "e",
+
+        ".",
+
+        "g",
+
+        ".",
+
+        ",",
+
+        " ",
+
+        "1",
+
+        ",",
+
+        " ",
+
+        "3",
+
+        ")",
+
+        " ",
+
+        "t",
+
+        "o",
+
+        " ",
+
+        "s",
+
+        "e",
+
+        "e",
+
+        " ",
+
+        "d",
+
+        "i",
+
+        "f",
+
+        "f",
+
+        "e",
+
+        "r",
+
+        "e",
+
+        "n",
+
+        "t",
+
+        " ",
+
+        "r",
+
+        "e",
+
+        "s",
+
+        "u",
+
+        "l",
+
+        "t",
+
+        "s",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "product_brand": "This field identifies the brand of the product. Use exact matches from the keyword list.",
+        "review_rating": "The rating assigned to the review. Exact match required (possible values: 1-5).",
 
       },
 
@@ -78,23 +374,183 @@ export const termConfig: LabConfig = {
 
     {
       id: '3',
-      title: "Find reviews with a specific rating",
-      description: "Retrieve all reviews with a 5-star rating.",
-      template: `{ "query": { "term": { "review_rating": { "value": 5 } } } }`,
-      index: 'product_reviews',
+      title: "Find users by username",
+      description: "Locate a user with the username \u0027AveryWilliams55\u0027.",
+      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
+      index: 'product_users',
 
       tryThis: [
 
-        "Change the rating to 3 or 4 to explore reviews with different ratings.",
+        "T",
 
-        "Try searching for the lowest rating (1) to find critical reviews.",
+        "r",
+
+        "y",
+
+        " ",
+
+        "s",
+
+        "e",
+
+        "a",
+
+        "r",
+
+        "c",
+
+        "h",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        " ",
+
+        "f",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "o",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        "r",
+
+        " ",
+
+        "u",
+
+        "s",
+
+        "e",
+
+        "r",
+
+        "n",
+
+        "a",
+
+        "m",
+
+        "e",
+
+        "s",
+
+        ",",
+
+        " ",
+
+        "s",
+
+        "u",
+
+        "c",
+
+        "h",
+
+        " ",
+
+        "a",
+
+        "s",
+
+        " ",
+
+        "\u0027",
+
+        "C",
+
+        "a",
+
+        "m",
+
+        "e",
+
+        "r",
+
+        "o",
+
+        "n",
+
+        "L",
+
+        "o",
+
+        "p",
+
+        "e",
+
+        "z",
+
+        "2",
+
+        "0",
+
+        "\u0027",
+
+        " ",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "\u0027",
+
+        "J",
+
+        "o",
+
+        "r",
+
+        "d",
+
+        "a",
+
+        "n",
+
+        "M",
+
+        "a",
+
+        "r",
+
+        "t",
+
+        "i",
+
+        "n",
+
+        "e",
+
+        "z",
+
+        "3",
+
+        "3",
+
+        "\u0027",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "review_rating": "This field contains numerical ratings for reviews. Use values from 1 to 5.",
+        "username": "The unique username of the user. Exact match required.",
 
       },
 
@@ -102,23 +558,145 @@ export const termConfig: LabConfig = {
 
     {
       id: '4',
-      title: "Filter reviews by verified purchase",
-      description: "Find all reviews marked as verified purchases.",
-      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
-      index: 'product_reviews',
+      title: "Find products by brand",
+      description: "Search for products from the \u0027GlowNaturals\u0027 brand.",
+      template: `{ "query": { "term": { "product_brand": { "value": "GlowNaturals" } } } }`,
+      index: 'products',
 
       tryThis: [
 
-        "Change the value to \u0027False\u0027 to find reviews that are not verified purchases.",
+        "E",
 
-        "Combine this query with other fields, like \u0027review_rating\u0027, for more specific results.",
+        "x",
+
+        "p",
+
+        "e",
+
+        "r",
+
+        "i",
+
+        "m",
+
+        "e",
+
+        "n",
+
+        "t",
+
+        " ",
+
+        "w",
+
+        "i",
+
+        "t",
+
+        "h",
+
+        " ",
+
+        "o",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        "r",
+
+        " ",
+
+        "b",
+
+        "r",
+
+        "a",
+
+        "n",
+
+        "d",
+
+        "s",
+
+        " ",
+
+        "s",
+
+        "u",
+
+        "c",
+
+        "h",
+
+        " ",
+
+        "a",
+
+        "s",
+
+        " ",
+
+        "\u0027",
+
+        "A",
+
+        "u",
+
+        "d",
+
+        "i",
+
+        "o",
+
+        "M",
+
+        "a",
+
+        "x",
+
+        "\u0027",
+
+        " ",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "\u0027",
+
+        "P",
+
+        "l",
+
+        "a",
+
+        "y",
+
+        "S",
+
+        "m",
+
+        "a",
+
+        "r",
+
+        "t",
+
+        "\u0027",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "verified_purchase": "This field indicates whether the reviewer purchased the product. Use \u0027True\u0027 or \u0027False\u0027 as string values.",
+        "product_brand": "The brand of the product. Exact match required, e.g., \u0027GlowNaturals\u0027.",
 
       },
 
@@ -126,23 +704,133 @@ export const termConfig: LabConfig = {
 
     {
       id: '5',
-      title: "Search users by account type",
-      description: "Find all users with a \u0027Premium\u0027 account.",
-      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
-      index: 'product_users',
+      title: "Find reviews marked as verified purchase",
+      description: "Retrieve all reviews that are verified purchases.",
+      template: `{ "query": { "term": { "verified_purchase": { "value": "True" } } } }`,
+      index: 'product_reviews',
 
       tryThis: [
 
-        "Change the account type to \u0027Free\u0027 or \u0027Enterprise\u0027 to explore other user groups.",
+        "C",
 
-        "Combine this query with age group or location fields for deeper insights.",
+        "h",
+
+        "a",
+
+        "n",
+
+        "g",
+
+        "e",
+
+        " ",
+
+        "t",
+
+        "h",
+
+        "e",
+
+        " ",
+
+        "v",
+
+        "a",
+
+        "l",
+
+        "u",
+
+        "e",
+
+        " ",
+
+        "t",
+
+        "o",
+
+        " ",
+
+        "\u0027",
+
+        "F",
+
+        "a",
+
+        "l",
+
+        "s",
+
+        "e",
+
+        "\u0027",
+
+        " ",
+
+        "t",
+
+        "o",
+
+        " ",
+
+        "f",
+
+        "i",
+
+        "n",
+
+        "d",
+
+        " ",
+
+        "u",
+
+        "n",
+
+        "v",
+
+        "e",
+
+        "r",
+
+        "i",
+
+        "f",
+
+        "i",
+
+        "e",
+
+        "d",
+
+        " ",
+
+        "p",
+
+        "u",
+
+        "r",
+
+        "c",
+
+        "h",
+
+        "a",
+
+        "s",
+
+        "e",
+
+        "s",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "account_type": "This field indicates the type of user account. Use \u0027Free\u0027, \u0027Premium\u0027, or \u0027Enterprise\u0027.",
+        "verified_purchase": "Indicates whether the purchase was verified (\u0027True\u0027 or \u0027False\u0027).",
 
       },
 
@@ -150,23 +838,151 @@ export const termConfig: LabConfig = {
 
     {
       id: '6',
-      title: "Search users by username",
-      description: "Find the user with the username \u0027AveryWilliams55\u0027.",
-      template: `{ "query": { "term": { "username": { "value": "AveryWilliams55" } } } }`,
+      title: "Find users by account type",
+      description: "Find users with a \u0027Premium\u0027 account type.",
+      template: `{ "query": { "term": { "account_type": { "value": "Premium" } } } }`,
       index: 'product_users',
 
       tryThis: [
 
-        "Change the username to \u0027CameronLopez20\u0027 or \u0027JordanMartinez33\u0027 to find other users.",
+        "T",
 
-        "Try searching for a username not in the dataset to see how no results are returned.",
+        "r",
+
+        "y",
+
+        " ",
+
+        "s",
+
+        "e",
+
+        "a",
+
+        "r",
+
+        "c",
+
+        "h",
+
+        "i",
+
+        "n",
+
+        "g",
+
+        " ",
+
+        "f",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "u",
+
+        "s",
+
+        "e",
+
+        "r",
+
+        "s",
+
+        " ",
+
+        "w",
+
+        "i",
+
+        "t",
+
+        "h",
+
+        " ",
+
+        "\u0027",
+
+        "F",
+
+        "r",
+
+        "e",
+
+        "e",
+
+        "\u0027",
+
+        " ",
+
+        "o",
+
+        "r",
+
+        " ",
+
+        "\u0027",
+
+        "E",
+
+        "n",
+
+        "t",
+
+        "e",
+
+        "r",
+
+        "p",
+
+        "r",
+
+        "i",
+
+        "s",
+
+        "e",
+
+        "\u0027",
+
+        " ",
+
+        "a",
+
+        "c",
+
+        "c",
+
+        "o",
+
+        "u",
+
+        "n",
+
+        "t",
+
+        " ",
+
+        "t",
+
+        "y",
+
+        "p",
+
+        "e",
+
+        "s",
+
+        ".",
 
       ],
 
 
       tooltips: {
 
-        "username": "This field represents the unique username of the user. Use an exact match to find the user.",
+        "account_type": "The account type of the user. Exact match required, e.g., \u0027Premium\u0027.",
 
       },
 

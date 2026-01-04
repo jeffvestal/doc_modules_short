@@ -1,0 +1,29 @@
+slug: docs-lab-esql-syntax
+title: Docs Lab - Basic ES|QL Syntax
+teaser: Learn how to use the esql_syntax query in Elasticsearch
+description: |
+  Learn the basic syntax of ES|QL, the Elasticsearch Query Language.
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- esql-syntax
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "829afa5142cf0aa11322cf1a5a4f401a"
+enhanced_loading: false

@@ -1,0 +1,29 @@
+slug: docs-lab-boosting-query
+title: Docs Lab - Boosting Query
+teaser: Learn how to use the boosting_query query in Elasticsearch
+description: |
+  Returns documents matching a `positive` query while reducing the relevance score of documents that also match a `negative` query. You can use the `boosting` query to demote certain documents without e...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- boosting-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "ea484a2e36b2334655e5c19d3908b41d"
+enhanced_loading: false

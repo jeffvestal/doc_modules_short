@@ -1,0 +1,29 @@
+slug: docs-lab-constant-score-query
+title: Docs Lab - Constant Score Query
+teaser: Learn how to use the constant_score_query query in Elasticsearch
+description: |
+  Wraps a filter query and returns every matching document with a relevance score equal to the boost parameter value.
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- constant-score-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "9444fbb0d5f4010a0e1a87f120e152d9"
+enhanced_loading: false

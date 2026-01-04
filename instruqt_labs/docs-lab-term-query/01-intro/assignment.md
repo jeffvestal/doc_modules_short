@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: nth3ck3f8myr
+id: placeholder-termquery
 type: challenge
 title: Term Query Lab
 teaser: Learn how to use the term_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Term Query Lab
-
-    Welcome to the interactive lab for the term_query query!
-
-    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
 tabs:
-- id: lvlc8hrjusk8
+- id: tab-querylab-termquery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: dxrmw6fp2hof
+- id: tab-querylabfull-termquery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: ywuzsjzyruv8
+- id: tab-terminal-termquery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: yrieefxegpzb
+- id: tab-dataset-termquery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Term Query Lab
+    
+    Welcome to the interactive lab for the term_query query!
+    
+    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
 ---
 
 # Term Query Lab
@@ -79,80 +77,896 @@ Returns documents that contain an **exact** term in a provided field. You can us
 This lab includes 6 examples demonstrating different aspects of the term_query query:
 
 
-### Find products in a specific category
-Search for all products in the 'Electronics' category.
+### Find products by category
+Search for products in the 'Electronics' category.
 
 
 **Try This:**
 
-- Change the category to 'Books' or 'Toys' to see results for those categories.
+- T
 
-- Try searching for 'Home and Kitchen' to explore products in that category.
+- r
 
+- y
 
+-  
 
+- c
 
-### Search for products from a specific brand
-Retrieve all products made by the brand 'GlowNaturals'.
+- h
 
+- a
 
-**Try This:**
+- n
 
-- Change the brand to 'AudioMax' or 'PlaySmart' to see their products.
+- g
 
-- Try searching for another brand from the keyword list.
+- i
+
+- n
+
+- g
+
+-  
+
+- t
+
+- h
+
+- e
+
+-  
+
+- v
+
+- a
+
+- l
+
+- u
+
+- e
+
+-  
+
+- t
+
+- o
+
+-  
+
+- a
+
+- n
+
+- o
+
+- t
+
+- h
+
+- e
+
+- r
+
+-  
+
+- c
+
+- a
+
+- t
+
+- e
+
+- g
+
+- o
+
+- r
+
+- y
+
+- ,
+
+-  
+
+- s
+
+- u
+
+- c
+
+- h
+
+-  
+
+- a
+
+- s
+
+-  
+
+- '
+
+- B
+
+- o
+
+- o
+
+- k
+
+- s
+
+- '
+
+-  
+
+- o
+
+- r
+
+-  
+
+- '
+
+- C
+
+- l
+
+- o
+
+- t
+
+- h
+
+- i
+
+- n
+
+- g
+
+- '
+
+- .
 
 
 
 
 ### Find reviews with a specific rating
-Retrieve all reviews with a 5-star rating.
+Retrieve all reviews that have a 5-star rating.
 
 
 **Try This:**
 
-- Change the rating to 3 or 4 to explore reviews with different ratings.
+- T
 
-- Try searching for the lowest rating (1) to find critical reviews.
+- r
+
+- y
+
+-  
+
+- s
+
+- e
+
+- t
+
+- t
+
+- i
+
+- n
+
+- g
+
+-  
+
+- t
+
+- h
+
+- e
+
+-  
+
+- v
+
+- a
+
+- l
+
+- u
+
+- e
+
+-  
+
+- t
+
+- o
+
+-  
+
+- a
+
+- n
+
+- o
+
+- t
+
+- h
+
+- e
+
+- r
+
+-  
+
+- r
+
+- a
+
+- t
+
+- i
+
+- n
+
+- g
+
+-  
+
+- (
+
+- e
+
+- .
+
+- g
+
+- .
+
+- ,
+
+-  
+
+- 1
+
+- ,
+
+-  
+
+- 3
+
+- )
+
+-  
+
+- t
+
+- o
+
+-  
+
+- s
+
+- e
+
+- e
+
+-  
+
+- d
+
+- i
+
+- f
+
+- f
+
+- e
+
+- r
+
+- e
+
+- n
+
+- t
+
+-  
+
+- r
+
+- e
+
+- s
+
+- u
+
+- l
+
+- t
+
+- s
+
+- .
 
 
 
 
-### Filter reviews by verified purchase
-Find all reviews marked as verified purchases.
+### Find users by username
+Locate a user with the username 'AveryWilliams55'.
 
 
 **Try This:**
 
-- Change the value to 'False' to find reviews that are not verified purchases.
+- T
 
-- Combine this query with other fields, like 'review_rating', for more specific results.
+- r
+
+- y
+
+-  
+
+- s
+
+- e
+
+- a
+
+- r
+
+- c
+
+- h
+
+- i
+
+- n
+
+- g
+
+-  
+
+- f
+
+- o
+
+- r
+
+-  
+
+- o
+
+- t
+
+- h
+
+- e
+
+- r
+
+-  
+
+- u
+
+- s
+
+- e
+
+- r
+
+- n
+
+- a
+
+- m
+
+- e
+
+- s
+
+- ,
+
+-  
+
+- s
+
+- u
+
+- c
+
+- h
+
+-  
+
+- a
+
+- s
+
+-  
+
+- '
+
+- C
+
+- a
+
+- m
+
+- e
+
+- r
+
+- o
+
+- n
+
+- L
+
+- o
+
+- p
+
+- e
+
+- z
+
+- 2
+
+- 0
+
+- '
+
+-  
+
+- o
+
+- r
+
+-  
+
+- '
+
+- J
+
+- o
+
+- r
+
+- d
+
+- a
+
+- n
+
+- M
+
+- a
+
+- r
+
+- t
+
+- i
+
+- n
+
+- e
+
+- z
+
+- 3
+
+- 3
+
+- '
+
+- .
 
 
 
 
-### Search users by account type
-Find all users with a 'Premium' account.
+### Find products by brand
+Search for products from the 'GlowNaturals' brand.
 
 
 **Try This:**
 
-- Change the account type to 'Free' or 'Enterprise' to explore other user groups.
+- E
 
-- Combine this query with age group or location fields for deeper insights.
+- x
+
+- p
+
+- e
+
+- r
+
+- i
+
+- m
+
+- e
+
+- n
+
+- t
+
+-  
+
+- w
+
+- i
+
+- t
+
+- h
+
+-  
+
+- o
+
+- t
+
+- h
+
+- e
+
+- r
+
+-  
+
+- b
+
+- r
+
+- a
+
+- n
+
+- d
+
+- s
+
+-  
+
+- s
+
+- u
+
+- c
+
+- h
+
+-  
+
+- a
+
+- s
+
+-  
+
+- '
+
+- A
+
+- u
+
+- d
+
+- i
+
+- o
+
+- M
+
+- a
+
+- x
+
+- '
+
+-  
+
+- o
+
+- r
+
+-  
+
+- '
+
+- P
+
+- l
+
+- a
+
+- y
+
+- S
+
+- m
+
+- a
+
+- r
+
+- t
+
+- '
+
+- .
 
 
 
 
-### Search users by username
-Find the user with the username 'AveryWilliams55'.
+### Find reviews marked as verified purchase
+Retrieve all reviews that are verified purchases.
 
 
 **Try This:**
 
-- Change the username to 'CameronLopez20' or 'JordanMartinez33' to find other users.
+- C
 
-- Try searching for a username not in the dataset to see how no results are returned.
+- h
+
+- a
+
+- n
+
+- g
+
+- e
+
+-  
+
+- t
+
+- h
+
+- e
+
+-  
+
+- v
+
+- a
+
+- l
+
+- u
+
+- e
+
+-  
+
+- t
+
+- o
+
+-  
+
+- '
+
+- F
+
+- a
+
+- l
+
+- s
+
+- e
+
+- '
+
+-  
+
+- t
+
+- o
+
+-  
+
+- f
+
+- i
+
+- n
+
+- d
+
+-  
+
+- u
+
+- n
+
+- v
+
+- e
+
+- r
+
+- i
+
+- f
+
+- i
+
+- e
+
+- d
+
+-  
+
+- p
+
+- u
+
+- r
+
+- c
+
+- h
+
+- a
+
+- s
+
+- e
+
+- s
+
+- .
+
+
+
+
+### Find users by account type
+Find users with a 'Premium' account type.
+
+
+**Try This:**
+
+- T
+
+- r
+
+- y
+
+-  
+
+- s
+
+- e
+
+- a
+
+- r
+
+- c
+
+- h
+
+- i
+
+- n
+
+- g
+
+-  
+
+- f
+
+- o
+
+- r
+
+-  
+
+- u
+
+- s
+
+- e
+
+- r
+
+- s
+
+-  
+
+- w
+
+- i
+
+- t
+
+- h
+
+-  
+
+- '
+
+- F
+
+- r
+
+- e
+
+- e
+
+- '
+
+-  
+
+- o
+
+- r
+
+-  
+
+- '
+
+- E
+
+- n
+
+- t
+
+- e
+
+- r
+
+- p
+
+- r
+
+- i
+
+- s
+
+- e
+
+- '
+
+-  
+
+- a
+
+- c
+
+- c
+
+- o
+
+- u
+
+- n
+
+- t
+
+-  
+
+- t
+
+- y
+
+- p
+
+- e
+
+- s
+
+- .
 
 
 
@@ -168,7 +982,7 @@ Find the user with the username 'AveryWilliams55'.
 
 ## View Official Documentation
 
-For complete documentation, visit: https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
+For complete documentation, visit: https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
 
 ## Need Help?
 

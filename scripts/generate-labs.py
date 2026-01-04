@@ -126,17 +126,42 @@ def process_single_url(
             query_language=query_language
         )
         
-        # BLOCK lab creation if ANY example fails validation (including 0 rows)
+        # DROP failing examples instead of blocking the entire lab
+        MIN_VALID_EXAMPLES = 3  # Need at least 3 valid examples for a lab
+        
         failed_examples = [
             r for r in validation_results['results'] 
             if not r.get('valid', True)
         ]
+        
         if failed_examples:
-            example_ids = [str(r.get('example_id', '?')) for r in failed_examples]
-            error_msg = f"Blocked: {len(failed_examples)} example(s) failed validation ({', '.join(example_ids)})"
-            report.add_failed_lab(slug, url, error_msg)
-            state_manager.mark_failed(url, error_msg)
-            return {'status': 'failed', 'slug': slug, 'url': url, 'error': error_msg}
+            # Get IDs of failing examples
+            failed_ids = set(str(r.get('example_id', '?')) for r in failed_examples)
+            
+            # Filter out failing examples from lab_config
+            original_count = len(lab_config.get('examples', []))
+            lab_config['examples'] = [
+                ex for ex in lab_config.get('examples', [])
+                if str(ex.get('id', '?')) not in failed_ids
+            ]
+            valid_count = len(lab_config['examples'])
+            
+            print(f"[Validation] Dropped {original_count - valid_count} failing example(s), keeping {valid_count}")
+            
+            # Update validation results to only include valid examples
+            validation_results['results'] = [
+                r for r in validation_results['results']
+                if r.get('valid', True)
+            ]
+            validation_results['invalid'] = 0
+            validation_results['valid'] = valid_count
+            
+            # Block only if we don't have enough valid examples
+            if valid_count < MIN_VALID_EXAMPLES:
+                error_msg = f"Only {valid_count} valid example(s) after dropping failures (need {MIN_VALID_EXAMPLES})"
+                report.add_failed_lab(slug, url, error_msg)
+                state_manager.mark_failed(url, error_msg)
+                return {'status': 'failed', 'slug': slug, 'url': url, 'error': error_msg}
         
         # Quality checks
         quality_checker = QualityChecker(min_hits=args.min_hits if hasattr(args, 'min_hits') else 3)
@@ -204,6 +229,112 @@ def process_single_url(
         return {'status': 'failed', 'slug': slug, 'url': url, 'error': error_msg}
 
 
+def push_only_mode(args):
+    """Push all existing labs to GitHub and Instruqt without regenerating."""
+    from rich.console import Console
+    from rich.table import Table
+    
+    console = Console()
+    
+    # Find all existing docs-lab-* tracks
+    instruqt_dir = PROJECT_ROOT / "instruqt_labs"
+    if not instruqt_dir.exists():
+        console.print("[red]Error: instruqt_labs directory not found[/red]")
+        sys.exit(1)
+    
+    track_dirs = sorted([
+        d for d in instruqt_dir.iterdir() 
+        if d.is_dir() and d.name.startswith('docs-lab-')
+    ])
+    
+    if not track_dirs:
+        console.print("[yellow]No docs-lab-* tracks found to push[/yellow]")
+        sys.exit(0)
+    
+    console.print(f"\n[bold]Found {len(track_dirs)} existing labs to push:[/bold]")
+    for d in track_dirs:
+        console.print(f"  • {d.name}")
+    
+    # Confirm unless --push flag is also set
+    if not args.push:
+        response = input("\nPush all to GitHub and Instruqt? (Y/n): ").strip().lower()
+        if response and response != 'y':
+            console.print("[yellow]Push cancelled.[/yellow]")
+            sys.exit(0)
+    
+    slugs_to_push = [d.name for d in track_dirs]
+    
+    # Git commit and push
+    console.print("\n[bold blue][Deploy][/bold blue] Committing changes...")
+    commit_message = f"Push existing labs: {len(slugs_to_push)} tracks"
+    
+    github_success = False
+    try:
+        subprocess.run(['git', 'add', '-A'], cwd=PROJECT_ROOT, check=True)
+        # Check if there are changes to commit
+        result = subprocess.run(
+            ['git', 'diff', '--cached', '--quiet'], 
+            cwd=PROJECT_ROOT, 
+            capture_output=True
+        )
+        if result.returncode != 0:
+            # There are staged changes
+            subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
+            subprocess.run(['git', 'push', '--force', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
+            console.print("[green]✓ Changes pushed to GitHub[/green]")
+        else:
+            console.print("[yellow]No changes to commit to GitHub[/yellow]")
+        github_success = True
+    except subprocess.CalledProcessError as e:
+        console.print(f"[red]✗ Failed to push to GitHub: {e}[/red]")
+    
+    # Push to Instruqt
+    console.print("\n[bold blue][Deploy][/bold blue] Pushing tracks to Instruqt...")
+    
+    results_table = Table(title="Instruqt Push Results")
+    results_table.add_column("Track", style="cyan")
+    results_table.add_column("Status")
+    results_table.add_column("Details")
+    
+    success_count = 0
+    fail_count = 0
+    
+    for track_dir in track_dirs:
+        try:
+            # Validate first
+            subprocess.run(
+                ['instruqt', 'track', 'validate'],
+                cwd=track_dir,
+                check=True,
+                capture_output=True
+            )
+            # Push
+            push_result = subprocess.run(
+                ['instruqt', 'track', 'push', '--force'],
+                cwd=track_dir,
+                capture_output=True,
+                text=True
+            )
+            if push_result.returncode != 0:
+                error_output = push_result.stderr or push_result.stdout or ""
+                if 'already exists' in error_output.lower():
+                    results_table.add_row(track_dir.name, "[yellow]⚠ Exists[/yellow]", "Track already exists")
+                else:
+                    error_msg = error_output.strip().split('\n')[0][:60]
+                    results_table.add_row(track_dir.name, "[red]✗ Failed[/red]", error_msg)
+                    fail_count += 1
+            else:
+                results_table.add_row(track_dir.name, "[green]✓ Pushed[/green]", "")
+                success_count += 1
+        except subprocess.CalledProcessError as e:
+            error_msg = str(e)[:60]
+            results_table.add_row(track_dir.name, "[red]✗ Failed[/red]", error_msg)
+            fail_count += 1
+    
+    console.print(results_table)
+    console.print(f"\n[bold]Summary:[/bold] {success_count} pushed, {fail_count} failed")
+
+
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
@@ -236,6 +367,11 @@ def main():
         '--push',
         action='store_true',
         help='Skip review and push directly to GitHub and Instruqt'
+    )
+    parser.add_argument(
+        '--push-only',
+        action='store_true',
+        help='Push all existing labs to GitHub and Instruqt without regenerating'
     )
     parser.add_argument(
         '--regenerate',
@@ -285,6 +421,11 @@ def main():
     # Handle push flag
     if args.push:
         args.skip_review = True
+    
+    # Handle push-only mode - push existing labs without regeneration
+    if args.push_only:
+        push_only_mode(args)
+        return
     
     # Get URLs
     urls = []

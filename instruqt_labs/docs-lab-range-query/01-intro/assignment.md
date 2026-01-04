@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: 7fnkr6anktay
+id: placeholder-rangequery
 type: challenge
 title: Range Query Lab
 teaser: Learn how to use the range_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Range Query Lab
-
-    Welcome to the interactive lab for the range_query query!
-
-    Returns documents that contain terms within a provided range.
 tabs:
-- id: gthtduovywyc
+- id: tab-querylab-rangequery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: xrexfnnchxxt
+- id: tab-querylabfull-rangequery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: hzo5qhboiouq
+- id: tab-terminal-rangequery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 0wmf0jv3alwa
+- id: tab-dataset-rangequery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Range Query Lab
+    
+    Welcome to the interactive lab for the range_query query!
+    
+    Returns documents that contain terms within a provided range.
 ---
 
 # Range Query Lab
@@ -80,67 +78,79 @@ This lab includes 6 examples demonstrating different aspects of the range_query 
 
 
 ### Find products within a price range
-Search for products with a price between $50 and $100.
+Search for products priced between $20 and $50.
 
 
 **Try This:**
 
-- Modify the price range to find products above $75.
+- Try changing the price range to 30 and 70.
+
+- Filter for products priced below $40 by using only 'lte'.
 
 
 
 
-### Filter reviews with high ratings
+### Top-rated reviews
 Retrieve reviews with a rating of 4 or higher.
 
 
 **Try This:**
 
-- Experiment with ratings of 3 or higher to include more reviews.
+- Try lowering the rating to 3 to see more results.
+
+- Find reviews with a maximum rating of 5 by adding 'lte: 5'.
 
 
 
 
-### Find recent reviews
-Search for reviews posted within the last month.
-
-
-**Try This:**
-
-- Change the range to look for reviews from the last week.
-
-
-
-
-### Find trusted users
-Search for users with a trust score of 80 or higher.
+### Filter users with low trust scores
+Find users with a trust score of 80 or below.
 
 
 **Try This:**
 
-- Adjust the trust score threshold to 90 for even more trusted users.
+- Try finding users with trust scores greater than 50 by using 'gte: 50'.
+
+- Combine 'gte' and 'lte' to create a range, such as 50 to 80.
 
 
 
 
-### Search for mid-range priced products
-Find products with prices between $25 and $75.
-
-
-**Try This:**
-
-- Experiment with a price range of $10 to $50.
-
-
-
-
-### Find recent premium user activity
-Search for premium users who joined within the last year.
+### Filter reviews by date
+Retrieve reviews posted in the year 2023.
 
 
 **Try This:**
 
-- Change the range to find users who joined in the last 6 months.
+- Try changing the range to a single month, e.g., January 2023.
+
+- Use only 'gte' to find reviews posted after a specific date.
+
+
+
+
+### Find affordable products
+Search for products priced less than $30.
+
+
+**Try This:**
+
+- Increase the price limit to $50 to find more results.
+
+- Combine with 'gte' to create a range, e.g., $10 to $30.
+
+
+
+
+### Find experienced users
+Retrieve users who have been members for 5 years or more.
+
+
+**Try This:**
+
+- Change the range to 3 years by using 'now-3y/y'.
+
+- Try filtering for newer users by using 'gte: now-1y/y'.
 
 
 
@@ -156,7 +166,7 @@ Search for premium users who joined within the last year.
 
 ## View Official Documentation
 
-For complete documentation, visit: https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query
+For complete documentation, visit: https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query
 
 ## Need Help?
 

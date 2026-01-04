@@ -1,0 +1,29 @@
+slug: docs-lab-bool-query
+title: Docs Lab - Boolean Query
+teaser: Learn how to use the bool_query query in Elasticsearch
+description: |
+  A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene `BooleanQuery`. It is built using one or more boolean clauses, each clause with a typed occ...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- bool-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "2b53f63de86f1e45683622d8d849b78e"
+enhanced_loading: false

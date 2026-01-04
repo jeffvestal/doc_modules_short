@@ -1,48 +1,46 @@
 ---
 slug: intro
-id: qqtawaconara
+id: placeholder-multimatchquery
 type: challenge
-title: Multi-Match Query Lab
+title: Multi-match Query Lab
 teaser: Learn how to use the multi_match_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Multi-Match Query Lab
-
-    Welcome to the interactive lab for the multi_match_query query!
-
-    The `multi_match` query builds on the `match` query to allow multi-field queries.
 tabs:
-- id: fn0wetl2nxft
+- id: tab-querylab-multimatchquery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: 863wfv7yjvol
+- id: tab-querylabfull-multimatchquery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: qmtyeq90tc1n
+- id: tab-terminal-multimatchquery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: t5maq3bt9axx
+- id: tab-dataset-multimatchquery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Multi-match Query Lab
+    
+    Welcome to the interactive lab for the multi_match_query query!
+    
+    The `multi_match` query builds on the `match` query to allow multi-field queries.
 ---
 
-# Multi-Match Query Lab
+# Multi-match Query Lab
 
-Welcome to the interactive Multi-Match Query lab! This lab teaches you how to use the multi_match_query query in Elasticsearch.
+Welcome to the interactive Multi-match Query lab! This lab teaches you how to use the multi_match_query query in Elasticsearch.
 
 ## Overview
 
@@ -76,71 +74,60 @@ The `multi_match` query builds on the `match` query to allow multi-field queries
 
 ## Examples
 
-This lab includes 6 examples demonstrating different aspects of the multi_match_query query:
+This lab includes 5 examples demonstrating different aspects of the multi_match_query query:
 
 
-### Search across multiple fields in products
-Find products with 'wireless' in the name or description.
-
-
-**Try This:**
-
-- Try replacing 'wireless' with other keywords like 'premium' or 'durable' to see how it affects the results.
-
-
-
-
-### Boost specific fields
-Give more weight to matches in the product name field.
+### Search products by name and description
+Find products that mention 'wireless' in their name or description.
 
 
 **Try This:**
 
-- Try experimenting with different boost values, e.g., 'product_name^3', to see how boosting affects the ranking of results.
+- Try changing 'wireless' to 'premium' to see different results.
 
 
 
 
-### Search product reviews
-Find reviews mentioning 'comfortable' in the title or text.
-
-
-**Try This:**
-
-- Try replacing 'comfortable' with other terms, like 'durable' or 'easy setup', to find different reviews.
-
-
-
-
-### Use the 'phrase_prefix' type
-Search for reviews where the title or text starts with 'durable and'.
+### Search reviews for specific keywords
+Find reviews that mention 'comfortable' in their title or text.
 
 
 **Try This:**
 
-- Try using different phrases like 'easy to' or 'great for' to explore the prefix search functionality.
+- Try searching for 'durable' instead of 'comfortable'.
 
 
 
 
-### Search user interests
-Find users interested in 'Books' and 'Electronics'.
-
-
-**Try This:**
-
-- Try changing the query to other combinations like 'Sports Outdoors' or 'Beauty' to see how it matches users.
-
-
-
-
-### Use 'most_fields' type
-Search for users where the text matches in most fields.
+### Search user interests for categories
+Find users interested in 'Books'.
 
 
 **Try This:**
 
-- Try replacing 'outdoor enthusiast' with another phrase like 'tech lover' or 'avid reader' to observe field-matching behavior.
+- Try searching for 'Electronics' instead of 'Books'.
+
+
+
+
+### Boost specific fields in product search
+Search for 'audio' and prioritize matches in the product name over the description.
+
+
+**Try This:**
+
+- Change the boost factor (e.g., 'product_name^3') to prioritize name matches further.
+
+
+
+
+### Search reviews with cross-fields type
+Search for reviews mentioning 'durable' across multiple fields.
+
+
+**Try This:**
+
+- Try using the 'best_fields' type for comparison.
 
 
 

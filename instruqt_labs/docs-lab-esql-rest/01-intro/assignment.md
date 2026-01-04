@@ -35,7 +35,7 @@ notes:
     
     Welcome to the interactive lab for the esql_rest query!
     
-    The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+    <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 ---
 
 # ES|QL Query Lab
@@ -44,7 +44,7 @@ Welcome to the interactive ES|QL Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API.
+<tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
 
 ## What You'll Learn
 
@@ -78,67 +78,67 @@ This lab includes 6 examples demonstrating different aspects of the esql_rest qu
 
 
 ### Filter products by category and sort by price
-Retrieve all Electronics products and sort them by price in ascending order.
+Retrieve all products in the 'Electronics' category and sort them by price in descending order.
 
 
 **Try This:**
 
-- Try changing the category to 'Books' or 'Clothing' to explore different results.
+- Change the category to 'Clothing' or another value from the provided list.
 
 
 
 
-### Find reviews mentioning specific keywords
-Search for reviews mentioning 'durable' or 'comfortable' and display their titles and ratings.
-
-
-**Try This:**
-
-- Try replacing the keywords with 'sturdy' or 'reliable' to find other reviews.
-
-
-
-
-### Identify active users interested in specific topics
-List usernames and their interests for users who are interested in Books or Electronics.
+### Find high-rated reviews
+Retrieve reviews with a rating of 5 stars and display the title, rating, and helpful votes.
 
 
 **Try This:**
 
-- Try changing the interests to 'Sports' or 'Beauty' to view users with different preferences.
+- Modify the rating to 4 or another value to see reviews with different ratings.
 
 
 
 
-### Analyze verified purchases with high helpful votes
-Find reviews from verified purchases with more than 20 helpful votes.
-
-
-**Try This:**
-
-- Try modifying the helpful_votes threshold to 15 or 30 to see different results.
-
-
-
-
-### Discover premium users with high trust scores
-Retrieve usernames and trust scores of Premium account users.
+### Search for specific user interests
+Find users interested in 'Books' or 'Electronics' and display their username and interests.
 
 
 **Try This:**
 
-- Try changing the account_type to 'Free' or 'Enterprise' to analyze other user groups.
+- Change the interest to 'Sports' or another value to explore other user interests.
 
 
 
 
-### Search for affordable products by brand
-Find products from 'GlowNaturals' priced below $50, sorted by price.
+### Find affordable products
+List products priced below $50 and show their name, brand, and price.
 
 
 **Try This:**
 
-- Try changing the brand to 'AudioMax' or 'PlayPals' and adjust the price range to explore other products.
+- Adjust the price threshold to $30 or $100 to see different results.
+
+
+
+
+### Identify verified product reviews
+Retrieve reviews marked as verified purchases and sort them by review date.
+
+
+**Try This:**
+
+- Change the filter to 'False' to see non-verified reviews.
+
+
+
+
+### Analyze user activity
+Find premium users who have written more than 20 reviews and display their username and total reviews count.
+
+
+**Try This:**
+
+- Change the account type to 'Free' or 'Enterprise' to analyze other user groups.
 
 
 

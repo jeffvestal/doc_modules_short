@@ -1,43 +1,41 @@
 ---
 slug: intro
-id: ov0pjqbp69vh
+id: placeholder-fuzzyquery
 type: challenge
 title: Fuzzy Query Lab
 teaser: Learn how to use the fuzzy_query query in Elasticsearch
-notes:
-- type: text
-  contents: |
-    # Fuzzy Query Lab
-
-    Welcome to the interactive lab for the fuzzy_query query!
-
-    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
 tabs:
-- id: xcpjeal5wleb
+- id: tab-querylab-fuzzyquery
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: xxsfo7idilhu
+- id: tab-querylabfull-fuzzyquery
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: nukehryl6ott
+- id: tab-terminal-fuzzyquery
   title: Terminal
   type: terminal
   hostname: host-1
-- id: 5lqwqsyvv0sq
+- id: tab-dataset-fuzzyquery
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-difficulty: ""
-enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    # Fuzzy Query Lab
+    
+    Welcome to the interactive lab for the fuzzy_query query!
+    
+    Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
 ---
 
 # Fuzzy Query Lab
@@ -46,7 +44,7 @@ Welcome to the interactive Fuzzy Query lab! This lab teaches you how to use the 
 
 ## Overview
 
-Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another. These changes can include: - Changing a character (box → fox) - Removing a character (black → lack) - Inserting a character (sic → sick) - Transposing two adjacent characters (act → cat)
+Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. An edit distance is the number of one-character changes needed to turn one term into another.
 
 ## What You'll Learn
 
@@ -76,60 +74,49 @@ Returns documents that contain terms similar to the search term, as measured by 
 
 ## Examples
 
-This lab includes 5 examples demonstrating different aspects of the fuzzy_query query:
+This lab includes 4 examples demonstrating different aspects of the fuzzy_query query:
 
 
-### Find similar product names
-Search for products where the name is similar to 'wireles' using automatic fuzziness.
-
-
-**Try This:**
-
-- Try changing 'wireles' to 'wirless' or 'wireless' to see how fuzziness impacts results.
-
-
-
-
-### Match product descriptions with limited fuzziness
-Search for products with descriptions similar to 'premum' allowing up to 1 edit distance.
+### Find similar review titles
+Search for review titles similar to 'durable'. Useful for identifying reviews with common misspellings or alternative phrasing.
 
 
 **Try This:**
 
-- Experiment with 'premum' and 'premium' to see if results differ when fuzziness is set to 1.
+- Try changing 'durable' to 'durrable' or 'durbale' to test transpositions and edit distances.
 
 
 
 
-### Find similar review texts
-Search for reviews with text similar to 'durabl' allowing up to 2 edit distances.
-
-
-**Try This:**
-
-- Try changing 'durabl' to 'durable' or 'durablity' and compare the results.
-
-
-
-
-### Prefix matching for user interests
-Search for users with interests similar to 'electroncs' requiring a prefix length of 2.
+### Search for similar user interests
+Find users whose documented interests are similar to 'Books'. This helps identify users with close interests despite typos or variations.
 
 
 **Try This:**
 
-- Test with 'electroncs' and see the effect of different prefix lengths like 0 or 3.
+- Try searching for 'Boooks' or 'Boks' to explore how fuzziness handles input errors.
 
 
 
 
-### Find verified reviews with fuzzy matching
-Search for verified reviews with titles similar to 'comfrtable' allowing automatic fuzziness.
+### Find products with similar descriptions
+Search for products where the description is similar to 'premium quality'. This query helps identify products with closely related descriptions.
 
 
 **Try This:**
 
-- Modify 'comfrtable' to 'comfortable' or 'comfrtble' and observe the results.
+- Try modifying 'premium quality' to include typos like 'premiom qualty'.
+
+
+
+
+### Search for similar product brand names
+Find products with a brand name similar to 'GlowEssence'. This is useful for locating brands with slight variations or common typos.
+
+
+**Try This:**
+
+- Try searching for 'GlowEsence' or 'GlowEsensce' to see how close matches are handled.
 
 
 
@@ -145,7 +132,7 @@ Search for verified reviews with titles similar to 'comfrtable' allowing automat
 
 ## View Official Documentation
 
-For complete documentation, visit: https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query
+For complete documentation, visit: https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query
 
 ## Need Help?
 

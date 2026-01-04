@@ -90,12 +90,12 @@ else
 fi
 
 # Use lab-specific static folder
-echo "[Workshop] Setting up Multi-Match Query lab frontend..."
+echo "[Workshop] Setting up Multi-match Query lab frontend..."
 STATIC_FOLDER="/opt/workshop-assets/backend/static-multi-match-query"
 if [ -d "${STATIC_FOLDER}" ]; then
   rm -rf /opt/workshop-assets/backend/static
   mv "${STATIC_FOLDER}" /opt/workshop-assets/backend/static
-  echo "[Workshop] ✓ Multi-Match Query frontend configured"
+  echo "[Workshop] ✓ Multi-match Query frontend configured"
 else
   echo "[Workshop] ⚠️  Lab-specific static folder not found, using default"
 fi

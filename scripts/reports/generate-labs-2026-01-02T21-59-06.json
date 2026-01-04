@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-01-02T21:59:06.858790Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 26.35255193710327
+  },
+  "created_labs": [
+    {
+      "slug": "match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query",
+      "example_count": 4,
+      "validation_passed": true,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": []
+}

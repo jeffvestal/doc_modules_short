@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-01-02T21:36:45.137630Z",
+  "summary": {
+    "total_urls": 16,
+    "successfully_created": 0,
+    "skipped": 5,
+    "failed": 11,
+    "total_time_seconds": 7.729192018508911
+  },
+  "created_labs": [],
+  "skipped_labs": [
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "term-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    }
+  ],
+  "failed_labs": [
+    {
+      "slug": "query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:46.943975+00:00', 'type': 'expired_key', 'param': 'ec51cad8ecd1076ba0b5b58cd6edb08fa20f869bf26e4fb24193af713480ebdd', 'code': '400'}}"
+    },
+    {
+      "slug": "simple-query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:47.764185+00:00', 'type': 'expired_key', 'param': 'ec51cad8ecd1076ba0b5b58cd6edb08fa20f869bf26e4fb24193af713480ebdd', 'code': '400'}}"
+    },
+    {
+      "slug": "terms-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:48.501867+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "exists-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:49.230435+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "prefix-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-prefix-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:49.862416+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "wildcard-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-wildcard-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:50.508070+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "regexp-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-regexp-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:51.244376+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "bool-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:51.835384+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "boosting-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-boosting-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:52.456207+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "constant-score-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-constant-score-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:53.049128+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    },
+    {
+      "slug": "dis-max-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-dis-max-query",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2025-12-29 00:00:00+00:00 and current time 2026-01-02 21:36:53.662956+00:00', 'type': 'expired_key', 'param': 'sk-NnJjdIHhrdzRFw1tPbuaFA', 'code': '400'}}"
+    }
+  ],
+  "validation_warnings": []
+}

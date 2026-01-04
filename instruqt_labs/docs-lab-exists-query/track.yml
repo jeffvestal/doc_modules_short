@@ -1,0 +1,29 @@
+slug: docs-lab-exists-query
+title: Docs Lab - Exists Query
+teaser: Learn how to use the exists_query query in Elasticsearch
+description: |
+  Returns documents that contain an indexed value for a field. An indexed value may not exist for a document’s field due to a variety of reasons: - The field in the source JSON is `null` or `[]` - The f...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- exists-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "3505d68433bd7fa6fb11832771742f61"
+enhanced_loading: false

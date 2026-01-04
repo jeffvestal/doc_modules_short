@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-01-02T21:39:18.464148Z",
+  "summary": {
+    "total_urls": 19,
+    "successfully_created": 7,
+    "skipped": 5,
+    "failed": 7,
+    "total_time_seconds": 596.7246382236481
+  },
+  "created_labs": [
+    {
+      "slug": "terms-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "exists-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "bool-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "boosting-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-boosting-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "constant-score-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-constant-score-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "dis-max-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-dis-max-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    },
+    {
+      "slug": "esql-commands",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-commands",
+      "example_count": 6,
+      "validation_passed": true,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "term-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    }
+  ],
+  "failed_labs": [
+    {
+      "slug": "match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query",
+      "error": "Blocked: 1 example(s) failed validation (6)"
+    },
+    {
+      "slug": "query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
+      "error": "Blocked: 1 example(s) failed validation (example4)"
+    },
+    {
+      "slug": "simple-query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query",
+      "error": "Blocked: 1 example(s) failed validation (6)"
+    },
+    {
+      "slug": "prefix-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-prefix-query",
+      "error": "Blocked: 2 example(s) failed validation (prefix_query_products_description, prefix_query_users_interests)"
+    },
+    {
+      "slug": "wildcard-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-wildcard-query",
+      "error": "Blocked: 1 example(s) failed validation (6)"
+    },
+    {
+      "slug": "regexp-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-regexp-query",
+      "error": "Blocked: 1 example(s) failed validation (example6)"
+    },
+    {
+      "slug": "esql-syntax",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-syntax",
+      "error": "Blocked: 2 example(s) failed validation (example_3, example_6)"
+    }
+  ],
+  "validation_warnings": [
+    {
+      "lab_slug": "bool-query",
+      "example_id": "example_3",
+      "warning_type": "min_hits",
+      "message": "Only returned 2 hits (min: 3)"
+    },
+    {
+      "lab_slug": "boosting-query",
+      "example_id": "4",
+      "warning_type": "min_hits",
+      "message": "Only returned 1 hits (min: 3)"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-01-03T03:01:50.541123Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 1,
+    "skipped": 0,
+    "failed": 0,
+    "total_time_seconds": 17.764392852783203
+  },
+  "created_labs": [
+    {
+      "slug": "boosting-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-boosting-query",
+      "example_count": 5,
+      "validation_passed": true,
+      "pushed": false
+    }
+  ],
+  "skipped_labs": [],
+  "failed_labs": [],
+  "validation_warnings": []
+}

@@ -1,0 +1,29 @@
+slug: docs-lab-regexp-query
+title: Docs Lab - Regexp Query
+teaser: Learn how to use the regexp_query query in Elasticsearch
+description: |
+  Returns documents that contain terms matching a [regular expression](https://en.wikipedia.org/wiki/Regular_expression). A regular expression is a way to match patterns in data using placeholder charac...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- regexp-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "62181d7cc8328d89cfccac61a0f9f2f4"
+enhanced_loading: false

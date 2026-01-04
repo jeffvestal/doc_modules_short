@@ -1,0 +1,29 @@
+slug: docs-lab-wildcard-query
+title: Docs Lab - Wildcard Query
+teaser: Learn how to use the wildcard_query query in Elasticsearch
+description: |
+  Returns documents that contain terms matching a wildcard pattern. A wildcard operator is a placeholder that matches one or more characters. For example, the `*` wildcard operator matches zero or more ...
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- wildcard-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "043b9841ee47ed02396b8fd9ed9bfb85"
+enhanced_loading: false

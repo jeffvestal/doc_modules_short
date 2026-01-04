@@ -1,0 +1,29 @@
+slug: docs-lab-prefix-query
+title: Docs Lab - Prefix Query
+teaser: Learn how to use the prefix_query query in Elasticsearch
+description: |
+  Returns documents that contain a specific prefix in a provided field.
+icon: ""
+tags:
+- elasticsearch
+- full-text-queries
+- query-dsl
+- prefix-query
+owner: elastic
+developers:
+- jeff.vestal@elastic.co
+show_timer: true
+idle_timeout: 1800
+timelimit: 1800
+lab_config:
+  extend_ttl: 1800
+  sidebar_enabled: true
+  feedback_recap_enabled: true
+  feedback_tab_enabled: false
+  loadingMessages: true
+  theme:
+    name: modern-dark
+  override_challenge_layout: false
+  hideStopButton: false
+checksum: "4ab61f96e110d1aeb8ad5db63ff05d27"
+enhanced_loading: false

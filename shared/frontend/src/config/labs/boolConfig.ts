@@ -2,71 +2,82 @@ import type { LabConfig } from '../../types';
 
 export const boolConfig: LabConfig = {
   queryLanguage: 'query_dsl',
-  queryType: 'bool',
-  displayName: 'Bool Query',
-  description: 'A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene BooleanQuery. It is built using one or more boolean clauses, each clause with a typed occurrence.',
+  queryType: 'bool_query',
+  displayName: 'Boolean Query',
+  description: "A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene `BooleanQuery`. It is built using one or more boolean clauses, each clause with a typed occurrence. The occurrence types are:",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query',
-  
+
   keyDisplayFields: {
     products: 'product_name',
     product_reviews: 'review_title',
     product_users: 'username',
   },
-  
   searchFields: {
-    products: 'product_description',
-    product_reviews: 'review_text',
-    product_users: 'interests',
+    products: ["product_name", "product_description"],
+    product_reviews: ["review_title", "review_text"],
+    product_users: ["interests"],
   },
-  
   sampleQueries: {
-    products: 'premium',
-    product_reviews: 'comfortable',
-    product_users: 'Electronics',
+    products: "wireless",
+    product_reviews: "comfortable",
+    product_users: "Electronics",
   },
-  
   queryStructure: {
-    type: 'bool',
-    fieldPath: 'nested',
+    type: 'inline',
+    fieldPath: '',
   },
-  
   examples: [
+
     {
-      id: 'must-clause',
-      title: 'Must Clause',
-      description: 'The must clause (query) must appear in matching documents and will contribute to the score. Documents must match all queries in the must clause.',
+      id: 'example_1',
+      title: "Filter products by category and price range",
+      description: "This query retrieves products in the \u0027Electronics\u0027 category with a price between $50 and $100.",
       template: `{
   "query": {
     "bool": {
       "must": [
         {
-          "match": {
-            "review_text": "comfortable"
+          "term": {
+            "product_category": "Electronics"
           }
-        },
+        }
+      ],
+      "filter": [
         {
-          "match": {
-            "review_text": "durable"
+          "range": {
+            "product_price": {
+              "gte": 50,
+              "lte": 100
+            }
           }
         }
       ]
     }
   }
 }`,
-      index: 'product_reviews',
+      index: 'products',
+
       tryThis: [
-        'Try adding more queries to the must array',
-        'Compare with using operator: "and" in a single match query',
-        'Notice how all must clauses must match',
+
+        "Try changing the product_category to \u0027Home and Kitchen\u0027 or modifying the price range.",
+
       ],
+
+
       tooltips: {
-        must: 'All queries in must must match. Equivalent to AND logic.',
+
+        "must": "Defines the mandatory conditions for the query.",
+
+        "range": "Filters results based on a range of numeric or date values.",
+
       },
+
     },
+
     {
-      id: 'should-clause',
-      title: 'Should Clause',
-      description: 'The should clause (query) should appear in matching documents. If the bool query is in a query context and has a must or filter clause, then should clauses are optional. Otherwise, at least one should clause must match.',
+      id: 'example_2',
+      title: "Search for reviews containing specific words",
+      description: "This query finds reviews that mention either \u0027comfortable\u0027 or \u0027durable\u0027.",
       template: `{
   "query": {
     "bool": {
@@ -79,124 +90,6 @@ export const boolConfig: LabConfig = {
         {
           "match": {
             "review_text": "durable"
-          }
-        }
-      ]
-    }
-  }
-}`,
-      index: 'product_reviews',
-      tryThis: [
-        'Try adding minimum_should_match: 2 to require both terms',
-        'Compare with using operator: "or" in a single match query',
-        'Notice how any should clause can match',
-      ],
-      tooltips: {
-        should: 'At least one query in should should match. Equivalent to OR logic.',
-      },
-    },
-    {
-      id: 'must-not-clause',
-      title: 'Must Not Clause',
-      description: 'The must_not clause (query) must not appear in matching documents. Clauses are executed in filter context, meaning that scoring is ignored and clauses are considered for caching.',
-      template: `{
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "match": {
-            "review_text": "comfortable"
-          }
-        }
-      ],
-      "must_not": [
-        {
-          "match": {
-            "review_text": "cheap"
-          }
-        }
-      ]
-    }
-  }
-}`,
-      index: 'product_reviews',
-      tryThis: [
-        'Try excluding different terms',
-        'Combine with should and filter clauses',
-        'Notice how must_not excludes documents',
-      ],
-      tooltips: {
-        must_not: 'Documents matching must_not queries are excluded from results.',
-      },
-    },
-    {
-      id: 'filter-clause',
-      title: 'Filter Clause',
-      description: 'The filter clause (query) must appear in matching documents. However, unlike must, the score of the query will be ignored. Filter clauses are executed in filter context, meaning that scoring is ignored and clauses are considered for caching.',
-      template: `{
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "match": {
-            "review_text": "comfortable"
-          }
-        }
-      ],
-      "filter": [
-        {
-          "range": {
-            "review_rating": {
-              "gte": 4
-            }
-          }
-        }
-      ]
-    }
-  }
-}`,
-      index: 'product_reviews',
-      tryThis: [
-        'Try different range values',
-        'Compare scores with and without filter (use must instead)',
-        'Notice how filter doesn\'t affect scoring',
-      ],
-      tooltips: {
-        filter: 'Like must, but doesn\'t affect the score. Good for exact matches and ranges.',
-      },
-    },
-    {
-      id: 'combined-clauses',
-      title: 'Combined Clauses',
-      description: 'Combine multiple clause types to create complex queries. This example uses must, should, and filter together.',
-      template: `{
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "match": {
-            "review_text": "comfortable"
-          }
-        }
-      ],
-      "should": [
-        {
-          "match": {
-            "review_text": "durable"
-          }
-        },
-        {
-          "match": {
-            "review_text": "quality"
-          }
-        }
-      ],
-      "filter": [
-        {
-          "range": {
-            "review_rating": {
-              "gte": 4
-            }
           }
         }
       ],
@@ -205,53 +98,124 @@ export const boolConfig: LabConfig = {
   }
 }`,
       index: 'product_reviews',
+
       tryThis: [
-        'Try changing minimum_should_match to 2',
-        'Remove the filter clause and see how scores change',
-        'Experiment with different clause combinations',
+
+        "Try adding more terms to the \u0027should\u0027 clause, such as \u0027high quality\u0027 or \u0027affordable\u0027.",
+
       ],
+
+
       tooltips: {
-        minimum_should_match: 'Minimum number of should clauses that must match.',
+
+        "should": "Defines optional conditions that increase the relevance score.",
+
+        "minimum_should_match": "Specifies the minimum number of \u0027should\u0027 clauses that must be satisfied.",
+
       },
+
     },
+
     {
-      id: 'minimum-should-match',
-      title: 'Minimum Should Match',
-      description: 'Control how many should clauses must match. Useful for fine-tuning relevance.',
+      id: 'example_4',
+      title: "Exclude products with a specific brand and price range",
+      description: "This query retrieves products that are not from the \u0027PlaySmart\u0027 brand and have a price outside the $30-$70 range.",
       template: `{
   "query": {
     "bool": {
-      "should": [
+      "must": [
         {
-          "match": {
-            "review_text": "comfortable"
+          "match_all": {}
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "product_brand": "PlaySmart"
           }
         },
         {
-          "match": {
-            "review_text": "durable"
+          "range": {
+            "product_price": {
+              "gte": 30,
+              "lte": 70
+            }
+          }
+        }
+      ]
+    }
+  }
+}`,
+      index: 'products',
+
+      tryThis: [
+
+        "Try changing the product_brand to another value like \u0027AudioMax\u0027 or adjusting the price range.",
+
+      ],
+
+
+      tooltips: {
+
+        "must_not": "Excludes documents that match the specified conditions.",
+
+        "match_all": "Matches all documents in the index.",
+
+      },
+
+    },
+
+    {
+      id: 'example_5',
+      title: "Combine multiple conditions for product reviews",
+      description: "This query retrieves reviews for verified purchases with a rating of 4 or higher and filters out reviews with less than 10 helpful votes.",
+      template: `{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "verified_purchase": "True"
           }
         },
         {
-          "match": {
-            "review_text": "quality"
+          "range": {
+            "review_rating": {
+              "gte": 4
+            }
           }
         }
       ],
-      "minimum_should_match": 2
+      "filter": [
+        {
+          "range": {
+            "helpful_votes": {
+              "gte": 10
+            }
+          }
+        }
+      ]
     }
   }
 }`,
       index: 'product_reviews',
+
       tryThis: [
-        'Try different minimum_should_match values: 1, 2, 3',
-        'Use percentage: "minimum_should_match": "75%"',
-        'Compare with must clause (requires all)',
+
+        "Try changing the review_rating range or the minimum helpful_votes.",
+
       ],
+
+
       tooltips: {
-        minimum_should_match: 'Can be a number (2) or percentage ("75%"). Controls how many should clauses must match.',
+
+        "must": "Defines the mandatory conditions for matching documents.",
+
+        "filter": "Applies additional filtering to the query results without affecting scoring.",
+
       },
+
     },
+
   ],
 };
-

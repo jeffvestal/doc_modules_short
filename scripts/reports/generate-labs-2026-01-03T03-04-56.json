@@ -1,0 +1,129 @@
+{
+  "timestamp": "2026-01-03T03:04:56.491662Z",
+  "summary": {
+    "total_urls": 19,
+    "successfully_created": 0,
+    "skipped": 19,
+    "failed": 0,
+    "total_time_seconds": 3.010690927505493
+  },
+  "created_labs": [],
+  "skipped_labs": [
+    {
+      "slug": "match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "multi-match-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-multi-match-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "simple-query-string-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-simple-query-string-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "term-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "terms-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "range-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "exists-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "prefix-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-prefix-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "wildcard-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-wildcard-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "fuzzy-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "regexp-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-regexp-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "bool-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-bool-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "boosting-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-boosting-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "constant-score-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-constant-score-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "dis-max-query",
+      "url": "https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-dis-max-query",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "esql-commands",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-commands",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    },
+    {
+      "slug": "esql-syntax",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-syntax",
+      "reason": "Already exists (use --regenerate)",
+      "pushed": false
+    }
+  ],
+  "failed_labs": [],
+  "validation_warnings": []
+}
