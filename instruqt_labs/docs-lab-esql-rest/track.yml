@@ -1,5 +1,6 @@
 slug: docs-lab-esql-rest
-title: Docs Lab - ES|QL Query
+id: a6qfvlunlt13
+title: Docs Lab - ES|QL Rest Api
 teaser: Learn how to use the esql_rest query in Elasticsearch
 description: |
   <tip> The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. </tip>
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "d55b60089574008e53f1ffa6b3bbb02a"
+checksum: "6188521553837425541"
 enhanced_loading: false

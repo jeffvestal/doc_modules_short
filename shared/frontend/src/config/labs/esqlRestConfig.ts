@@ -3,7 +3,7 @@ import type { LabConfig } from '../../types';
 export const esqlRestConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_rest',
-  displayName: 'ES|QL Query',
+  displayName: "ES|QL Rest Api",
   description: "\u003ctip\u003e The [Search and filter with ES|QL](https://www.elastic.co/docs/reference/query-languages/esql/esql-search-tutorial) tutorial provides a hands-on introduction to the ES|QL `_query` API. \u003c/tip\u003e",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-rest',
 
