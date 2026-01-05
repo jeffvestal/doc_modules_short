@@ -199,7 +199,7 @@ Existing Code Examples from Documentation:
 Generate a complete LabConfig JSON object with:
 - queryLanguage: "esql"
 - queryType: "{parsed_doc.get('query_type', '')}"
-- displayName: Human-readable name (e.g., "ES|QL Query")
+- displayName: Derive from title "{parsed_doc.get('title', '')}" - use a clear, concise name like "ES|QL Commands", "ES|QL REST API", "ES|QL Syntax"
 - description: The description from the doc
 - docUrl: The doc URL
 - keyDisplayFields: Use the key_display_field from dataset_schemas

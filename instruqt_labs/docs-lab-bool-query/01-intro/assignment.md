@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-boolquery
+id: smtmnrzkdjnz
 type: challenge
 title: Boolean Query Lab
 teaser: Learn how to use the bool_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Boolean Query Lab
+
+    Welcome to the interactive lab for the bool_query query!
+
+    A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene `BooleanQuery`. It is built using one or more boolean clauses, each clause with a typed occurrence. The occurrence types are:
 tabs:
-- id: tab-querylab-boolquery
+- id: uotft6fse6gu
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-boolquery
+- id: fsrlrsqjxxlh
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-boolquery
+- id: b1q7vzkfrroi
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-boolquery
+- id: v4drpkopvsy1
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Boolean Query Lab
-    
-    Welcome to the interactive lab for the bool_query query!
-    
-    A query that matches documents matching boolean combinations of other queries. The bool query maps to Lucene `BooleanQuery`. It is built using one or more boolean clauses, each clause with a typed occurrence. The occurrence types are:
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Boolean Query Lab

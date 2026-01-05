@@ -3,7 +3,7 @@ import type { LabConfig } from '../../types';
 export const esqlCommandsConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_commands',
-  displayName: 'ES|QL Query',
+  displayName: "ES|QL Commands",
   description: "ES|QL commands come in two flavors: source commands and processing commands: - An ES|QL query must start with a [source command](https://www.elastic.co/docs/reference/query-languages/esql/commands/source-commands). - Use [processing commands](https://www.elastic.co/docs/reference/query-languages/esql/commands/processing-commands) to modify an input table by adding, removing, or transforming rows and columns.",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-commands',
 

@@ -1,14 +1,15 @@
 slug: docs-lab-query-string-query
+id: pe1q6zfltbuv
 title: Docs Lab - Query String Query
 teaser: Learn how to use the query_string_query query in Elasticsearch
 description: |
   <tip> This page contains information about the `query_string` query type. For information about running a search query in Elasticsearch, see [*The search API*](https://www.elastic.co/docs/solutions/se...
 icon: ""
 tags:
+- query-string-query
 - elasticsearch
 - full-text-queries
 - query-dsl
-- query-string-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "6305c30c8efc20e8ae0335d78e6a154b"
+checksum: "8012280047891957185"
 enhanced_loading: false

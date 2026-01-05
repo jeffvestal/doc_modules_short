@@ -1,4 +1,5 @@
 slug: docs-lab-wildcard-query
+id: ivvmfgqnzroh
 title: Docs Lab - Wildcard Query
 teaser: Learn how to use the wildcard_query query in Elasticsearch
 description: |
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "043b9841ee47ed02396b8fd9ed9bfb85"
+checksum: "10798670949841718941"
 enhanced_loading: false

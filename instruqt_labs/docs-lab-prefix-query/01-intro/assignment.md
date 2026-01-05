@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-prefixquery
+id: vzpd7z7gm8ij
 type: challenge
 title: Prefix Query Lab
 teaser: Learn how to use the prefix_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Prefix Query Lab
+
+    Welcome to the interactive lab for the prefix_query query!
+
+    Returns documents that contain a specific prefix in a provided field.
 tabs:
-- id: tab-querylab-prefixquery
+- id: ub8xn2o4jvwx
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-prefixquery
+- id: panax1eiq6jg
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-prefixquery
+- id: jem3b7qypfel
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-prefixquery
+- id: ysbgn3f2pyag
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Prefix Query Lab
-    
-    Welcome to the interactive lab for the prefix_query query!
-    
-    Returns documents that contain a specific prefix in a provided field.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Prefix Query Lab

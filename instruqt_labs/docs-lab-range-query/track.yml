@@ -1,14 +1,15 @@
 slug: docs-lab-range-query
+id: dpmlsxuoyy99
 title: Docs Lab - Range Query
 teaser: Learn how to use the range_query query in Elasticsearch
 description: |
   Returns documents that contain terms within a provided range.
 icon: ""
 tags:
+- range-query
 - elasticsearch
 - full-text-queries
 - query-dsl
-- range-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "62c7ac7e87c323fa1591ee81570ab12e"
+checksum: "2418871337308566313"
 enhanced_loading: false

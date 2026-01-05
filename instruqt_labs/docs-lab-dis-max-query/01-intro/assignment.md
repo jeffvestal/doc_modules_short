@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-dismaxquery
+id: 8umiyitksags
 type: challenge
 title: Disjunction Max Query Lab
 teaser: Learn how to use the dis_max_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Disjunction Max Query Lab
+
+    Welcome to the interactive lab for the dis_max_query query!
+
+    Returns documents matching one or more wrapped queries, called query clauses or clauses. If a returned document matches multiple query clauses, the `dis_max` query assigns the document the highest relevance score from any matching clause, plus a tie breaking increment for any additional matching subqueries.
 tabs:
-- id: tab-querylab-dismaxquery
+- id: puyxjeb1nnq6
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-dismaxquery
+- id: 59kim7htc2wh
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-dismaxquery
+- id: 2atzbhgqgxdf
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-dismaxquery
+- id: xfr1kdyssijc
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Disjunction Max Query Lab
-    
-    Welcome to the interactive lab for the dis_max_query query!
-    
-    Returns documents matching one or more wrapped queries, called query clauses or clauses. If a returned document matches multiple query clauses, the `dis_max` query assigns the document the highest relevance score from any matching clause, plus a tie breaking increment for any additional matching subqueries.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Disjunction Max Query Lab

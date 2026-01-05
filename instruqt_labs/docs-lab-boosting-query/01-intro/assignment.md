@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-boostingquery
+id: 8patrbwyoypz
 type: challenge
 title: Boosting Query Lab
 teaser: Learn how to use the boosting_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Boosting Query Lab
+
+    Welcome to the interactive lab for the boosting_query query!
+
+    Returns documents matching a `positive` query while reducing the relevance score of documents that also match a `negative` query. You can use the `boosting` query to demote certain documents without excluding them from the search results.
 tabs:
-- id: tab-querylab-boostingquery
+- id: r9pb3p9balkl
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-boostingquery
+- id: dthmjqiq9oou
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-boostingquery
+- id: o14cphmrcol2
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-boostingquery
+- id: rgqzgd9nk7kz
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Boosting Query Lab
-    
-    Welcome to the interactive lab for the boosting_query query!
-    
-    Returns documents matching a `positive` query while reducing the relevance score of documents that also match a `negative` query. You can use the `boosting` query to demote certain documents without excluding them from the search results.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Boosting Query Lab

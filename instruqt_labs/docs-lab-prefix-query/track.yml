@@ -1,4 +1,5 @@
 slug: docs-lab-prefix-query
+id: tlihzyo2qko9
 title: Docs Lab - Prefix Query
 teaser: Learn how to use the prefix_query query in Elasticsearch
 description: |
@@ -6,9 +7,9 @@ description: |
 icon: ""
 tags:
 - elasticsearch
+- prefix-query
 - full-text-queries
 - query-dsl
-- prefix-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "4ab61f96e110d1aeb8ad5db63ff05d27"
+checksum: "6889880579328917424"
 enhanced_loading: false

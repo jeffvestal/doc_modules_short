@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-matchquery
+id: xfi1dtznmlj8
 type: challenge
 title: Match Query Lab
 teaser: Learn how to use the match_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Match Query Lab
+
+    Welcome to the interactive lab for the match_query query!
+
+    Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching. The `match` query is the standard query for performing a full-text search, including options for fuzzy matching. `Match` will also work against semantic_text fields. As `semantic_text` does not support lexical text search, `match` queries against `semantic_text` fields will automatically perform the correct semantic search. Because of this, options that specifically target lexical search such as `fuzziness` or `analyzer` will be ignored.
 tabs:
-- id: tab-querylab-matchquery
+- id: dwatecufbztc
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-matchquery
+- id: hadflembovxl
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-matchquery
+- id: fyclhildhdh5
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-matchquery
+- id: uv0cjywz4jvh
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Match Query Lab
-    
-    Welcome to the interactive lab for the match_query query!
-    
-    Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching. The `match` query is the standard query for performing a full-text search, including options for fuzzy matching. `Match` will also work against semantic_text fields. As `semantic_text` does not support lexical text search, `match` queries against `semantic_text` fields will automatically perform the correct semantic search. Because of this, options that specifically target lexical search such as `fuzziness` or `analyzer` will be ignored.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Match Query Lab

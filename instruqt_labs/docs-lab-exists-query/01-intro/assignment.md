@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-existsquery
+id: jyplupyoty34
 type: challenge
 title: Exists Query Lab
 teaser: Learn how to use the exists_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Exists Query Lab
+
+    Welcome to the interactive lab for the exists_query query!
+
+    Returns documents that contain an indexed value for a field. An indexed value may not exist for a document’s field due to a variety of reasons: - The field in the source JSON is `null` or `[]` - The field has `"index" : false` and `"doc_values" : false` set in the mapping - The length of the field value exceeded an `ignore_above` setting in the mapping - The field value was malformed and `ignore_malformed` was defined in the mapping
 tabs:
-- id: tab-querylab-existsquery
+- id: xc7bxgdzrzx7
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-existsquery
+- id: ght0qt3hhdaj
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-existsquery
+- id: nxkheoctkcfg
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-existsquery
+- id: xyjsyaqapppg
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Exists Query Lab
-    
-    Welcome to the interactive lab for the exists_query query!
-    
-    Returns documents that contain an indexed value for a field. An indexed value may not exist for a document’s field due to a variety of reasons: - The field in the source JSON is `null` or `[]` - The field has `"index" : false` and `"doc_values" : false` set in the mapping - The length of the field value exceeded an `ignore_above` setting in the mapping - The field value was malformed and `ignore_malformed` was defined in the mapping
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Exists Query Lab

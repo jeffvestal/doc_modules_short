@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-01-05T14:36:08.273005Z",
+  "summary": {
+    "total_urls": 1,
+    "successfully_created": 0,
+    "skipped": 0,
+    "failed": 1,
+    "total_time_seconds": 1.2337439060211182
+  },
+  "created_labs": [],
+  "skipped_labs": [],
+  "failed_labs": [
+    {
+      "slug": "esql-rest",
+      "url": "https://www.elastic.co/docs/reference/query-languages/esql/esql-rest",
+      "error": "LLM generation failed: Error code: 400 - {'error': {'message': 'Authentication Error - Expired Key. Key Expiry time 2026-01-05 00:00:00+00:00 and current time 2026-01-05 14:36:10.683079+00:00', 'type': 'expired_key', 'param': '5c97249aa08cb411fc52468f3587a70ed1aa7a4a82508c0e9f649068c093f3c1', 'code': '400'}}"
+    }
+  ],
+  "validation_warnings": []
+}

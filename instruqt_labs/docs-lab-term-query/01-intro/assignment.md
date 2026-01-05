@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-termquery
+id: qho7yji2ohn4
 type: challenge
 title: Term Query Lab
 teaser: Learn how to use the term_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Term Query Lab
+
+    Welcome to the interactive lab for the term_query query!
+
+    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
 tabs:
-- id: tab-querylab-termquery
+- id: j7dnz13sdrwr
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-termquery
+- id: cycwwukzxcvp
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-termquery
+- id: d6oijtefxgjy
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-termquery
+- id: blrap4optyea
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Term Query Lab
-    
-    Welcome to the interactive lab for the term_query query!
-    
-    Returns documents that contain an **exact** term in a provided field. You can use the `term` query to find documents based on a precise value such as a price, a product ID, or a username.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Term Query Lab
@@ -89,7 +91,7 @@ Search for products in the 'Electronics' category.
 
 - y
 
--  
+-
 
 - c
 
@@ -107,7 +109,7 @@ Search for products in the 'Electronics' category.
 
 - g
 
--  
+-
 
 - t
 
@@ -115,7 +117,7 @@ Search for products in the 'Electronics' category.
 
 - e
 
--  
+-
 
 - v
 
@@ -127,13 +129,13 @@ Search for products in the 'Electronics' category.
 
 - e
 
--  
+-
 
 - t
 
 - o
 
--  
+-
 
 - a
 
@@ -149,7 +151,7 @@ Search for products in the 'Electronics' category.
 
 - r
 
--  
+-
 
 - c
 
@@ -169,7 +171,7 @@ Search for products in the 'Electronics' category.
 
 - ,
 
--  
+-
 
 - s
 
@@ -179,13 +181,13 @@ Search for products in the 'Electronics' category.
 
 - h
 
--  
+-
 
 - a
 
 - s
 
--  
+-
 
 - '
 
@@ -201,13 +203,13 @@ Search for products in the 'Electronics' category.
 
 - '
 
--  
+-
 
 - o
 
 - r
 
--  
+-
 
 - '
 
@@ -246,7 +248,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - y
 
--  
+-
 
 - s
 
@@ -262,7 +264,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - g
 
--  
+-
 
 - t
 
@@ -270,7 +272,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - e
 
--  
+-
 
 - v
 
@@ -282,13 +284,13 @@ Retrieve all reviews that have a 5-star rating.
 
 - e
 
--  
+-
 
 - t
 
 - o
 
--  
+-
 
 - a
 
@@ -304,7 +306,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - r
 
--  
+-
 
 - r
 
@@ -318,7 +320,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - g
 
--  
+-
 
 - (
 
@@ -332,25 +334,25 @@ Retrieve all reviews that have a 5-star rating.
 
 - ,
 
--  
+-
 
 - 1
 
 - ,
 
--  
+-
 
 - 3
 
 - )
 
--  
+-
 
 - t
 
 - o
 
--  
+-
 
 - s
 
@@ -358,7 +360,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - e
 
--  
+-
 
 - d
 
@@ -378,7 +380,7 @@ Retrieve all reviews that have a 5-star rating.
 
 - t
 
--  
+-
 
 - r
 
@@ -411,7 +413,7 @@ Locate a user with the username 'AveryWilliams55'.
 
 - y
 
--  
+-
 
 - s
 
@@ -431,7 +433,7 @@ Locate a user with the username 'AveryWilliams55'.
 
 - g
 
--  
+-
 
 - f
 
@@ -439,7 +441,7 @@ Locate a user with the username 'AveryWilliams55'.
 
 - r
 
--  
+-
 
 - o
 
@@ -451,7 +453,7 @@ Locate a user with the username 'AveryWilliams55'.
 
 - r
 
--  
+-
 
 - u
 
@@ -473,7 +475,7 @@ Locate a user with the username 'AveryWilliams55'.
 
 - ,
 
--  
+-
 
 - s
 
@@ -483,13 +485,13 @@ Locate a user with the username 'AveryWilliams55'.
 
 - h
 
--  
+-
 
 - a
 
 - s
 
--  
+-
 
 - '
 
@@ -523,13 +525,13 @@ Locate a user with the username 'AveryWilliams55'.
 
 - '
 
--  
+-
 
 - o
 
 - r
 
--  
+-
 
 - '
 
@@ -598,7 +600,7 @@ Search for products from the 'GlowNaturals' brand.
 
 - t
 
--  
+-
 
 - w
 
@@ -608,7 +610,7 @@ Search for products from the 'GlowNaturals' brand.
 
 - h
 
--  
+-
 
 - o
 
@@ -620,7 +622,7 @@ Search for products from the 'GlowNaturals' brand.
 
 - r
 
--  
+-
 
 - b
 
@@ -634,7 +636,7 @@ Search for products from the 'GlowNaturals' brand.
 
 - s
 
--  
+-
 
 - s
 
@@ -644,13 +646,13 @@ Search for products from the 'GlowNaturals' brand.
 
 - h
 
--  
+-
 
 - a
 
 - s
 
--  
+-
 
 - '
 
@@ -672,13 +674,13 @@ Search for products from the 'GlowNaturals' brand.
 
 - '
 
--  
+-
 
 - o
 
 - r
 
--  
+-
 
 - '
 
@@ -725,7 +727,7 @@ Retrieve all reviews that are verified purchases.
 
 - e
 
--  
+-
 
 - t
 
@@ -733,7 +735,7 @@ Retrieve all reviews that are verified purchases.
 
 - e
 
--  
+-
 
 - v
 
@@ -745,13 +747,13 @@ Retrieve all reviews that are verified purchases.
 
 - e
 
--  
+-
 
 - t
 
 - o
 
--  
+-
 
 - '
 
@@ -767,13 +769,13 @@ Retrieve all reviews that are verified purchases.
 
 - '
 
--  
+-
 
 - t
 
 - o
 
--  
+-
 
 - f
 
@@ -783,7 +785,7 @@ Retrieve all reviews that are verified purchases.
 
 - d
 
--  
+-
 
 - u
 
@@ -805,7 +807,7 @@ Retrieve all reviews that are verified purchases.
 
 - d
 
--  
+-
 
 - p
 
@@ -842,7 +844,7 @@ Find users with a 'Premium' account type.
 
 - y
 
--  
+-
 
 - s
 
@@ -862,7 +864,7 @@ Find users with a 'Premium' account type.
 
 - g
 
--  
+-
 
 - f
 
@@ -870,7 +872,7 @@ Find users with a 'Premium' account type.
 
 - r
 
--  
+-
 
 - u
 
@@ -882,7 +884,7 @@ Find users with a 'Premium' account type.
 
 - s
 
--  
+-
 
 - w
 
@@ -892,7 +894,7 @@ Find users with a 'Premium' account type.
 
 - h
 
--  
+-
 
 - '
 
@@ -906,13 +908,13 @@ Find users with a 'Premium' account type.
 
 - '
 
--  
+-
 
 - o
 
 - r
 
--  
+-
 
 - '
 
@@ -938,7 +940,7 @@ Find users with a 'Premium' account type.
 
 - '
 
--  
+-
 
 - a
 
@@ -954,7 +956,7 @@ Find users with a 'Premium' account type.
 
 - t
 
--  
+-
 
 - t
 

@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-wildcardquery
+id: iqs4otsyev18
 type: challenge
 title: Wildcard Query Lab
 teaser: Learn how to use the wildcard_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Wildcard Query Lab
+
+    Welcome to the interactive lab for the wildcard_query query!
+
+    Returns documents that contain terms matching a wildcard pattern. A wildcard operator is a placeholder that matches one or more characters. For example, the `*` wildcard operator matches zero or more characters. You can combine wildcard operators with other characters to create a wildcard pattern.
 tabs:
-- id: tab-querylab-wildcardquery
+- id: orxxv3cldket
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-wildcardquery
+- id: h8x9geofuwna
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-wildcardquery
+- id: bxi5xyypoynn
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-wildcardquery
+- id: 1thwjuutfbxp
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Wildcard Query Lab
-    
-    Welcome to the interactive lab for the wildcard_query query!
-    
-    Returns documents that contain terms matching a wildcard pattern. A wildcard operator is a placeholder that matches one or more characters. For example, the `*` wildcard operator matches zero or more characters. You can combine wildcard operators with other characters to create a wildcard pattern.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Wildcard Query Lab

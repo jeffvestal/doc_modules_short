@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-querystringquery
+id: ctydgbobbzxa
 type: challenge
 title: Query String Query Lab
 teaser: Learn how to use the query_string_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Query String Query Lab
+
+    Welcome to the interactive lab for the query_string_query query!
+
+    <tip> This page contains information about the `query_string` query type. For information about running a search query in Elasticsearch, see [*The search API*](https://www.elastic.co/docs/solutions/search/querying-for-search). </tip>
 tabs:
-- id: tab-querylab-querystringquery
+- id: b3fgpdeq8yhr
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-querystringquery
+- id: mditas3imdyz
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-querystringquery
+- id: aoldqv9ryvnr
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-querystringquery
+- id: yupr61gxpeag
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Query String Query Lab
-    
-    Welcome to the interactive lab for the query_string_query query!
-    
-    <tip> This page contains information about the `query_string` query type. For information about running a search query in Elasticsearch, see [*The search API*](https://www.elastic.co/docs/solutions/search/querying-for-search). </tip>
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Query String Query Lab

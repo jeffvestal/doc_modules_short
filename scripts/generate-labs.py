@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -229,6 +230,196 @@ def process_single_url(
         return {'status': 'failed', 'slug': slug, 'url': url, 'error': error_msg}
 
 
+def update_title_only(url: str, args: argparse.Namespace):
+    """Update only the displayName and title without regenerating everything."""
+    import re
+    
+    # Parse doc to get title
+    parsed_doc = parse_documentation(url)
+    title = parsed_doc.get('title', '')
+    
+    if not title:
+        print(f"[Error] Could not extract title from {url}")
+        return False
+    
+    # Derive displayName from title
+    # Examples: "Use the ES|QL REST API" -> "ES|QL REST API", "ES|QL commands" -> "ES|QL Commands"
+    display_name = title
+    
+    # Remove common prefixes like "Use the", "Learn", "Introduction to", etc.
+    prefixes = ['Use the ', 'Learn ', 'Introduction to ', 'Using ', 'How to use ']
+    for prefix in prefixes:
+        if display_name.startswith(prefix):
+            display_name = display_name[len(prefix):]
+            break
+    
+    # Capitalize properly - title case but preserve "ES|QL" and common acronyms
+    # Split into words and capitalize each, but preserve ES|QL
+    words = display_name.split()
+    capitalized_words = []
+    for word in words:
+        # Preserve ES|QL exactly
+        if 'esql' in word.lower() or 'es|ql' in word.lower():
+            # Replace esql/ESQL with ES|QL
+            word = re.sub(r'esql|ESQL', 'ES|QL', word, flags=re.IGNORECASE)
+            # If it's just "esql" or "ESQL", capitalize the rest
+            if word.lower() == 'es|ql':
+                word = 'ES|QL'
+            elif word.lower().startswith('es|ql'):
+                word = 'ES|QL' + word[5:]
+        else:
+            # Capitalize first letter, lowercase the rest
+            word = word.capitalize()
+        capitalized_words.append(word)
+    
+    display_name = ' '.join(capitalized_words)
+    
+    slug = parsed_doc.get('slug', '')
+    if not slug:
+        print(f"[Error] Could not extract slug from {url}")
+        return False
+    
+    # Find config file - convert slug to camelCase (e.g., esql-rest -> esqlRest)
+    config_dir = PROJECT_ROOT / "shared" / "frontend" / "src" / "config" / "labs"
+    parts = slug.split('-')
+    camel_case = parts[0] + ''.join(p.capitalize() for p in parts[1:])
+    config_name = f"{camel_case}Config.ts"
+    config_path = config_dir / config_name
+    
+    if not config_path.exists():
+        print(f"[Error] Config file not found: {config_path}")
+        return False
+    
+    # Read and update TypeScript config
+    with open(config_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Replace displayName line - find and replace using string operations
+    lines = content.split('\n')
+    updated_lines = []
+    found = False
+    
+    for line in lines:
+        if 'displayName' in line and not found:
+            # Find the displayName line and extract indentation
+            stripped = line.lstrip()
+            if stripped.startswith('displayName:'):
+                indent = line[:len(line) - len(stripped)]
+                # Find where the value starts (after quote) and ends (before quote)
+                quote_start = stripped.find('"')
+                if quote_start == -1:
+                    quote_start = stripped.find("'")
+                if quote_start != -1:
+                    quote_char = stripped[quote_start]
+                    quote_end = stripped.find(quote_char, quote_start + 1)
+                    if quote_end != -1:
+                        # Extract trailing comma/whitespace
+                        trailing = stripped[quote_end + 1:]
+                        new_line = f"{indent}displayName: {json.dumps(display_name)}{trailing}"
+                        updated_lines.append(new_line)
+                        found = True
+                    else:
+                        updated_lines.append(line)
+                else:
+                    updated_lines.append(line)
+            else:
+                updated_lines.append(line)
+        else:
+            updated_lines.append(line)
+    
+    updated_content = '\n'.join(updated_lines)
+    
+    if updated_content == content:
+        # Check if displayName already has the correct value
+        current_value = None
+        for line in content.split('\n'):
+            if 'displayName' in line:
+                # Extract current value
+                match = re.search(r'displayName:\s*["\']([^"\']+)["\']', line)
+                if match:
+                    current_value = match.group(1)
+                break
+        
+        if current_value == display_name:
+            print(f"[Info] displayName already set to '{display_name}' in {config_path.name}")
+            # Still return True so we can update track.yml
+        else:
+            print(f"[Warning] Could not update displayName in {config_path}")
+            # Debug: show the actual line
+            for line_num, line in enumerate(content.split('\n'), 1):
+                if 'displayName' in line:
+                    print(f"[Debug] Found displayName at line {line_num}: {repr(line)}")
+            return False
+    else:
+        with open(config_path, 'w', encoding='utf-8') as f:
+            f.write(updated_content)
+        print(f"[Update] Updated displayName to '{display_name}' in {config_path.name}")
+    
+    # Update track.yml
+    track_dir = PROJECT_ROOT / "instruqt_labs" / f"docs-lab-{slug}"
+    if not track_dir.exists():
+        print(f"[Error] Track directory not found: {track_dir}")
+        return False
+    
+    track_yml = track_dir / "track.yml"
+    if not track_yml.exists():
+        print(f"[Error] track.yml not found: {track_yml}")
+        return False
+    
+    # Read and update track.yml
+    with open(track_yml, 'r', encoding='utf-8') as f:
+        track_content = f.read()
+    
+    # Update title line (format: "title: Docs Lab - {display_name}")
+    title_pattern = r"^title:\s*(.+)$"
+    new_title = f"Docs Lab - {display_name}"
+    
+    # Check current title
+    current_title_match = re.search(title_pattern, track_content, flags=re.MULTILINE)
+    if current_title_match:
+        current_title = current_title_match.group(1).strip()
+        if current_title == new_title:
+            print(f"[Info] Title already set to '{new_title}' in track.yml")
+        else:
+            updated_track = re.sub(title_pattern, f"title: {new_title}", track_content, flags=re.MULTILINE)
+            with open(track_yml, 'w', encoding='utf-8') as f:
+                f.write(updated_track)
+            print(f"[Update] Updated title to '{new_title}' in track.yml")
+    else:
+        print(f"[Warning] Could not find title in {track_yml}")
+        return False
+    
+    # Push to git and Instruqt if --push is set
+    if args.push:
+        # Git commit
+        try:
+            subprocess.run(['git', 'add', str(config_path), str(track_yml)], cwd=PROJECT_ROOT, check=True)
+            commit_message = f"Update title for docs-lab-{slug}: {display_name}"
+            subprocess.run(['git', 'commit', '-m', commit_message], cwd=PROJECT_ROOT, check=True)
+            subprocess.run(['git', 'push', 'origin', 'main'], cwd=PROJECT_ROOT, check=True)
+            print(f"[Deploy] ✓ Pushed to GitHub")
+        except subprocess.CalledProcessError as e:
+            print(f"[Deploy] ✗ Failed to push to GitHub: {e}")
+            return False
+        
+        # Instruqt push
+        try:
+            subprocess.run(['instruqt', 'track', 'validate'], cwd=track_dir, check=True, capture_output=True)
+            push_result = subprocess.run(['instruqt', 'track', 'push', '--force'], cwd=track_dir, capture_output=True, text=True)
+            if push_result.returncode == 0:
+                print(f"[Deploy] ✓ Pushed {track_dir.name} to Instruqt")
+            else:
+                error_output = push_result.stderr or push_result.stdout or ""
+                if 'already exists' in error_output.lower():
+                    print(f"[Deploy] ⚠ Track {track_dir.name} already exists in Instruqt")
+                else:
+                    print(f"[Deploy] ⚠ Failed to push to Instruqt: {error_output[:100]}")
+        except subprocess.CalledProcessError as e:
+            print(f"[Deploy] ⚠ Failed to push to Instruqt: {e}")
+    
+    return True
+
+
 def push_only_mode(args):
     """Push all existing labs to GitHub and Instruqt without regenerating."""
     from rich.console import Console
@@ -374,6 +565,11 @@ def main():
         help='Push all existing labs to GitHub and Instruqt without regenerating'
     )
     parser.add_argument(
+        '--update-title-only',
+        action='store_true',
+        help='Update only the displayName/title without regenerating examples'
+    )
+    parser.add_argument(
         '--regenerate',
         action='store_true',
         help='Regenerate existing labs (overwrites)'
@@ -426,6 +622,13 @@ def main():
     if args.push_only:
         push_only_mode(args)
         return
+    
+    # Handle update-title-only mode - update just the title without regenerating
+    if args.update_title_only:
+        if not args.url:
+            parser.error("--update-title-only requires --url")
+        success = update_title_only(args.url, args)
+        sys.exit(0 if success else 1)
     
     # Get URLs
     urls = []

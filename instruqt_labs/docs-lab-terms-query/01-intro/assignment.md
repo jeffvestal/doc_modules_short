@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-termsquery
+id: 6dx0phwskbx4
 type: challenge
 title: Terms Query Lab
 teaser: Learn how to use the terms_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Terms Query Lab
+
+    Welcome to the interactive lab for the terms_query query!
+
+    Returns documents that contain one or more **exact** terms in a provided field. The `terms` query is the same as the [`term` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query), except you can search for multiple values. A document will match if it contains at least one of the terms. To search for documents that contain more than one matching term, use the [`terms_set` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-set-query).
 tabs:
-- id: tab-querylab-termsquery
+- id: gcrbjpg634dz
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-termsquery
+- id: muvmoxj4yiio
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-termsquery
+- id: sehaxdxav7cg
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-termsquery
+- id: 9bfih1lvxbhc
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Terms Query Lab
-    
-    Welcome to the interactive lab for the terms_query query!
-    
-    Returns documents that contain one or more **exact** terms in a provided field. The `terms` query is the same as the [`term` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query), except you can search for multiple values. A document will match if it contains at least one of the terms. To search for documents that contain more than one matching term, use the [`terms_set` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-terms-set-query).
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Terms Query Lab

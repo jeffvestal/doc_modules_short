@@ -1,14 +1,15 @@
 slug: docs-lab-terms-query
+id: ixjlfoh5x35s
 title: Docs Lab - Terms Query
 teaser: Learn how to use the terms_query query in Elasticsearch
 description: |
   Returns documents that contain one or more **exact** terms in a provided field. The `terms` query is the same as the [`term` query](https://www.elastic.co/docs/reference/query-languages/query-dsl/quer...
 icon: ""
 tags:
+- terms-query
 - elasticsearch
 - full-text-queries
 - query-dsl
-- terms-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "0e9247aa09cefd3f7202e2fdb334ca35"
+checksum: "15090707697364122190"
 enhanced_loading: false

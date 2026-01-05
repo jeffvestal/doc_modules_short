@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-regexpquery
+id: z3bg3ugsxeah
 type: challenge
 title: Regexp Query Lab
 teaser: Learn how to use the regexp_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Regexp Query Lab
+
+    Welcome to the interactive lab for the regexp_query query!
+
+    Returns documents that contain terms matching a [regular expression](https://en.wikipedia.org/wiki/Regular_expression). A regular expression is a way to match patterns in data using placeholder characters, called operators. For a list of operators supported by the `regexp` query, see [Regular expression syntax](https://www.elastic.co/docs/reference/query-languages/query-dsl/regexp-syntax).
 tabs:
-- id: tab-querylab-regexpquery
+- id: nvybo6jvf8se
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-regexpquery
+- id: uxo98v3ii4mj
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-regexpquery
+- id: tsmsyl0acdua
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-regexpquery
+- id: y93vygw1wag1
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Regexp Query Lab
-    
-    Welcome to the interactive lab for the regexp_query query!
-    
-    Returns documents that contain terms matching a [regular expression](https://en.wikipedia.org/wiki/Regular_expression). A regular expression is a way to match patterns in data using placeholder characters, called operators. For a list of operators supported by the `regexp` query, see [Regular expression syntax](https://www.elastic.co/docs/reference/query-languages/query-dsl/regexp-syntax).
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Regexp Query Lab

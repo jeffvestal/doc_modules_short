@@ -1,14 +1,15 @@
 slug: docs-lab-simple-query-string-query
+id: m3jgdjn070mu
 title: Docs Lab - Simple Query String Query
 teaser: Learn how to use the simple_query_string_query query in Elasticsearch
 description: |
   Returns documents based on a provided query string, using a parser with a limited but fault-tolerant syntax. This query uses a simple syntax to parse and split the provided query string into terms bas...
 icon: ""
 tags:
+- simple-query-string-query
 - elasticsearch
 - full-text-queries
 - query-dsl
-- simple-query-string-query
 owner: elastic
 developers:
 - jeff.vestal@elastic.co
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "e5d8c2f0124d744cae965262a151e4b6"
+checksum: "7124736769956866935"
 enhanced_loading: false

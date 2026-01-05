@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-esqlsyntax
+id: ipxv61pd9xwp
 type: challenge
 title: Basic ES|QL Syntax Lab
 teaser: Learn how to use the esql_syntax query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Basic ES|QL Syntax Lab
+
+    Welcome to the interactive lab for the esql_syntax query!
+
+    Learn the basic syntax of ES|QL, the Elasticsearch Query Language.
 tabs:
-- id: tab-querylab-esqlsyntax
+- id: jaav7umbtb2m
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-esqlsyntax
+- id: ik8f2bnxacwy
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-esqlsyntax
+- id: j59iwwtdz2f8
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-esqlsyntax
+- id: jrioqcmtkxxb
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Basic ES|QL Syntax Lab
-    
-    Welcome to the interactive lab for the esql_syntax query!
-    
-    Learn the basic syntax of ES|QL, the Elasticsearch Query Language.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Basic ES|QL Syntax Lab

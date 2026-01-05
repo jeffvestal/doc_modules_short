@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-simplequerystringquery
+id: kuthbuszqk51
 type: challenge
 title: Simple Query String Query Lab
 teaser: Learn how to use the simple_query_string_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Simple Query String Query Lab
+
+    Welcome to the interactive lab for the simple_query_string_query query!
+
+    Returns documents based on a provided query string, using a parser with a limited but fault-tolerant syntax. This query uses a simple syntax to parse and split the provided query string into terms based on special operators. The query then analyzes each term independently before returning matching documents. While its syntax is more limited than the `query_string` query, the `simple_query_string` query does not return errors for invalid syntax. Instead, it ignores any invalid parts of the query string.
 tabs:
-- id: tab-querylab-simplequerystringquery
+- id: hxf9cickg3ex
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-simplequerystringquery
+- id: a9jt1ihskasu
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-simplequerystringquery
+- id: vvwqvxhchf9h
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-simplequerystringquery
+- id: zrsv7dhbzphx
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Simple Query String Query Lab
-    
-    Welcome to the interactive lab for the simple_query_string_query query!
-    
-    Returns documents based on a provided query string, using a parser with a limited but fault-tolerant syntax. This query uses a simple syntax to parse and split the provided query string into terms based on special operators. The query then analyzes each term independently before returning matching documents. While its syntax is more limited than the `query_string` query, the `simple_query_string` query does not return errors for invalid syntax. Instead, it ignores any invalid parts of the query string.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Simple Query String Query Lab

@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-constantscorequery
+id: i3ggda9wbcfw
 type: challenge
 title: Constant Score Query Lab
 teaser: Learn how to use the constant_score_query query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # Constant Score Query Lab
+
+    Welcome to the interactive lab for the constant_score_query query!
+
+    Wraps a filter query and returns every matching document with a relevance score equal to the boost parameter value.
 tabs:
-- id: tab-querylab-constantscorequery
+- id: m6epfar7wpds
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-constantscorequery
+- id: adnzylbqezun
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-constantscorequery
+- id: nzof7lpmm29i
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-constantscorequery
+- id: luygrcoxfeai
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # Constant Score Query Lab
-    
-    Welcome to the interactive lab for the constant_score_query query!
-    
-    Wraps a filter query and returns every matching document with a relevance score equal to the boost parameter value.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # Constant Score Query Lab

@@ -1,41 +1,43 @@
 ---
 slug: intro
-id: placeholder-esqlcommands
+id: ra2vn2b2doxr
 type: challenge
 title: ES|QL Query Lab
 teaser: Learn how to use the esql_commands query in Elasticsearch
+notes:
+- type: text
+  contents: |
+    # ES|QL Query Lab
+
+    Welcome to the interactive lab for the esql_commands query!
+
+    ES|QL commands come in two flavors: source commands and processing commands: - An ES|QL query must start with a [source command](https://www.elastic.co/docs/reference/query-languages/esql/commands/source-commands). - Use [processing commands](https://www.elastic.co/docs/reference/query-languages/esql/commands/processing-commands) to modify an input table by adding, removing, or transforming rows and columns.
 tabs:
-- id: tab-querylab-esqlcommands
+- id: whravh8vfsf5
   title: Query Lab
   type: service
   hostname: host-1
   path: /
   port: 8000
-- id: tab-querylabfull-esqlcommands
+- id: 98ekag4ywoqt
   title: Query Lab (Full)
   type: service
   hostname: host-1
   path: /
   port: 8000
   new_window: true
-- id: tab-terminal-esqlcommands
+- id: vvzrgwxwfg1g
   title: Terminal
   type: terminal
   hostname: host-1
-- id: tab-dataset-esqlcommands
+- id: 17xeazonflex
   title: Dataset
   type: service
   hostname: host-1
   path: /dataset.html
   port: 8000
-notes:
-- type: text
-  contents: |
-    # ES|QL Query Lab
-    
-    Welcome to the interactive lab for the esql_commands query!
-    
-    ES|QL commands come in two flavors: source commands and processing commands: - An ES|QL query must start with a [source command](https://www.elastic.co/docs/reference/query-languages/esql/commands/source-commands). - Use [processing commands](https://www.elastic.co/docs/reference/query-languages/esql/commands/processing-commands) to modify an input table by adding, removing, or transforming rows and columns.
+difficulty: ""
+enhanced_loading: null
 ---
 
 # ES|QL Query Lab

@@ -1,4 +1,5 @@
 slug: docs-lab-exists-query
+id: jfkwe9ju2jgz
 title: Docs Lab - Exists Query
 teaser: Learn how to use the exists_query query in Elasticsearch
 description: |
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "3505d68433bd7fa6fb11832771742f61"
+checksum: "12595325915965763127"
 enhanced_loading: false

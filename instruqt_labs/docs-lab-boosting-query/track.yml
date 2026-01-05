@@ -1,4 +1,5 @@
 slug: docs-lab-boosting-query
+id: wuzvtciebpwe
 title: Docs Lab - Boosting Query
 teaser: Learn how to use the boosting_query query in Elasticsearch
 description: |
@@ -25,5 +26,5 @@ lab_config:
     name: modern-dark
   override_challenge_layout: false
   hideStopButton: false
-checksum: "ea484a2e36b2334655e5c19d3908b41d"
+checksum: "603424557130918363"
 enhanced_loading: false

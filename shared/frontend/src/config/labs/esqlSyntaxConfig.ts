@@ -3,7 +3,7 @@ import type { LabConfig } from '../../types';
 export const esqlSyntaxConfig: LabConfig = {
   queryLanguage: 'esql',
   queryType: 'esql_syntax',
-  displayName: 'Basic ES|QL Syntax',
+  displayName: "Basic ES|QL Syntax",
   description: "Learn the basic syntax of ES|QL, the Elasticsearch Query Language.",
   docUrl: 'https://www.elastic.co/docs/reference/query-languages/esql/esql-syntax',
 
