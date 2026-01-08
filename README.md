@@ -4,36 +4,62 @@ Short interactive training modules (< 5 minutes) for Elasticsearch query types, 
 
 ## Current Labs
 
-| Lab | Slug | Description |
-|-----|------|-------------|
-| **Match Query** | `docs-lab-match-query` | Learn the fundamentals of full-text search |
-| **Query String** | `docs-lab-query-string` | Advanced search with operators, wildcards, and field-specific syntax |
-| **Bool Query** | `docs-lab-bool-query` | Combine multiple queries with must, should, must_not, and filter |
+### Query DSL Labs (16)
+- Bool Query
+- Boosting Query
+- Constant Score Query
+- Dis Max Query
+- Exists Query
+- Fuzzy Query
+- Match Query
+- Multi Match Query
+- Prefix Query
+- Query String Query
+- Range Query
+- Regexp Query
+- Simple Query String Query
+- Term Query
+- Terms Query
+- Wildcard Query
+
+### ES|QL Labs (3)
+- ES|QL Commands
+- ES|QL REST API
+- ES|QL Syntax
+
+All labs are automatically generated from Elastic documentation pages and validated to ensure queries return meaningful results (minimum 3 documents per query).
 
 ## Project Structure
 
 ```
 doc_modules_short/
 ├── shared/
-│   ├── frontend/                    # React + EUI frontend application
-│   │   └── src/config/labs/         # Lab-specific configurations
+│   ├── frontend/                    # React + TypeScript + EUI frontend
+│   │   └── src/
+│   │       ├── config/labs/         # Lab-specific configurations (auto-generated)
+│   │       ├── components/          # React components (Monaco Editor, Results)
+│   │       └── types/               # TypeScript type definitions
 │   └── backend/
 │       ├── main.py                  # FastAPI backend (proxies to ES)
-│       ├── static-match/            # Pre-built frontend for match query
-│       ├── static-query-string/     # Pre-built frontend for query string
-│       └── static-bool/             # Pre-built frontend for bool query
+│       └── static-*/                # Pre-built frontends per lab (auto-generated)
 ├── instruqt_labs/
-│   ├── match-query/                 # Match query Instruqt track
-│   ├── query-string-query/          # Query string Instruqt track
-│   └── bool-query/                  # Bool query Instruqt track
+│   ├── docs-lab-bool-query/         # 19 Query DSL + ES|QL labs
+│   ├── docs-lab-match-query/        # Each contains track.yml and setup scripts
+│   └── ...                          # (auto-generated via generate-labs.py)
 ├── scripts/
-│   ├── generate-labs.py             # Automated lab generation CLI
-│   ├── build-lab.sh                 # Build individual lab frontends
-│   ├── deploy-to-instruqt.sh        # Deploy match query lab
-│   ├── lib/                         # Python library modules
-│   ├── templates/                   # Jinja2 templates for lab generation
-│   └── data/                        # Dataset schemas and configs
-├── reports/                         # Generated lab reports
+│   ├── generate-labs.py             # Automated lab generation CLI ⭐
+│   ├── urls.txt                     # List of doc pages to generate labs from
+│   ├── lib/
+│   │   ├── doc_parser.py            # Parse documentation pages
+│   │   ├── example_generator.py    # LLM-powered example generation
+│   │   ├── es_validator.py          # Query validation & auto-fixing
+│   │   ├── mcp_client.py            # Elastic Agent Builder MCP integration
+│   │   ├── track_builder.py         # Instruqt track file generation
+│   │   ├── quality_checker.py       # Ensure diverse, non-duplicate examples
+│   │   └── report_generator.py      # Generate deployment reports
+│   ├── templates/                   # Jinja2 templates for code generation
+│   ├── data/                        # Dataset schemas and configs
+│   └── reports/                     # Generated lab reports (JSON)
 └── docs/                            # Documentation
 ```
 
@@ -119,12 +145,16 @@ The `generate-labs.py` script automatically creates interactive labs from Elasti
    OPENAI_BASE_URL=https://api.openai.com/v1
    OPENAI_API_KEY=sk-your-api-key
    OPENAI_MODEL=gpt-4o
+   
+   # Elastic Agent Builder MCP (optional, for ES|QL generation)
+   MCP_SERVER_URL=https://your-mcp-server.elastic.co
+   MCP_API_KEY=your-mcp-api-key
    ```
 
 ### Usage
 
 ```bash
-# Basic usage - process URLs from file (with review step)
+# Basic usage - generate labs from URLs in file
 python generate-labs.py urls.txt
 
 # Process a single URL
@@ -133,8 +163,17 @@ python generate-labs.py --url https://elastic.co/docs/reference/query-languages/
 # Preview what would be created (no file writes)
 python generate-labs.py urls.txt --dry-run
 
-# Full automation - skip review, regenerate existing, auto-deploy
-python generate-labs.py urls.txt --yolo
+# Push existing labs without regenerating
+python generate-labs.py urls.txt --push-only
+
+# Update only titles/display names without regeneration
+python generate-labs.py --url https://elastic.co/docs/reference/query-languages/esql/esql-commands --update-title-only
+
+# Deploy changes to GitHub and Instruqt
+python generate-labs.py urls.txt --push
+
+# Full automation - regenerate all and auto-deploy
+python generate-labs.py urls.txt --regenerate --push
 ```
 
 ### CLI Flags
@@ -143,99 +182,111 @@ python generate-labs.py urls.txt --yolo
 |------|-------------|
 | `--url URL` | Process a single URL instead of a file |
 | `--dry-run` | Preview what would be created without writing files |
-| `--skip-review` | Skip human review step, auto-deploy, skip existing tracks |
 | `--regenerate` | Regenerate existing labs (overwrites) |
-| `--yolo` | Full automation (combines `--skip-review` and `--regenerate`) |
-| `--parallel N` | Process N URLs concurrently (default: 1, max recommended: 5) |
-| `--resume` | Resume from last interrupted batch |
+| `--push` | Deploy to GitHub and Instruqt after generation |
+| `--push-only` | Push existing labs without regenerating |
+| `--update-title-only` | Update displayName and title without regenerating examples |
 | `--no-cache` | Bypass cache, fetch fresh content |
 | `--verbose` | Enable verbose debug output |
 | `--min-hits N` | Minimum hits required per example (default: 3) |
-
-### Flag Combinations
-
-| Flags | Behavior |
-|-------|----------|
-| (none) | Process all URLs, pause for review before deploy |
-| `--skip-review` | Auto-deploy, skip existing tracks |
-| `--regenerate` | Regenerate existing labs, pause for review |
-| `--skip-review --regenerate` | Auto-deploy, regenerate existing |
-| `--yolo` | Same as `--skip-review --regenerate` |
-| `--dry-run` | Preview only, no file writes |
 
 ### Example Workflows
 
 **Generate a single new lab:**
 ```bash
-python generate-labs.py --url https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query --dry-run
+python generate-labs.py --url https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
 ```
 
-**Batch generate multiple labs:**
+**Batch generate multiple labs from urls.txt:**
 ```bash
-# Create urls.txt with one URL per line
-cat > urls.txt << EOF
-https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
-https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query
-https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query
+# Create scripts/urls.txt with one URL per line
+cat > scripts/urls.txt << EOF
+https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-term-query
+https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-range-query
+https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-fuzzy-query
 EOF
 
-# Generate with parallel processing
-python generate-labs.py urls.txt --parallel 3
+# Generate labs
+python generate-labs.py urls.txt
 ```
 
-**Full automation for 50+ pages:**
+**Regenerate existing labs with new examples:**
 ```bash
-python generate-labs.py all-query-dsl-pages.txt --yolo --parallel 5
+python generate-labs.py urls.txt --regenerate
+```
+
+**Deploy to GitHub and Instruqt:**
+```bash
+python generate-labs.py urls.txt --push
+```
+
+**Update lab titles only (fast):**
+```bash
+python generate-labs.py --url https://elastic.co/docs/reference/query-languages/esql/esql-commands --update-title-only --push
 ```
 
 ### Pipeline Phases
 
-1. **Pre-flight Checks** - Verify ES, OpenAI, Instruqt CLI, git status
+1. **Pre-flight Checks** - Verify ES, OpenAI, MCP (optional), Instruqt CLI, git status
 2. **Parse Documentation** - Fetch markdown, extract title, description, examples
-3. **Generate Examples** - Use LLM to create lab config with diverse examples
+3. **Generate Examples** - Use LLM (OpenAI or MCP for ES|QL) to create lab config with diverse examples
 4. **Validate Examples** - Run queries against ES, auto-fix if 0 hits (up to 5 retries)
+   - **ES|QL Multi-Index**: Each ES|QL example generates 3 queries (products, product_reviews, product_users), each must return ≥3 documents
+   - **Quality Enforcement**: Labs with < 3 valid examples after fixes are blocked
 5. **Quality Gates** - Check min hits, diversity, duplicates
-6. **Build Lab** - Create TypeScript config and Instruqt track structure
-7. **Deploy** - Commit to git, push to Instruqt (if not `--dry-run`)
-8. **Generate Report** - Output formatted summary and save JSON report
+6. **Build Lab** - Create TypeScript config, Instruqt track structure, and static assets
+7. **Deploy** - Commit to git, push to Instruqt (if `--push` flag)
+8. **Generate Report** - Output formatted summary and save JSON report to `scripts/reports/`
 
-### Caching and Resume
+### Caching and State
 
 - **Cache**: Markdown and LLM responses are cached in `.generate-labs-cache/`
-- **Resume**: State saved to `.generate-labs-state.json` for interrupted batches
+- **State**: Generation state saved to `.generate-labs-state.json` for interrupted batches
 - Clear cache with `--no-cache` flag
-- Explicitly resume with `--resume` flag
 
 ### Reports
 
-Reports are saved to `reports/generate-labs-<timestamp>.json` and include:
-- Summary (total, created, skipped, failed)
-- Per-lab details with example counts
-- Validation warnings
-- Error details for failed labs
+Reports are saved to `scripts/reports/generate-labs-<timestamp>.json` and include:
+- Summary (total URLs processed, labs created, skipped, pushed, failed)
+- Per-lab details with validation status and example counts
+- Validation warnings and error details for failed labs
+
+---
+
+## Key Features
+
+### Automated Lab Generation
+- **LLM-Powered**: Uses OpenAI GPT-4o to generate diverse, realistic query examples
+- **ES|QL Integration**: Uses Elastic Agent Builder MCP for specialized ES|QL query generation
+- **Multi-Index Support**: ES|QL labs automatically generate queries for all 3 dataset indices
+- **Auto-Validation**: All queries validated against live Elasticsearch cluster
+- **Auto-Fixing**: Failed queries automatically refined (up to 5 retries)
+- **Quality Gates**: Ensures minimum 3 documents per query, checks for duplicates
+- **Smart Caching**: Avoids redundant API calls for repeated generations
+
+### Interactive Frontend
+- **Modern UI**: Built with Elastic EUI, styled to match Agent Builder aesthetic
+- **Monaco Editor**: VS Code-like query editing with autocomplete and tooltips
+- **Real-time Results**: Execute queries and see results instantly
+- **Dataset Switching**: Switch between products, reviews, and users indices (ES|QL labs only)
+- **Highlighting**: Toggle search term highlighting in results
+- **Why Matched**: Click "Why?" on any result to see score breakdown
+- **Tokens View**: See how your search text is analyzed
+- **Try This**: Suggestions for experimenting with each example
+- **Keyboard Shortcuts**: Cmd/Ctrl+Enter to run queries
 
 ---
 
 ## Building Labs Manually
 
-Each lab has its own pre-built frontend with lab-specific configuration.
-
-### Build a Specific Lab
+**Note**: Manual building is typically not required as `generate-labs.py` handles the full pipeline. However, if you need to rebuild a specific lab's frontend:
 
 ```bash
-./scripts/build-lab.sh match         # Build match query lab
-./scripts/build-lab.sh query-string  # Build query string lab
-./scripts/build-lab.sh bool          # Build bool query lab
-```
+cd shared/frontend
+npm run build
 
-This builds the frontend with the appropriate config and copies it to `shared/backend/static-<lab>/`.
-
-### Build All Labs
-
-```bash
-./scripts/build-lab.sh match
-./scripts/build-lab.sh query-string
-./scripts/build-lab.sh bool
+# Manually copy to backend static folder
+cp -r dist ../backend/static-<lab-slug>/
 ```
 
 ## Deploying to Instruqt
@@ -243,34 +294,25 @@ This builds the frontend with the appropriate config and copies it to `shared/ba
 ### Deploy All Labs
 
 ```bash
-# Commit and push first
-git add -A && git commit -m "Update labs" && git push origin main
-
-# Deploy each lab
-cd instruqt_labs/match-query && instruqt track push --force
-cd ../query-string-query && instruqt track push --force
-cd ../bool-query && instruqt track push --force
+cd scripts
+python generate-labs.py urls.txt --push
 ```
 
-### Quick Deploy (Match Query Only)
+This will:
+1. Generate/regenerate labs from URLs
+2. Commit changes to Git
+3. Push to GitHub
+4. Validate and push each track to Instruqt
+
+### Deploy Single Lab
 
 ```bash
-./scripts/deploy-to-instruqt.sh
+cd instruqt_labs/docs-lab-match-query
+instruqt track validate
+instruqt track push --force
 ```
 
-This script builds the match query frontend, commits, pushes to GitHub, and deploys to Instruqt.
-
-## Features
-
-- **Modern UI**: Built with Elastic EUI, styled to match Agent Builder aesthetic
-- **Monaco Editor**: VS Code-like query editing with autocomplete and tooltips
-- **Real-time Results**: Execute queries and see results instantly
-- **Dataset Switching**: Switch between products, reviews, and users indices
-- **Highlighting**: Toggle search term highlighting in results
-- **Why Matched**: Click "Why?" on any result to see score breakdown
-- **Tokens View**: See how your search text is analyzed
-- **Try This**: Suggestions for experimenting with each example
-- **Keyboard Shortcuts**: Cmd/Ctrl+Enter to run queries
+---
 
 ## Dataset
 
@@ -278,9 +320,11 @@ All labs use a shared dataset from [generated_reviews](https://github.com/jeffve
 
 | Index | Records | Key Fields |
 |-------|---------|------------|
-| `products` | 100 | `product_name`, `product_description`, `product_category` |
-| `product_reviews` | 5,000 | `review_title`, `review_text`, `review_rating` |
-| `product_users` | 1,000 | `username`, `interests`, `location` |
+| `products` | 100 | `product_name`, `product_description`, `product_category`, `product_price` |
+| `product_reviews` | 5,000 | `review_title`, `review_text`, `review_rating`, `reviewer_name` |
+| `product_users` | 1,000 | `username`, `interests`, `location`, `occupation` |
+
+The dataset is restored from an Elasticsearch snapshot during Instruqt setup.
 
 ## Creating a New Lab
 
@@ -289,16 +333,33 @@ All labs use a shared dataset from [generated_reviews](https://github.com/jeffve
 ```bash
 cd scripts
 source venv/bin/activate
+
+# Generate from a single URL
 python generate-labs.py --url https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-your-query
+
+# Or add to urls.txt and batch generate
+echo "https://elastic.co/docs/reference/query-languages/query-dsl/query-dsl-your-query" >> urls.txt
+python generate-labs.py urls.txt
 ```
 
-### Manual
+The automated pipeline will:
+1. Parse the documentation page
+2. Generate 4-6 diverse query examples
+3. Validate each query returns ≥3 documents
+4. Auto-fix any failing queries
+5. Create TypeScript config, Instruqt track, and static assets
+6. Optionally deploy to GitHub and Instruqt (with `--push`)
+
+### Manual (Not Recommended)
+
+If you absolutely must create a lab manually:
 
 1. Create lab config in `shared/frontend/src/config/labs/yourLabConfig.ts`
-2. Update `scripts/build-lab.sh` to handle the new lab type
-3. Create Instruqt track in `instruqt_labs/your-lab/`
-4. Copy and modify `track_scripts/setup-host-1` to use your static folder
-5. Build and deploy
+2. Build frontend: `cd shared/frontend && npm run build`
+3. Copy static files: `cp -r dist ../backend/static-your-lab/`
+4. Create Instruqt track in `instruqt_labs/docs-lab-your-lab/`
+5. Create `track.yml` and setup scripts
+6. Deploy with `instruqt track push --force`
 
 See [docs/CREATING_LABS.md](docs/CREATING_LABS.md) for detailed instructions.
 
@@ -332,21 +393,77 @@ Each lab's setup script:
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │  Doc URLs   │────▶│   Parse &   │────▶│  Generate   │────▶│  Validate   │
 │  (input)    │     │   Cache     │     │  Examples   │     │  vs ES      │
+│             │     │             │     │  (LLM/MCP)  │     │  (3+ docs)  │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
                                                                    │
                                                                    ▼
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Report    │◀────│   Deploy    │◀────│   Build     │◀────│  Quality    │
 │   Output    │     │  Git/Instruqt│     │   Assets    │     │   Gates     │
+│   (JSON)    │     │  (optional)  │     │ (TS/YAML)   │     │ (diversity) │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
+**Key Components:**
+- **MCP Client** (`mcp_client.py`): Integrates with Elastic Agent Builder for ES|QL generation
+- **ES Validator** (`es_validator.py`): Validates queries, attempts auto-fixes for 0-hit queries
+- **Example Generator** (`example_generator.py`): LLM-powered example creation with quality checks
+- **Track Builder** (`track_builder.py`): Generates Instruqt YAML and setup scripts from templates
+- **Quality Checker** (`quality_checker.py`): Ensures no duplicate queries and diverse examples
+
 ## Documentation
 
-- [Creating Labs](docs/CREATING_LABS.md) - How to create new query type labs
+- [Creating Labs](docs/CREATING_LABS.md) - How to create new query type labs (automated and manual)
 - [Project Summary](docs/PROJECT_SUMMARY.md) - Architecture decisions and overview
-- [Doc Page Structure](docs/DOC_PAGE_STRUCTURE.md) - How to parse doc pages for examples
+- [Doc Page Structure](docs/DOC_PAGE_STRUCTURE.md) - How documentation pages are parsed
+
+## Technical Stack
+
+**Frontend:**
+- React 18 + TypeScript
+- Elastic UI (EUI) components
+- Monaco Editor (VS Code editor)
+- Vite build tool
+
+**Backend:**
+- FastAPI (Python)
+- Elasticsearch Python client
+- Sparse git checkout for efficient Instruqt setup
+
+**Lab Generation:**
+- OpenAI GPT-4o (Query DSL examples)
+- Elastic Agent Builder MCP (ES|QL examples)
+- Jinja2 templating
+- Rich CLI output
+
+**Infrastructure:**
+- Instruqt (sandboxed lab environment)
+- GitHub (version control and asset hosting)
+- Elasticsearch Serverless (data layer)
+
+## Troubleshooting
+
+**Lab generation failing with 0 hits:**
+- Check that your ES cluster has the dataset indices loaded
+- Verify `ELASTICSEARCH_URL` and `ELASTICSEARCH_APIKEY` in `.env`
+- For ES|QL labs, ensure `MCP_SERVER_URL` and `MCP_API_KEY` are configured
+
+**Instruqt track push failing:**
+- Run `instruqt track validate` first to see specific errors
+- Check that `track.yml` syntax is valid YAML
+- Ensure all referenced files (scripts, assignments) exist
+
+**Frontend build errors:**
+- Check TypeScript config files in `shared/frontend/src/config/labs/`
+- Run `npm run build` in `shared/frontend/` to see detailed errors
+- Verify all imports and type definitions are correct
 
 ## License
 
 See LICENSE file.
+
+---
+
+**Last Updated:** January 8, 2026  
+**Current Labs:** 19 (16 Query DSL + 3 ES|QL)  
+**Generation Pipeline:** Fully automated with MCP integration
